@@ -1,0 +1,13 @@
+.ActionCards {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    /* To position them beneath each other */
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 128px;
+    margin: auto;
+    box-sizing: border-box;
+    border-bottom: 1px solid #edefef;
+}

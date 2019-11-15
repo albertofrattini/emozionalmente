@@ -1,0 +1,15 @@
+.ActionCard {
+    width: 48%;
+    height: 256px;
+    margin: 0;
+    padding: 16px 24px;
+    border: none;
+    display: flex;
+    box-sizing: border-box;
+    flex-flow: column;
+    align-items: center;
+    justify-content: left;
+    color: #344955;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+    border-radius: 16px;
+}

@@ -1,0 +1,71 @@
+.Description {
+    width: 100%;
+    padding: 56px 190px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.DescriptionText {
+    width: 40%;
+    height: auto;
+    color: #232f34;
+}
+
+.Description img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.Description h1 {
+    font-size: 56px;
+}
+
+.Description p {
+    font-size: 18px;
+    color: #344955;
+}
+
+.DescriptionImage {
+    width: auto;
+    height: 512px;
+}
+
+.ButtonSection {
+    margin: 48px 0px;
+}
+
+.Record {
+    height: 40px;
+    width: auto;
+    padding: 0px 16px;
+    margin: 0px;
+    font-size: larger;
+    font-weight: bold;
+    border-radius: 24px;
+    border-color: #cc3939;
+    color: #e54040;
+}
+
+.Evaluate {
+    height: 40px;
+    width: auto;
+    padding: 0px 16px;
+    margin: 0px 48px;
+    font-size: larger;
+    font-weight: bold;
+    border-radius: 24px;
+    border-color: #5f657f;
+    color: #8c93d8;
+}
+
+.Record:hover {
+    color: white;
+    background-color: #e54040;
+}
+
+.Evaluate:hover {
+    color: white;
+    background-color: #8c93d8;
+}

@@ -1,0 +1,19 @@
+.Active {
+    width: 32px;
+    height: 32px;
+    background-color: #f9aa33;
+    border-color: #f9aa33;
+    border-radius: 100%;
+    margin: 8px;
+    box-sizing: border-box;
+}
+
+.Inactive {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: 1.4px solid #f9aa33;
+    border-radius: 100%;
+    margin: 8px;
+    box-sizing: border-box;
+}

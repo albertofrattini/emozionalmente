@@ -1,0 +1,15 @@
+.LoginBtn {
+    height: 40px;
+    padding: 0px 16px;
+    color: #f9aa33;
+    border-color: #f9aa33;
+    font-size: small;
+    font-weight: bold;
+    border-radius: 24px;
+}
+
+.LoginBtn:hover {
+    background-color: #ffb74c;
+    color: white;
+    /* box-shadow: 0 4px 8px 0 rgba(35, 47, 52, 0.5), 0 6px 20px 0 rgba(35, 47, 52, 0.5); */
+}
