@@ -6,10 +6,10 @@ const description = (props) => (
     <div className={classes.Description}>
         <div className={classes.DescriptionText}>
             <h1>
-                Emozionalmente wants to do some good stuff
+                {props.title}
             </h1>
             <p>
-                Sto scrivendo un po' di cagate
+                {props.subtitle}
             </p>
             <div className={classes.ButtonSection}>
                 <button className={classes.Record}>Record</button>

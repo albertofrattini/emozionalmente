@@ -1,0 +1,32 @@
+[
+    {
+        "page": "home",
+        "position": "title",
+        "content": "Emozionalmente is here to deal with the lack of free access emotional databases"
+    },
+    {
+        "page": "home",
+        "position": "subtitle",
+        "content": "Speak and listen to help us giving researchers samples that can help reach new goals in the voice emotion recognition field"
+    },
+    {
+        "page": "aboutus",
+        "position": "polimi-title",
+        "content": "Politecnico di Milano is university based in Milan"
+    },
+    {
+        "page": "aboutus",
+        "position": "polimi-subtitle",
+        "content": "Hundres of reasearchers every year help technology develop"
+    },
+    {
+        "page": "aboutus",
+        "position": "database-title",
+        "content": "This database wants to collect voice samples containing emotional states"
+    },
+    {
+        "page": "aboutus",
+        "position": "database-subtitle",
+        "content": "The samples will be used to help reasearchers find new technological solutions"
+    }
+]

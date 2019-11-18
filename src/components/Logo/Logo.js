@@ -10,7 +10,7 @@ import signalLogo from '../../assets/images/logo.png';
 
 const logo = (props) => (
     <div className={classes.Logo}>
-        <Link to="/" exact>
+        <Link to="/">
             <img src={signalLogo} alt="Signal Logo"/>
         </Link>
     </div>

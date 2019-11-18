@@ -2,6 +2,7 @@ let db;
 
 module.exports.setupUsersDb = function (database) {
     db = database;
+    let initUsers = require('./init/users.json');
     return db.schema.hasTable('users').then(exists => {
         if (!exists) {
             db.schema.createTable('users', table => {
@@ -11,6 +12,8 @@ module.exports.setupUsersDb = function (database) {
                 table.text('nationality');
                 table.integer('age');
                 table.text('password');
+            }).then((_) => {
+                return db('users').insert(initUsers);
             });
         }
     });

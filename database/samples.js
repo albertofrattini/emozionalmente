@@ -2,14 +2,17 @@ let db;
 
 module.exports.setupSamplesDb = function (database) {
     db = database;
+    let initSamples = require('./init/samples.json');
     return db.schema.hasTable('samples').then(exists => {
         if (!exists) {
             db.schema.createTable('samples', table => {
                 table.increments();
                 table.text('identifier');
                 table.text('emotion');
-                table.timestamp('timestamp');
-                table.text('recorder');
+                table.text('timestamp');
+                table.text('speaker');
+            }).then((_) => {
+                return db('samples').insert(initSamples);
             });
         }
     });

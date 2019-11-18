@@ -60,4 +60,14 @@ registerServiceWorker();
  * #446099 nice blue
  * 
  * 
+ * In a single-page application, we have a strong decoupling between the Front End and the Back End
+ * of the application. But they don't communicate exchanging HTML pages, you just get back some JSON data.
+ * Using AXIOS for XMLHttpRequest
+ * componentDidMount() is the best place to send an HTTP request because it doesn't update the state of 
+ * the application. We will still update the state when the data has arrived and is disposed correctly.
+ * 
+ * 
+ * DON'T UPDATE STATE INSIDE componentDidUpdate(), it creates an infinite loop!
+ * See module9/lesson8
+ * Add if statements too check if the update is really necessary or not!
 **/

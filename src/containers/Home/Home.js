@@ -2,19 +2,33 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import LandingDescription from '../../components/LandingDescription/LandingDescription';
 import IntroductionAndData from '../../components/IntroductionAndData/IntroductionAndData';
+import axios from 'axios';
 
 class Home extends Component {
 
-    style = {
-        backgroundColor: '#b4c1cc',
-        width: '100%',
-        height: '512px'
+    state = {
+        title: "",
+        subtitle: ""
+    }
+
+    componentDidMount () {
+
+        axios.get('/api/descriptions/home')
+            .then(response => { 
+                console.log(response);
+                this.setState({
+                    title: response.data.title,
+                    subtitle: response.data.subtitle
+                });
+            });
+
     }
 
     render () {
+
         return (
             <Aux>
-                <LandingDescription />
+                <LandingDescription title={this.state.title} subtitle={this.state.subtitle}/>
                 {/**
                  * <ActionCards />
                  * <ActionImages />
