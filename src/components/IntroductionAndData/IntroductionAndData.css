@@ -1,39 +1,55 @@
 .IntroductionAndData {
     width: 100%;
-    height: auto;
-    background-color: #b4c1cc;
-    padding: 40px 190px;
+    padding: 128px 0px;
     box-sizing: border-box;
     display: flex;
-    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container {
+    width: 1028px;
+    height: auto;
+    padding: 0px 16px;
+    margin: auto;
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .Element {
     width: 100%;
+    max-width: 325px;
     height: auto;
     display: flex;
     justify-content: space-between;
-    flex-flow: row;
-    padding: 40px 0px;
+    flex-flow: column;
+    padding: 40px;
+    box-sizing: border-box;
     align-items: center;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-.Description {
-    width: 35%;
-    height: auto;
-    color: #232f34;
+.Element h1 {
+    font-size: 22px;
+    text-align: center;
+    color: var(--text-darker);
+    margin: 32px 0px 0px;
 }
 
-.Graph {
-    width: 50%;
-    height: 312px;
+.Element p {
+    font-size: 14px;
+    text-align: center;
+    color: var(--text-dark);
+    margin: 12px 0px 0px;
+    line-height: 1.63;
+}
+
+.Element:hover {
     background-color: white;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
-}
-
-.Graph:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.2), 0 10px 10px rgba(0,0,0,0.17);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px 5px rgba(25,25,25,0.05);
 }
 

@@ -5,25 +5,33 @@ import Logo from '../../Logo/Logo';
 import HamburgerBtn from '../SideDrawer/HamburgerToggle/HamburgerToggle';
 import LoginBtn from '../../UI/Buttons/Login/LoginButton';
 
-const toolbar = (props) => (
+const toolbar = (props) => {
 
-    <header className={classes.Toolbar}>
-        <HamburgerBtn clicked={props.open}/>
-        <div className={classes.LogoAndLinks}>
-            <div className={classes.Logo}>
-                <Logo />
+    const navItems = [classes.DesktopOnly, classes.LinksAndLogin].join(' ');
+
+    return (
+        <header className={classes.Toolbar}>
+            <div className={classes.Container}>
+                <HamburgerBtn clicked={props.open}/>
+                <div className={classes.Logo}>
+                    <Logo />
+                </div>
+                <div className={navItems}>
+                    
+                    {/* 
+                    <nav> is used to put all the navigation links of the Toolbar.
+                    They may be inserted inside the sideDrawer when dimension gets too small.
+                        */}
+                    <nav>
+                        <NavigationItems />
+                    </nav>
+                    <div>
+                        <LoginBtn />
+                    </div>
+                </div>
             </div>
-            {/* 
-            <nav> is used to put all the navigation links of the Toolbar.
-            They may be inserted inside the sideDrawer when dimension gets too small.
-                */}
-            <nav className={classes.DesktopOnly}>
-                <NavigationItems />
-            </nav>
-        </div>
-        <LoginBtn />
-    </header>      
-    
-);
+        </header>      
+    );
+}
 
 export default toolbar;

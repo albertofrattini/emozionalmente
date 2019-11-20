@@ -1,15 +1,16 @@
 .LoginBtn {
     height: 40px;
     padding: 0px 16px;
-    color: #f9aa33;
-    border-color: #f9aa33;
-    font-size: small;
+    color: var(--logo-orange);
+    border: 1px solid var(--logo-orange);
+    font-size: 15px;
     font-weight: bold;
     border-radius: 24px;
+    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
 }
 
 .LoginBtn:hover {
-    background-color: #ffb74c;
+    background-color: var(--logo-orange);
     color: white;
     /* box-shadow: 0 4px 8px 0 rgba(35, 47, 52, 0.5), 0 6px 20px 0 rgba(35, 47, 52, 0.5); */
 }

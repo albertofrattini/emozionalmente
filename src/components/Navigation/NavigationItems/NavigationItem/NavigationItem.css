@@ -16,6 +16,7 @@
     width: 100%;
     box-sizing: border-box;
     display: block;
+    font-size: 16px;
 }
 
 .NavigationItem a:hover,
@@ -35,20 +36,21 @@
     
     .NavigationItem a {
         /* color: #edefef; */
-        color: #344955;
+        color: var(--text-dark);
         height: 100%;
-        padding: 32px;
+        padding: 32px 0px;
+        margin: 0px 16px;
     }
     
     .NavigationItem a:hover {
         background-color: transparent;
-        color: #f9aa33;
+        color: var(--logo-orange);
     }
 
     .NavigationItem a:active,
     .NavigationItem a.active {
         background-color: transparent;
-        color: #f9aa33;
-        border-bottom: 2px solid #f9aa33;
+        color: var(--logo-orange);
+        border-bottom: 2px solid var(--logo-orange);
     }
 }

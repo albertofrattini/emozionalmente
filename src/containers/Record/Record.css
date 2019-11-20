@@ -1,0 +1,13 @@
+.RecordContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1400px;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}

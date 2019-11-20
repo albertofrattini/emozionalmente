@@ -1,0 +1,17 @@
+.Faq {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container {
+    width: 100%;
+    max-width: 1028px;
+    padding: 128px 16px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+

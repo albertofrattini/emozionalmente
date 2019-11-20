@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import LandingDescription from '../../components/LandingDescription/LandingDescription';
 import IntroductionAndData from '../../components/IntroductionAndData/IntroductionAndData';
+import CurrentDatabase from '../../components/CurrentDatabase/CurrentDatabase';
+import Footer from '../../components/UI/Footer/Footer';
 import axios from 'axios';
 
 class Home extends Component {
@@ -29,11 +31,9 @@ class Home extends Component {
         return (
             <Aux>
                 <LandingDescription title={this.state.title} subtitle={this.state.subtitle}/>
-                {/**
-                 * <ActionCards />
-                 * <ActionImages />
-                 */}
                 <IntroductionAndData />
+                <CurrentDatabase />
+                <Footer />
             </Aux>
         );
     }

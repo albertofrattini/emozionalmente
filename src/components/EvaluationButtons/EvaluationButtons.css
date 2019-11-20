@@ -1,0 +1,76 @@
+.EvaluationButtons {
+    width: 1028px;
+    height: 140px;
+    margin: auto;
+    margin-top: 40px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.EmotionExpressed {
+    width: 512px;
+    height: 100%;
+    padding: 0px 24px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Emotions {
+    width: 512px;
+    height: 88px;
+    padding: 8px 24px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Emotions:hover ~ .ShowEmotion {
+    color: var(--text-darker);
+}
+
+.ShowEmotion {
+    background-color: transparent;
+    color: transparent;
+    width: auto;
+    height: 32px;
+}
+
+.EmotionBall {
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border-radius: 100%;
+    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+}
+
+.EmotionBall:hover {
+    width: 32px;
+    height: 72px;
+    border-radius: 24px;
+}
+
+.AudioQuality {
+    width: 192px;
+    height: 88px;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+}

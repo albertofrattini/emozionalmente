@@ -1,0 +1,65 @@
+.Footer {
+    width: 100%;
+    background-color: var(--text-darker);
+    margin-top: 128px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container {
+    width: 100%;
+    max-width: 1028px;
+    height: auto;
+    display: flex;
+    padding: 64px 16px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Logos {
+    width: 256px;
+    height: auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Logos img {
+    width: 25%;
+    height: auto;
+    color: var(--text-lightest);
+    padding: 16px 0px;
+}
+
+.Links {
+    width: 256px;
+    height: auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Link {
+    color: var(--text-lightest);
+    font-size: 16px;
+    padding: 8px 0px;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(.25,.8,.25,1);
+}
+
+.Link:hover {
+    color: var(--logo-orange);
+}
+
+.Other {
+    width: 256px;
+    height: auto;
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.63;
+    color: var(--text-lightest);
+    box-sizing: border-box;
+}

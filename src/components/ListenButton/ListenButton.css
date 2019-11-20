@@ -1,0 +1,25 @@
+.Box {
+    margin-top: 8px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Listen {
+    width: 72px;
+    height: 72px;
+    border-radius: 100%;
+    border: 1px solid var(--logo-violet);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px 5px rgba(140, 147, 216, 0.1);
+    transition: all 1s cubic-bezier(.25,.8,.25,1);
+}
+
+.Listen:hover {
+    border: 1.4px solid var(--logo-violet);
+    box-shadow: 0 2px 6px 5px rgba(140, 147, 216, 0.3);
+}

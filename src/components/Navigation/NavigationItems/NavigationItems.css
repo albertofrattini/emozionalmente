@@ -1,6 +1,6 @@
 .NavigationItems {
-    margin: 0;
-    padding-left: 40px;
+    margin: 0px 32px 0px 0px;
+    padding: 0px;
     /* Because it's an unordered list and we don't want any style */
     list-style: none;
     display: flex;

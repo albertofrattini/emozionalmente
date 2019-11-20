@@ -4,28 +4,24 @@
     position: fixed;
     top: 0;
     left: 0;
-    /* background-color: #344955; */
     background-color: white;
-    /* border-bottom: 1px solid #edefef; */
-    /* background-color: #1B71B7; */
-    /** 
-     * So that all the elements in the toolbar are aligned next to each other
-     * Check out information: https://developer.mozilla.org/en-US/docs/Web/CSS/flex
-    **/
     display: flex;
-    /** 
-     * Says how elements should be spread out.
-    **/
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0px 190px;
-    /** 
-     * To be sure that the Toolbar is sized correctly even with the padding
-    **/
     box-sizing: border-box;
     z-index: 90;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.11), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
-    /* border-bottom: 1px solid #dce1e2; */
+}
+
+.Container {
+    width: 1028px;
+    height: 100%;
+    padding: 0px 16px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .Toolbar nav {
@@ -34,33 +30,19 @@
 
 .Logo {
     height: 80%;
-}
-
-.LogoAndLinks {
-    height: 80px;
     width: auto;
-    top: 0;
-    left: 0;
-    /* background-color: #1B71B7; */
-    /** 
-     * So that all the elements in the toolbar are aligned next to each other
-     * Check out information: https://developer.mozilla.org/en-US/docs/Web/CSS/flex
-    **/
-    display: flex;
-    /** 
-     * Says how elements should be spread out.
-    **/
-    justify-content: left;
-    align-items: center;
-    /** 
-     * To be sure that the Toolbar is sized correctly even with the padding
-    **/
-    box-sizing: border-box;
-    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.09); */
-    /* border-bottom: 1px solid #dce1e2; */
 }
 
-@media (max-width: 499px) {
+.LinksAndLogin {
+    height: 100%;
+    width: auto;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1027px) {
     .DesktopOnly {
         display: none;
     }

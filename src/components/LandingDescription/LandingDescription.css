@@ -1,35 +1,44 @@
 .Description {
     width: 100%;
-    padding: 56px 190px;
+    padding: 56px 0px;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
-.DescriptionText {
-    width: 40%;
+.Container {
+    width: 1028px;
     height: auto;
-    color: #232f34;
+    padding: 0px 16px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.DescriptionText {
+    width: 450px;
+    height: auto;
+    color: var(--text-darker);
 }
 
 .Description img {
-    max-height: 100%;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: auto;
+    max-width: 350px;
 }
 
 .Description h1 {
-    font-size: 56px;
+    font-size: 48px;
 }
 
 .Description p {
     font-size: 18px;
-    color: #344955;
-}
-
-.DescriptionImage {
-    width: auto;
-    height: 512px;
+    line-height: 1.63;
+    color: var(--text-dark);
 }
 
 .ButtonSection {
@@ -38,34 +47,52 @@
 
 .Record {
     height: 40px;
-    width: auto;
-    padding: 0px 16px;
+    width: 128px;
     margin: 0px;
-    font-size: larger;
-    font-weight: bold;
+    font-size: 15px;
     border-radius: 24px;
-    border-color: #cc3939;
-    color: #e54040;
+    border: 2px solid var(--logo-red);
+    color: white;
+    background-color: var(--logo-red);
+    box-sizing: border-box;
+    font-weight: bold;
+    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
 }
 
 .Evaluate {
     height: 40px;
-    width: auto;
-    padding: 0px 16px;
+    width: 128px;
     margin: 0px 48px;
-    font-size: larger;
-    font-weight: bold;
+    font-size: 15px;
     border-radius: 24px;
-    border-color: #5f657f;
-    color: #8c93d8;
+    border: 2px solid var(--logo-violet);
+    color: white;
+    background-color: var(--logo-violet);
+    box-sizing: border-box;
+    font-weight: bold;
+    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
 }
 
 .Record:hover {
-    color: white;
-    background-color: #e54040;
+    color: var(--logo-red);
+    background-color: white;
 }
 
 .Evaluate:hover {
-    color: white;
-    background-color: #8c93d8;
+    color: var(--logo-violet);
+    background-color: white;
+}
+
+@media (max-width: 900px) {
+    .Container {
+        flex-flow: column;
+    }
+
+    .DescriptionText {
+        width: 90%;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
 }
