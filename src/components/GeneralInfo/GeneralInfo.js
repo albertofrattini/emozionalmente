@@ -10,14 +10,12 @@ const generalInfo = (props) => (
                 svg={<MdStoreMallDirectory size="48px" color="var(--bluer)" />}
                 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                action="CONTACT US"
-                btncolor="var(--logo-violet)" />
+                action="CONTACT US" />
             <InfoCard 
                 svg={<MdStoreMallDirectory size="48px" color="var(--bluer)" />}
                 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                action="CONTRIBUTE" 
-                btncolor="var(--greener)" /> 
+                action="CONTRIBUTE" /> 
         </div>
     </div>
 );

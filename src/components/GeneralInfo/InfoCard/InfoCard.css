@@ -21,14 +21,19 @@
 .Card button {
     margin-top: 32px;
     height: 40px;
+    width: 160px;
     padding: 0px 16px;
     border: none;
-    color: white;
-    font-size: 12px;
+    color: var(--greener);
+    background-color: white;
+    border: 2px solid var(--greener);
+    font-size: 14px;
+    font-weight: bold;
     border-radius: 24px;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
 }
 
 .Card button:hover {
-    box-shadow: 0 4px 8px 0 rgba(35, 47, 52, 0.1), 0 6px 20px 0 rgba(35, 47, 52, 0.1);
+    background-color: var(--greener);
+    color: white;
 }

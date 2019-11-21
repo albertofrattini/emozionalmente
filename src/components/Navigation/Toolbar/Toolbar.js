@@ -4,6 +4,7 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import Logo from '../../Logo/Logo';
 import HamburgerBtn from '../SideDrawer/HamburgerToggle/HamburgerToggle';
 import LoginBtn from '../../UI/Buttons/Login/LoginButton';
+import { Link } from 'react-router-dom';
 
 const toolbar = (props) => {
 
@@ -25,9 +26,9 @@ const toolbar = (props) => {
                     <nav>
                         <NavigationItems />
                     </nav>
-                    <div>
+                    <Link to="/login-signup">
                         <LoginBtn />
-                    </div>
+                    </Link>
                 </div>
             </div>
         </header>      

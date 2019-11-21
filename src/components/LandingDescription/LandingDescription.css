@@ -1,19 +1,43 @@
+/*Ciao*/
 .Description {
     width: 100%;
+    height: 90vh;
     padding: 56px 0px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    position: relative;
 }
 
+.Image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    overflow: hidden;
+    z-index: -100;
+}
+
+.Image img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+
 .Container {
-    width: 1028px;
+    position: absolute;
+    width: 512px;
     height: auto;
     padding: 0px 16px;
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    flex-flow: column;
+    justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
 }
@@ -24,7 +48,7 @@
     color: var(--text-darker);
 }
 
-.Description img {
+.Container img {
     width: 100%;
     height: auto;
     max-height: auto;
@@ -33,54 +57,67 @@
 
 .Description h1 {
     font-size: 48px;
+    text-align: center;
+    color: var(--text-dark);
+    margin: 0;
 }
 
 .Description p {
     font-size: 18px;
     line-height: 1.63;
+    text-align: center;
     color: var(--text-dark);
+    margin: 16px 0px 0px;
+    padding: 16px;
 }
 
 .ButtonSection {
-    margin: 48px 0px;
+    width: 100%;
+    height: auto;
+    margin-top: 32px;
+    padding: 0px 16px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .Record {
-    height: 40px;
-    width: 128px;
+    height: 48px;
+    width: 160px;
     margin: 0px;
     font-size: 15px;
     border-radius: 24px;
     border: 2px solid var(--logo-red);
-    color: white;
-    background-color: var(--logo-red);
+    color: var(--logo-red);
+    background-color: white;
     box-sizing: border-box;
     font-weight: bold;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
 }
 
 .Evaluate {
-    height: 40px;
-    width: 128px;
-    margin: 0px 48px;
+    height: 48px;
+    width: 160px;
+    margin: 0px;
     font-size: 15px;
     border-radius: 24px;
     border: 2px solid var(--logo-violet);
-    color: white;
-    background-color: var(--logo-violet);
+    color: var(--logo-violet);
+    background-color: white;
     box-sizing: border-box;
     font-weight: bold;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
 }
 
 .Record:hover {
-    color: var(--logo-red);
-    background-color: white;
+    color: white;
+    background-color: var(--logo-red);
 }
 
 .Evaluate:hover {
-    color: var(--logo-violet);
-    background-color: white;
+    color: white;
+    background-color: var(--logo-violet);
 }
 
 @media (max-width: 900px) {
