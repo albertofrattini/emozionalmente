@@ -4,12 +4,12 @@ const conf = require('./settings');
 const envConfig = conf[environment];
 const database = sqlDatabaseConstructor(envConfig);
 
-let { setupSamplesDb } = require('./samples');
+let { setupDataDb } = require('./data');
 let { setupDescriptionsDb } = require('./descriptions');
 let { setupUsersDb } = require('./users');
 
 function setupDb () {
-	setupSamplesDb(database);
+	setupDataDb(database);
 	setupDescriptionsDb(database);
 	setupUsersDb(database);
 }

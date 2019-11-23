@@ -4,10 +4,10 @@ import { MdArrowForward } from 'react-icons/md';
 
 const recordCard = (props) => (
     <div className={classes.Box}>
-        <div style={{ width: '40px', height: '40px' }}></div>
+        <div style={{ width: '72px', height: '40px' }}></div>
         <div className={classes.CardContainer}>
             <div className={classes.EmotionContainer}>
-                <div className={classes.Emotion}>
+                <div className={classes.Emotion}> 
                     {props.emotion}
                 </div>
             </div>

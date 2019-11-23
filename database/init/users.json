@@ -1,9 +1,11 @@
 [
     {
-        "username": "albifrattini",
-        "email": "alberto@frattini.com",
+        "username": "albertofrattini",
+        "email": "alberto.frattini@example.com",
+        "password": "password",
+        "sex": "male",
         "nationality": "italian",
         "age": "24",
-        "password": "password"
+        "points": "10"
     }
 ]

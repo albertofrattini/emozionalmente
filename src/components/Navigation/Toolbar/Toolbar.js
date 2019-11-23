@@ -26,9 +26,14 @@ const toolbar = (props) => {
                     <nav>
                         <NavigationItems />
                     </nav>
-                    <Link to="/login-signup">
-                        <LoginBtn />
-                    </Link>
+                    {
+                        props.user.username ? 
+                        <span onClick={props.logout}>{props.user.username}</span>
+                        :
+                        <Link to="/login-signup">
+                            <LoginBtn />
+                        </Link>
+                    }
                 </div>
             </div>
         </header>      

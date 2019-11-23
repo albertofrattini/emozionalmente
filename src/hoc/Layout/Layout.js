@@ -3,6 +3,7 @@ import Aux from '../Aux/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import classes from './Layout.css';
+import { userContext } from '../Context/UserContext';
 
 class Layout extends Component {
 
@@ -36,7 +37,15 @@ class Layout extends Component {
         **/
         return (
             <Aux>
-                <Toolbar open={this.sideDrawerOpenedHandler}/>
+                <userContext.Consumer>
+                    {
+                        ({ user, logout }) => 
+                        (<Toolbar 
+                            user={user}
+                            logout={logout}
+                            open={this.sideDrawerOpenedHandler}/>)
+                    }
+                </userContext.Consumer>                
                 <SideDrawer 
                     open={this.state.showSideDrawer} 
                     closed={this.sideDrawerClosedHandler}/>

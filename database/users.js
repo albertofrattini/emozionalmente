@@ -6,12 +6,14 @@ module.exports.setupUsersDb = function (database) {
     return db.schema.hasTable('users').then(exists => {
         if (!exists) {
             db.schema.createTable('users', table => {
-                table.increments();
+                table.increments('id');
                 table.text('username');
                 table.text('email');
+                table.text('password');
+                table.enum('sex', ['male', 'female', 'notspecified']);
                 table.text('nationality');
                 table.integer('age');
-                table.text('password');
+                table.float('points');
             }).then((_) => {
                 return db('users').insert(initUsers);
             });

@@ -1,8 +1,14 @@
 [
     {
-        "identifier": "identifier",
-        "emotion": "happiness",
-        "timestamp": "1574070992571",
-        "speaker": "alberto@frattini.com" 
+        "sentenceid": "1",
+        "speaker": "albertofrattini",
+        "timestamp": "somewhen",
+        "emotion": "happiness"
+    },
+    {
+        "sentenceid": "2",
+        "speaker": "annamarie",
+        "timestamp": "somewhen",
+        "emotion": "surprise"
     }
 ]

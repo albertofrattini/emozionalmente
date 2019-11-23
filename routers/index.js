@@ -4,7 +4,7 @@ module.exports = function (express) {
 
     router.use('/users', require('./users')(router));
     router.use('/descriptions', require('./descriptions')(router));
-    router.use('/samples', require('./samples')(router));
+    router.use('/data', require('./data')(router));
 
     return router;
     
