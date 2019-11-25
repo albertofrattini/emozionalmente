@@ -4,7 +4,7 @@ import classes from './RecordButton.css';
 
 const recordButton = (props) => (
     <div className={classes.Box}>
-        <button className={classes.Record}>
+        <button className={classes.Record} onClick={props.clicked}>
             <MdMic size="48px" color="var(--logo-red)"/>
         </button>
     </div>
