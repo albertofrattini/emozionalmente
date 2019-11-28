@@ -1,0 +1,25 @@
+.Box {
+    margin-top: 8px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Stop {
+    width: 72px;
+    height: 72px;
+    border-radius: 100%;
+    border: 1px solid var(--logo-red);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px 5px rgba(204, 57, 57, 0.1);
+    transition: all 1s cubic-bezier(.25,.8,.25,1);
+}
+
+.Stop:hover {
+    border: 1.4px solid var(--logo-red);
+    box-shadow: 0 2px 6px 5px rgba(204, 57, 57, 0.3);
+}

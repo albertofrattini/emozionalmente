@@ -16,8 +16,7 @@ class Home extends Component {
     componentDidMount () {
 
         axios.get('/api/descriptions/home')
-            .then(response => { 
-                console.log(response);
+            .then(response => {
                 this.setState({
                     title: response.data.title,
                     subtitle: response.data.subtitle

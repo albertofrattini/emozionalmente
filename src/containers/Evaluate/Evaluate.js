@@ -3,6 +3,7 @@ import Aux from '../../hoc/Aux/Aux';
 import SentenceCard from '../../components/SentenceCard/SentenceCard';
 import ListenButton from '../../components/ListenButton/ListenButton';
 import EvaluationButtons from '../../components/EvaluationButtons/EvaluationButtons';
+import axios from 'axios';
 
 class Evaluate extends Component {
 
@@ -28,7 +29,21 @@ class Evaluate extends Component {
     state = {
         index: 0,
         progress: 0,
-        emotionIndex: 0
+        emotionIndex: 0,
+        sampleUrl: ''
+    }
+
+    componentDidMount () {
+
+        axios.get('/api/data/samples')
+            .then(response => {
+                console.log(response);
+                // var blob = new Blob([], { type: 'audio/webm' });
+                // const audioUrl = URL.createObjectURL(blob);
+                // createAudioElement(audioUrl);
+                // this.setState({ sampleUrl: audioUrl });
+            });
+
     }
 
     changeSentence = () => {
@@ -63,3 +78,20 @@ class Evaluate extends Component {
 }
 
 export default Evaluate;
+
+
+// function createAudioElement(blobUrl) {
+//     const downloadEl = document.createElement('a');
+//     downloadEl.style = 'display: block';
+//     downloadEl.innerHTML = 'download';
+//     downloadEl.download = 'audio.webm';
+//     downloadEl.href = blobUrl;
+//     const audioEl = document.createElement('audio');
+//     audioEl.controls = true;
+//     const sourceEl = document.createElement('source');
+//     sourceEl.src = blobUrl;
+//     sourceEl.type = 'audio/webm';
+//     audioEl.appendChild(sourceEl);
+//     document.body.appendChild(audioEl);
+//     document.body.appendChild(downloadEl);
+// }

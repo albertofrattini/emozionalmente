@@ -67,3 +67,7 @@ module.exports.getsamples = function (quantity, currentuser) {
         .orderBy(db.raw('RANDOM()'))
         .limit(quantity);
 }
+
+module.exports.uploadSample = function (sample) {
+    return db('samples').insert(sample);
+}

@@ -6,7 +6,9 @@ const progressBall = (props) => {
     let ballClass = props.active ? classes.Active : classes.Inactive;
 
     return (
-        <div className={ballClass}></div>
+        <div className={ballClass}>
+            {props.face}
+        </div>
     );
 }
 
