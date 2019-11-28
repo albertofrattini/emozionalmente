@@ -5,22 +5,13 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         var user = req.session.user ? req.session.user.username : 'unknown';
-        cb(null, user + '_' + req.sentenceid + '_' + req.requestTime + '.webm');
+        cb(null, user + '_' + req.sentenceid + '_' + req.requestTime + '.wav');
     }
 });
 const upload = multer({ storage: storage });
 const datadb = require('../database/data');
 const fs = require('fs');
 const path = require('path');
-
-function toArrayBuffer(buf) {
-    var ab = new ArrayBuffer(buf.length);
-    var view = new Uint8Array(ab);
-    for (var i = 0; i < buf.length; ++i) {
-        view[i] = buf[i];
-    }
-    return ab;
-}
 
 
 module.exports = function (router) {
@@ -64,29 +55,35 @@ module.exports = function (router) {
         const quantity = req.query.quantity ? req.qeury.quantity : 10;
         const curruser = req.session.user ? req.session.user.username : null;
 
-        // /path/.../database/samples/unknown_6_1574862996937.webm
-        const filePath = path.join(req.samplesUrl, 'unknown_6_1574862996937.webm');
-        res.download(filePath);
-
-        // res.sendFile(filePath);
-        // var stat = fs.statSync(filePath);
-        // var file = fs.readFile(filePath, function(err, data) {
-        //     const buf = toArrayBuffer(data);
-        //     res.setHeader('Content-Length', stat.size);
-        //     res.setHeader('Content-Type', 'application/octet-stream');
-        //     res.setHeader('Content-Disposition', 'attachment; filename=unknown_6_1574862996937');
-        //     res.send(data);
-        // });
+        // const filePath = path.join(req.samplesUrl, 'unknown_10_1574951524665.wav');
+        // res.download(filePath);
             
 
-        // datadb.getsamples(quantity, curruser)
-        //     .then(result => {
-        //         res.send(result);
-        //     });
+        datadb.getsamples(quantity, curruser)
+            .then(result => {
+                res.send(result);
+            });
 
         // TODO: find and return also audio files of the corresponding samples
 
-    })
+    });
+
+    router.get('/download', (req, res) => {
+
+        const sentenceid = req.query.sentenceid;
+        const timestamp = req.query.timestamp;
+
+        console.log(sentenceid, timestamp);
+
+        let filePath;
+        if (sentenceid > 8) {
+            filePath = path.join(req.samplesUrl, 'unknown_10_1574951524665.wav');
+        } else {
+            filePath = path.join(req.samplesUrl, 'unknown_14_1574966864490.wav');
+        }
+        res.download(filePath);
+
+    });
 
     router.get('/evaluated', (req, res) => {
         res.send('Section for downloading the evaluated samples. Mainly for data analysis.');

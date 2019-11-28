@@ -5,7 +5,6 @@ import RecordButton from '../../components/RecordButton/RecordButton';
 import StopButton from '../../components/StopButton/StopButton';
 import CheckListen from '../../components/CheckListen/CheckListen';
 import axios from 'axios';
-// import Encoder from '../../hoc/WavEncoder/WavEncoder'; 
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
 
 
@@ -19,65 +18,30 @@ class Record extends Component {
         sampleUrl: '',
     }
 
-    mediaRecorder;
-    audioChunks;
-    blobUrl;
-    audioType = 'audio/webm';
-    audioBlob;
+    blob = null;
 
     startRecording = () => {
 
         this.setState({ isRecording: true });
         startRecording();
-        
-        // navigator.mediaDevices.getUserMedia({ audio: true })
-        //     .then(stream => {
-        //         this.mediaRecorder = new MediaRecorder(stream);
-        //         this.audioChunks = [];
-        //         this.setState({ isRecording: true });
-        //         this.mediaRecorder.ondataavailable = event => {
-        //             this.audioChunks.push(event.data);
-        //         }
-        //         this.mediaRecorder.addEventListener("stop", () => {
-        //             // this.audioBlob = new Blob(this.audioChunks, { type: this.audioType });
-        //             // const audioUrl = URL.createObjectURL(this.audioBlob);
-        //             this.audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
-        //             this.audioBlob.arrayBuffer().then( buffer => {
-        //                 const res = toBuffer(buffer);
-        //                 console.log(buffer);
-        //                 console.log(res.length);
-        //                 const encoder = new Encoder(44100, 2);
-        //                 encoder.encode(res);
-        //                 const blob = encoder.finish();
-        //                 const audioUrl = URL.createObjectURL(blob);
-        //                 createAudioElement(audioUrl);
-        //                 this.setState({
-        //                     sampleUrl: audioUrl,
-        //                     isRecording: false
-        //                 });
-        //             });
-        //         });
-        //         this.mediaRecorder.start();
-        //     });
 
     } 
 
     stopRecording = () => {
 
-        const blob = stopRecording();
-        const audioUrl = URL.createObjectURL(blob);
+        this.blob = stopRecording();
+        const audioUrl = URL.createObjectURL(this.blob);
         this.setState({
             sampleUrl: audioUrl,
             isRecording: false
         });
 
-        // this.mediaRecorder.stop();
     }
 
     saveSample = () => {
 
         let data = new FormData();
-        data.append('audio', this.audioBlob);
+        data.append('audio', this.blob);
 
         const sentenceid = this.state.sentences[this.state.index].id;
         // TODO: how do we choose the emotion?
@@ -106,9 +70,7 @@ class Record extends Component {
 
         axios.get('/api/data/sentences?quantity=4')
             .then(response => {
-                this.setState({
-                    sentences: response.data,
-                });
+                this.setState({ sentences: response.data });
             });
     }
 

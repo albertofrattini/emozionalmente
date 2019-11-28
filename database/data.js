@@ -61,9 +61,11 @@ module.exports.getsentences = function (quantity, currentuser) {
 module.exports.getsamples = function (quantity, currentuser) {
     // Returns a fixed amount of random samples, excluding the ones recorded by the user
     // itself and the ones already evaluated by the user.
-    return db.select('*').from('samples')
-        .whereNot('speaker', currentuser)
-        .whereNotIn('id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+    return db.select('sentenceid', 'emotion', 'timestamp', 'sentence')
+        .from('samples')
+        .whereNot('samples.speaker', currentuser)
+        .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+        .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
         .orderBy(db.raw('RANDOM()'))
         .limit(quantity);
 }

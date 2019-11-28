@@ -26,6 +26,10 @@ app.use('/api/data/samples', function (req, res, next) {
 	req.emotion = req.query.emotion;
 	next();
 });
+app.use('/api/data/download', function (req, res, next) {
+	req.samplesUrl = path.join(__dirname, '/database/samples/');
+	next();
+});
 
 app.use('/api', router);
 
