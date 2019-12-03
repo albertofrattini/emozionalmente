@@ -49,10 +49,6 @@ class Layout extends Component {
                 <SideDrawer 
                     open={this.state.showSideDrawer} 
                     closed={this.sideDrawerClosedHandler}/>
-                {/* 
-                    props.children will be all the pages of the application that will be toggled by some 
-                    other part of the program. 
-                */}
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>

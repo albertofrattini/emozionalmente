@@ -16,7 +16,7 @@ module.exports.startRecording = function () {
         audio: true
     },
     function (e) {
-        console.log("user consent");
+        console.log("Start recording...");
         // creates the audio context
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         context = new AudioContext();
@@ -85,6 +85,7 @@ module.exports.stopRecording = function () {
     }
     // our final blob
     blob = new Blob([view], { type: 'audio/wav' });
+    initializeVariables();
     return blob;
 }
 
@@ -115,4 +116,13 @@ var writeUTFBytes = function (view, offset, string) {
     for (var i = 0; i < string.length; i++) {
         view.setUint8(offset + i, string.charCodeAt(i));
     }
+}
+
+var initializeVariables = function () {
+    leftchannel = [];
+    rightchannel = [];
+    recorder = null;
+    recordingLength = 0;
+    mediaStream = null;
+    context = null;
 }

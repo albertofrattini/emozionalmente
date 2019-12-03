@@ -1,14 +1,13 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const userdb = require('../database/users');
+const datadb = require('../database/data');
 
 module.exports = function (router) {
 
     router.post('/signup', async function (req, res) {
 
         let user = req.body;
-
-        console.log(user);
 
         const { error } = validateUser(user);
         if (error) return res.status(400).send(error.details[0].message);
@@ -91,6 +90,42 @@ module.exports = function (router) {
                 }
             });
         }
+
+    });
+
+    router.get('/hassamples', (req, res) => {
+
+        // IMPORTANT !! ONLY TEMPORARY
+        return res.send({ newUser: false });
+
+        if (!req.session.user) return res.send({ newUser: true });
+
+        datadb.getusersamples(req.session.user.username)
+            .then(result => {
+                if (result.length > 0) {
+                    res.send({ newUser: false });
+                } else {
+                    res.send({ newUser: true });
+                }
+            });
+
+    });
+
+    router.get('/hasevaluations', (req, res) => {
+
+        // IMPORTANT !! ONLY TEMPORARY
+        return res.send({ newUser: false });
+
+        if (!req.session.user) return res.send({ newUser: true });
+
+        datadb.getuserevaluations(req.session.user.username)
+            .then(result => {
+                if (result.length > 0) {
+                    res.send({ newUser: false });
+                } else {
+                    res.send({ newUser: true });
+                }
+            });
 
     });
 

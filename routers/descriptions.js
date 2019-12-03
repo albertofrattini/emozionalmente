@@ -1,4 +1,5 @@
 const descriptionsdb = require('../database/descriptions');
+const recordguide = require('../database/init/recordguide.json');
 
 module.exports = function (router) {
 
@@ -13,8 +14,16 @@ module.exports = function (router) {
         res.send('descriptions /area');
     });
 
-    router.get('/emotions', function (req, res) {
-        res.send('Happiness, Sadness, Anger, Disgust, Surprise, Fear!');
+    router.get('/recordguide', (req, res) => {
+
+        res.send( recordguide );
+
+    });
+
+    router.get('/evaluateguide', (req, res) => {
+
+        res.send( recordguide );
+
     });
 
     return router;

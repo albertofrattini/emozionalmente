@@ -1,0 +1,30 @@
+[
+    {
+        "emotion": "Happiness",
+        "color": "#8fea95"
+    },
+    {
+        "emotion": "Sadness",
+        "color": "#f9aa33"
+    },
+    {
+        "emotion": "Fear",
+        "color": "#e54040"
+    },
+    {
+        "emotion": "Neutral",
+        "color": "#f2f4fc"
+    },
+    {
+        "emotion": "Anger",
+        "color": "#8c93d8"
+    },
+    {
+        "emotion": "Surprise",
+        "color": "#89c8e5"
+    },
+    {
+        "emotion": "Disgust",
+        "color": "#f285a5"
+    }
+]

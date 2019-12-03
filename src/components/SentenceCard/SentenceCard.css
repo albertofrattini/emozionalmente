@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 1028px;
     margin: auto;
-    margin-top: 128px;
+    margin-top: 48px;
     display: flex;
     padding: 0px 16px;
     box-sizing: border-box;
@@ -69,13 +69,13 @@
     width: 20%;
     max-width: 256px;
     min-width: 96px;
-    border-radius: 48px;
-    color: black;
+    cursor: pointer;
+    color: var(--logo-red);
+    background-color: white;
+    border: none;
     font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: bold;
+    outline: none !important;
 }
 
 .Right {

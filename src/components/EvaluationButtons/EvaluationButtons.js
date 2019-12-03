@@ -1,39 +1,47 @@
 import React from 'react';
 import classes from './EvaluationButtons.css';
 import { MdThumbUp, MdThumbDown, MdStars } from 'react-icons/md';
+import EmotionBall from './EmotionBall/EmotionBall';
 
-const evaluationButtons = (props) => (
+const evaluationButtons = (props) => {
 
+    let getEmotionBalls = props.emotions.length > 0 ?
+        props.emotions.map((emotion, i) => {
+            return <EmotionBall key={i}
+                        color={emotion.color}
+                        over={props.over}
+                        clicked={props.clickedemotion}
+                        id={i} />
+        })
+        : null;
 
-    <div className={classes.EvaluationButtons}>
-        <div className={classes.Container}>
-            <div className={classes.EmotionExpressed}>
-                <div className={classes.Emotions}>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-green)" }} 
-                        onMouseOver={props.over} id="0"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-orange)" }}
-                        onMouseOver={props.over} id="1"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-red)" }}
-                        onMouseOver={props.over} id="2"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--neutral)" }}
-                        onMouseOver={props.over} id="3"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-pink)" }}
-                        onMouseOver={props.over} id="4"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-violet)" }}
-                        onMouseOver={props.over} id="5"></div>
-                    <div className={classes.EmotionBall} style={{ backgroundColor: "var(--logo-blue)" }}
-                        onMouseOver={props.over} id="6"></div>
+    return (
+        <div className={classes.EvaluationButtons}>
+            <div className={classes.Container}>
+                <div className={classes.EmotionExpressed}>
+                    <div className={classes.Emotions}>
+                        {getEmotionBalls}
+                    </div>
+                    <div className={classes.ShowEmotion}>{props.emotion}</div>
                 </div>
-                <div className={classes.ShowEmotion}>{props.emotion}</div>
-            </div>
-            <div className={classes.AudioQuality}>
-                <MdThumbDown size="24px" color="var(--logo-red)" />
-                <MdThumbUp size="24px" color="var(--greener)" />
-                <MdStars size="32px" color="var(--logo-orange)" />
+                <div className={classes.AudioQuality}>
+                    <div className={classes.Bad}>
+                        <MdThumbDown id="bad" size="32px" 
+                            color="var(--logo-red)" onClick={props.clickedreview}/>
+                    </div>
+                    <div className={classes.Good}>
+                        <MdThumbUp id="good" size="32px" 
+                            color="var(--greener)" onClick={props.clickedreview}/>
+                    </div>
+                    <div className={classes.Perfect}>
+                        <MdStars id="perfect" size="40px" 
+                            color="var(--logo-orange)" onClick={props.clickedreview}/>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    );
 
-);
+}
 
 export default evaluationButtons;

@@ -51,26 +51,67 @@
     height: 32px;
 }
 
-.EmotionBall {
-    width: 32px;
-    height: 32px;
-    box-sizing: border-box;
-    border-radius: 100%;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
-}
-
-.EmotionBall:hover {
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
-}
-
 .AudioQuality {
-    width: 192px;
+    width: 100%;
+    max-width: 256px;
     height: 88px;
-    padding: 8px 24px;
+    padding: 8px;
+    /*box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15);
+    border-radius: 12px;*/
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
+
+}
+
+.Bad {
+    width: 32%;
+    height: 100%;
+    max-width: 85px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+}
+
+.Bad:hover {
+    box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15);
+}
+
+.Good {
+    width: 32%;
+    height: 100%;
+    max-width: 85px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+}
+
+.Good:hover {
+    box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15);
+}
+
+.Perfect {
+    width: 32%;
+    height: 100%;
+    max-width: 85px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+}
+
+.Perfect:hover {
+    box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15);
+}
+
+.DivLine {
+    width: 1px;
+    height: 80%;
+    background-color: rgba(0,0,0,0.15);
 }

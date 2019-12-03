@@ -6,6 +6,12 @@ import Footer from '../../components/UI/Footer/Footer';
 
 class AboutUs extends Component {
 
+    componentDidMount () {
+
+        // TODO: download and show faq
+
+    }
+
     render () {
         return (
             <Aux>

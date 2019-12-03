@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux/Aux';
+import classes from './Record.css';
 import SentenceCard from '../../components/SentenceCard/SentenceCard';
 import RecordButton from '../../components/RecordButton/RecordButton';
 import StopButton from '../../components/StopButton/StopButton';
 import CheckListen from '../../components/CheckListen/CheckListen';
+import GuideCard from '../../components/GuideCard/GuideCard';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
 
@@ -16,12 +17,40 @@ class Record extends Component {
         sentences: [],
         isRecording: false,
         sampleUrl: '',
+        newUser: false,
+        emotions: [],
+        currentEmotion: 'none',
+        recordingAvailable: false
     }
 
     blob = null;
 
+    componentDidMount () {  
+
+        axios.get('/api/data/sentences?quantity=4')
+            .then(response => {
+                this.setState({ sentences: response.data });
+            });
+
+        axios.get('/api/users/hassamples')
+            .then(response => {
+                this.setState({ newUser: response.data.newUser });
+            });
+
+        axios.get('/api/data/emotions')
+        .then(response => {
+            this.setState({ emotions: response.data });
+            });
+
+    }
+
+    guideExecuted = () => {
+        this.setState({ newUser: false });
+    }
+
     startRecording = () => {
 
+        if (!this.state.recordingAvailable) return;
         this.setState({ isRecording: true });
         startRecording();
 
@@ -44,8 +73,7 @@ class Record extends Component {
         data.append('audio', this.blob);
 
         const sentenceid = this.state.sentences[this.state.index].id;
-        // TODO: how do we choose the emotion?
-        const emotion = 'disgust';
+        const emotion = this.state.currentEmotion.toLowerCase();
 
         axios.post(
             `/api/data/samples?sentenceid=${sentenceid}&emotion=${emotion}`, 
@@ -54,23 +82,14 @@ class Record extends Component {
             .then(response => {
                 console.log(response.data.message);
                 const currentprogress = this.state.progress;
-                this.setState({ 
+                this.state.sentences.splice(this.state.index, 1);
+                return this.setState({ 
                     sampleUrl: '',
                     progress: currentprogress + 1
                 });
-                // TODO: delete sentence just recorded.
-                this.changeSentence();
             })
             .catch(error => {
                 console.log(error.message);
-            });
-    }
-
-    componentDidMount () {  
-
-        axios.get('/api/data/sentences?quantity=4')
-            .then(response => {
-                this.setState({ sentences: response.data });
             });
     }
 
@@ -83,38 +102,79 @@ class Record extends Component {
         }
     }
 
+    changeEmotion = (event) => {
+        if (event.target.value === 'random') {
+            const index = getRandomInt(this.state.emotions.length);
+            this.setState({ 
+                currentEmotion: this.state.emotions[index].emotion,
+                recordingAvailable: true,
+            })
+        } else if (event.target.value === 'none'){
+            this.setState({ 
+                recordingAvailable: false,
+                currentEmotion: 'none'
+            });
+        } else {
+            this.setState({ 
+                currentEmotion: event.target.value,
+                recordingAvailable: true
+            });
+        }
+    }
+
     render () {
+
         return (
-            <Aux>
-                <SentenceCard 
-                    sentence={this.state.sentences.length > 0 ? 
-                        this.state.sentences[this.state.index].sentence
-                        : 'Loading...'
-                    } 
-                    clicked={this.changeSentence}
-                    emotion={"Emotion"}  
-                    progress={this.state.progress}  
-                /> 
-                {this.state.isRecording ? 
-                    <StopButton clicked={this.stopRecording}/>
-                    :
-                    <RecordButton clicked={this.startRecording}/>
-                }
-                {this.state.sampleUrl === '' ?
-                    null
-                    :
-                    <CheckListen 
-                        sampleUrl={this.state.sampleUrl}
-                        type={this.audioType}
-                        clicked={this.saveSample}/>
-                }
-            </Aux>
+            <div className={classes.Content}>
+                <div className={classes.Overlay}>
+                    {this.state.newUser ?
+                        <GuideCard 
+                            record
+                            end={this.guideExecuted}/>
+                        : null
+                    }
+                </div>
+                <div className={classes.Record}>
+                    <SentenceCard 
+                        sentence={this.state.sentences.length > 0 ? 
+                            this.state.sentences[this.state.index].sentence
+                            : 'Loading...'
+                        } 
+                        record
+                        clicked={this.changeSentence}
+                        emotions={this.state.emotions}
+                        change={this.changeEmotion}
+                        emotion={this.state.currentEmotion}  
+                        progress={this.state.progress}  
+                    /> 
+                    {this.state.isRecording ? 
+                        <StopButton clicked={this.stopRecording}/>
+                        :
+                        <RecordButton clicked={this.startRecording}/>
+                    }
+                    {this.state.sampleUrl === '' ?
+                        null
+                        :
+                        <CheckListen 
+                            sampleUrl={this.state.sampleUrl}
+                            type={this.audioType}
+                            clicked={this.saveSample}/>
+                    }
+                </div>
+            </div>
         );
     }
 
 }
 
 export default Record;
+
+
+function getRandomInt(max) {
+    var min = 0;
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 // function createAudioElement(blobUrl) {
 //     const downloadEl = document.createElement('a');

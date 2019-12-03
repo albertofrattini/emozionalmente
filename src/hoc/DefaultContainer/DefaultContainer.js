@@ -4,6 +4,8 @@ import Record from '../../containers/Record/Record';
 import Evaluate from '../../containers/Evaluate/Evaluate';
 import Database from '../../containers/Database/Database';
 import AboutUs from '../../containers/AboutUs/AboutUs';
+import ContactUs from '../../containers/ContactUs/ContactUs';
+import Contribute from '../../containers/Contribute/Contribute';
 import Layout from '../Layout/Layout';
 import { Route } from 'react-router-dom';
 
@@ -30,6 +32,8 @@ const defaultContainer = () => (
         <Route path="/evaluate" component={Evaluate} />
         <Route path="/database" component={Database} />
         <Route path="/about-us" component={AboutUs} />
+        <Route path="/contact-us" component={ContactUs} />
+        <Route path="/contribute" component={Contribute} />
     </Layout>
 
 );

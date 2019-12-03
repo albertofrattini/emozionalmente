@@ -45,7 +45,6 @@ class LoginSignup extends Component {
     }
 
     render () {
-        console.log(this.state.sex);
         return (
             <div className={classes.Container}>
                 {/*

@@ -12,24 +12,20 @@ var requestTime = function (req, res, next) {
 	next();
 }
 
+var dataPath = function (req, res, next) {
+	req.samplesUrl = path.join(__dirname, '/database/samples/');
+	next();
+}
+
 app.use(session({
 	secret: 'segreto_da_sostituire_prima_del_deployment',
 	resave: false,
 	saveUninitialized: true
 }));
 app.use(requestTime);
+app.use(dataPath);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api/data/samples', function (req, res, next) {
-	req.samplesUrl = path.join(__dirname, '/database/samples/');
-	req.sentenceid = req.query.sentenceid;
-	req.emotion = req.query.emotion;
-	next();
-});
-app.use('/api/data/download', function (req, res, next) {
-	req.samplesUrl = path.join(__dirname, '/database/samples/');
-	next();
-});
 
 app.use('/api', router);
 

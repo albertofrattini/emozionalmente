@@ -1,4 +1,4 @@
-const multer = require('multer');
+ const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'database/samples')
@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 const datadb = require('../database/data');
+const emotions = require('../database/init/emotions.json');
 const fs = require('fs');
 const path = require('path');
 
@@ -30,12 +31,14 @@ module.exports = function (router) {
 
     router.post('/samples', upload.single('audio'), (req, res, next) => {
 
-        var user = req.session.user ? req.session.user.username : 'unknown';
+        const user = req.session.user ? req.session.user.username : 'unknown';
+        const sentenceid = req.query.sentenceid;
+        const emotion = req.query.emotion;
         const sample = {
             speaker: user,
-            sentenceid: req.sentenceid,
+            sentenceid: sentenceid,
             timestamp: req.requestTime,
-            emotion: req.emotion
+            emotion: emotion
         }
 
         datadb.uploadSample(sample)
@@ -52,29 +55,29 @@ module.exports = function (router) {
 
     router.get('/samples', (req, res) => {
         
-        const quantity = req.query.quantity ? req.qeury.quantity : 10;
+        const quantity = req.query.quantity ? req.query.quantity : 10;
         const curruser = req.session.user ? req.session.user.username : null;
-
-        // const filePath = path.join(req.samplesUrl, 'unknown_10_1574951524665.wav');
-        // res.download(filePath);
-            
 
         datadb.getsamples(quantity, curruser)
             .then(result => {
                 res.send(result);
             });
 
-        // TODO: find and return also audio files of the corresponding samples
-
     });
 
-    router.get('/download', (req, res) => {
+    router.get('/download/:id', (req, res) => {
 
-        const sentenceid = req.query.sentenceid;
-        const timestamp = req.query.timestamp;
+        datadb.findSample(req.params.id)
+            .then(result => {
+                
+                let filePath = 
+                    path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
+                // res.download(filePath);
+                res.send(filePath);
 
-        console.log(sentenceid, timestamp);
+            });
 
+        /*
         let filePath;
         if (sentenceid > 8) {
             filePath = path.join(req.samplesUrl, 'unknown_10_1574951524665.wav');
@@ -82,7 +85,12 @@ module.exports = function (router) {
             filePath = path.join(req.samplesUrl, 'unknown_14_1574966864490.wav');
         }
         res.download(filePath);
+        */
 
+    });
+
+    router.get('/emotions', (req, res) => {
+        res.send(emotions);
     });
 
     router.get('/evaluated', (req, res) => {

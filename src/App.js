@@ -61,6 +61,8 @@ class App extends Component {
         });
       });
 
+    window.location.href = '/';
+
   }
 
   signup = (username, email, password, nationality, age, sex) => {
