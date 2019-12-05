@@ -5,11 +5,11 @@ const currentDatabase = (props) => (
     <div className={classes.CurrentDatabase}>
         <div className={classes.Container}>
             <div className={classes.Card}>
-                
+                Graphic
             </div>
             <div className={classes.Text}>
-                <h1>Emotional database</h1>
-                <p>We want to create a new database, available to everyone that wants to do researches in this field</p>
+                <h1>{props.title}</h1>
+                <p>{props.subtitle}</p>
             </div>
         </div>
     </div>

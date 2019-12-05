@@ -1,14 +1,34 @@
 import React, { Component } from 'react';
 import Aux from '../Aux/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+// import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import classes from './Layout.css';
 import { userContext } from '../Context/UserContext';
+import axios from 'axios';
 
 class Layout extends Component {
 
     state = {
-        showSideDrawer: false
+        showSideDrawer: false,
+        items: null
+    }
+
+    prova = {
+        "Record": "/record",
+        "Evaluate": "/evaluate"
+    }
+
+    componentDidMount () {
+
+        axios.get('/api/descriptions/navbar?lang=it')
+            .then(response => {
+                const items = {};
+                response.data.map(el => {
+                    return items[el.content] = el.additional;
+                });
+                this.setState({ items: items });
+            });
+
     }
 
     sideDrawerClosedHandler = () => {
@@ -22,6 +42,7 @@ class Layout extends Component {
     }
 
     render () {
+
         /**  
          * I cannot simply output 2 elements one after the other, we need to return only one element
          * with others nested inside of it. There are two solutions:
@@ -37,18 +58,23 @@ class Layout extends Component {
         **/
         return (
             <Aux>
-                <userContext.Consumer>
-                    {
-                        ({ user, logout }) => 
-                        (<Toolbar 
-                            user={user}
-                            logout={logout}
-                            open={this.sideDrawerOpenedHandler}/>)
-                    }
-                </userContext.Consumer>                
-                <SideDrawer 
+                {this.state.items === null ?
+                    null
+                    :
+                    <userContext.Consumer>
+                        {
+                            ({ user, logout }) => 
+                            (<Toolbar 
+                                navitems={this.state.items}
+                                user={user}
+                                logout={logout}
+                                open={this.sideDrawerOpenedHandler}/>)
+                        }
+                    </userContext.Consumer>                
+                }
+                {/* <SideDrawer 
                     open={this.state.showSideDrawer} 
-                    closed={this.sideDrawerClosedHandler}/>
+                    closed={this.sideDrawerClosedHandler}/> */}
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>

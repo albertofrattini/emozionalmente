@@ -27,7 +27,7 @@ class Record extends Component {
 
     componentDidMount () {  
 
-        axios.get('/api/data/sentences?quantity=4')
+        axios.get('/api/sentences?quantity=4')
             .then(response => {
                 this.setState({ sentences: response.data });
             });
@@ -36,10 +36,10 @@ class Record extends Component {
             .then(response => {
                 this.setState({ newUser: response.data.newUser });
             });
-
-        axios.get('/api/data/emotions')
-        .then(response => {
-            this.setState({ emotions: response.data });
+        
+        axios.get('/api/data/emotions?lang=it')
+            .then(response => {
+                this.setState({ emotions: response.data });
             });
 
     }

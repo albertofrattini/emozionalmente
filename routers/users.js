@@ -59,6 +59,7 @@ module.exports = function (router) {
             username: user.username,
             email: user.email
         };
+        req.session.admin = user.admin;
         req.session.loggedin = true;
         req.session.save();
 
@@ -93,6 +94,16 @@ module.exports = function (router) {
 
     });
 
+    router.get('/isAuthorized', (req, res) => {
+
+        if (req.session.admin) {
+            res.status(200).send({ authorized: true });
+        } else {
+            res.status(403).send({ authorized: false });
+        }
+
+    });
+
     router.get('/hassamples', (req, res) => {
 
         // IMPORTANT !! ONLY TEMPORARY
@@ -100,7 +111,7 @@ module.exports = function (router) {
 
         if (!req.session.user) return res.send({ newUser: true });
 
-        datadb.getusersamples(req.session.user.username)
+        datadb.getUserSamples(req.session.user.username)
             .then(result => {
                 if (result.length > 0) {
                     res.send({ newUser: false });
@@ -118,7 +129,7 @@ module.exports = function (router) {
 
         if (!req.session.user) return res.send({ newUser: true });
 
-        datadb.getuserevaluations(req.session.user.username)
+        datadb.getUserEvaluations(req.session.user.username)
             .then(result => {
                 if (result.length > 0) {
                     res.send({ newUser: false });
@@ -128,6 +139,7 @@ module.exports = function (router) {
             });
 
     });
+    
 
 
 

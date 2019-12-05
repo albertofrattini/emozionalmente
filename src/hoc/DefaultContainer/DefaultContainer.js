@@ -6,6 +6,7 @@ import Database from '../../containers/Database/Database';
 import AboutUs from '../../containers/AboutUs/AboutUs';
 import ContactUs from '../../containers/ContactUs/ContactUs';
 import Contribute from '../../containers/Contribute/Contribute';
+import Manager from '../../containers/Manager/Manager';
 import Layout from '../Layout/Layout';
 import { Route } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ const defaultContainer = () => (
         <Route path="/about-us" component={AboutUs} />
         <Route path="/contact-us" component={ContactUs} />
         <Route path="/contribute" component={Contribute} />
+        <Route path="/manager" component={Manager} />
     </Layout>
 
 );

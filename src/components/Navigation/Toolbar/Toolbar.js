@@ -24,7 +24,7 @@ const toolbar = (props) => {
                     They may be inserted inside the sideDrawer when dimension gets too small.
                         */}
                     <nav>
-                        <NavigationItems />
+                        <NavigationItems items={props.navitems}/>
                     </nav>
                     {
                         props.user.username ? 

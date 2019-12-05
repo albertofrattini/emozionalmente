@@ -28,7 +28,7 @@ const sentenceCard = (props) => {
                 <div className={classes.EmotionContainer}>
                     {props.record ? 
                         <select className={classes.Emotion} onChange={props.change}> 
-                            <option value='none'>choose</option>
+                            <option value='none'></option>
                             <option value='random'>Random</option>
                             {emotionsList}
                         </select>

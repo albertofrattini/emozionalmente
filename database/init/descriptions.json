@@ -1,32 +1,336 @@
 [
     {
+        "language": "it",
+        "page": "navbar",
+        "content": "REGISTRA",
+        "additional": "/record"
+    },
+    {
+        "language": "it",
+        "page": "navbar",
+        "content": "VALUTA",
+        "additional": "/evaluate"
+    },
+    {
+        "language": "it",
+        "page": "navbar",
+        "content": "DATABASE",
+        "additional": "/database"
+    },
+    {
+        "language": "it",
+        "page": "navbar",
+        "content": "CHI SIAMO",
+        "additional": "/about-us"
+    },
+
+
+
+    {
+        "language": "en",
+        "page": "navbar",
+        "content": "RECORD",
+        "additional": "/record"
+    },
+    {
+        "language": "en",
+        "page": "navbar",
+        "content": "EVALUATE",
+        "additional": "/evaluate"
+    },
+    {
+        "language": "en",
+        "page": "navbar",
+        "content": "DATABASE",
+        "additional": "/database"
+    },
+    {
+        "language": "en",
+        "page": "navbar",
+        "content": "ABOUT US",
+        "additional": "/about-us"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "language": "it",
         "page": "home",
-        "position": "title",
-        "content": "Emozionalmente is here to deal with the lack of free access emotional databases"
+        "position": "landing-title",
+        "content": "Esprimiamo le nostre emozioni, insieme."
     },
     {
+        "language": "it",
         "page": "home",
-        "position": "subtitle",
-        "content": "Speak and listen to help us giving researchers samples that can help reach new goals in the voice emotion recognition field"
+        "position": "landing-subtitle",
+        "content": "Parla, valuta e gioca con noi per insegnare ai computer come riconoscere le emozioni."
     },
     {
-        "page": "aboutus",
-        "position": "polimi-title",
-        "content": "Politecnico di Milano is university based in Milan"
+        "language": "it",
+        "page": "home",
+        "position": "landing-btn-sx",
+        "content": "REGISTRA"
     },
     {
-        "page": "aboutus",
-        "position": "polimi-subtitle",
-        "content": "Hundres of reasearchers every year help technology develop"
+        "language": "it",
+        "page": "home",
+        "position": "landing-btn-dx",
+        "content": "VALUTA"
     },
     {
-        "page": "aboutus",
-        "position": "database-title",
-        "content": "This database wants to collect voice samples containing emotional states"
+        "language": "it",
+        "page": "home",
+        "position": "cards-sx-title",
+        "content": "cards-sx-title-it"
     },
     {
+        "language": "it",
+        "page": "home",
+        "position": "cards-sx-subtitle",
+        "content": "cards-sx-subtitle-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "cards-center-title",
+        "content": "cards-cn-title-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "cards-center-subtitle",
+        "content": "cards-cs-subtitle-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "cards-dx-title",
+        "content": "cards-dx-title-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "cards-dx-subtitle",
+        "content": "cards-dx-subtitle-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "graphic-title",
+        "content": "graphic-title-it"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "graphic-subtitle",
+        "content": "graphic-subtitle-it"
+    },
+
+
+
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-title",
+        "content": "Let's be emotional, together."
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-subtitle",
+        "content": "Speak, evaluate and play to help machines recognize our emotions."
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-btn-sx",
+        "content": "RECORD"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-btn-dx",
+        "content": "EVALUATE"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-sx-title",
+        "content": "cards-sx-title-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-sx-subtitle",
+        "content": "cards-sx-subtitle-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-center-title",
+        "content": "cards-cn-title-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-center-subtitle",
+        "content": "cards-cs-subtitle-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-dx-title",
+        "content": "cards-dx-title-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "cards-dx-subtitle",
+        "content": "cards-dx-subtitle-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "graphic-title",
+        "content": "graphic-title-en"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "graphic-subtitle",
+        "content": "graphic-subtitle-en"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "language": "it",
         "page": "aboutus",
-        "position": "database-subtitle",
-        "content": "The samples will be used to help reasearchers find new technological solutions"
+        "position": "cards-sx",
+        "content": "Politecnico di Milano è un'università con sede nella città di Milano"
+    },
+    {
+        "language": "it",
+        "page": "aboutus",
+        "position": "cards-sx-btn",
+        "content": "CONTATTACI",
+        "additional": "/contact-us"
+    },
+    {
+        "language": "it",
+        "page": "aboutus",
+        "position": "cards-dx",
+        "content": "Questo database vuole raccogliere sample vocali da poter utilizzare per il riconoscimento delle emozioni attraverso l'uso del deep learning"
+    },
+    {
+        "language": "it",
+        "page": "aboutus",
+        "position": "cards-dx-btn",
+        "content": "CONTRIBUISCI",
+        "additional": "/contribute"
+    },
+
+
+
+    {
+        "language": "en",
+        "page": "aboutus",
+        "position": "cards-sx",
+        "content": "Politecnico di Milano is a university based in Milan"
+    },
+    {
+        "language": "en",
+        "page": "aboutus",
+        "position": "cards-sx-btn",
+        "content": "CONTACT US",
+        "additional": "/contact-us"
+    },
+    {
+        "language": "en",
+        "page": "aboutus",
+        "position": "cards-dx",
+        "content": "This database wants to collect voice samples that can be used to recognize emotions through the application of deep learning"
+    },
+    {
+        "language": "en",
+        "page": "aboutus",
+        "position": "cards-dx-btn",
+        "content": "CONTRIBUTE",
+        "additional": "/contribute"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+        "language": "it",
+        "page": "faq",
+        "content": "The samples will be used to help reasearchers find new technological solutions",
+        "additional": "Risposta del faq"
+    },
+    {
+        "language": "it",
+        "page": "faq",
+        "content": "Qualcosa d'altro",
+        "additional": "Risposta del faq"
+    },
+    {
+        "language": "en",
+        "page": "faq",
+        "content": "The samples will be used to help reasearchers find new technological solutions",
+        "additional": "Answer to faq"
+    },
+    {
+        "language": "en",
+        "page": "faq",
+        "content": "The samples will be used to help reasearchers find new technological solutions",
+        "additional": "Answer to faq"
     }
+
+
+
+
+
+
+
+
+
+
 ]

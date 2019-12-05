@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const datadb = require('../database/data');
 const emotions = require('../database/init/emotions.json');
-const fs = require('fs');
 const path = require('path');
 
 
@@ -22,7 +21,7 @@ module.exports = function (router) {
         const quantity = req.query.quantity ? req.query.quantity : 20;
         const curruser = req.session.user ? req.session.user.username : null;
 
-        datadb.getsentences(quantity, curruser)
+        datadb.getSentences(quantity, curruser)
             .then(result => {
                 res.send(result);
             });
@@ -41,7 +40,7 @@ module.exports = function (router) {
             emotion: emotion
         }
 
-        datadb.uploadSample(sample)
+        datadb.insertSample(sample)
             .then(() => {
                 res.status(200).send({
                     message: 'Upload successful!'
@@ -58,7 +57,7 @@ module.exports = function (router) {
         const quantity = req.query.quantity ? req.query.quantity : 10;
         const curruser = req.session.user ? req.session.user.username : null;
 
-        datadb.getsamples(quantity, curruser)
+        datadb.getSamples(quantity, curruser)
             .then(result => {
                 res.send(result);
             });
@@ -90,19 +89,9 @@ module.exports = function (router) {
     });
 
     router.get('/emotions', (req, res) => {
-        res.send(emotions);
-    });
 
-    router.get('/evaluated', (req, res) => {
-        res.send('Section for downloading the evaluated samples. Mainly for data analysis.');
-    });
+        res.send(emotions[req.query.lang]);
 
-    router.post('/samples', (req, res) => {
-        res.send('Section for uploading new recorded sentences.');
-    });
-
-    router.post('/evaluated', (req, res) => {
-        res.send('Section for uploading new evaluated samples.');
     });
 
     return router;

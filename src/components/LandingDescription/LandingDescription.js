@@ -1,5 +1,5 @@
 import React from 'react';
-import vibesImg from '../../assets/images/vibes.png';
+import vibesImg from '../../assets/images/prova.png';
 import classes from './LandingDescription.css';
 import { NavLink } from 'react-router-dom';
 
@@ -11,17 +11,17 @@ const description = (props) => (
         </div>
         <div className={classes.Container}>
             <h1>
-                Let's be emotional, together.
+                {props.title}
             </h1>
             <p>
-                Speak, evaluate and play to help machines recognize our emotions.
+                {props.subtitle}
             </p>
             <div className={classes.ButtonSection}>
                 <NavLink to="/record" >
-                    <button className={classes.Record}>RECORD</button>
+                    <button className={classes.Record}>{props.buttonsx}</button>
                 </NavLink>
                 <NavLink to="/evaluate" >
-                    <button className={classes.Evaluate}>EVALUATE</button>
+                    <button className={classes.Evaluate}>{props.buttondx}</button>
                 </NavLink>
             </div>
         </div>

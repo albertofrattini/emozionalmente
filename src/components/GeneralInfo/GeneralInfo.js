@@ -8,16 +8,14 @@ const generalInfo = (props) => (
         <div className={classes.Container}>
             <InfoCard 
                 svg={<MdStoreMallDirectory size="48px" color="var(--bluer)" />}
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                action="CONTACT US"
-                path="/contact-us" />
+                text={props.cardsx[0]}
+                action={props.btnsx[0]}
+                path={props.btnsx[1]} />
             <InfoCard 
                 svg={<MdStoreMallDirectory size="48px" color="var(--bluer)" />}
-                text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                action="CONTRIBUTE" 
-                path="/contribute" /> 
+                text={props.carddx[0]}
+                action={props.btndx[0]} 
+                path={props.btndx[1]} /> 
         </div>
     </div>
 );

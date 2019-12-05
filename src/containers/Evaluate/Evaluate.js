@@ -39,7 +39,7 @@ class Evaluate extends Component {
                 this.setState({ newUser: response.data.newUser });
             });
         
-        axios.get('/api/data/emotions')
+        axios.get('/api/data/emotions?lang=it')
             .then(response => {
                 this.setState({ emotions: response.data });
             });

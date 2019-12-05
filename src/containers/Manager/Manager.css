@@ -1,0 +1,124 @@
+.Container {
+    width: 100%;
+    max-width: 1028px;
+    padding: 0px 16px;
+    margin: auto;
+    margin-top: 128px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Put {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Put button {
+    font-size: 18px;
+}
+
+.Column {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.Column span {
+    width: 300px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.Column h4 {
+    color: var(--text-dark);
+    margin-top: 64px;
+}
+
+.Column h5 {
+    width: 300px;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.MainRow {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 32px 0px;
+}
+
+.MainRow select {
+    width: 160px;
+    height: 40px;
+    font-size: 18px;
+    background-color: white;
+    color: var(--text-dark);
+    border: 1px solid var(--text-dark);
+}
+
+.Row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 16px 0px;
+    flex-wrap: wrap;
+}
+
+.Row p {
+    max-width: 80%;
+    text-align: right;
+}
+
+.Row select {
+    width: 160px;
+    height: 40px;
+    font-size: 18px;
+    background-color: white;
+    color: var(--text-dark);
+    border: 1px solid var(--text-dark);
+}
+
+.Row input {
+    width: 256px;
+    height: 32px;
+    font-size: 16px;
+}
+
+.Row button {
+    font-size: 18px;
+}
+
+.Forbidden {
+    width: 100%;
+    margin: 64px 0px;
+    padding: 0px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Forbidden h1 {
+    color: var(--logo-red);
+    font-size: 128px;
+    text-align: center;
+    margin: 0;
+}
+
+.Forbidden h3 {
+    color: var(--text-dark);
+    font-size: 48px;
+    text-align: center;
+    margin: 0;
+}
