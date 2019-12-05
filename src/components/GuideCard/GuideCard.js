@@ -85,7 +85,7 @@ class GuideCard extends Component {
                 </div>
                 <div className={classes.Description}>
                     {this.state.sentences.length > 0 ?
-                        this.state.sentences[this.state.step].sentence
+                        this.state.sentences[this.state.step].content
                         : null
                     }
                 </div>

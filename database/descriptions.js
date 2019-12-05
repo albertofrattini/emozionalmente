@@ -16,12 +16,12 @@ module.exports.setupDescriptionsDb = function (database) {
                 return db('descriptions').insert(initDescriptions);
             });
         } 
-        // else {
-        //     db('descriptions').del()
-        //         .then(() => {
-        //             return db('descriptions').insert(initDescriptions);
-        //         });
-        // }
+        else {
+            db('descriptions').del()
+                .then(() => {
+                    return db('descriptions').insert(initDescriptions);
+                });
+        }
     });
 }
 

@@ -1,6 +1,7 @@
 :root {
   --logo-green: #8fea95;
   --logo-orange: #f9aa33;
+  --logo-yellow: #f9f089;
   --logo-red: #e54040;
   --logo-violet: #8c93d8;
   --logo-blue: #89c8e5;
@@ -8,7 +9,9 @@
   --neutral: #f2f4fc;
   --greener: #62b28a;
   --bluer: #1c77c3;
+  --blue: #577399;
   --text-lightest: #dddddd;
+  --text-lighter: #8b9dA5;
   --text-light: #4a6572;
   --text-dark: #344955;
   --text-darker: #232f34;

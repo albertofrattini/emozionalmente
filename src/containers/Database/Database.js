@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import classes from './Database.css';
 
 class Database extends Component {
 
     render () {
         return (
-            <div>Database</div>
+            <div className={classes.Content}>
+                Database
+            </div>
         );
     }
 

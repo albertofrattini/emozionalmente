@@ -14,7 +14,7 @@ class Home extends Component {
 
     componentDidMount () {
 
-        axios.get('/api/descriptions/home?lang=it')
+        axios.get('/api/descriptions/home')
             .then(response => {
                 const content = {};
                 response.data.map(el => {
@@ -23,6 +23,13 @@ class Home extends Component {
                 this.setState({ content: content });
             });
 
+    }
+
+    changeLanguage = (event) => {
+        axios.get(`/api/language/set?lang=${event.target.innerHTML}`)
+            .then(_ => {
+                window.location.reload();
+            });
     }
 
     render () {
@@ -44,7 +51,7 @@ class Home extends Component {
                 <CurrentDatabase 
                     title={this.state.content['graphic-title']}
                     subtitle={this.state.content['graphic-subtitle']}/>
-                <Footer />
+                <Footer clicked={this.changeLanguage}/>
             </Aux>
         );
     }

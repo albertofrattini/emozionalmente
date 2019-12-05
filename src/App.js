@@ -15,6 +15,7 @@ class App extends Component {
     }
   }
 
+
   componentDidMount () {
     
     axios.get('/api/users/loggedin')

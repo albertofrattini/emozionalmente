@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         var user = req.session.user ? req.session.user.username : 'unknown';
-        cb(null, user + '_' + req.sentenceid + '_' + req.requestTime + '.wav');
+        cb(null, req.query.sentenceid + '_' + req.requestTime + '.wav');
     }
 });
 const upload = multer({ storage: storage });
@@ -41,8 +41,15 @@ module.exports = function (app) {
 
     app.get('/api/data/emotions', (req, res) => {
 
-        res.send(emotions[req.query.lang]);
+        res.send(emotions[req.session.lang]);
 
+    });
+
+    app.get('/api/language/set', (req, res) => {
+
+        req.session.lang = req.query.lang;
+        res.send({ message: `Language changed to ${req.session.lang}` });
+        
     });
 
 
@@ -53,7 +60,7 @@ module.exports = function (app) {
     app.get('/api/descriptions/:page', function (req, res) {
 
         const page = req.params.page;
-        const language = req.query.lang;
+        const language = req.session.lang;
 
         descriptionsdb.getDescriptions(language, page)
             .then(result => {
@@ -62,17 +69,6 @@ module.exports = function (app) {
 
     });
 
-    app.get('/api/descriptions/recordguide', (req, res) => {
-
-        res.send( recordguide );
-
-    });
-
-    app.get('/api/descriptions/evaluateguide', (req, res) => {
-
-        res.send( recordguide );
-
-    });
 
     /******************
      ******** CRUD
@@ -145,10 +141,11 @@ module.exports = function (app) {
 
     app.get('/api/sentences', (req, res) => {
         
-        const quantity = req.query.quantity ? req.query.quantity : 20;
+        const quantity = req.query.quantity ? req.query.quantity : 10;
         const curruser = req.session.user ? req.session.user.username : null;
+        const language = req.session.lang;
 
-        datadb.getSentencesToRecord(quantity, curruser)
+        datadb.getSentencesToRecord(quantity, curruser, language)
             .then(result => {
                 res.send(result);
             });
@@ -230,9 +227,11 @@ module.exports = function (app) {
         const user = req.session.user ? req.session.user.username : 'unknown';
         const sentenceid = req.query.sentenceid;
         const emotion = req.query.emotion;
+        const language = req.session.lang;
         const sample = {
             speaker: user,
             sentenceid: sentenceid,
+            language: language,
             timestamp: req.requestTime,
             emotion: emotion
         }
@@ -311,8 +310,9 @@ module.exports = function (app) {
         
         const quantity = req.query.quantity ? req.query.quantity : 10;
         const curruser = req.session.user ? req.session.user.username : null;
+        const language = req.session.lang;
 
-        datadb.getSamplesToEvaluate(quantity, curruser)
+        datadb.getSamplesToEvaluate(quantity, curruser, language)
             .then(result => {
                 res.send(result);
             });
@@ -327,8 +327,8 @@ module.exports = function (app) {
                 
                 let filePath = 
                     path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
-                // res.download(filePath);
-                res.send(filePath);
+                res.download(filePath);
+                // res.send(filePath);
 
             });
 
@@ -455,6 +455,7 @@ module.exports = function (app) {
             email: user.email
         };
         req.session.admin = user.admin;
+        // req.session.lang = user.favlang;
         req.session.loggedin = true;
         req.session.save();
 

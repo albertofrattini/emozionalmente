@@ -13,17 +13,17 @@ const progress = (props) => {
         if (i === 0) {
             switch (props.progNum) {
                 case 1:
-                    return <FaMeh key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaMeh key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
                 case 2:
-                    return <FaSmile key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaSmile key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
                 case 3:
-                    return <FaSmileBeam key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaSmileBeam key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
                 case 4:
-                    return <FaGrinBeam key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaGrinBeam key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
                 case 5:
-                    return <FaGrinHearts key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaGrinHearts key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
                 default:
-                    return <FaSadCry key={i} size="40px" color="var(--bluer)"/>;
+                    return <FaSadCry key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
 
             }  
         }

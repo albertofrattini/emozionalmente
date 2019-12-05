@@ -1,7 +1,6 @@
-/*Ciao*/
 .Description {
     width: 100%;
-    height: 90vh;
+    height: 100vh;
     padding: 56px 0px;
     box-sizing: border-box;
     display: flex;
@@ -25,7 +24,7 @@
 .Image img {
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 
@@ -35,6 +34,7 @@
     height: auto;
     padding: 0px 16px;
     margin: auto;
+    margin-top: 80px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;

@@ -20,7 +20,7 @@ class Layout extends Component {
 
     componentDidMount () {
 
-        axios.get('/api/descriptions/navbar?lang=it')
+        axios.get('/api/descriptions/navbar')
             .then(response => {
                 const items = {};
                 response.data.map(el => {

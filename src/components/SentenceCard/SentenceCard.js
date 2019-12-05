@@ -9,7 +9,8 @@ const sentenceCard = (props) => {
         props.emotions.length > 0 ?
             props.emotions.map((el, i) => {
                 if (el.emotion === props.emotion) {
-                    return <option key={i} selected="selected" value={el.emotion}>{el.emotion}</option>
+                    return <option key={i} selected="selected" 
+                        value={el.emotion}>{el.emotion}</option>
                 }
                 return <option key={i} value={el.emotion}>{el.emotion}</option>
             })

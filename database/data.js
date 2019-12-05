@@ -43,20 +43,23 @@ module.exports.setupDataDb = function (database) {
     });
 }
 
-module.exports.getSentencesToRecord = function (quantity, currentuser) {
+module.exports.getSentencesToRecord = function (quantity, currentuser, language) {
     // Returns a fixed amount of random sentences, excluding the ones already sampled
     // TODO: we can return the same sentences as long as the user records another emotion
     return db.select('*').from('sentences')
+        .where('language', language)
         .whereNotIn('id', db.select('sentenceid').from('samples').where('speaker', currentuser))
         .orderBy(db.raw('RANDOM()'))
         .limit(quantity);
 }
 
-module.exports.getSamplesToEvaluate = function (quantity, currentuser) {
+module.exports.getSamplesToEvaluate = function (quantity, currentuser, language) {
     // Returns a fixed amount of random samples, excluding the ones recorded by the user
     // itself and the ones already evaluated by the user.
-    return db.select('samples.id', 'sentenceid', 'emotion', 'timestamp', 'sentence')
+    // return db.select('samples.id', 'sentenceid', 'emotion', 'timestamp', 'sentence')
+    return db.select('samples.id', 'emotion', 'sentence')
         .from('samples')
+        .where('samples.language', language)
         .whereNot('samples.speaker', currentuser)
         .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
         .join('sentences', 'samples.sentenceid', '=', 'sentences.id')

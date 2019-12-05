@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GeneralInfo from '../../components/GeneralInfo/GeneralInfo';
 import Faq from '../../components/Faq/Faq';
-import Aux from '../../hoc/Aux/Aux';
+import classes from './AboutUs.css';
 import Footer from '../../components/UI/Footer/Footer';
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ class AboutUs extends Component {
 
     componentDidMount () {
 
-        axios.get('/api/descriptions/aboutus?lang=it')
+        axios.get('/api/descriptions/aboutus')
             .then(response => {
                 const content = {};
                 response.data.map(el => {
@@ -24,10 +24,18 @@ class AboutUs extends Component {
 
     }
 
+    changeLanguage = (event) => {
+        axios.get(`/api/language/set?lang=${event.target.innerHTML}`)
+            .then(response => {
+                console.log('ciao');
+                window.location.reload();
+            });
+    }
+
     render () {
 
         return (
-            <Aux>
+            <div className={classes.Content}>
                 { this.state.content === null ?
                     null
                     :
@@ -38,8 +46,8 @@ class AboutUs extends Component {
                         btndx={this.state.content['cards-dx-btn']}/>
                 }
                 <Faq />
-                <Footer />
-            </Aux>
+                <Footer clicked={this.changeLanguage}/>
+            </div>
         );
     }
 

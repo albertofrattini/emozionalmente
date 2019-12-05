@@ -18,7 +18,6 @@ function frameLooper() {
         window.requestAnimationFrame(frameLooper);
     }
     fbc_array = new Uint8Array(analyser.frequencyBinCount);
-    console.log('ciao', fbc_array.length);
     analyser.getByteFrequencyData(fbc_array);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = grd;

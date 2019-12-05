@@ -1,0 +1,29 @@
+.Container {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    margin: auto;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 100;
+}
+
+.Card {
+    width: 100%;
+    max-width: 772px;
+    height: 100%;
+    position: relative;
+    padding: 48px 0px;
+    box-sizing: border-box;
+    background-color: white;
+    /* box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15); */
+    border-radius: 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}

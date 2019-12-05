@@ -1,5 +1,5 @@
 .Active {
-    width: 100%;
+    width: 40px;
     height: 40px;
     background-color: #f9aa33;
     border-color: #f9aa33;
@@ -8,7 +8,7 @@
 }
 
 .Inactive {
-    width: 100%;
+    width: 40px;
     height: 40px;
     background-color: white;
     border: 1.4px solid #f9aa33;

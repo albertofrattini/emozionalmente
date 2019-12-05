@@ -18,12 +18,20 @@ var dataPath = function (req, res, next) {
 	next();
 }
 
+var engDefault = function (req, res, next) {
+	if (!req.session.lang) {
+		req.session.lang = 'en';
+	}
+	next();
+}
+
 // app.use(morgan('tiny'));
 app.use(session({
 	secret: 'segreto_da_sostituire_prima_del_deployment',
 	resave: false,
 	saveUninitialized: true
 }));
+app.use(engDefault);
 app.use(requestTime);
 app.use(dataPath);
 app.use(bodyParser.json());

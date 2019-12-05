@@ -5,44 +5,49 @@ import ListenButton from '../../components/ListenButton/ListenButton';
 import EvaluationButtons from '../../components/EvaluationButtons/EvaluationButtons';
 import axios from 'axios';
 import GuideCard from '../../components/GuideCard/GuideCard';
+import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 
 class Evaluate extends Component {
 
     state = {
         index: 0,
         progress: 0,
-        sentences: [],
+        samples: [],
         emotions: [],
         isPlaying: false,
         emotionIndex: 0,
         sampleUrl: '',
         selectedEmotion: '',
         selectedReview: '',
-        newUser: false
+        newUser: false,
+        hasAudio: false
     }
 
     componentDidMount () {
 
-        axios.get('/api/data/samples')
+        axios.get('/api/data/samples?quantity=20')
             .then(response => {
-                this.setState({ sentences: response.data });
+                return this.setState({ samples: response.data });
+            })
+            .then(_ => {
+                console.log(this.state.samples);
+                axios.get(`/api/data/download/${this.state.samples[this.state.index].id}`)
+                    .then(response => {
+                        this.setState({ sampleUrl: response.data });
+                    });
             });
-            /*
-            .then(() => {
-                const sentenceid = this.state.sentences[this.state.index].sentenceid;
-                const timestamp = this.state.sentences[this.state.index].timestamp;
-                this.setState({ sampleUrl: `/api/data/download?sentenceid=${sentenceid}&timestamp=${timestamp}` });
-            });*/
         
         axios.get('/api/users/hasevaluations')
             .then(response => {
                 this.setState({ newUser: response.data.newUser });
             });
         
-        axios.get('/api/data/emotions?lang=it')
+        axios.get('/api/data/emotions')
             .then(response => {
                 this.setState({ emotions: response.data });
             });
+
+        
 
     }
 
@@ -56,20 +61,16 @@ class Evaluate extends Component {
             document.getElementById('voicesample').pause();
         }
         if (currIndex < this.state.sentences.length - 1) {
-            // const sentenceid = this.state.sentences[currIndex + 1].sentenceid;
-            // const timestamp = this.state.sentences[currIndex + 1].timestamp;
             this.setState({ 
                 isPlaying: false,
                 index: currIndex + 1,
-                sampleUrl: `/api/data/download/${this.state.sentences[currIndex + 1].id}`
+                sampleUrl: `/api/data/download/${this.state.samples[currIndex + 1].id}`
             });
         } else {
-            // const sentenceid = this.state.sentences[0].sentenceid;
-            // const timestamp = this.state.sentences[0].timestamp;
             this.setState({ 
                 isPlaying: false,
                 index: 0,
-                sampleUrl: `/api/data/download/${this.state.sentences[0].id}`
+                sampleUrl: `/api/data/download/${this.state.samples[0].id}`
             });
         }
     }
@@ -104,6 +105,8 @@ class Evaluate extends Component {
 
     render () {
 
+        console.log(this.state);
+
         const audioFile = (
             <audio id="voicesample" onEnded={this.restorePlayButton}>
                 <source src={this.state.sampleUrl} type={'audio/wav'}/>
@@ -111,39 +114,44 @@ class Evaluate extends Component {
         );
 
         return (
-            <div className={classes.Content}>
-                <div className={classes.Overlay}>
-                    {this.state.newUser ?
-                        <GuideCard end={this.guideExecuted}/>               
-                        : null
-                    }
-                </div>
-                <div className={classes.Evaluate}>
-                    <SentenceCard 
-                        sentence={ this.state.sentences.length > 0 ?
-                            this.state.sentences[this.state.index].sentence
-                            : 'Loading...'
-                        } 
-                        clicked={this.changeSentence}   
-                    />
-                    {this.state.sampleUrl === '' ?
-                        null
-                        :
-                        audioFile
-                    }
-                    <ListenButton 
-                        clicked={this.playOrPauseSample}
-                        isPlaying={this.state.isPlaying}/>
-                    <EvaluationButtons 
-                        emotions={this.state.emotions}
-                        emotion={ this.state.emotions.length > 0 ?
-                            this.state.emotions[this.state.emotionIndex].emotion
-                            : null
-                        } 
-                        over={this.changeEmotion.bind(this.state.emotionIndex)}
-                        clickedemotion={this.selectEmotion}
-                        clickedreview={this.selectReview}/>
-                </div>
+            <div>
+                {
+                this.state.newUser ?
+
+                    <GuideCard end={this.guideExecuted}/>
+                    :
+                    this.state.progress === 5 ?
+                    <TaskCompleted />
+                    :
+                    <div className={classes.Content}>
+                        <div className={classes.Evaluate}>
+                            <SentenceCard 
+                                sentence={ this.state.samples.length > 0 ?
+                                    this.state.samples[this.state.index].sentence
+                                    : 'Loading...'
+                                } 
+                                clicked={this.changeSentence}   
+                            />
+                            {this.state.hasAudio ?
+                                null
+                                :
+                                audioFile
+                            }
+                            <ListenButton 
+                                clicked={this.playOrPauseSample}
+                                isPlaying={this.state.isPlaying}/>
+                            <EvaluationButtons 
+                                emotions={this.state.emotions}
+                                emotion={ this.state.emotions.length > 0 ?
+                                    this.state.emotions[this.state.emotionIndex].emotion
+                                    : null
+                                } 
+                                over={this.changeEmotion.bind(this.state.emotionIndex)}
+                                clickedemotion={this.selectEmotion}
+                                clickedreview={this.selectReview}/>
+                        </div>
+                    </div>
+                }
             </div>
         );
     }

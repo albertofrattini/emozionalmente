@@ -62,4 +62,8 @@
     line-height: 1.63;
     color: var(--text-lightest);
     box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
