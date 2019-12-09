@@ -19,8 +19,7 @@ class Evaluate extends Component {
         sampleUrl: '',
         selectedEmotion: '',
         selectedReview: '',
-        newUser: false,
-        hasAudio: false
+        newUser: false
     }
 
     componentDidMount () {
@@ -40,8 +39,14 @@ class Evaluate extends Component {
                 this.setState({ emotions: response.data });
             });
 
-        
+    }
 
+    componentDidUpdate () {
+        if (this.state.sampleUrl === '' && this.state.samples.length > 0) {
+            this.setState({ 
+                sampleUrl: 'api/data/download/' + this.state.samples[this.state.index].id 
+            });
+        }
     }
 
     guideExecuted = () => {
@@ -50,22 +55,16 @@ class Evaluate extends Component {
 
     changeSentence = () => {
         let currIndex = this.state.index;
-        if (this.state.isPlaying) {
-            document.getElementById('voicesample').pause();
-        }
         if (currIndex < this.state.samples.length - 1) {
-            this.setState({ 
-                isPlaying: false,
-                index: currIndex + 1,
-                sampleUrl: `/api/data/download/${this.state.samples[currIndex + 1].id}`
-            });
+            currIndex = currIndex + 1;
         } else {
-            this.setState({ 
-                isPlaying: false,
-                index: 0,
-                sampleUrl: `/api/data/download/${this.state.samples[0].id}`
-            });
+            currIndex = 0;
         }
+        this.setState({ 
+            isPlaying: false,
+            index: currIndex,
+            sampleUrl: ''
+        });
     }
 
     changeEmotion = (event) => {
@@ -77,18 +76,17 @@ class Evaluate extends Component {
 
         if (this.state.selectEmotion === '' || this.state.selectedReview === '') return;
 
-        // this.saveEvaluation();
-
-        console.log('posting...');
+        this.saveEvaluation();
 
     }
 
     saveEvaluation = () => {
 
-        const correct = 'if emotion selected is equal to real';
-        const quality = 'take quality from button';
-        const accuracy = 'give two choices';
-        const sampleid = 'sampleid of sample evaluated';
+        const correct = this.state.selectedEmotion.toLowerCase() 
+                        === this.state.samples[this.state.index].emotion;
+        const quality = this.state.selectedReview.toLowerCase();
+        const accuracy = correct ? 1 : 0.5;
+        const sampleid = this.state.samples[this.state.index].id;
 
         const data = {
             sampleid: sampleid,
@@ -102,6 +100,14 @@ class Evaluate extends Component {
             )
             .then(response => {
                 console.log(response.data.message);
+                const currentprogress = this.state.progress;
+                this.state.samples.splice(this.state.index, 1);
+                return this.setState({ 
+                    sampleUrl: '',
+                    progress: currentprogress + 1,
+                    selectedEmotion: '',
+                    selectedReview: ''
+                });
             })
             .catch(error => {
                 console.error(error);
@@ -110,6 +116,7 @@ class Evaluate extends Component {
     }
 
     playOrPauseSample = () => {
+        if (this.state.sampleUrl === '') return;
         const isPlaying = this.state.isPlaying;
         if (isPlaying) {
             this.setState({ isPlaying: !isPlaying });
@@ -135,11 +142,17 @@ class Evaluate extends Component {
 
     render () {
 
-        const audioFile = (
-            <audio id="voicesample" onEnded={this.restorePlayButton}>
+        console.log(this.state);
+
+        let audioFile = null;
+        
+        if (this.state.sampleUrl !== '') {
+            audioFile = (
+                <audio id="voicesample" onEnded={this.restorePlayButton}>
                 <source src={this.state.sampleUrl} type={'audio/wav'}/>
             </audio>
-        );
+            );
+        }
 
         return (
             <div>
@@ -158,9 +171,10 @@ class Evaluate extends Component {
                                     this.state.samples[this.state.index].sentence
                                     : 'Loading...'
                                 } 
-                                clicked={this.changeSentence}   
+                                clicked={this.changeSentence}  
+                                progress={this.state.progress} 
                             />
-                            {this.state.hasAudio ?
+                            {this.state.sampleUrl === '' ?
                                 null
                                 :
                                 audioFile
