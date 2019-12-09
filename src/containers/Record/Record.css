@@ -1,8 +1,3 @@
-.Content {
-    position: relative;
-    margin-top: 80px;
-}
-
 .Overlay {
     position: absolute;
     top: 0;
@@ -13,10 +8,5 @@
 }
 
 .Record {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 5;
+    margin-top: 128px;
 }

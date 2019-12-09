@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../Aux/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-// import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import classes from './Layout.css';
 import { userContext } from '../Context/UserContext';
 import axios from 'axios';
@@ -64,17 +64,23 @@ class Layout extends Component {
                     <userContext.Consumer>
                         {
                             ({ user, logout }) => 
-                            (<Toolbar 
-                                navitems={this.state.items}
-                                user={user}
-                                logout={logout}
-                                open={this.sideDrawerOpenedHandler}/>)
+                            (
+                            <React.Fragment>
+                                <Toolbar 
+                                    navitems={this.state.items}
+                                    user={user}
+                                    logout={logout}
+                                    open={this.sideDrawerOpenedHandler}/>
+                                <SideDrawer 
+                                    open={this.state.showSideDrawer} 
+                                    closed={this.sideDrawerClosedHandler}
+                                    navitems={this.state.items}
+                                    user={user}
+                                    logout={logout}/>
+                            </React.Fragment>)
                         }
                     </userContext.Consumer>                
                 }
-                {/* <SideDrawer 
-                    open={this.state.showSideDrawer} 
-                    closed={this.sideDrawerClosedHandler}/> */}
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>

@@ -1,17 +1,17 @@
 .NavigationItems {
-    margin: 0px 32px 0px 0px;
+    margin: 32px 32px 0px 0px;
     padding: 0px;
     /* Because it's an unordered list and we don't want any style */
     list-style: none;
     display: flex;
     flex-flow: column;
     align-items: center;
-    height: 80px;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 1027px) {
     .NavigationItems {
         flex-flow: row;
+        margin: 0px 32px 0px 0px;
+        height: 80px;
     }
-    
 }

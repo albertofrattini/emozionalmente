@@ -23,7 +23,7 @@
     height: 50vh;
     background-color: white;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-flow: column;
     padding: 40px;
     box-sizing: border-box;
@@ -35,11 +35,11 @@
     font-size: 22px;
     text-align: center;
     color: var(--text-darker);
-    margin: 32px 0px 0px;
+    margin: 64px 0px 0px;
 }
 
 .Element p {
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
     color: var(--text-dark);
     margin: 12px 0px 0px;

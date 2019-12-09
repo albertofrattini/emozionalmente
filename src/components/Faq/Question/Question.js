@@ -6,7 +6,6 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md';
 
 const question = (props) => (
     <Aux>
-        <div className={classes.DivLine}></div>
         <div className={classes.Container}>
             { 
                 props.active ? 

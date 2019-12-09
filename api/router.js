@@ -1,9 +1,8 @@
-const descriptionsdb = require('../database/descriptions');
-const userdb = require('../database/users');
-const datadb = require('../database/data');
+const descriptionsdb = require('./database/descriptions');
+const userdb = require('./database/users');
+const datadb = require('./database/data');
 
-const recordguide = require('../database/init/recordguide.json');
-const emotions = require('../database/init/emotions.json');
+const emotions = require('./database/init/emotions.json');
 
 const path = require('path');
 const Joi = require('joi');
@@ -11,10 +10,9 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'database/samples')
+        cb(null, 'api/database/samples')
     },
     filename: function (req, file, cb) {
-        var user = req.session.user ? req.session.user.username : 'unknown';
         cb(null, req.query.sentenceid + '_' + req.requestTime + '.wav');
     }
 });
@@ -28,6 +26,18 @@ var isAdmin = function (req, res, next) {
         return res.status(403).send({ message: 'Forbidden!' });
     }
 }
+
+var emotionLanguage = function (req, res, next) {
+    if (req.session.lang !== 'en') {
+        switch (req.session.lang) {
+            case 'it': 
+                req.query.emotion = fromItalianToEnglish(req.query.emotion);
+            default:
+                console.log('Language not recognized...');
+        }
+    }
+    next();
+} 
 
 
 
@@ -222,7 +232,7 @@ module.exports = function (app) {
      ******************/
 
     // POST new sample inside database
-    app.post('/api/data/samples', upload.single('audio'), (req, res, next) => {
+    app.post('/api/data/samples', upload.single('audio'), emotionLanguage, (req, res, next) => {
 
         const user = req.session.user ? req.session.user.username : 'unknown';
         const sentenceid = req.query.sentenceid;
@@ -314,6 +324,10 @@ module.exports = function (app) {
 
         datadb.getSamplesToEvaluate(quantity, curruser, language)
             .then(result => {
+                if (req.session.lang !== 'en'){
+                    const enEmotion = result.emotion;
+                    result.emotion = fromEnglishToItalian(enEmotion);
+                }
                 res.send(result);
             });
 
@@ -341,6 +355,33 @@ module.exports = function (app) {
         }
         res.download(filePath);
         */
+
+    });
+
+    app.post('/api/data/evaluations', (req, res, next) => {
+
+        const evaluator = req.session.user ? req.session.user.username : null;
+        const language = req.session.lang;
+        
+        const evaluation = {
+            sampleid: req.body.sampleid,
+            correct: req.body.correct,
+            accuracy: req.body.accuracy,
+            quality: req.body.quality,
+            evaluator: evaluator,
+            language: language,
+            timestamp: req.requestTime
+        }
+
+        datadb.insertEvaluation(evaluation)
+        .then(() => {
+            res.status(200).send({
+                message: 'Upload successful!'
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
     });
 
@@ -618,4 +659,42 @@ function validateCredentials(credentials) {
         password: Joi.string().min(5).max(255).required()
     };
     return Joi.validate(credentials, schema);
+}
+
+function fromItalianToEnglish(emotion) {
+    switch (emotion) {
+        case 'felicità': 
+            return 'happiness';
+        case 'tristezza':
+            return 'sadness';
+        case 'paura':
+            return 'fear';
+        case 'disgusto':
+            return 'disgust';
+        case 'rabbia':
+            return 'anger';
+        case 'sorpresa':
+            return 'surprise';
+        default:
+            return 'neutral';
+    }
+}
+
+function fromEnglishToItalian(emotion){
+    switch (emotion) {
+        case 'happiness': 
+            return 'felicità';
+        case 'sadness':
+            return 'tristezza';
+        case 'fear':
+            return 'paura';
+        case 'disgust':
+            return 'disgusto';
+        case 'anger':
+            return 'rabbia';
+        case 'surprise':
+            return 'sorpresa';
+        default:
+            return 'neutrale';
+    }
 }

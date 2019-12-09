@@ -1,9 +1,9 @@
 import React from 'react';
-import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Aux from '../../../hoc/Aux/Aux';
 import classes from './SideDrawer.css';
+import { Link } from 'react-router-dom';
 
 const sideDrawer = (props) => {
 
@@ -22,13 +22,19 @@ const sideDrawer = (props) => {
              */}
             <Backdrop show={props.open} clicked={props.closed}/>
             <div className={attachedClasses.join(' ')}>
-                <div className={classes.Logo}>
-                    <Logo />
-                </div>
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems items={props.navitems}/>
                 </nav>
+                <div className={classes.Login}>
+                    {
+                        props.user.username ?
+                            <div onClick={props.logout}>{props.user.username}</div>
+                            :
+                            <Link to="/login-signup">Login / Signup</Link>
+                    }     
+                </div>
             </div>
+
         </Aux>
     );
 };

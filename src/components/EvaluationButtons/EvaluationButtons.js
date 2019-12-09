@@ -26,16 +26,16 @@ const evaluationButtons = (props) => {
                 </div>
                 <div className={classes.AudioQuality}>
                     <div className={classes.Bad}>
-                        <MdThumbDown id="bad" size="32px" 
-                            color="var(--logo-red)" onClick={props.clickedreview}/>
+                        <MdThumbDown size="32px" color="var(--logo-red)" 
+                            onClick={() => props.clickedreview('Bad')}/>
                     </div>
                     <div className={classes.Good}>
-                        <MdThumbUp id="good" size="32px" 
-                            color="var(--greener)" onClick={props.clickedreview}/>
+                        <MdThumbUp size="32px" color="var(--greener)" 
+                            onClick={() => props.clickedreview('Good')}/>
                     </div>
                     <div className={classes.Perfect}>
-                        <MdStars id="perfect" size="40px" 
-                            color="var(--logo-orange)" onClick={props.clickedreview}/>
+                        <MdStars size="40px" color="var(--logo-orange)" 
+                            onClick={() => props.clickedreview('Perfect')}/>
                     </div>
                 </div>
             </div>

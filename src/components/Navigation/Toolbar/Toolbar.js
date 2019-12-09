@@ -17,7 +17,7 @@ class Toolbar extends Component {
     }
 
     updateColor = () => {
-        let opacity = (window.scrollY / window.innerHeight);
+        let opacity = (window.scrollY / window.innerHeight) * 3;
         this.setState({ opacity: opacity });
     } 
 
@@ -29,7 +29,6 @@ class Toolbar extends Component {
             <header className={classes.Toolbar} 
                 style={{ backgroundColor: `rgba(255,255,255,${this.state.opacity})` }}>
                 <div className={classes.Container}>
-                    <HamburgerBtn clicked={this.props.open}/>
                     <div className={classes.Logo}>
                         <Logo />
                     </div>
@@ -51,6 +50,8 @@ class Toolbar extends Component {
                             </Link>
                         }
                     </div>
+                    <HamburgerBtn 
+                        clicked={this.props.open}/>
                 </div>
             </header>      
         );

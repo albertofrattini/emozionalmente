@@ -75,6 +75,10 @@ module.exports.insertSample = function (sample) {
     return db('samples').insert(sample);
 }
 
+module.exports.insertEvaluation = function (evaluation) {
+    return db('evaluated').insert(evaluation);
+} 
+
 module.exports.getUserSamples = function (user) {
     return db('samples').where('samples.speaker', user);
 }

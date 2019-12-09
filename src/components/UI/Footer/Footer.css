@@ -67,3 +67,20 @@
     justify-content: center;
     align-items: center;
 }
+
+.Languages {
+    margin: 8px;
+}
+
+.Languages button {
+    background-color: transparent;
+    color: var(--text-lightest);
+    font-size: 16px;
+    margin: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.Languages button:hover {
+    color: var(--logo-orange);
+}

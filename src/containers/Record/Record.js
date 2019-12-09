@@ -8,6 +8,7 @@ import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
+import Aux from '../../hoc/Aux/Aux';
 
 
 class Record extends Component {
@@ -126,10 +127,9 @@ class Record extends Component {
     render () {
 
         return (
-            <div>
+            <Aux>
                 {
                 this.state.newUser ?
-                
                     <GuideCard 
                         record
                         end={this.guideExecuted}/>
@@ -137,37 +137,35 @@ class Record extends Component {
                     this.state.progress === 5 ?
                     <TaskCompleted record/>
                     :
-                    <div className={classes.Content}>
-                        <div className={classes.Record}>
-                            <SentenceCard 
-                                sentence={this.state.sentences.length > 0 ? 
-                                    this.state.sentences[this.state.index].sentence
-                                    : 'Loading...'
-                                } 
-                                record
-                                clicked={this.changeSentence}
-                                emotions={this.state.emotions}
-                                change={this.changeEmotion}
-                                emotion={this.state.currentEmotion}  
-                                progress={this.state.progress}  
-                            /> 
-                            {this.state.isRecording ? 
-                                <StopButton clicked={this.stopRecording}/>
-                                :
-                                <RecordButton clicked={this.startRecording}/>
-                            }
-                            {this.state.sampleUrl === '' ?
-                                null
-                                :
-                                <CheckListen 
-                                    sampleUrl={this.state.sampleUrl}
-                                    type={this.audioType}
-                                    clicked={this.saveSample}/>
-                            }
-                        </div>
+                    <div className={classes.Record}>
+                        <SentenceCard 
+                            sentence={this.state.sentences.length > 0 ? 
+                                this.state.sentences[this.state.index].sentence
+                                : 'Loading...'
+                            } 
+                            record
+                            clicked={this.changeSentence}
+                            emotions={this.state.emotions}
+                            change={this.changeEmotion}
+                            emotion={this.state.currentEmotion}  
+                            progress={this.state.progress}  
+                        /> 
+                        {this.state.isRecording ? 
+                            <StopButton clicked={this.stopRecording}/>
+                            :
+                            <RecordButton clicked={this.startRecording}/>
+                        }
+                        {this.state.sampleUrl === '' ?
+                            null
+                            :
+                            <CheckListen 
+                                sampleUrl={this.state.sampleUrl}
+                                type={this.audioType}
+                                clicked={this.saveSample}/>
+                        }
                     </div>
                 }
-            </div>
+            </Aux>
         );
     }
 

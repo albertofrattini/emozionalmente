@@ -27,14 +27,7 @@ class Evaluate extends Component {
 
         axios.get('/api/data/samples?quantity=20')
             .then(response => {
-                return this.setState({ samples: response.data });
-            })
-            .then(_ => {
-                console.log(this.state.samples);
-                axios.get(`/api/data/download/${this.state.samples[this.state.index].id}`)
-                    .then(response => {
-                        this.setState({ sampleUrl: response.data });
-                    });
+                this.setState({ samples: response.data });
             });
         
         axios.get('/api/users/hasevaluations')
@@ -60,7 +53,7 @@ class Evaluate extends Component {
         if (this.state.isPlaying) {
             document.getElementById('voicesample').pause();
         }
-        if (currIndex < this.state.sentences.length - 1) {
+        if (currIndex < this.state.samples.length - 1) {
             this.setState({ 
                 isPlaying: false,
                 index: currIndex + 1,
@@ -79,6 +72,43 @@ class Evaluate extends Component {
         this.setState({ emotionIndex: event.target.id })
     }
 
+
+    postEvaluation = () => {
+
+        if (this.state.selectEmotion === '' || this.state.selectedReview === '') return;
+
+        // this.saveEvaluation();
+
+        console.log('posting...');
+
+    }
+
+    saveEvaluation = () => {
+
+        const correct = 'if emotion selected is equal to real';
+        const quality = 'take quality from button';
+        const accuracy = 'give two choices';
+        const sampleid = 'sampleid of sample evaluated';
+
+        const data = {
+            sampleid: sampleid,
+            correct: correct,
+            quality: quality,
+            accuracy: accuracy
+        } 
+
+        axios.post('/api/data/evaluations',
+            data
+            )
+            .then(response => {
+                console.log(response.data.message);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        
+    }
+
     playOrPauseSample = () => {
         const isPlaying = this.state.isPlaying;
         if (isPlaying) {
@@ -94,18 +124,16 @@ class Evaluate extends Component {
         this.setState({ isPlaying: false });
     }
 
-    selectEmotion = (event) => {
-        this.setState({ selectedEmotion: this.emotions[event.target.id] });
+    selectEmotion = () => {
+        this.setState({ selectedEmotion: this.state.emotions[this.state.emotionIndex].emotion });
     }
 
-    selectReview = (event) => {
-        this.setState({ selectedReview: event.target.id });
+    selectReview = (review) => {
+        this.setState({ selectedReview: review });
     }
 
 
     render () {
-
-        console.log(this.state);
 
         const audioFile = (
             <audio id="voicesample" onEnded={this.restorePlayButton}>
@@ -139,7 +167,10 @@ class Evaluate extends Component {
                             }
                             <ListenButton 
                                 clicked={this.playOrPauseSample}
-                                isPlaying={this.state.isPlaying}/>
+                                isPlaying={this.state.isPlaying}
+                                emotion={this.state.selectedEmotion}
+                                review={this.state.selectedReview}
+                                done={this.postEvaluation}/>
                             <EvaluationButtons 
                                 emotions={this.state.emotions}
                                 emotion={ this.state.emotions.length > 0 ?

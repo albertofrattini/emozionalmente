@@ -1,6 +1,6 @@
 .CurrentDatabase {
     width: 100%;
-    padding: 192px 0px 0px;
+    padding: 192px 0px 92px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
 
 .Card {
     width: 100%;
-    max-width: 550px;
+    max-width: 500px;
     height: auto;
     height: 300px;
     background-color: white;
@@ -44,15 +44,15 @@
 
 .Text h1 {
     font-size: 22px;
-    text-align: center;
-    color: #232f34;
-    margin: 32px 0px 0px;
+    text-align: left;
+    color: var(--text-darker);
+    margin: 0px 0px 16px;
 }
 
 .Text p {
-    font-size: 14px;
-    text-align: center;
-    color: #344955;
+    font-size: 15px;
+    text-align: left;
+    color: var(--text-dark);
     margin: 12px 0px 0px;
     line-height: 1.63;
 }

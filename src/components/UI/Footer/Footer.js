@@ -1,7 +1,6 @@
 import React from 'react';
 import classes from './Footer.css';
 import logo from '../../../assets/images/logo.png';
-import polimiLogo from '../../../assets/images/polimi-logo.png';
 import { Link } from 'react-router-dom';
 
 const footer = (props) => (
@@ -9,7 +8,6 @@ const footer = (props) => (
         <div className={classes.Container}>
             <div className={classes.Logos}>
                 <img src={logo} alt="Logo"/>
-                <img src={polimiLogo} alt="Logo polimi"/>
             </div>
             <div className={classes.Links}>
                 <Link to="/privacy" className={classes.Link}>
@@ -26,9 +24,6 @@ const footer = (props) => (
                 </Link>
             </div>
             <div className={classes.Other}>
-                <span>
-                    Scriviamo qualche altra cosa giusto per far sembrare che siamo molto seri con i nostri clienti
-                </span>
                 <div className={classes.Languages}>
                     <button onClick={props.clicked}>it</button>
                     <button onClick={props.clicked}>en</button>
