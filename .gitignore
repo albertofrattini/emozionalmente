@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/database/samples
+/api/database/samples
 
 # testing
 /coverage
