@@ -14,7 +14,8 @@
 }
 
 .Container {
-    width: 1028px;
+    width: 100%;
+    max-width: 1028px;
     height: 100%;
     padding: 0px 32px;
     margin: auto;

@@ -1,7 +1,11 @@
 .Card {
-    width: 50%;
-    max-width: 450px;
+    width: 100%;
+    max-width: 500px;
     height: 400px;
+    margin: auto;
+    margin-bottom: 48px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 6px rgba(25, 25, 25, 0.05);
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -58,4 +62,13 @@
 .Card button:hover {
     background-color: var(--blue);
     color: white;
+}
+
+@media (min-width: 750px) {
+    .Card {
+        max-width: 450px;
+        margin: 0;
+        border-radius: 0px;
+        box-shadow: none;
+    }
 }

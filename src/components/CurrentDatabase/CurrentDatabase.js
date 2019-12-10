@@ -6,7 +6,7 @@ const currentDatabase = (props) => (
     <div className={classes.CurrentDatabase}>
         <div className={classes.Container}>
             <div className={classes.Card}>
-                <BubbleChart />
+                <BubbleChart width="400"/>
             </div>
             <div className={classes.Text}>
                 <h1>{props.title}</h1>

@@ -40,6 +40,7 @@
     width: 100%;
     height: auto;
     padding: 26.5px 20px 0px;
+    box-sizing: border-box;
     font-size: 16px;
     font-weight: bold;
     color: var(--text-darker);
@@ -49,6 +50,7 @@
     width: 100%;
     height: auto;
     padding: 20px;
+    box-sizing: border-box;
     font-size: 15px;
     color: var(--text-darker);
 } 

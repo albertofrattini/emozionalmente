@@ -12,13 +12,14 @@
     max-width: 1028px;
     height: auto;
     display: flex;
-    padding: 64px 16px;
+    padding: 64px 0px;
     justify-content: space-between;
     align-items: center;
 }
 
 .Logos {
-    width: 256px;
+    width: 100%;
+    max-width: 256px;
     height: auto;
     display: flex;
     flex-flow: column;
@@ -34,7 +35,8 @@
 }
 
 .Links {
-    width: 256px;
+    width: 100%;
+    max-width: 256px;
     height: auto;
     display: flex;
     flex-flow: column;
@@ -55,7 +57,8 @@
 }
 
 .Other {
-    width: 256px;
+    width: 100%;
+    max-width: 256px;
     height: auto;
     padding: 24px;
     font-size: 14px;

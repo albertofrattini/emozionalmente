@@ -20,7 +20,7 @@ class BubbleChart extends Component {
     renderData = () => {
         var x = d3.scaleLinear()
             .domain([0, d3.max(this.state.data)])
-            .range([0, 480]);
+            .range([0, this.props.width * 0.8]);
 
         d3.select('#chart')
             .selectAll('div')

@@ -40,9 +40,12 @@ class App extends Component {
         this.setState({
           user: response.data.user
         });
+        window.location.href = '/';
       })
       .catch(error => {
         console.log(error.message);
+        alert('Email or Password are not correct, check again!');
+        window.location.reload();
       });
 
   }
@@ -82,9 +85,12 @@ class App extends Component {
       user)
       .then(response => {
         console.log(response.data.message);
+        alert('Signup successful! Now you can Login');
+        window.location.reload();
       })
       .catch(error => {
         console.log(error.message);
+        alert('Some field doesn\'t satisfy our constraints... try again!');
       });
 
   } 
