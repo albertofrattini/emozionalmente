@@ -544,7 +544,7 @@ module.exports = function (app) {
     app.get('/api/users/hassamples', (req, res) => {
 
         // IMPORTANT !! ONLY TEMPORARY
-        return res.send({ newUser: false });
+        // return res.send({ newUser: false });
 
         if (!req.session.user) return res.send({ newUser: true });
 
@@ -562,7 +562,7 @@ module.exports = function (app) {
     app.get('/api/users/hasevaluations', (req, res) => {
 
         // IMPORTANT !! ONLY TEMPORARY
-        return res.send({ newUser: false });
+        // return res.send({ newUser: false });
 
         if (!req.session.user) return res.send({ newUser: true });
 
