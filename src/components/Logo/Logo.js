@@ -8,12 +8,26 @@ import signalLogo from '../../assets/images/logo.png';
  * website, the path may not be the same one again.
  */
 
-const logo = (props) => (
-    <div className={classes.Logo}>
-        <Link to="/">
+const logo = (props) => {
+
+    let logo;
+
+    if (props.nolink) {
+        logo = (
             <img src={signalLogo} alt="Signal Logo"/>
-        </Link>
-    </div>
-);
+        );
+    } else {
+        logo = (
+            <Link to="/">
+                <img src={signalLogo} alt="Signal Logo"/>
+            </Link>
+        );
+    }
+    return (
+        <div className={classes.Logo}>
+            {logo}
+        </div>
+    );
+}
 
 export default logo;

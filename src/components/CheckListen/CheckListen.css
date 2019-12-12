@@ -1,6 +1,6 @@
 .Options {
     margin-top: 40px;
-    padding: 0px 190px;
+    padding: 0px 32px;
     box-sizing: border-box;
     width: 100%;
     height: auto;
@@ -13,6 +13,7 @@
     width: 72px;
     height: 72px;
     border-radius: 100%;
+    background-color: white;
     border: 1px solid var(--bluer);
     display: flex;
     justify-content: center;
@@ -27,10 +28,7 @@
 }
 
 .Signal {
-    width: 512px;
-    height: 72px;
-    border: none;
-    background-color: transparent;
+    display: none;
 }
 
 .NullLine {
@@ -43,6 +41,7 @@
     width: 72px;
     height: 72px;
     border-radius: 100%;
+    background-color: white;
     border: 1px solid var(--greener);
     display: flex;
     justify-content: center;
@@ -54,4 +53,30 @@
 .Done:hover {
     border: 1.4px solid var(--greener);
     box-shadow: 0 2px 6px 5px rgba(37, 84, 83, 0.3);
+}
+
+@media (min-width: 700px) {
+
+    .Options {
+        padding: 0px 8px;
+    }
+
+    .Signal {
+        display: block;
+        width: 512px;
+        height: 72px;
+        border: none;
+        background-color: transparent;
+    }
+
+}
+
+
+@media (min-width: 1030px) {
+
+    .Options {
+        padding: 0px 190px;
+        justify-content: space-evenly;
+        align-items: center;
+    }
 }

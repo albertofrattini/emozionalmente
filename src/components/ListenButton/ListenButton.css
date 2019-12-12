@@ -1,6 +1,10 @@
 .Box {
+    margin: auto;
     margin-top: 8px;
     width: 100%;
+    max-width: 1028px;
+    padding: 0px 8px;
+    box-sizing: border-box;
     height: auto;
     display: flex;
     justify-content: center;
@@ -12,6 +16,7 @@
     width: 72px;
     height: 72px;
     border-radius: 100%;
+    background-color: white;
     border: 1px solid var(--logo-violet);
     display: flex;
     justify-content: center;
@@ -22,13 +27,13 @@
 
 .Emotion {
     height: 72px;
-    width: 128px;
+    width: 96px;
     padding: 0px 16px;
-    margin: 0px 80px 0px 0px;
+    margin: 0px 16px 0px 0px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: var(--text-dark);
     border-radius: 4px;
@@ -37,13 +42,13 @@
 
 .Review {
     height: 72px;
-    width: 128px;
+    width: 96px;
     padding: 0px 16px;
-    margin: 0px 0px 0px 80px;
+    margin: 0px 0px 0px 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: var(--text-dark);
     border-radius: 4px;
@@ -51,20 +56,54 @@
 }
 
 .Done {
-    position: absolute;
-    right: 10%;
-    width: 72px;
-    height: 72px;
-    border-radius: 100%;
-    border: 1px solid var(--greener);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 6px 5px rgba(37, 84, 83, 0.1);
-    transition: all 1s cubic-bezier(.25,.8,.25,1);
+    display: none;
 }
 
 .Listen:hover {
     border: 1.4px solid var(--logo-violet);
     box-shadow: 0 2px 6px 5px rgba(140, 147, 216, 0.3);
+}
+
+@media (min-width: 550px) {
+
+    .Emotion {
+        width: 128px;
+        font-size: 20px;
+        margin: 0px 40px 0px 0px;
+    }
+
+    .Review {
+        width: 128px;
+        font-size: 20px;
+        margin: 0px 0px 0px 40px;
+    }
+}
+
+@media (min-width: 850px) {
+
+    .Done {
+        display: block;
+        position: absolute;
+        right: 0;
+        margin: 0px 28px;
+        width: 72px;
+        height: 72px;
+        border-radius: 100%;
+        border: 1px solid var(--greener);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 6px 5px rgba(37, 84, 83, 0.1);
+        transition: all 1s cubic-bezier(.25,.8,.25,1);
+    }
+
+    .Emotion {
+        margin: 0px 80px 0px 0px;
+    }
+    
+    .Review {
+        margin: 0px 0px 0px 80px;
+    }
+
+
 }

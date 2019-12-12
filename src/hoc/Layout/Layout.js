@@ -74,6 +74,7 @@ class Layout extends Component {
                                 <SideDrawer 
                                     open={this.state.showSideDrawer} 
                                     closed={this.sideDrawerClosedHandler}
+                                    toggleClose={this.sideDrawerClosedHandler}
                                     navitems={this.state.items}
                                     user={user}
                                     logout={logout}/>

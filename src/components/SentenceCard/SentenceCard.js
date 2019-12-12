@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './SentenceCard.css';
 import Progress from '../Progress/Progress';
 import { MdArrowForward } from 'react-icons/md';
 
 const sentenceCard = (props) => {
+
+    const [showEmotionModal, setEmotionModal] = useState(false);
 
     let emotionsList = props.record ?
         props.emotions.length > 0 ?
@@ -17,7 +19,44 @@ const sentenceCard = (props) => {
             : null
         : null;
 
+    let emotionsModal = props.record ?
+        props.emotions.length > 0 ?
+            props.emotions.map((el, i) => {
+                return <span key={i} onClick={() => changeEmotion(el.emotion)}>{el.emotion}</span>
+            })
+            : null
+        : null;
 
+
+    
+    let modal = null;
+
+    const changeEmotion = (value) => {
+        props.change(value);
+        setEmotionModal(false);
+    }
+
+    if (showEmotionModal) {
+        modal = (
+            <div className={classes.EmotionsModal}>
+                <div className={classes.EmotionsList}>
+                    <span style={{ color: 'var(--logo-red)' }} 
+                        onClick={() => changeEmotion('Random')}>Random</span>
+                    {emotionsModal}
+                </div>
+            </div>
+        );
+    }
+
+    let selectEmotionButton = null;
+
+    if (props.record) {
+        const content = props.emotion === '' ? 'Select an emotion' : props.emotion;
+        selectEmotionButton = (
+            <div className={classes.SelectedEmotion} 
+                onClick={() => setEmotionModal(true)}>{content}</div>
+        );
+    }
         
         
     return (
@@ -27,15 +66,9 @@ const sentenceCard = (props) => {
             </div>
             <div className={classes.CardContainer}>
                 <div className={classes.EmotionContainer}>
-                    {props.record ? 
-                        <select className={classes.Emotion} onChange={props.change}> 
-                            <option value='none'></option>
-                            <option value='random'>Random</option>
-                            {emotionsList}
-                        </select>
-                        : null 
-                    }
+                    {selectEmotionButton}
                 </div>
+                {modal}
                 <div className={classes.Card}>
                     {props.sentence}
                 </div>

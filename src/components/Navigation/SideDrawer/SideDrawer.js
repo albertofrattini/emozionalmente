@@ -23,7 +23,7 @@ const sideDrawer = (props) => {
             <Backdrop show={props.open} clicked={props.closed}/>
             <div className={attachedClasses.join(' ')}>
                 <nav>
-                    <NavigationItems items={props.navitems}/>
+                    <NavigationItems clicked={props.toggleClose} items={props.navitems}/>
                 </nav>
                 <div className={classes.Login}>
                     {

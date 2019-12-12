@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 // TODO: remove inline-styling in favor of CSS. It was not working...
 
 const navigationItem = (props) => (
-    <li className={classes.NavigationItem}>
+    <li className={classes.NavigationItem} onClick={props.clicked}>
         <NavLink to={props.link}
         activeStyle={{
             backgroundColor: 'transparent',

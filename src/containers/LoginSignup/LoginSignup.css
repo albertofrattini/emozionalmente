@@ -1,72 +1,44 @@
 .Container {
-    color: #737373;
     background-color: white;
-    padding: 1em 1.5em;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    box-sizing: border-box;
-    height: 100vh;
-    /*
-    position: relative;
-    z-index: -2;
-    */
-}
-
-/*
-.Sin {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
+    padding: 24px 8px 0px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: -1;
-}
-
-.Sin img {
+    box-sizing: border-box;
     width: 100%;
-    height: 50%;
 }
-*/
-
 
 .Card {
-    background-color: white;
-    padding: 4em;
-    margin: auto;
-    width: auto;
-    max-width: 52em;
-    min-height: 28em;
-    box-shadow: 0 0.25em 0.25em 0.25em rgba(0, 0, 0, 0.1);
-    border-radius: 0.125em;
+    margin-top: 64px;
+    padding: 32px 16px;
+    width: 100%;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
-    grid-row-start: 2;
 }
 
 .Card input {
     width: 100%;
     height: 48px;
-    margin-bottom: 20px;
     border: 1px solid var(--text-lightest);
     color: var(--text-darker);
-    border-radius: 0.125em;
-    font-size: 16px;
+    border-radius: 4px;
+    font-size: 15px;
     padding: 8px;
+    margin: 0px 0px 32px;
     box-sizing: border-box;
+}
+
+::placeholder {
+    color: var(--text-lighter);
 }
 
 .Card button {
     height: 40px;
     width: 160px;
     padding: 0px 16px;
-    margin-top: 32px;
     color: white;
     border: none;
     font-size: 15px;
@@ -78,11 +50,11 @@
 .Logo {
     width: 100%;
     height: 72px;
-    padding: 8px 32px;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 48px;
 }
 
 .InputRow {
@@ -95,8 +67,6 @@
 
 .InputColumn {
     width: 100%;
-    min-width: 20em;
-    margin: 0px 16px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -106,17 +76,18 @@
 
 .TextInfo {
     width: 100%;
-    margin-bottom: 8px;
-    font-size: 16px;
+    padding: 0px 0px 8px 8px;
+    box-sizing: border-box;
+    font-size: 15px;
     font-weight: bold;
     text-align: left;
-    color: var(--text-darker);
+    color: var(--text-dark);
 }
 
 .GoToSignUp {
     width: 100%;
-    margin-bottom: 8px;
-    font-size: 14px;
+    margin-bottom: 12px;
+    font-size: 15px;
     text-decoration: underline;
     text-align: end;
     color: var(--bluer);
@@ -125,14 +96,27 @@
 
 .SexSelect {
     width: 100%;
-    height: 24px;
+    height: 48px;
     border: 1px solid var(--text-lightest);
     background-color: white;
-    cursor: pointer;   
+    cursor: pointer; 
+    margin: 0px 0px 32px 16px; 
 }
 
 .DivLine {
     width: 1px;
     height: 100%;
     background-color: var(--text-lightest);
+}
+
+@media (min-width: 500px) {
+    .Container {
+        height: 100vh;
+        padding: 0px;
+    }
+
+    .Card {
+        margin: 0px;
+        max-width: 500px;
+    }
 }

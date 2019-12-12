@@ -11,6 +11,7 @@
     width: 72px;
     height: 72px;
     border-radius: 100%;
+    background-color: white;
     border: 1px solid var(--logo-red);
     display: flex;
     justify-content: center;

@@ -1,8 +1,9 @@
 .EvaluationButtons {
-    width: 1028px;
+    width: 100%;
+    max-width: 1028px;
     height: 140px;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 8px;
     padding: 0px;
     display: flex;
     justify-content: center;
@@ -14,14 +15,16 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .EmotionExpressed {
-    width: 512px;
+    width: 100%;
+    max-width: 512px;
     height: 100%;
-    padding: 0px 24px;
+    padding: 0px 8px;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -30,9 +33,8 @@
 }
 
 .Emotions {
-    width: 512px;
+    width: 100%;
     height: 88px;
-    padding: 8px 24px;
     display: flex;
     flex-flow: row;
     justify-content: space-evenly;
@@ -40,15 +42,8 @@
     box-sizing: border-box;
 }
 
-.Emotions:hover ~ .ShowEmotion {
-    color: var(--text-darker);
-}
-
 .ShowEmotion {
-    background-color: transparent;
-    color: transparent;
-    width: auto;
-    height: 32px;
+    display: none;
 }
 
 .AudioQuality {
@@ -56,13 +51,10 @@
     max-width: 256px;
     height: 88px;
     padding: 8px;
-    /*box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15);
-    border-radius: 12px;*/
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
-
 }
 
 .Bad {
@@ -114,4 +106,38 @@
     width: 1px;
     height: 80%;
     background-color: rgba(0,0,0,0.15);
+}
+
+@media (min-width: 800px) {
+
+    .EvaluationButtons {
+        margin-top: 40px;
+    }
+
+    .Container {
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .EmotionExpressed {
+        width: 512px;
+        padding: 0px 24px;
+    }
+
+    .Emotions {
+        padding: 8px 24px;
+    }
+
+    .Emotions:hover ~ .ShowEmotion {
+        color: var(--text-darker);
+    }
+
+    .ShowEmotion {
+        display: block;
+        background-color: transparent;
+        color: transparent;
+        width: auto;
+        height: 32px;
+    }
 }

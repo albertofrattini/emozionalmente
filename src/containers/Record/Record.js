@@ -21,7 +21,7 @@ class Record extends Component {
         sampleUrl: '',
         newUser: false,
         emotions: [],
-        currentEmotion: 'none',
+        currentEmotion: '',
         recordingAvailable: false
     }
 
@@ -96,29 +96,25 @@ class Record extends Component {
     }
 
     changeSentence = () => {
-        let currIndex = this.state.index;
-        if (currIndex < this.state.sentences.length - 1) {
-            this.setState({index: currIndex + 1});
+        let idx = this.state.index;
+        if (idx < this.state.sentences.length - 1) {
+            idx = idx + 1;
         } else {
-            this.setState({index: 0});
+            idx = 0;
         }
+        this.setState({ sampleUrl: '', index: idx });
     }
 
-    changeEmotion = (event) => {
-        if (event.target.value === 'random') {
+    changeEmotion = (emotion) => {
+        if (emotion === 'Random') {
             const index = getRandomInt(this.state.emotions.length);
             this.setState({ 
                 currentEmotion: this.state.emotions[index].emotion,
                 recordingAvailable: true,
             })
-        } else if (event.target.value === 'none'){
-            this.setState({ 
-                recordingAvailable: false,
-                currentEmotion: 'none'
-            });
         } else {
             this.setState({ 
-                currentEmotion: event.target.value,
+                currentEmotion: emotion,
                 recordingAvailable: true
             });
         }
