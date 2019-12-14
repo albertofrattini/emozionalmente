@@ -1,11 +1,13 @@
 let db;
 
-module.exports.setupUsersDb = function (database) {
+module.exports.setupUsersDb = async function (database) {
     db = database;
+    await db.raw('create extension if not exists "uuid-ossp"');
     return db.schema.hasTable('users').then(exists => {
         if (!exists) {
             return db.schema.createTable('users', table => {
-                table.increments('id');
+                table.uuid('id').defaultTo(db.raw('uuid_generate_v4()'));
+                table.boolean('confirmed');
                 table.boolean('admin');
                 table.text('username');
                 table.text('email');
@@ -16,19 +18,34 @@ module.exports.setupUsersDb = function (database) {
                 table.float('points');
             });
         }
+        db.raw('drop extension if exists "uuid-ossp"');
     });
 }
 
 module.exports.signup = function (user) {
-    return db('users').insert(user);
+    return db('users').insert(user).returning('id');
 }
 
 module.exports.login = function (email, password) {
     return db('users').where('email', email).andWhere('password', password).first();
 }
 
-module.exports.finduser = function (email) {
+module.exports.findUserByEmail = function (email) {
     return db('users').where('email', email).first();
+}
+
+module.exports.findUserByUsername = function (username) {
+    return db('users').where('username', username).first();
+}
+
+module.exports.findUserById = function (userid) {
+    return db('users').where('id', userid).first();
+}
+
+module.exports.confirmUser = function (userid, confirmation) {
+    return db('users')
+        .where('id', userid)
+        .update(confirmation);
 }
 
 

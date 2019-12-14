@@ -1,6 +1,10 @@
+const sendEmail = require('./utilities/emailsend');
+const emailTemplates = require('./utilities/emailtemplates');
 const descriptionsdb = require('./database/descriptions');
 const userdb = require('./database/users');
 const datadb = require('./database/data');
+const contactdb = require('./database/contact');
+const contributedb = require('./database/contribute');
 
 const emotions = require('./database/init/emotions.json');
 
@@ -17,15 +21,6 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
-
-var isAdmin = function (req, res, next) {
-    if (!req.session) return res.status(403).send({ message: 'Forbidden!' });
-    if (req.session.admin) {
-        next();
-    } else {
-        return res.status(403).send({ message: 'Forbidden!' });
-    }
-}
 
 var emotionLanguage = function (req, res, next) {
     if (req.session.lang !== 'en') {
@@ -45,6 +40,10 @@ var emotionLanguage = function (req, res, next) {
 
 module.exports = function (app) {
 
+
+
+
+
     /***************
      **** OTHER
      ******************/
@@ -61,6 +60,12 @@ module.exports = function (app) {
         res.send({ message: `Language changed to ${req.session.lang}` });
         
     });
+
+
+
+
+
+
 
 
     /***************
@@ -80,64 +85,7 @@ module.exports = function (app) {
     });
 
 
-    /******************
-     ******** CRUD
-     ******************/
 
-    app.get('/api/rest/descriptions', isAdmin, function (req, res) {
-
-        descriptionsdb.getAllDescriptions()
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.get('/api/rest/descriptions/:page', isAdmin, function (req, res) {
-
-        descriptionsdb.getPageDescriptions(req.params.page)
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.post('/api/rest/descriptions', isAdmin, function (req, res) {
-
-        descriptionsdb.postDescriptions(req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Description posted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.delete('/api/rest/descriptions/:id', isAdmin, function (req, res) {
-
-        descriptionsdb.deleteDescription(req.params.id)
-            .then(result => {
-                res.status(200).send([{ message: 'Description deleted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.put('/api/rest/descriptions/:id', isAdmin, function (req, res) {
-
-        descriptionsdb.updateDescription(req.params.id, req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Description updated' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
 
 
 
@@ -162,64 +110,7 @@ module.exports = function (app) {
 
     });
 
-    /******************
-     ******** CRUD
-     ******************/
 
-    app.get('/api/rest/sentences', isAdmin, function (req, res) {
-
-        datadb.getAllSentences()
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.get('/api/rest/sentences/:id', isAdmin, function (req, res) {
-
-        datadb.getSentence(req.params.id)
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.post('/api/rest/sentences', isAdmin, function (req, res) {
-        
-        datadb.postSentences(req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Sentence posted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.delete('/api/rest/sentences/:id', isAdmin, function (req, res) {
-
-        datadb.deleteSentence(req.params.id)
-            .then(result => {
-                res.status(200).send([{ message: 'Sentence deleted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.put('/api/rest/sentences/:id', isAdmin, function (req, res) {
-
-        datadb.updateSentence(req.params.id, req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Sentence updated' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
 
 
 
@@ -258,51 +149,7 @@ module.exports = function (app) {
 
     });
 
-    /******************
-     ******** CRUD
-     ******************/
 
-    app.get('/api/rest/samples', isAdmin, function (req, res) {
-
-        datadb.getAllSamples()
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.get('/api/rest/samples/:username', isAdmin, function (req, res) {
-
-        datadb.getSamplesOfUser(req.params.username)
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.delete('/api/rest/samples/:id', isAdmin, function (req, res) {
-
-        datadb.deleteSample(req.params.id)
-            .then(result => {
-                res.status(200).send([{ message: 'Sample deleted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.put('/api/rest/samples/:id', isAdmin, function (req, res) {
-
-        datadb.updateSample(req.params.id, req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Sample updated' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
 
 
 
@@ -333,7 +180,6 @@ module.exports = function (app) {
 
     });
 
-    // GET url of sample to be listened
     app.get('/api/data/download/:id', (req, res) => {
 
         datadb.findSample(req.params.id)
@@ -342,19 +188,7 @@ module.exports = function (app) {
                 let filePath = 
                     path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
                 res.download(filePath);
-                // res.send(filePath);
-
             });
-
-        /*
-        let filePath;
-        if (sentenceid > 8) {
-            filePath = path.join(req.samplesUrl, 'unknown_10_1574951524665.wav');
-        } else {
-            filePath = path.join(req.samplesUrl, 'unknown_14_1574966864490.wav');
-        }
-        res.download(filePath);
-        */
 
     });
 
@@ -385,51 +219,7 @@ module.exports = function (app) {
 
     });
 
-    /******************
-     ******** CRUD
-     ******************/
 
-    app.get('/api/rest/evaluations', isAdmin, function (req, res) {
-
-        datadb.getAllEvaluations()
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.get('/api/rest/evaluations/:username', isAdmin, function (req, res) {
-
-        datadb.getEvaluationsOfUser(req.params.username)
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
-
-    app.delete('/api/rest/evaluations/:id', isAdmin, function (req, res) {
-
-        datadb.deleteEvaluation(req.params.id)
-            .then(result => {
-                res.status(200).send([{ message: 'Evaluation deleted' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
-
-    app.put('/api/rest/evaluations/:id', isAdmin, function (req, res) {
-
-        datadb.updateEvaluation(req.params.id, req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'Evaluation updated' }]);
-            })
-            .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints.' 
-                }])
-            });
-    });
 
 
 
@@ -448,18 +238,48 @@ module.exports = function (app) {
         const { error } = validateUser(user);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const isRegistered = await userdb.finduser(user.email);
-        if (isRegistered) return res.status(400).send('User already registered!');
+        const mailRegistered = await userdb.findUserByEmail(user.email);
+        if (mailRegistered) return res.status(400).send('User already registered!');
+
+        const usernameRegistered = await userdb.findUserByEmail(user.username);
+        if (usernameRegistered) return res.status(400).send('User already registered!');
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
 
         userdb.signup(user)
-            .then(result => {
+            .then((id) => {
+                sendEmail(user.email, emailTemplates.confirm(id[0]));
+            })
+            .then(() => {
                 res.status(200).send({
                     message: 'Signup successful!'
                 });
             }).catch(error => {
+                res.status(400).send({
+                    message: 'Something went wrong...'
+                });
+            });
+
+    });
+
+    app.get('/api/users/confirmation/:id', async function (req, res) {
+
+        const userid = req.params.id;
+
+        const user = await userdb.findUserById(userid);
+        if (!user) return res.status(400).send('You are not allowed to complete this operation!');
+
+        const confirmation = { confirmed: true };
+
+        userdb.confirmUser(userid, confirmation)
+            .then(_ => {
+                res.status(200).send({
+                    message: 'Confirmation successful!'
+                });
+            })
+            .catch(error => {
+                console.log(error);
                 res.status(400).send({
                     message: 'Something went wrong...'
                 });
@@ -474,8 +294,10 @@ module.exports = function (app) {
         const { error } = validateCredentials(credentials);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await userdb.finduser(credentials.email);
+        const user = await userdb.findUserByEmail(credentials.email);
         if (!user) return res.status(400).send('Invalid email or password!');
+
+        if (!user.confirmed) return res.status(200).send('You are already registered but the email has not been confirmed...');
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) return res.status(400).send('Invalid email or password!');
@@ -544,7 +366,7 @@ module.exports = function (app) {
     app.get('/api/users/hassamples', (req, res) => {
 
         // IMPORTANT !! ONLY TEMPORARY
-        // return res.send({ newUser: false });
+        return res.send({ newUser: false });
 
         if (!req.session.user) return res.send({ newUser: true });
 
@@ -562,7 +384,7 @@ module.exports = function (app) {
     app.get('/api/users/hasevaluations', (req, res) => {
 
         // IMPORTANT !! ONLY TEMPORARY
-        // return res.send({ newUser: false });
+        return res.send({ newUser: false });
 
         if (!req.session.user) return res.send({ newUser: true });
 
@@ -577,50 +399,40 @@ module.exports = function (app) {
 
     });
 
-    /******************
-     ******** CRUD
-     ******************/
 
-    app.get('/api/rest/users', isAdmin, function (req, res) {
 
-        userdb.getAllUsers()
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
 
-    app.get('/api/rest/users/:username', isAdmin, function (req, res) {
+    app.post('/api/contact/contact', (req, res) => {
 
-        userdb.getUser(req.params.username)
-            .then(result => {
-                res.status(200).send(result);
-            });
-    });
+        const element = req.body;
 
-    app.delete('/api/rest/users/:id', isAdmin, function (req, res) {
-
-        userdb.deleteUser(req.params.id)
-            .then(result => {
-                res.status(200).send([{ message: 'User deleted' }]);
+        contactdb.insert(element)
+            .then(() => sendEmail(process.env.MAIL_USER, emailTemplates.mycontact(element)))
+            .then(() => sendEmail(element.email, emailTemplates.contact()))
+            .then(() => {
+                res.status(200).send({
+                    message: 'Contact successful!'
+                });
             })
             .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured!' 
-                }])
+                console.log(error);
             });
     });
 
-    app.put('/api/rest/users/:id', isAdmin, function (req, res) {
+    app.post('/api/contact/contribute', (req, res) => {
 
-        userdb.updateUser(req.params.id, req.body)
-            .then(result => {
-                res.status(200).send([{ message: 'User updated' }]);
+        const element = req.body;
+
+        contributedb.insert(element)
+            .then(() => sendEmail(process.env.MAIL_USER, emailTemplates.mycontribute(element)))
+            .then(() => sendEmail(element.email, emailTemplates.contribute()))
+            .then(() => {
+                res.status(200).send({
+                    message: 'Contribution successful!'
+                });
             })
             .catch(error => {
-                res.send([{ 
-                    message: 'An ERROR occured! Check out attribute names or values constraints. ' 
-                     + 'Remember, for example, that sex can be male, female or not specified...' 
-                }])
+                console.log(error);
             });
     });
 
