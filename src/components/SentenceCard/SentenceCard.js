@@ -7,18 +7,6 @@ const sentenceCard = (props) => {
 
     const [showEmotionModal, setEmotionModal] = useState(false);
 
-    let emotionsList = props.record ?
-        props.emotions.length > 0 ?
-            props.emotions.map((el, i) => {
-                if (el.emotion === props.emotion) {
-                    return <option key={i} selected="selected" 
-                        value={el.emotion}>{el.emotion}</option>
-                }
-                return <option key={i} value={el.emotion}>{el.emotion}</option>
-            })
-            : null
-        : null;
-
     let emotionsModal = props.record ?
         props.emotions.length > 0 ?
             props.emotions.map((el, i) => {
@@ -26,8 +14,6 @@ const sentenceCard = (props) => {
             })
             : null
         : null;
-
-
     
     let modal = null;
 

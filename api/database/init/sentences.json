@@ -118,5 +118,43 @@
 	{
 		"language": "it",
 		"sentence": "Voi potete dire sempre quello che volete e io non posso mai dire niente."
+	},
+
+
+
+
+
+
+	{
+		"language": "en",
+		"sentence": "The cat was sitting in the kitchen on the blue chair"
+	},
+	{
+		"language": "en",
+		"sentence": "I love the sound of the wind"
+	},
+	{
+		"language": "en",
+		"sentence": "Last summer I went to New York with my family"
+	},
+	{
+		"language": "en",
+		"sentence": "Sometimes I see a truck passing in front of my window"
+	},
+	{
+		"language": "en",
+		"sentence": "The last century has been a moment of great development for human history"
+	},
+	{
+		"language": "en",
+		"sentence": "When the sea starts to be cold I prefer going to the swimming pool"
+	},
+	{
+		"language": "en",
+		"sentence": "The first time I had coffee it was during the first year of college"
+	},
+	{
+		"language": "en",
+		"sentence": "My favorite sport is hockey but I don't like watching it on the tv"
 	}
 ]

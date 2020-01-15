@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classes from './ContactUs.css';
+import axios from 'axios';
 
 class ContactUs extends Component {
 
@@ -7,6 +8,22 @@ class ContactUs extends Component {
         fullName: '',
         email: '',
         message: ''
+    }
+
+    sendContact = () => {
+        axios.post('/api/contact/contact',
+            {
+                sender: this.state.fullName,
+                email: this.state.email,
+                content: this.state.message
+            })  
+            .then(response => {
+                console.log(response.data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render () {
@@ -29,7 +46,7 @@ class ContactUs extends Component {
                         onChange={event => this.setState({ message: event.target.value})}>
                     </textarea>
                     <button 
-                        onClick={() => console.log('pressed')}>SUBMIT</button>
+                        onClick={this.sendContact}>SUBMIT</button>
                 </div>
             </div>
         );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classes from './Contribute.css';
+import axios from 'axios';
 
 class Contribute extends Component {
 
@@ -7,6 +8,22 @@ class Contribute extends Component {
         fullName: '',
         email: '',
         message: ''
+    }
+
+    sendContribution = () => {
+        axios.post('/api/contact/contribute',
+            {
+                sender: this.state.fullName,
+                email: this.state.email,
+                content: this.state.message
+            })  
+            .then(response => {
+                console.log(response.data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render () {
@@ -34,7 +51,7 @@ class Contribute extends Component {
                         onChange={event => this.setState({ message: event.target.value})}>
                     </textarea>
                     <button 
-                        onClick={() => console.log('pressed')}>SUBMIT</button>
+                        onClick={this.sendContribution}>SUBMIT</button>
                 </div>
             </div>
         );
