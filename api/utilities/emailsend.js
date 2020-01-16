@@ -23,7 +23,7 @@ module.exports = async (to, content) => {
 
     try {
         await transporter.sendMail(email);
-    } catch {
+    } catch (error) {
         console.log('Something went wrong');
     }
 
