@@ -142,8 +142,6 @@ class Evaluate extends Component {
 
     render () {
 
-        console.log(this.state);
-
         let audioFile = null;
         
         if (this.state.sampleUrl !== '') {

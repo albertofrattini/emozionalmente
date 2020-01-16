@@ -107,7 +107,7 @@ class App extends Component {
 
     return (
       <userContext.Provider value={value}>
-        <BrowserRouter>
+        <BrowserRouter basename="/emozionalmente/">
           <Switch>
             <Route path="/login-signup"
               component={ () => <LoginSignup login={this.login} signup={this.signup}/> }

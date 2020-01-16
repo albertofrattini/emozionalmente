@@ -1,10 +1,13 @@
 .Column {
     width: auto;
     height: auto;
+    padding: 8px;
+    border-radius: 4px;
     display: flex;
     flex-flow: column;
     justify-content: start;
     align-items: center;
+    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
 }
 
 .Emotion {
@@ -16,7 +19,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.6s cubic-bezier(.25,.8,.25,1);
 }
 
 .Emoji {
@@ -26,9 +28,8 @@
 
 .Emoji img {
     width: 100%;
-    border-radius: 100%;
 }
 
-.Emoji:hover + .Emotion {
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+.Column:hover {
+    box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
 }
