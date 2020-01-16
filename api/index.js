@@ -18,9 +18,9 @@ var dataPath = function (req, res, next) {
 	next();
 }
 
-var engDefault = function (req, res, next) {
+var itDefault = function (req, res, next) {
 	if (!req.session.lang) {
-		req.session.lang = 'en';
+		req.session.lang = 'it';
 	}
 	next();
 }
@@ -30,7 +30,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true
 }));
-app.use(engDefault);
+app.use(itDefault);
 app.use(requestTime);
 app.use(dataPath);
 app.use(bodyParser.json());

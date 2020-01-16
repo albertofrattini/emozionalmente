@@ -1,62 +1,62 @@
 {
     "en": [
         {
+            "emotion": "Fear",
+            "color": "#07996D"
+        },
+        {
             "emotion": "Happiness",
-            "color": "#8fea95"
+            "color": "#FFDB4C"
         },
         {
             "emotion": "Sadness",
-            "color": "#f9aa33"
-        },
-        {
-            "emotion": "Fear",
-            "color": "#e54040"
+            "color": "#085EA5"
         },
         {
             "emotion": "Neutral",
-            "color": "#f2f4fc"
-        },
-        {
-            "emotion": "Anger",
-            "color": "#8c93d8"
+            "color": "#BBBBBB"
         },
         {
             "emotion": "Surprise",
-            "color": "#89c8e5"
+            "color": "#48A5F2"
+        },
+        {
+            "emotion": "Anger",
+            "color": "#F24848"
         },
         {
             "emotion": "Disgust",
-            "color": "#f285a5"
+            "color": "#9167E5"
         }
     ],
     "it": [
         {
+            "emotion": "Paura",
+            "color": "#07996D"
+        },
+        {
             "emotion": "Felicità",
-            "color": "#8fea95"
+            "color": "#FFDB4C"
         },
         {
             "emotion": "Tristezza",
-            "color": "#f9aa33"
-        },
-        {
-            "emotion": "Paura",
-            "color": "#e54040"
+            "color": "#085EA5"
         },
         {
             "emotion": "Neutrale",
-            "color": "#f2f4fc"
-        },
-        {
-            "emotion": "Rabbia",
-            "color": "#8c93d8"
+            "color": "#BBBBBB"
         },
         {
             "emotion": "Sorpresa",
-            "color": "#89c8e5"
+            "color": "#48A5F2"
+        },
+        {
+            "emotion": "Rabbia",
+            "color": "#F24848"
         },
         {
             "emotion": "Disgusto",
-            "color": "#f285a5"
+            "color": "#9167E5"
         }
     ]
 }

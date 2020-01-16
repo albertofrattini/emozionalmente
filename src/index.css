@@ -15,6 +15,14 @@
   --text-light: #4a6572;
   --text-dark: #344955;
   --text-darker: #232f34;
+
+  --happiness: #FFDB4C;
+  --sadness: #085EA5;
+  --fear: #07996D;
+  --neutral: #BBBBBB;
+  --anger: #F24848;
+  --surprise: #48A5F2;
+  --disgust: #9167E5;
 }
 
 body {

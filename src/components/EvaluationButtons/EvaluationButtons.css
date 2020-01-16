@@ -34,7 +34,7 @@
 
 .Emotions {
     width: 100%;
-    height: 88px;
+    height: auto;
     display: flex;
     flex-flow: row;
     justify-content: space-evenly;
