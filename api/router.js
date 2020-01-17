@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'database/samples')
+        cb(null, 'api/database/samples')
     },
     filename: function (req, file, cb) {
         cb(null, req.query.sentenceid + '_' + req.requestTime + '.wav');
@@ -184,7 +184,7 @@ module.exports = function (app) {
 
         datadb.findSample(req.params.id)
             .then(result => {
-                
+
                 let filePath = 
                     path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
                 res.download(filePath);

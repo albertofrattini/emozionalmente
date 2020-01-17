@@ -3,13 +3,13 @@ import classes from './EmotionBall.css';
 
 const emotionBall = (props) => (
 
-    <div className={classes.Column} onClick={props.clicked}>
+    <div className={classes.Column} onClick={() => props.clicked(props.emotion)}>
         <div className={classes.Emoji}>
             <img src={props.imgSrc} alt={props.emotion}/>
         </div>
         <div 
             className={classes.Emotion}
-            style={{ backgroundColor: props.color }}>
+            style={{ color: props.color }}>
                 {props.emotion}
         </div>
     </div>

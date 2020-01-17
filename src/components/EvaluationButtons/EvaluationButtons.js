@@ -11,8 +11,7 @@ const evaluationButtons = (props) => {
                         imgSrc={Emojis[emotion.emotion.toLowerCase()]}
                         emotion={emotion.emotion}
                         color={emotion.color}
-                        clicked={props.clickedemotion}
-                        id={i} />
+                        clicked={props.clickedemotion} />
         })
         : null;
 

@@ -3,11 +3,15 @@ import classes from './ProgressBall.css';
 
 const progressBall = (props) => {
 
-    let ballClass = props.active ? classes.Active : classes.Inactive;
+    let color = props.active ? '4px solid ' + props.color : '1px solid ' + props.color;
 
     return (
-        <div className={ballClass}>
-            {props.face}
+        <div className={classes.Ball} style={{ border: color }}>
+            {
+                props.imgSrc === null ?
+                    null :
+                    <img src={props.imgSrc} alt={props.color} />
+            }
         </div>
     );
 }

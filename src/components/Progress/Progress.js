@@ -1,39 +1,53 @@
 import React from 'react';
 import ProgressBall from './ProgressBall/ProgressBall';
 import classes from './Progress.css';
-import { FaSadCry, FaMeh, FaSmile, FaSmileBeam, FaGrinBeam, FaGrinHearts } from 'react-icons/fa';
+import Emojis from '../UI/Emojis/Emojis';
+import correct from '../../assets/images/evaluate-true.png';
+import wrong from '../../assets/images/evaluate-false.png';
 
 const progress = (props) => {
 
+    let color = '';
+    let imgSrc = '';
     let active = false;
+    let getColorBalls = null;
 
     const numSamples = 5;
 
-    let getColorBalls = [...Array( numSamples + 1 )].map( (_, i) => {
-        if (i === 0) {
-            switch (props.progNum) {
-                case 1:
-                    return <FaMeh key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
-                case 2:
-                    return <FaSmile key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
-                case 3:
-                    return <FaSmileBeam key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
-                case 4:
-                    return <FaGrinBeam key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
-                case 5:
-                    return <FaGrinHearts key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
-                default:
-                    return <FaSadCry key={i} size="56px" color="var(--blue)" style={{ marginBottom: '8px' }}/>;
+    if (props.evaluate) {
 
-            }  
-        }
-        if (i > numSamples - props.progNum) {
-            active = true;
-        } else {
-            active = false;
-        }
-        return <ProgressBall key={i} active={active}/>
-    });
+        getColorBalls = [...Array( numSamples )].map( (_, i) => {
+            if (i >= numSamples - props.prog.length) {
+                const index = numSamples - i - 1;
+                color = props.prog[index].color;
+                imgSrc = i % 2 === 0 ? correct : wrong;
+                active = true;
+            } else {
+                color = '#aaaaaa';
+                imgSrc = null;
+                active = false;
+            }
+            return <ProgressBall key={i} active={active} color={color} imgSrc={imgSrc}/>
+        });
+
+    } else {
+
+        getColorBalls = [...Array( numSamples )].map( (_, i) => {
+            if (i >= numSamples - props.prog.length) {
+                const index = numSamples - i - 1;
+                color = props.prog[index].color;
+                imgSrc = Emojis[props.prog[index].emotion];
+                active = true;
+            } else {
+                color = '#aaaaaa';
+                imgSrc = null;
+                active = false;
+            }
+            return <ProgressBall key={i} active={active} color={color} imgSrc={imgSrc}/>
+        });
+
+    }
+
 
     return (
         <div className={classes.Container}>

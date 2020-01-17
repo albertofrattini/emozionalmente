@@ -15,19 +15,18 @@ class Record extends Component {
 
     state = {
         index: 0,
-        progress: 0,
+        progress: [],
         sentences: [],
         isRecording: false,
         sampleUrl: '',
         newUser: false,
         emotions: [],
-        currentEmotion: '',
-        recordingAvailable: false
+        currentEmotion: ''
     }
 
     blob = null;
 
-    componentDidMount () {  
+    componentDidMount () {
 
         axios.get('/api/sentences?quantity=20')
             .then(response => {
@@ -41,7 +40,12 @@ class Record extends Component {
         
         axios.get('/api/data/emotions')
             .then(response => {
-                this.setState({ emotions: response.data });
+                const index = getRandomInt(response.data.length);
+                this.setState({ 
+                    currentEmotion: response.data[index].emotion,
+                    currentEmotionColor: response.data[index].color,
+                    emotions: response.data 
+                });
             });
 
     }
@@ -52,7 +56,6 @@ class Record extends Component {
 
     startRecording = () => {
 
-        if (!this.state.recordingAvailable) return;
         this.setState({ isRecording: true });
         startRecording();
 
@@ -76,18 +79,19 @@ class Record extends Component {
 
         const sentenceid = this.state.sentences[this.state.index].id;
         const emotion = this.state.currentEmotion.toLowerCase();
+        this.state.progress.push({
+            emotion: emotion,
+            color: this.state.currentEmotionColor
+        });
 
         axios.post(
             `/api/data/samples?sentenceid=${sentenceid}&emotion=${emotion}`, 
             data
             )
             .then(response => {
-                console.log(response.data.message);
-                const currentprogress = this.state.progress;
                 this.state.sentences.splice(this.state.index, 1);
                 return this.setState({ 
-                    sampleUrl: '',
-                    progress: currentprogress + 1
+                    sampleUrl: ''
                 });
             })
             .catch(error => {
@@ -105,22 +109,17 @@ class Record extends Component {
         this.setState({ sampleUrl: '', index: idx });
     }
 
-    changeEmotion = (emotion) => {
-        if (emotion === 'Random') {
-            const index = getRandomInt(this.state.emotions.length);
-            this.setState({ 
-                currentEmotion: this.state.emotions[index].emotion,
-                recordingAvailable: true,
-            })
-        } else {
-            this.setState({ 
-                currentEmotion: emotion,
-                recordingAvailable: true
-            });
-        }
+    changeEmotion = (element) => {
+        this.setState({ 
+            currentEmotion: element.emotion,
+            currentEmotionColor: element.color
+        });
     }
 
     render () {
+
+
+        console.log(this.state.progress);
 
         return (
             <Aux>
@@ -143,7 +142,8 @@ class Record extends Component {
                             clicked={this.changeSentence}
                             emotions={this.state.emotions}
                             change={this.changeEmotion}
-                            emotion={this.state.currentEmotion}  
+                            emotion={this.state.currentEmotion}
+                            emotioncolor={this.state.currentEmotionColor}
                             progress={this.state.progress}  
                         /> 
                         {this.state.isRecording ? 

@@ -39,9 +39,9 @@ class CheckListen extends Component {
             <div className={classes.Options}>
                 <button className={classes.Play} onClick={this.playOrPauseSample}>
                     {this.state.isPlaying ?
-                        <MdPause size="48px" color="var(--bluer)"/>
+                        <MdPause size="56px" color="var(--bluer)"/>
                         :
-                        <MdPlayArrow size="48px" color="var(--bluer)"/>
+                        <MdPlayArrow size="56px" color="var(--bluer)"/>
                     }
                 </button>
                 <canvas id="voicesignal" className={classes.Signal}>

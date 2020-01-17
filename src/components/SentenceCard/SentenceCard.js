@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classes from './SentenceCard.css';
+import Emojis from '../UI/Emojis/Emojis';
 import Progress from '../Progress/Progress';
 import { MdArrowForward } from 'react-icons/md';
 
@@ -10,7 +11,8 @@ const sentenceCard = (props) => {
     let emotionsModal = props.record ?
         props.emotions.length > 0 ?
             props.emotions.map((el, i) => {
-                return <span key={i} onClick={() => changeEmotion(el.emotion)}>{el.emotion}</span>
+                return <span key={i} style={{ color: el.color }}
+                    onClick={() => changeEmotion(el)}>{el.emotion}</span>
             })
             : null
         : null;
@@ -26,8 +28,6 @@ const sentenceCard = (props) => {
         modal = (
             <div className={classes.EmotionsModal}>
                 <div className={classes.EmotionsList}>
-                    <span style={{ color: 'var(--logo-red)' }} 
-                        onClick={() => changeEmotion('Random')}>Random</span>
                     {emotionsModal}
                 </div>
             </div>
@@ -37,18 +37,20 @@ const sentenceCard = (props) => {
     let selectEmotionButton = null;
 
     if (props.record) {
-        const content = props.emotion === '' ? 'Select an emotion' : props.emotion;
         selectEmotionButton = (
-            <div className={classes.SelectedEmotion} 
-                onClick={() => setEmotionModal(true)}>{content}</div>
+            <div className={classes.Column} onClick={() => setEmotionModal(true)}>
+                <img src={Emojis[props.emotion.toLowerCase()]} alt={props.emotion}/>
+                <div className={classes.SelectedEmotion} style={{ color: props.emotioncolor}}>
+                        {props.emotion}
+                </div>
+            </div>
         );
     }
-        
         
     return (
         <div className={classes.Box}>
             <div className={classes.Left}>
-                <Progress progNum={props.progress} />
+                <Progress prog={props.progress} evaluate={props.evaluate} emotions={props.emotions}/>
             </div>
             <div className={classes.CardContainer}>
                 <div className={classes.EmotionContainer}>

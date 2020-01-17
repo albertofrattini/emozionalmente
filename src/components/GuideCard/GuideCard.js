@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import classes from './GuideCard.css';
 import { withRouter } from 'react-router-dom';
+import random from '../../assets/images/evaluate-false.png';
 
-import recFirst from '../../assets/images/first.png';
-import recSecond from '../../assets/images/second.png';
-import recThird from '../../assets/images/third.png';
 import axios from 'axios';
 
 
@@ -27,13 +25,13 @@ class GuideCard extends Component {
         if (this.props.record) {
             axios.get('/api/descriptions/recordguide')
                 .then(response => {
-                    this.images = [recFirst, recSecond, recThird, recFirst];
+                    this.images = [random, random, random, random];
                     this.setState({ sentences: response.data });
                 }); 
         } else {
             axios.get('/api/descriptions/evaluateguide')
                 .then(response => {
-                    this.images = [recFirst, recSecond, recThird, recFirst];
+                    this.images = [random, random, random, random];
                     this.setState({ sentences: response.data });
                 });
         }
@@ -81,7 +79,7 @@ class GuideCard extends Component {
                 <div className={classes.Image}>
                     <img src={this.images.length > 0 ?
                         this.images[this.state.step] 
-                        : recFirst
+                        : random
                         } 
                         alt="sentence guide"></img>
                 </div>

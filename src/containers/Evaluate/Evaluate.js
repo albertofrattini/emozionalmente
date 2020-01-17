@@ -11,7 +11,7 @@ class Evaluate extends Component {
 
     state = {
         index: 0,
-        progress: 0,
+        progress: [],
         samples: [],
         emotions: [],
         isPlaying: false,
@@ -44,7 +44,7 @@ class Evaluate extends Component {
     componentDidUpdate () {
         if (this.state.sampleUrl === '' && this.state.samples.length > 0) {
             this.setState({ 
-                sampleUrl: 'api/data/download/' + this.state.samples[this.state.index].id 
+                sampleUrl: '/api/data/download/' + this.state.samples[this.state.index].id 
             });
         }
     }
@@ -66,11 +66,6 @@ class Evaluate extends Component {
             sampleUrl: ''
         });
     }
-
-    changeEmotion = (event) => {
-        this.setState({ emotionIndex: event.target.id })
-    }
-
 
     postEvaluation = () => {
 
@@ -131,8 +126,8 @@ class Evaluate extends Component {
         this.setState({ isPlaying: false });
     }
 
-    selectEmotion = () => {
-        this.setState({ selectedEmotion: this.state.emotions[this.state.emotionIndex].emotion });
+    selectEmotion = (emotion) => {
+        this.setState({ selectedEmotion: emotion });
     }
 
     selectReview = (review) => {
@@ -141,6 +136,7 @@ class Evaluate extends Component {
 
 
     render () {
+
 
         let audioFile = null;
         
@@ -170,6 +166,7 @@ class Evaluate extends Component {
                                     : 'Loading...'
                                 } 
                                 clicked={this.changeSentence}  
+                                evaluate
                                 progress={this.state.progress} 
                             />
                             {this.state.sampleUrl === '' ?
@@ -180,18 +177,11 @@ class Evaluate extends Component {
                             <ListenButton 
                                 clicked={this.playOrPauseSample}
                                 isPlaying={this.state.isPlaying}
-                                emotion={this.state.selectedEmotion}
-                                review={this.state.selectedReview}
+                                clickedreview={this.selectReview}
                                 done={this.postEvaluation}/>
                             <EvaluationButtons 
                                 emotions={this.state.emotions}
-                                emotion={ this.state.emotions.length > 0 ?
-                                    this.state.emotions[this.state.emotionIndex].emotion
-                                    : null
-                                } 
-                                over={this.changeEmotion.bind(this.state.emotionIndex)}
-                                clickedemotion={this.selectEmotion}
-                                clickedreview={this.selectReview}/>
+                                clickedemotion={this.selectEmotion}/>
                         </div>
                     </div>
                 }
@@ -202,14 +192,3 @@ class Evaluate extends Component {
 }
 
 export default Evaluate;
-
-
-// function createAudioElement(blobUrl) {
-//     const audioEl = document.createElement('audio');
-//     audioEl.controls = true;
-//     const sourceEl = document.createElement('source');
-//     sourceEl.src = blobUrl;
-//     sourceEl.type = 'audio/wav';
-//     audioEl.appendChild(sourceEl);
-//     document.body.appendChild(audioEl);
-// }

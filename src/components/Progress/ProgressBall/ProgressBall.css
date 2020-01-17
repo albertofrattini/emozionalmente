@@ -1,17 +1,13 @@
-.Active {
-    width: 40px;
-    height: 40px;
-    background-color: #f9aa33;
-    border-color: #f9aa33;
+.Ball {
+    width: 48px;
+    height: 48px;
     border-radius: 100%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.Inactive {
+.Ball img {
     width: 40px;
-    height: 40px;
-    background-color: white;
-    border: 1.4px solid #f9aa33;
-    border-radius: 100%;
-    box-sizing: border-box;
 }
