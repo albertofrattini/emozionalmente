@@ -7,13 +7,13 @@ import angerEm from '../../../assets/images/emoji/anger.png';
 import neutralEm from '../../../assets/images/emoji/neutral.png';
 
 const emotionsEmojis = {
-    "happiness": happinessEm,
-    "sadness": sadnessEm,
-    "fear": fearEm,
-    "disgust": disgustEm,
-    "surprise": surpriseEm,
-    "anger": angerEm,
-    "neutral": neutralEm
+    "hp": happinessEm,
+    "sd": sadnessEm,
+    "fr": fearEm,
+    "ds": disgustEm,
+    "sr": surpriseEm,
+    "an": angerEm,
+    "nt": neutralEm
 }
 
 export default emotionsEmojis;

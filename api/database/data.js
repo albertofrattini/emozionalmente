@@ -23,8 +23,8 @@ module.exports.setupDataDb = function (database) {
                     table.text('language');
                     table.integer('sentenceid');
                     table.text('timestamp');
-                    table.enum('emotion', ['happiness', 'sadness', 'fear', 
-                                            'anger', 'surprise', 'disgust', 'neutral']);
+                    table.enum('emotion', ['hp', 'sd', 'fr', 
+                                            'an', 'sr', 'ds', 'nt']);
                 });
             })
             .then(() => {
@@ -35,8 +35,9 @@ module.exports.setupDataDb = function (database) {
                     table.text('language');
                     table.text('timestamp');
                     table.boolean('correct');
-                    table.enum('quality', ['bad', 'good', 'perfect', 'reported']);
-                    table.enum('accuracy', ['0.5', '1'])
+                    table.enum('quality', ['bad', 'good']);
+                    table.enum('emotion', ['hp', 'sd', 'fr', 
+                                            'an', 'sr', 'ds', 'nt']);
                 });
             });
         }

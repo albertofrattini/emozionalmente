@@ -22,18 +22,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-var emotionLanguage = function (req, res, next) {
-    if (req.session.lang !== 'en') {
-        switch (req.session.lang) {
-            case 'it': 
-                req.query.emotion = fromItalianToEnglish(req.query.emotion);
-            default:
-                console.log('Language not recognized...');
-        }
-    }
-    next();
-} 
-
 
 
 
@@ -123,7 +111,7 @@ module.exports = function (app) {
      ******************/
 
     // POST new sample inside database
-    app.post('/api/data/samples', upload.single('audio'), emotionLanguage, (req, res, next) => {
+    app.post('/api/data/samples', upload.single('audio'), (req, res, next) => {
 
         const user = req.session.user ? req.session.user.username : 'unknown';
         const sentenceid = req.query.sentenceid;
@@ -136,6 +124,8 @@ module.exports = function (app) {
             timestamp: req.requestTime,
             emotion: emotion
         }
+
+        console.log(sample);
 
         datadb.insertSample(sample)
             .then(() => {
@@ -171,10 +161,10 @@ module.exports = function (app) {
 
         datadb.getSamplesToEvaluate(quantity, curruser, language)
             .then(result => {
-                if (req.session.lang !== 'en'){
-                    const enEmotion = result.emotion;
-                    result.emotion = fromEnglishToItalian(enEmotion);
-                }
+                // if (req.session.lang !== 'en'){
+                //     const enEmotion = result.emotion;
+                //     result.emotion = fromEnglishToItalian(enEmotion);
+                // }
                 res.send(result);
             });
 
@@ -200,8 +190,8 @@ module.exports = function (app) {
         const evaluation = {
             sampleid: req.body.sampleid,
             correct: req.body.correct,
-            accuracy: req.body.accuracy,
             quality: req.body.quality,
+            emotion: req.body.emotion,
             evaluator: evaluator,
             language: language,
             timestamp: req.requestTime
@@ -471,42 +461,4 @@ function validateCredentials(credentials) {
         password: Joi.string().min(5).max(255).required()
     };
     return Joi.validate(credentials, schema);
-}
-
-function fromItalianToEnglish(emotion) {
-    switch (emotion) {
-        case 'felicità': 
-            return 'happiness';
-        case 'tristezza':
-            return 'sadness';
-        case 'paura':
-            return 'fear';
-        case 'disgusto':
-            return 'disgust';
-        case 'rabbia':
-            return 'anger';
-        case 'sorpresa':
-            return 'surprise';
-        default:
-            return 'neutral';
-    }
-}
-
-function fromEnglishToItalian(emotion){
-    switch (emotion) {
-        case 'happiness': 
-            return 'felicità';
-        case 'sadness':
-            return 'tristezza';
-        case 'fear':
-            return 'paura';
-        case 'disgust':
-            return 'disgusto';
-        case 'anger':
-            return 'rabbia';
-        case 'surprise':
-            return 'sorpresa';
-        default:
-            return 'neutrale';
-    }
 }

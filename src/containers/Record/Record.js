@@ -42,8 +42,7 @@ class Record extends Component {
             .then(response => {
                 const index = getRandomInt(response.data.length);
                 this.setState({ 
-                    currentEmotion: response.data[index].emotion,
-                    currentEmotionColor: response.data[index].color,
+                    currentEmotion: response.data[index],
                     emotions: response.data 
                 });
             });
@@ -56,7 +55,12 @@ class Record extends Component {
 
     startRecording = () => {
 
-        this.setState({ isRecording: true });
+        if (this.state.sentences.length < 1) return;
+
+        this.setState({ 
+            isRecording: true,
+            sampleUrl: ''
+        });
         startRecording();
 
     } 
@@ -78,17 +82,14 @@ class Record extends Component {
         data.append('audio', this.blob);
 
         const sentenceid = this.state.sentences[this.state.index].id;
-        const emotion = this.state.currentEmotion.toLowerCase();
-        this.state.progress.push({
-            emotion: emotion,
-            color: this.state.currentEmotionColor
-        });
+        const emotion = this.state.currentEmotion.name;
 
         axios.post(
             `/api/data/samples?sentenceid=${sentenceid}&emotion=${emotion}`, 
             data
             )
-            .then(response => {
+            .then(() => {
+                this.state.progress.push(this.state.currentEmotion);
                 this.state.sentences.splice(this.state.index, 1);
                 return this.setState({ 
                     sampleUrl: ''
@@ -109,17 +110,14 @@ class Record extends Component {
         this.setState({ sampleUrl: '', index: idx });
     }
 
-    changeEmotion = (element) => {
+    changeEmotion = (index) => {
+        const element = this.state.emotions[index];
         this.setState({ 
-            currentEmotion: element.emotion,
-            currentEmotionColor: element.color
+            currentEmotion: element
         });
     }
 
     render () {
-
-
-        console.log(this.state.progress);
 
         return (
             <Aux>
@@ -141,9 +139,8 @@ class Record extends Component {
                             record
                             clicked={this.changeSentence}
                             emotions={this.state.emotions}
+                            currentEmotion={this.state.currentEmotion}
                             change={this.changeEmotion}
-                            emotion={this.state.currentEmotion}
-                            emotioncolor={this.state.currentEmotionColor}
                             progress={this.state.progress}  
                         /> 
                         {this.state.isRecording ? 

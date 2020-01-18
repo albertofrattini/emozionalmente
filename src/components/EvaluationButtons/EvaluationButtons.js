@@ -6,12 +6,11 @@ import Emojis from '../UI/Emojis/Emojis';
 const evaluationButtons = (props) => {
 
     let getEmotionBalls = props.emotions.length > 0 ?
-        props.emotions.map((emotion, i) => {
+        props.emotions.map((el, i) => {
             return <EmotionBall key={i}
-                        imgSrc={Emojis[emotion.emotion.toLowerCase()]}
-                        emotion={emotion.emotion}
-                        color={emotion.color}
-                        clicked={props.clickedemotion} />
+                        imgSrc={Emojis[el.name]}
+                        emotion={el}
+                        clicked={props.clicked} />
         })
         : null;
 

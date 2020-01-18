@@ -17,7 +17,7 @@ class Evaluate extends Component {
         isPlaying: false,
         emotionIndex: 0,
         sampleUrl: '',
-        selectedEmotion: '',
+        selectedEmotion: null,
         selectedReview: '',
         newUser: false
     }
@@ -63,13 +63,17 @@ class Evaluate extends Component {
         this.setState({ 
             isPlaying: false,
             index: currIndex,
-            sampleUrl: ''
+            sampleUrl: '',
+            selectedEmotion: null,
+            selectedReview: ''
         });
     }
 
     postEvaluation = () => {
 
-        if (this.state.selectEmotion === '' || this.state.selectedReview === '') return;
+        if (this.state.selectEmotion === null || 
+            this.state.selectedReview === '' ||
+            this.state.samples.length < 1) return;
 
         this.saveEvaluation();
 
@@ -77,17 +81,18 @@ class Evaluate extends Component {
 
     saveEvaluation = () => {
 
-        const correct = this.state.selectedEmotion.toLowerCase() 
-                        === this.state.samples[this.state.index].emotion;
+        const sample = this.state.samples[this.state.index];
+
+        const emotion = this.state.selectedEmotion.name;
+        const correct = emotion === sample.emotion;
         const quality = this.state.selectedReview.toLowerCase();
-        const accuracy = correct ? 1 : 0.5;
-        const sampleid = this.state.samples[this.state.index].id;
+        const sampleid = sample.id;
 
         const data = {
             sampleid: sampleid,
             correct: correct,
             quality: quality,
-            accuracy: accuracy
+            emotion: emotion
         } 
 
         axios.post('/api/data/evaluations',
@@ -95,12 +100,14 @@ class Evaluate extends Component {
             )
             .then(response => {
                 console.log(response.data.message);
-                const currentprogress = this.state.progress;
+                this.state.progress.push({
+                    emotion: this.state.selectedEmotion,
+                    correct: correct
+                });
                 this.state.samples.splice(this.state.index, 1);
                 return this.setState({ 
                     sampleUrl: '',
-                    progress: currentprogress + 1,
-                    selectedEmotion: '',
+                    selectedEmotion: null,
                     selectedReview: ''
                 });
             })
@@ -126,8 +133,8 @@ class Evaluate extends Component {
         this.setState({ isPlaying: false });
     }
 
-    selectEmotion = (emotion) => {
-        this.setState({ selectedEmotion: emotion });
+    selectEmotion = (element) => {
+        this.setState({ selectedEmotion: element });
     }
 
     selectReview = (review) => {
@@ -165,8 +172,16 @@ class Evaluate extends Component {
                                     this.state.samples[this.state.index].sentence
                                     : 'Loading...'
                                 } 
-                                clicked={this.changeSentence}  
                                 evaluate
+                                hasevaluation={this.state.selectedEmotion !== null 
+                                    &&
+                                    this.state.selectedReview !== '' ?
+                                    true : false
+                                }
+                                done={this.postEvaluation}
+                                currentEmotion={this.state.selectedEmotion}
+                                currentReview={this.state.selectedReview}
+                                clicked={this.changeSentence}  
                                 progress={this.state.progress} 
                             />
                             {this.state.sampleUrl === '' ?
@@ -177,11 +192,10 @@ class Evaluate extends Component {
                             <ListenButton 
                                 clicked={this.playOrPauseSample}
                                 isPlaying={this.state.isPlaying}
-                                clickedreview={this.selectReview}
-                                done={this.postEvaluation}/>
+                                clickedreview={this.selectReview}/>
                             <EvaluationButtons 
                                 emotions={this.state.emotions}
-                                clickedemotion={this.selectEmotion}/>
+                                clicked={this.selectEmotion}/>
                         </div>
                     </div>
                 }

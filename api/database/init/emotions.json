@@ -1,60 +1,74 @@
 {
     "en": [
         {
+            "name": "fr",
             "emotion": "Fear",
             "color": "#07996D"
         },
         {
+            "name": "hp",
             "emotion": "Happiness",
             "color": "#FFDB4C"
         },
         {
+            "name": "sd",
             "emotion": "Sadness",
             "color": "#085EA5"
         },
         {
+            "name": "nt",
             "emotion": "Neutral",
             "color": "#BBBBBB"
         },
         {
+            "name": "sr",
             "emotion": "Surprise",
             "color": "#48A5F2"
         },
         {
+            "name": "an",
             "emotion": "Anger",
             "color": "#F24848"
         },
         {
+            "name": "ds",
             "emotion": "Disgust",
             "color": "#9167E5"
         }
     ],
     "it": [
         {
+            "name": "fr",
             "emotion": "Paura",
             "color": "#07996D"
         },
         {
+            "name": "hp",
             "emotion": "Felicità",
             "color": "#FFDB4C"
         },
         {
+            "name": "sd",
             "emotion": "Tristezza",
             "color": "#085EA5"
         },
         {
+            "name": "nt",
             "emotion": "Neutrale",
             "color": "#BBBBBB"
         },
         {
+            "name": "sr",
             "emotion": "Sorpresa",
             "color": "#48A5F2"
         },
         {
+            "name": "an",
             "emotion": "Rabbia",
             "color": "#F24848"
         },
         {
+            "name": "ds",
             "emotion": "Disgusto",
             "color": "#9167E5"
         }

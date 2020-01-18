@@ -19,8 +19,8 @@ const progress = (props) => {
         getColorBalls = [...Array( numSamples )].map( (_, i) => {
             if (i >= numSamples - props.prog.length) {
                 const index = numSamples - i - 1;
-                color = props.prog[index].color;
-                imgSrc = i % 2 === 0 ? correct : wrong;
+                color = props.prog[index].emotion.color;
+                imgSrc = props.prog[index].correct ? correct : wrong;
                 active = true;
             } else {
                 color = '#aaaaaa';
@@ -36,7 +36,7 @@ const progress = (props) => {
             if (i >= numSamples - props.prog.length) {
                 const index = numSamples - i - 1;
                 color = props.prog[index].color;
-                imgSrc = Emojis[props.prog[index].emotion];
+                imgSrc = Emojis[props.prog[index].name];
                 active = true;
             } else {
                 color = '#aaaaaa';

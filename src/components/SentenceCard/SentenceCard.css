@@ -54,18 +54,30 @@
     z-index: 1;
 }
 
+.Row {
+    width: 256px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .Column {
+    width: 92px;
     display: flex;
     flex-flow: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     cursor: pointer;
 }
 
-.Column img {
+.Emoji {
     width: 40px;
     border-radius: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Evaluation {
+    width: 40px;
 }
 
 .EmotionsModal {
@@ -121,6 +133,26 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
+}
+
+.Done {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    bottom: 16px;
+    right: 156px;
+    border-radius: 100%;
+    background-color: white;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 15px rgba(37, 84, 83, 0.2);
+    transition: all 1s cubic-bezier(.25,.8,.25,1);
+}
+
+.Done:hover {
+    cursor: pointer;
 }
 
 .SkipButton {

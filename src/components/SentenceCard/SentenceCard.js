@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import classes from './SentenceCard.css';
 import Emojis from '../UI/Emojis/Emojis';
 import Progress from '../Progress/Progress';
-import { MdArrowForward } from 'react-icons/md';
+import { MdArrowForward, MdDone } from 'react-icons/md';
+import ThumbsDown from '../../assets/images/thumb-down.png';
+import ThumbsUp from '../../assets/images/thumb-up.png';
 
 const sentenceCard = (props) => {
 
@@ -12,7 +14,7 @@ const sentenceCard = (props) => {
         props.emotions.length > 0 ?
             props.emotions.map((el, i) => {
                 return <span key={i} style={{ color: el.color }}
-                    onClick={() => changeEmotion(el)}>{el.emotion}</span>
+                    onClick={() => changeEmotion(i)}>{el.emotion}</span>
             })
             : null
         : null;
@@ -35,15 +37,57 @@ const sentenceCard = (props) => {
     }
 
     let selectEmotionButton = null;
+    let doneButton = null;
 
     if (props.record) {
+        const curr = props.currentEmotion;
         selectEmotionButton = (
             <div className={classes.Column} onClick={() => setEmotionModal(true)}>
-                <img src={Emojis[props.emotion.toLowerCase()]} alt={props.emotion}/>
-                <div className={classes.SelectedEmotion} style={{ color: props.emotioncolor}}>
-                        {props.emotion}
+                <img className={classes.Emoji} src={Emojis[curr.name]} alt={curr.emotion}/>
+                <div className={classes.SelectedEmotion} style={{ color: curr.color }}>
+                        {curr.emotion}
                 </div>
             </div>
+        );
+    } else {
+        const curr = props.currentEmotion;
+        selectEmotionButton = (
+            <div className={classes.Row}>
+                {
+                    curr ?
+                        <div className={classes.Column}>
+                            <img className={classes.Emoji} src={Emojis[curr.name]} alt={curr.emotion}/>
+                            {/* <div className={classes.SelectedEmotion} style={{ color: curr.color }}>
+                                    {curr.emotion}
+                                </div> */}
+                        </div>
+                        : 
+                        null
+                }
+                {
+                    props.currentReview === '' ? 
+                        null
+                        :
+                        props.currentReview === 'good' ? 
+                            <div className={classes.Column}>
+                                <img className={classes.Evaluation} src={ThumbsUp} alt="thumbsdown" />
+                            </div>
+                            :
+                            <div className={classes.Column}>
+                                <img className={classes.Evaluation} src={ThumbsDown} alt="thumbsdown" />
+                            </div>
+
+                }
+            </div>
+        );
+        
+    }
+
+    if (props.hasevaluation) {
+        doneButton = (
+            <button className={classes.Done} onClick={props.done}>
+                <MdDone size="48px" color="var(--greener)"/>
+            </button>
         );
     }
         
@@ -57,6 +101,7 @@ const sentenceCard = (props) => {
                     {selectEmotionButton}
                 </div>
                 {modal}
+                {doneButton}
                 <div className={classes.Card}>
                     {props.sentence}
                 </div>
