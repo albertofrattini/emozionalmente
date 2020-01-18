@@ -127,7 +127,7 @@ class Record extends Component {
                         record
                         end={this.guideExecuted}/>
                     : 
-                    this.state.progress === 5 ?
+                    this.state.progress.length === 5 ?
                     <TaskCompleted record/>
                     :
                     <div className={classes.Record}>

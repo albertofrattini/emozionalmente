@@ -1,5 +1,5 @@
 import React from 'react';
-import vibesImg from '../../assets/images/prova.png';
+import vibesImg from '../../assets/images/main.png';
 import classes from './LandingDescription.css';
 import { NavLink } from 'react-router-dom';
 

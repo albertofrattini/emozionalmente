@@ -1,3 +1,117 @@
 .Content {
     margin-top: 80px;
 }
+
+.MainGraph {
+    width: 100%;
+    max-width: 1028px;
+    padding: 48px 8px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.Card {
+    width: 100%;
+    max-width: 700px;
+    height: 350px;
+    padding: 24px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.Block {
+    width: 15%;
+    height: 100%;
+    background-color: white;
+    border-bottom: 1px solid #cccccc;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.Data {
+    width: 40%;
+    height: 100%;
+    text-align: center;
+    color: white;
+    padding: 8px;
+    font-size: 18px;
+    box-sizing: border-box;
+    background-color: brown;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.EmotionsGraph {
+    width: 100%;
+    max-width: 1028px;
+    padding: 48px 8px;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+}
+
+.Column {
+    width: 50%;
+    padding: 24px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.ButtonSelector {
+    width: 128px;
+    height: 64px;
+    border: 1px solid #cccccc;
+    border-radius: 24px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    margin: 32px 0px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+.EmotionsModal {
+    position: absolute;
+    z-index: 5;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.EmotionsModal span {
+    font-size: 24px;
+    margin: 8px 0px;
+}
+
+.EmotionsList {
+    background-color: white;
+    border-radius: 0px 0px 4px 4px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    padding: 16px 64px;
+    font-weight: bold;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.EmotionsList span:hover {
+    cursor: pointer;
+}

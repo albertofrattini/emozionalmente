@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classes from './GuideCard.css';
 import { withRouter } from 'react-router-dom';
-import random from '../../assets/images/evaluate-false.png';
+import random from '../../assets/images/thumb-up.png';
 
 import axios from 'axios';
 

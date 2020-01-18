@@ -52,6 +52,45 @@ module.exports = function (app) {
 
 
 
+    /***************
+     **** DATABASE
+     ******************/
+
+    app.get('/api/data/database', async (req, res) => {
+
+        let currentDb = {};
+
+        currentDb['totalSamples'] = await datadb.getTotalSamples();
+        currentDb['totalEvaluations'] = await datadb.getTotalEvaluations();
+        currentDb['italianSamples'] = await datadb.getSamplesOfLanguage('it');
+        currentDb['englishSamples'] = await datadb.getSamplesOfLanguage('en');
+        // currentDb['accuracy'] = await datadb.getAccuracy();
+
+        res.send(currentDb);
+
+    });
+
+    app.get('/api/data/accuracy', function (req, res) {
+
+
+    });
+
+    app.get('/api/data/comparison', function (req, res) {
+
+        const mainEmotion = req.query.first;
+        const recognizedEmotion = req.query.second;
+
+        datadb.getSamplesEmotionRecognizedAs(mainEmotion, recognizedEmotion)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    }); 
+
+
 
 
 
@@ -124,8 +163,6 @@ module.exports = function (app) {
             timestamp: req.requestTime,
             emotion: emotion
         }
-
-        console.log(sample);
 
         datadb.insertSample(sample)
             .then(() => {

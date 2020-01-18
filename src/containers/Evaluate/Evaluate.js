@@ -100,10 +100,7 @@ class Evaluate extends Component {
             )
             .then(response => {
                 console.log(response.data.message);
-                this.state.progress.push({
-                    emotion: this.state.selectedEmotion,
-                    correct: correct
-                });
+                this.state.progress.push(this.state.selectedEmotion);
                 this.state.samples.splice(this.state.index, 1);
                 return this.setState({ 
                     sampleUrl: '',

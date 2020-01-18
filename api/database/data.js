@@ -88,6 +88,36 @@ module.exports.getUserEvaluations = function (user) {
     return db('evaluated').where('evaluated.evaluator', user);
 }
 
+module.exports.getTotalSamples = function () {
+    return db('samples').count('id as value').first();
+}
+
+module.exports.getTotalEvaluations = function () {
+    return db('evaluated').count('id as value').first();
+}
+
+module.exports.getSamplesOfLanguage = function (language) {
+    return db('samples').where('language', language).count('id as value').first();
+}
+
+module.exports.getAccuracy = async function () {
+    const corr = await db('evaluated').where('correct', true).count('id').first(); 
+    const tot = await db('evaluated').count('id').first();
+    const res = corr.count / tot.count;
+    return { value : res };
+}
+
+module.exports.getSamplesEmotionRecognizedAs = async function (mainEmotion, recognizedEmotion) {
+    const tot = await db('samples').where('samples.emotion', mainEmotion)
+                        .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
+                        .count('evaluated.id').first();
+    const rec = await db('samples').where('samples.emotion', mainEmotion)
+                        .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
+                        .where('evaluated.emotion', recognizedEmotion).count('evaluated.id').first();
+    const res = (rec.count / tot.count) * 100;
+    return { value: res };
+}
+
 
 /********************** 
  **** CRUD section
