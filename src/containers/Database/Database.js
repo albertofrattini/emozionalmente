@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import classes from './Database.css';
 import axios from 'axios';
-import { timeHours } from 'd3';
 
 class Database extends Component {
 
     state = {
         data: null,
+        accuracy: null,
         maxValue: 0,
         percentage: 0,
         mainEmotion: null,
@@ -23,10 +23,11 @@ class Database extends Component {
             .then(response => {
                 let max = 0;
                 [...Object.keys(response.data)].map((el, _) => {
-                    const value = parseInt(response.data[el].value);
+                    const value = parseInt(response.data[el].value, 10);
                     if (value > max) {
                         max = value;
                     }
+                    return null;
                 });
                 this.setState({ 
                     data: response.data,
@@ -46,7 +47,12 @@ class Database extends Component {
 
                 axios.get(`/api/data/comparison?first=${currEm.name}&second=${currEm.name}`)
                     .then(response => {
-                        this.setState({ percentage: parseInt(response.data.value) });
+                        this.setState({ percentage: parseInt(response.data.value, 10) });
+                    });
+
+                axios.get('/api/data/accuracy')
+                    .then(response => {
+                        this.setState({ accuracy: parseInt(response.data.value, 10) });
                     });
             });
 
@@ -58,7 +64,7 @@ class Database extends Component {
         axios.get(`/api/data/comparison?first=${this.state.emotions[index].name}&second=${this.state.recognizedEmotion.name}`)
                     .then(response => {
                         this.setState({ 
-                            percentage: parseInt(response.data.value),
+                            percentage: parseInt(response.data.value, 10),
                             mainEmotion: this.state.emotions[index],
                             showUpEmotionModal: false
                         });
@@ -69,7 +75,7 @@ class Database extends Component {
         axios.get(`/api/data/comparison?first=${this.state.mainEmotion.name}&second=${this.state.emotions[index].name}`)
                     .then(response => {
                         this.setState({ 
-                            percentage: parseInt(response.data.value),
+                            percentage: parseInt(response.data.value, 10),
                             recognizedEmotion: this.state.emotions[index],
                             showDownEmotionModal: false
                         });
@@ -78,10 +84,8 @@ class Database extends Component {
 
     render () {
 
-        console.log(this.state);
-
-        let modalUp = (<div></div>);
-        let modalDown = (<div></div>);
+        let modalUp = null;
+        let modalDown = null;
 
         if (this.state.showUpEmotionModal) {
 
@@ -124,6 +128,9 @@ class Database extends Component {
                 const height = (this.state.data[el].value * 250) / this.state.maxValue;
                 return (
                     <div key={i} className={classes.Block}>
+                        <div className={classes.BlockText}>
+                            {this.state.data[el].content}
+                        </div>
                         <div className={classes.Data} style={{ height: height + 'px' }}>
                             {this.state.data[el].value}
                         </div>
@@ -132,9 +139,29 @@ class Database extends Component {
             })
             : 
             null;
+            
+        let accuracyData = this.state.accuracy ? 
+            <div className={classes.Column}>
+                <div className={classes.Percentage} style={{ color: 'var(--logo-orange)' }}>
+                    {this.state.accuracy}%
+                </div>
+                <CircularProgressbar value={this.state.accuracy}
+                    styles={{
+                        path: {
+                            stroke: 'var(--logo-orange)',
+                        },
+                        trail: {
+                            stroke: 'var(--logo-orange)',
+                            opacity: '0.2'
+                        }
+                    }}>
+                </CircularProgressbar>
+            </div>
+            :
+            null;
 
         let querySelectors = (
-            <div className={classes.Column}>
+            <div className={classes.Column} style={{ color: 'var(--text-dark)' }}>
                 {modalUp}
                 {modalDown}
                 {
@@ -159,8 +186,10 @@ class Database extends Component {
 
         let dataDisplayed = this.state.mainEmotion === null ? null : (
             <div className={classes.Column}>
-                <CircularProgressbar value={this.state.percentage} 
-                    text={`${this.state.percentage}%`}
+                <div className={classes.Percentage} style={{ color: this.state.recognizedEmotion.color }}>
+                    {this.state.percentage}%
+                </div>
+                <CircularProgressbar value={this.state.percentage}
                     styles={{
                         path: {
                             stroke: this.state.mainEmotion.color,
@@ -168,11 +197,6 @@ class Database extends Component {
                         trail: {
                             stroke: this.state.mainEmotion.color,
                             opacity: '0.2'
-                        },
-                        text: {
-                            fill: this.state.recognizedEmotion.color,
-                            transform: 'translateX(-22px) translateY(6px)',
-                            fontSize: '24px'
                         }
                     }}>
                 </CircularProgressbar>
@@ -185,6 +209,12 @@ class Database extends Component {
                 <div className={classes.MainGraph}>
                     <div className={classes.Card}>
                         {dataBlocks}
+                    </div>
+                    <div className={classes.Card}>
+                        <div className={classes.BlockText} style={{ fontSize: '24px' }}>
+                            Accuracy
+                        </div>
+                        {accuracyData}
                     </div>
                 </div>
                 <div className={classes.EmotionsGraph}>

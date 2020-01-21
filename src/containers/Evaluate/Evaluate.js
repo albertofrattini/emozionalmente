@@ -159,7 +159,7 @@ class Evaluate extends Component {
 
                     <GuideCard end={this.guideExecuted}/>
                     :
-                    this.state.progress === 5 ?
+                    this.state.progress.length === 5 ?
                     <TaskCompleted />
                     :
                     <div className={classes.Content}>

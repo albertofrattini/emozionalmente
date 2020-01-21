@@ -59,19 +59,41 @@ module.exports = function (app) {
     app.get('/api/data/database', async (req, res) => {
 
         let currentDb = {};
-
-        currentDb['totalSamples'] = await datadb.getTotalSamples();
-        currentDb['totalEvaluations'] = await datadb.getTotalEvaluations();
-        currentDb['italianSamples'] = await datadb.getSamplesOfLanguage('it');
-        currentDb['englishSamples'] = await datadb.getSamplesOfLanguage('en');
+        
+        const totSamples = await datadb.getTotalSamples();
+        currentDb['totalSamples'] = {
+            content: "Total samples",
+            value: totSamples.value
+        }
+        const totEvaluations = await datadb.getTotalEvaluations();
+        currentDb['totalEvaluations'] = {
+            content: "Total evaluations",
+            value: totEvaluations.value
+        }
+        const itSamples = await datadb.getSamplesOfLanguage('it');
+        currentDb['italianSamples'] = {
+            content: "Italian samples",
+            value: itSamples.value
+        }
+        const enSamples = await datadb.getSamplesOfLanguage('en');
+        currentDb['englishSamples'] = {
+            content: "English samples",
+            value: enSamples.value
+        }
         // currentDb['accuracy'] = await datadb.getAccuracy();
 
         res.send(currentDb);
 
     });
 
-    app.get('/api/data/accuracy', function (req, res) {
+    app.get('/api/data/accuracy', async function (req, res) {
 
+        let result = {};
+
+        const accuracy = await datadb.getAccuracy();
+        result["value"] = accuracy.value * 100;
+
+        res.send(result);
 
     });
 

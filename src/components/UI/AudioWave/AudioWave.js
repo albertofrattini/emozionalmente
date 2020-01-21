@@ -41,8 +41,14 @@ module.exports.createAnalyser = () => {
     canvas = document.getElementById('voicesignal');
     ctx = canvas.getContext('2d');
     grd = ctx.createLinearGradient(0, 0, 170, 0);
-    grd.addColorStop(0, '#8c93d8');
-    grd.addColorStop(1, '#89c8e5');
+    // grd.addColorStop(0, '#8c93d8');
+    // grd.addColorStop(1, '#89c8e5');
+    grd.addColorStop(0.04, '#2484fd');
+    grd.addColorStop(0.14, '#00b4ff');
+    grd.addColorStop(0.53, '#767bf3');
+    grd.addColorStop(0.65, '#fa42ab');
+    grd.addColorStop(0.87, '#fb6b9d');
+    grd.addColorStop(1, '#fd978d');
     audio = document.getElementById('voicesample');
     source = context.createMediaElementSource(audio);
     source.connect(analyser);
