@@ -25,7 +25,7 @@
     border-radius: 8px;
     display: flex;
     flex-flow: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     position: relative;
 }
@@ -40,25 +40,23 @@
     justify-content: center;
     align-items: center;
     margin: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 100%;
 }
 
 .Card img {
-    width: 38%;
+    width: 28%;
 }
 
 .Text {
-    margin-top: 48px;
-    font-size: 20px;
+    margin-top: 0px;
+    font-size: 16px;
     line-height: 1.63;
     text-align: center;
-    max-height: 128px;
     overflow: auto;
 }
 
 .Button {
-    margin-top: 48px;
     width: 128px;
     height: 48px;
     background-color: var(--bluer);

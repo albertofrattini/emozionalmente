@@ -26,10 +26,10 @@ const description = (props) => (
                         </div>
                     </NavLink>
                     <div className={classes.Text} style={{ fontSize: '24px', fontWeight: 'bold' }}>
-                        Registra
+                        {props.buttonsxtitle}
                     </div>
                     <div className={classes.Text}>
-                        Registra la tua voce esprimendo un'emozione da te scelta
+                        {props.buttonsxsub}
                     </div>
                 </div>
                 <div className={classes.Column}>
@@ -40,10 +40,10 @@ const description = (props) => (
                         </div>
                     </NavLink>
                     <div className={classes.Text} style={{ fontSize: '24px', fontWeight: 'bold' }}>
-                        Valuta
+                        {props.buttondxtitle}
                     </div>
                     <div className={classes.Text}>
-                        Ascolta la voce di altre persone e valuta quale emozione hanno voluto esprimere 
+                        {props.buttondxsub}
                     </div>
                 </div>
             </div>

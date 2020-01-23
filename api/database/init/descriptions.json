@@ -83,13 +83,25 @@
         "language": "it",
         "page": "home",
         "position": "landing-btn-sx",
-        "content": "REGISTRA"
+        "content": "Registra"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "landing-btn-sub-sx",
+        "content": "Registra la tua voce esprimendo un'emozione da te scelta"
     },
     {
         "language": "it",
         "page": "home",
         "position": "landing-btn-dx",
-        "content": "VALUTA"
+        "content": "Valuta"
+    },
+    {
+        "language": "it",
+        "page": "home",
+        "position": "landing-btn-sub-dx",
+        "content": "Ascolta la voce di altre persone e valuta quale emozione hanno voluto esprimere"
     },
     {
         "language": "it",
@@ -101,7 +113,7 @@
         "language": "it",
         "page": "home",
         "position": "cards-sx-subtitle",
-        "content": "Non sarà semplice, ma oltre a registrare un semplice sample vocale, vogliamo utilizzare il crowdsourcing per ottenere registrazioni contenenti 'vere' emozioni."
+        "content": "Il nostro obiettivo è quello di utilizzare il crowdsourcing per raccogliere il più grande numero di sample vocali contenenti delle emozioni 'vere' create da persone reali, come te"
     },
     {
         "language": "it",
@@ -113,31 +125,31 @@
         "language": "it",
         "page": "home",
         "position": "cards-center-subtitle",
-        "content": "La valutazione della qualità di un sample è fondamentale, sia dal punto di vista emozionale che della qualità."
+        "content": "La quantità di registrazioni sarebbe inutile senza una validazione. Grazie alle stesse persone che hanno messo a disposizione la propria voce, vogliamo selezionare i sample migliori"
     },
     {
         "language": "it",
         "page": "home",
         "position": "cards-dx-title",
-        "content": "Costruiamo insieme un database"
+        "content": "Un database accessibile"
     },
     {
         "language": "it",
         "page": "home",
         "position": "cards-dx-subtitle",
-        "content": "Faremo parte di un solo database contenente le migliori emozioni che siamo riusciti ad esprimere. Attraverso un sistema di punteggi poi, registrare e valutare non potrebbe essere più divertente."
+        "content": "Tutto ciò che facciamo è per aiutare la ricerca e migliorarla. Per questo il database che vogliamo creare sarà universalmente disponibile, così che chiunque possa ottenere grandi risultati in poco tempo"
     },
     {
         "language": "it",
         "page": "home",
-        "position": "graphic-title",
-        "content": "Il progesso della ricerca dipende anche (e soprattutto) da te"
+        "position": "graphic-safety",
+        "content": "<h2>I tuoi dati sono in buone mani</h2><p style='text-align: right'>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
     },
     {
         "language": "it",
         "page": "home",
-        "position": "graphic-subtitle",
-        "content": "La ricerca ci porta ogni anno a miglioramenti che possono aiutare le persone a migliorare la propria vita. Quando si tratta di analisi vocale e, in questo caso, di analisi delle emozioni, il Deep Learning viene in nostro aiuto. Ma per ottenere un vero progesso, una grandi quantità di dati è necessaria, ed è qui che noi puntiamo di ottenere il massimo."
+        "position": "graphic-deep-learning",
+        "content": "<h2>La potenza di questa ricerca</h2><p style='text-align: left'>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
     },
 
 
@@ -158,13 +170,25 @@
         "language": "en",
         "page": "home",
         "position": "landing-btn-sx",
-        "content": "RECORD"
+        "content": "Record"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-btn-sub-sx",
+        "content": "Registra la tua voce esprimendo un'emozione da te scelta"
     },
     {
         "language": "en",
         "page": "home",
         "position": "landing-btn-dx",
-        "content": "EVALUATE"
+        "content": "Evaluate"
+    },
+    {
+        "language": "en",
+        "page": "home",
+        "position": "landing-btn-sub-dx",
+        "content": "Ascolta la voce di altre persone e valuta quale emozione hanno voluto esprimere"
     },
     {
         "language": "en",
@@ -240,7 +264,7 @@
         "language": "it",
         "page": "aboutus",
         "position": "cards-sx-btn",
-        "content": "CONTATTACI",
+        "content": "Contattaci",
         "additional": "/contact-us"
     },
     {
@@ -253,7 +277,7 @@
         "language": "it",
         "page": "aboutus",
         "position": "cards-dx-btn",
-        "content": "CONTRIBUISCI",
+        "content": "Contribuisci",
         "additional": "/contribute"
     },
 
@@ -332,12 +356,12 @@
     {
         "language": "en",
         "page": "recordguide",
-        "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "Something"
     },
     {
         "language": "it",
         "page": "recordguide",
-        "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "<p style='margin: 0px 0px 8px'>Vogliamo iniziare a registrare?</p> <p style='margin: 0px 0px 8px'>Prima di tutto, assicurati di trovarti in una stanza <strong>silenziosa</strong> per evitare rumori di sottofondo. Inoltre, per tirar fuori il meglio di te, <strong>cerca di immergerti totalmente nell'emozione</strong> che vuoi esprimere pensando ad un momento in cui hai provato l'emozione in questione (per saperne di più vedi <a href='https://it.wikipedia.org/wiki/Metodo_Stanislavskij' target='_blank'>Metodo Stanislavski</a>).</p> <strong>Buon divertimento!</strong>"
     },
 
 
@@ -348,12 +372,12 @@
     {
         "language": "en",
         "page": "evaluateguide",
-        "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "Something"
     },
     {
         "language": "it",
         "page": "evaluateguide",
-        "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "<p style='margin: 0px 0px 8px'>Sei pronto a valutare come se la cavano altre persone come te?</p> <p style='margin: 0px 0px 8px'><strong>Ascolta</strong> il sample vocale interamente cercando di identificare l'emozione che l'utente ha voluto esprimere. Seleziona poi quale emozione per te è quella più adatta a descrivere ciò che hai ascoltato e valuta la qualità della registrazione (per esempio, segnala un sample registrato in una stanza rumorosa o che non rispetta la frase esposta).</p> <strong>Buon divertimento!</strong>"
     },
 
 

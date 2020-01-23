@@ -32,8 +32,10 @@ class Home extends Component {
                 <LandingDescription 
                     title={this.state.content['landing-title']} 
                     subtitle={this.state.content['landing-subtitle']}
-                    buttonsx={this.state.content['landing-btn-sx']}
-                    buttondx={this.state.content['landing-btn-dx']}/>
+                    buttonsxtitle={this.state.content['landing-btn-sx']}
+                    buttonsxsub={this.state.content['landing-btn-sub-sx']}
+                    buttondxtitle={this.state.content['landing-btn-dx']}
+                    buttondxsub={this.state.content['landing-btn-sub-dx']}/>
                 <IntroductionAndData 
                     cardsx={ [ this.state.content['cards-sx-title'], 
                         this.state.content['cards-sx-subtitle'] ] }
@@ -42,8 +44,8 @@ class Home extends Component {
                     carddx={ [ this.state.content['cards-dx-title'], 
                         this.state.content['cards-dx-subtitle'] ] }/>
                 <CurrentDatabase 
-                    title={this.state.content['graphic-title']}
-                    subtitle={this.state.content['graphic-subtitle']}/>
+                    safety={this.state.content['graphic-safety']}
+                    deepLearning={this.state.content['graphic-deep-learning']}/>
                 <Footer />
             </Aux>
         );

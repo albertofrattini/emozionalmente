@@ -1,23 +1,28 @@
 .CurrentDatabase {
     width: 100%;
-    padding: 192px 0px 92px;
+    padding: 92px 0px 32px;
     box-sizing: border-box;
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
 }
 
 .Container {
     width: 100%;
-    max-width: 1028px;
+    max-width: 850px;
     height: auto;
     padding: 0px 16px;
-    margin: auto;
+    margin: 48px auto;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+}
+
+.Container img {
+    width: 210px;
 }
 
 .Card {
@@ -33,34 +38,27 @@
 
 .Text {
     width: 100%;
-    max-width: 800px;
+    max-width: 400px;
     height: auto;
-    padding: 16px;
-    margin-top: 48px;
+    padding: 0px;
     box-sizing: border-box;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
-    align-items: center;
+    color: var(--text-darker);
+    line-height: 1.63;
 }
 
-.Text h1 {
+/* .Text h2 {
     font-size: 24px;
-    text-align: left;
     color: var(--text-darker);
     margin: 0px 0px 16px;
     line-height: 1.63;
-    text-align: center;
 }
 
 .Text p {
     font-size: 15px;
-    text-align: left;
     color: var(--text-dark);
     margin: 12px 0px 0px;
     line-height: 1.63;
-    text-align: center;
-}
+} */
 
 @media(min-width: 975px) {
     .Container {
@@ -69,7 +67,6 @@
 
     .Text {
         margin: 0;
-        padding: 32px 48px;
     }
 
     .Text h1 {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from './GuideCard.css';
 import { withRouter } from 'react-router-dom';
-import random from '../../assets/images/thumb-up.png';
 import { Link } from 'react-router-dom';
 import thinking from '../../assets/images/thinking.png';
 import axios from 'axios';
@@ -51,8 +50,9 @@ class GuideCard extends Component {
                         </div>
                     </Link>
                     <img src={thinking} alt="thinking person" />
-                    <div className={classes.Text}>
-                        { this.state.guide.length > 0 ? this.state.guide[0].content : null }
+                    <div className={classes.Text} dangerouslySetInnerHTML={{ 
+                        __html: this.state.guide.length > 0 ? this.state.guide[0].content : null 
+                    }}>
                     </div>
                     {
                         this.state.loggedin ?
