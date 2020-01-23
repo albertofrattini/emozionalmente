@@ -1,7 +1,7 @@
 .Container {
     width: 100vw;
     height: 100vh;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     margin: auto;
     padding: 8px 16px;
     display: flex;
@@ -17,7 +17,8 @@
     max-width: 772px;
     height: 100%;
     position: relative;
-    padding: 32px 0px;
+    padding: 24px 32px;
+    margin: auto;
     box-sizing: border-box;
     background-color: white;
     /* box-shadow: 0 2px 6px 5px rgba(0,0,0,0.15); */
@@ -26,88 +27,61 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
 }
 
-.Content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.Image {
+.Back { 
+    width: 56px;
+    height: 56px;
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 100%;
 }
 
-.Content img {
-    width: 100%;
-    height: auto;
+.Card img {
+    width: 38%;
 }
 
-.Description {
-    width: 100%;
-    height: 100%;
-    font-size: 14px;
-    text-align: center;
-    color: var(--text-dark);
+.Text {
+    margin-top: 48px;
+    font-size: 20px;
     line-height: 1.63;
+    text-align: center;
+    max-height: 128px;
     overflow: auto;
 }
 
-.Progress {
-    margin-top: 24px;
-    width: 180px;
-    padding: 8px;
-    box-sizing: border-box;
-    /*box-shadow: 0 2px 20px 6px rgba(55, 55, 55, 0.1);
-    border-radius: 8px;*/
-    height: auto;
+.Button {
+    margin-top: 48px;
+    width: 128px;
+    height: 48px;
+    background-color: var(--bluer);
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.Filled {
-    width: 16px;
-    height: 16px;
-    margin: 0px 8px;
-    background-color: var(--bluer);
-    border: 2px solid var(--bluer);
-    border-radius: 100%;
-}
-
-.Empty {
-    width: 16px;
-    height: 16px;
-    margin: 0px 8px;
-    background-color: white;
-    border: 2px solid var(--bluer);
-    border-radius: 100%;
-}
-
-.Next {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    width: 96px;
-    height: 36px;
-    background-color: var(--bluer);
+    border-radius: 24px;
     color: white;
+    font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
-    border-radius: 8px;
-    margin: 0px 0px 32px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* background-image: linear-gradient(113deg, #2484FD 4%, #00B4FF 14%, #767BF3 53%, #FA42AB 65%, #FB6B9D 87%, #FD978D 100%); */
 }
+
 
 @media (min-width: 650px) {
     .Content img {
         width: 75%;
+    }
+}
+
+@media (min-width: 700px) {
+    .Container {
+        padding: 56px 16px;
     }
 }

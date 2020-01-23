@@ -24,14 +24,6 @@ class AboutUs extends Component {
 
     }
 
-    changeLanguage = (event) => {
-        axios.get(`/api/language/set?lang=${event.target.innerHTML}`)
-            .then(response => {
-                console.log('ciao');
-                window.location.reload();
-            });
-    }
-
     render () {
 
         return (
@@ -46,7 +38,7 @@ class AboutUs extends Component {
                         btndx={this.state.content['cards-dx-btn']}/>
                 }
                 <Faq />
-                <Footer clicked={this.changeLanguage}/>
+                <Footer />
             </div>
         );
     }

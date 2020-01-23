@@ -23,12 +23,12 @@ const footer = (props) => (
                     Cookies
                 </Link>
             </div>
-            <div className={classes.Other}>
+            {/* <div className={classes.Other}>
                 <div className={classes.Languages}>
                     <button onClick={props.clicked}>it</button>
                     <button onClick={props.clicked}>en</button>
                 </div>
-            </div>
+            </div> */}
         </div>
     </div>
 );

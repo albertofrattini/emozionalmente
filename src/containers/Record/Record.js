@@ -9,6 +9,7 @@ import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
 import Aux from '../../hoc/Aux/Aux';
+// import ls from 'local-storage';
 
 
 class Record extends Component {
@@ -69,10 +70,14 @@ class Record extends Component {
 
         this.blob = stopRecording();
         const audioUrl = URL.createObjectURL(this.blob);
+        
         this.setState({
             sampleUrl: audioUrl,
             isRecording: false
         });
+        // this.state.isRecording = false;
+        // this.state.sampleUrl = audioUrl;
+        // ls.set('recordState', this.state);
 
     }
 
@@ -94,6 +99,9 @@ class Record extends Component {
                 return this.setState({ 
                     sampleUrl: ''
                 });
+                // this.state.sampleUrl = '';
+                // this.setState({});
+                // ls.set('recordState', this.state);
             })
             .catch(error => {
                 console.log(error.message);

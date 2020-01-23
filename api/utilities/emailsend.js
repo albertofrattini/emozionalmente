@@ -25,6 +25,7 @@ module.exports = async (to, content) => {
         await transporter.sendMail(email);
     } catch (error) {
         console.log('Something went wrong');
+        console.log(error);
     }
 
 }

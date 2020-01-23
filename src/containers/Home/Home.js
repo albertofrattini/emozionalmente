@@ -25,13 +25,6 @@ class Home extends Component {
 
     }
 
-    changeLanguage = (event) => {
-        axios.get(`/api/language/set?lang=${event.target.innerHTML}`)
-            .then(_ => {
-                window.location.reload();
-            });
-    }
-
     render () {
 
         return (
@@ -51,7 +44,7 @@ class Home extends Component {
                 <CurrentDatabase 
                     title={this.state.content['graphic-title']}
                     subtitle={this.state.content['graphic-subtitle']}/>
-                <Footer clicked={this.changeLanguage}/>
+                <Footer />
             </Aux>
         );
     }
