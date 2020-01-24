@@ -10,6 +10,13 @@ class ContactUs extends Component {
         message: ''
     }
 
+    componentDidMount () {
+        axios.get('/api/descriptions/contactus')
+            .then(response => {
+                this.setState({ content: response.data[0].content });
+            });
+    }
+
     sendContact = () => {
         axios.post('/api/contact/contact',
             {
@@ -29,13 +36,10 @@ class ContactUs extends Component {
     render () {
         return (
             <div className={classes.Container}>
-                <div className={classes.Description}>
-                    <h1>Un po' di testo</h1>
-                    <p>
-                        Cosa scrivere: se hanno domande sul funzionamento, perchè lo facciamo,
-                        se possono ottenere i dati, qualsiasi cosa che interessi per il progetto.
-                    </p>
-                </div>
+                <div className={classes.Description}
+                    dangerouslySetInnerHTML={{
+                        __html: this.state.content
+                    }}></div>
                 <div className={classes.Form}>
                     <input placeholder="Full Name"
                         onChange={event => this.setState({ fullName: event.target.value})}/>

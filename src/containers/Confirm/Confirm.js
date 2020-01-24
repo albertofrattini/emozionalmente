@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classes from './Confirm.css';
-import { FaGrinStars } from 'react-icons/fa';
+import happyUser from '../../assets/images/user.png';
 
 class Confirm extends Component {
 
@@ -32,8 +32,8 @@ class Confirm extends Component {
                 <div></div>
                 :
                 <div className={classes.Confirm}>
-                    <FaGrinStars size='256px' color='red' />
-                    <h2>Thank you for confirming your email!</h2>
+                    <img src={happyUser} alt="happy face"/>
+                    <h1>Thank you for confirming your email!</h1>
                     <h4>Now you can start having fun on Emozionalmente</h4>
                 </div>
 

@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import classes from './Database.css';
 import axios from 'axios';
+import { MdMic, MdPlayArrow } from 'react-icons/md';
 
 class Database extends Component {
 
     state = {
+        loggedin: false,
+        username: null,
+        userContribution: null,
         data: null,
         accuracy: null,
         maxValue: 0,
@@ -18,6 +22,22 @@ class Database extends Component {
     }
 
     componentDidMount () {
+
+        axios.get('/api/users/loggedin')
+            .then(response => {
+                const username = response.data.user.username;
+                this.setState({
+                    loggedin: username !== null
+                });
+                if (username) {
+                    axios.get('/api/users/contribution')
+                        .then(response => {
+                            this.setState({
+                                userContribution: response.data
+                            })
+                        });
+                }
+            })
 
         axios.get('/api/data/database')
             .then(response => {
@@ -206,6 +226,21 @@ class Database extends Component {
 
         return (
             <div className={classes.Content}>
+                {
+                    this.state.userContribution ? 
+                        <div className={classes.Introduction}>
+                            <div className={classes.Values}>
+                                <MdMic size="48px" color="var(--logo-red)"/>
+                                {this.state.userContribution.samples}
+                            </div>
+                            <div className={classes.Values}>
+                                <MdPlayArrow size="48px" color="var(--logo-violet)"/>
+                                {this.state.userContribution.evaluations}
+                            </div>
+                        </div>
+                        :
+                        null
+                }
                 <div className={classes.MainGraph}>
                     <div className={classes.Card}>
                         {dataBlocks}
@@ -217,7 +252,7 @@ class Database extends Component {
                         {accuracyData}
                     </div>
                 </div>
-                <div className={classes.EmotionsGraph}>
+                <div className={classes.MainGraph}>
                     <div className={classes.Card}>
                         {querySelectors}
                         {dataDisplayed}

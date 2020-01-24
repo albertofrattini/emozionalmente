@@ -28,12 +28,13 @@ class TaskCompleted extends Component {
             <div className={classes.Container}>
                 <div className={classes.Card}>
                     <img src={thinking} alt="thinking person" />
-                    <div className={classes.Text}>
-                        {this.state.content}
+                    <div className={classes.Text} dangerouslySetInnerHTML={{
+                        __html: this.state.content
+                    }}>
                     </div>
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <div className={classes.Button} style={{ backgroundColor: homeColor }}>
-                            HOME
+                            Home
                         </div>
                     </Link>
                 </div>

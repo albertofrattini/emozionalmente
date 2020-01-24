@@ -10,6 +10,13 @@ class Contribute extends Component {
         message: ''
     }
 
+    componentDidMount () {
+        axios.get('/api/descriptions/contribute')
+            .then(response => {
+                this.setState({ content: response.data[0].content });
+            });
+    }
+
     sendContribution = () => {
         axios.post('/api/contact/contribute',
             {
@@ -27,19 +34,13 @@ class Contribute extends Component {
     }
 
     render () {
+
         return (
             <div className={classes.Container}>
-                <div className={classes.Description}>
-                    <h1>Un po' di testo</h1>
-                    <p>
-                        Una guida sulle frasi che possono essere proposte. Ringraziamo
-                        per essere interessati ad arricchire il nostro database di frasi. 
-                        Vogliamo evitare insulti, parolacce o inviti all'odio e altre cose 
-                        del genere. Le frasi possono avere significato o non, evitiamo 
-                        domande perchè potrebbero influire sulla lettura quando dobbiamo
-                        simulare la sorpresa. La cosa migliore è generare frasi che non 
-                        abbiano un vero e proprio senso, pur avendo una corretta sintassi.
-                    </p>
+                <div className={classes.Description}
+                    dangerouslySetInnerHTML={{
+                        __html: this.state.content
+                    }}>
                 </div>
                 <div className={classes.Form}>
                     <input placeholder="Full Name"

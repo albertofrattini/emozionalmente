@@ -143,13 +143,13 @@
         "language": "it",
         "page": "home",
         "position": "graphic-safety",
-        "content": "<h2>I tuoi dati sono in buone mani</h2><p style='text-align: right'>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
+        "content": "<h2>Le tue informazioni sono in buone mani</h2><p style='text-align: right'>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
     },
     {
         "language": "it",
         "page": "home",
         "position": "graphic-deep-learning",
-        "content": "<h2>La potenza di questa ricerca</h2><p style='text-align: left'>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
+        "content": "<h2>La potenza dei dati</h2><p style='text-align: left'>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
     },
 
 
@@ -176,7 +176,7 @@
         "language": "en",
         "page": "home",
         "position": "landing-btn-sub-sx",
-        "content": "Registra la tua voce esprimendo un'emozione da te scelta"
+        "content": "Record your voice expressing an emotion of your choice"
     },
     {
         "language": "en",
@@ -188,55 +188,55 @@
         "language": "en",
         "page": "home",
         "position": "landing-btn-sub-dx",
-        "content": "Ascolta la voce di altre persone e valuta quale emozione hanno voluto esprimere"
+        "content": "Listen to other people's voices and select which emotion they wanted to express for you"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-sx-title",
-        "content": "cards-sx-title-en"
+        "content": "Record your voice"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-sx-subtitle",
-        "content": "cards-sx-subtitle-en"
+        "content": "Our goal is to use crowdsourcing to collect the largest number of vocal samples containing 'real' emotions created by real people, like you"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-center-title",
-        "content": "cards-cn-title-en"
+        "content": "Listen and evaluate"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-center-subtitle",
-        "content": "cards-cs-subtitle-en"
+        "content": "The amount of samples would be useless without a validation. Thanks to the same people who made their voice available, we want to select the best samples"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-dx-title",
-        "content": "cards-dx-title-en"
+        "content": "An open-source database"
     },
     {
         "language": "en",
         "page": "home",
         "position": "cards-dx-subtitle",
-        "content": "cards-dx-subtitle-en"
+        "content": "All we do is to help research and improve it. This is why the database we want to create will be universally available, so that anyone can achieve great results in a short time"
     },
     {
         "language": "en",
         "page": "home",
-        "position": "graphic-title",
-        "content": "graphic-title-en"
+        "position": "graphic-safety",
+        "content": "<h2>Your information is in good hands</h2> <p style='text-align: right'>The few data that we will ask you will only serve to enrich our research and give added value to the recordings. No data that you deliver to us will be used outside the scientific sphere</p>"
     },
     {
         "language": "en",
         "page": "home",
-        "position": "graphic-subtitle",
-        "content": "graphic-subtitle-en"
+        "position": "graphic-deep-learning",
+        "content": "<h2>The power of data</h2> <p style='text-align: left'>The development of neural networks and deep learning nowadays allows us to use the data collected in many different ways. The samples we collect will be used to teach the machines to recognize the intrinsic emotions in human speech and therefore help people who are in difficulty when it comes to doing something (apparently) so simple: <strong>express their emotions</strong></p>"
     },
 
 
@@ -258,28 +258,28 @@
         "language": "it",
         "page": "aboutus",
         "position": "cards-sx",
-        "content": "Politecnico di Milano è un'università con sede nella città di Milano"
+        "content": "<strong>Politecnico di Milano</strong> è la più grande università tecnica d'Italia e ha sede nella città di Milano. Nata nel 1863, ha avuto un ruolo centrale nello sviluppo e crescita di alcune illustre menti dell'ultimo secolo e mezzo. Ponendo l'innovazione e la ricerca al centro del proprio progetto, Politecnico di Milano vuole contribuire alla costruzione di un futuro migliore nell'ambito tecnologico."
     },
     {
         "language": "it",
         "page": "aboutus",
         "position": "cards-sx-btn",
-        "content": "Contattaci",
-        "additional": "/contact-us"
-    },
-    {
-        "language": "it",
-        "page": "aboutus",
-        "position": "cards-dx",
-        "content": "Questo database vuole raccogliere sample vocali da poter utilizzare per il riconoscimento delle emozioni attraverso l'uso del deep learning"
-    },
-    {
-        "language": "it",
-        "page": "aboutus",
-        "position": "cards-dx-btn",
         "content": "Contribuisci",
         "additional": "/contribute"
     },
+    {
+        "language": "it",
+        "page": "aboutus",
+        "position": "cards-dx",
+        "content": "<strong>i3lab</strong> (Innovative, Interactive Interfaces Laboratory) è un laboratorio che si focalizza sull'utilizzo di tecnologie innovative per l'interazione e l'applicazione di queste ultime in vari ambiti, quali la salute e l'apprendimento. Uno dei principali soggetti delle ricerche sono i bambini con bisogni particolari, in modo da poterli aiutare dal punto di vista sociale <strong>emozionale</strong> e intellettuale."
+    },
+    {
+        "language": "it",
+        "page": "aboutus",
+        "position": "cards-dx-btn",
+        "content": "Contattaci",
+        "additional": "/contact-us"
+    },
 
 
 
@@ -287,27 +287,27 @@
         "language": "en",
         "page": "aboutus",
         "position": "cards-sx",
-        "content": "Politecnico di Milano is a university based in Milan"
+        "content": "<strong>Politecnico di Milano</strong> is the largest technical university in Italy and is based in the city of Milan. Born in 1863, it played a central role in the development and growth of some illustrious minds of the last century and a half. By placing innovation and research at the center of its project, Politecnico di Milano wants to contribute to building a better future in the technological field."
     },
     {
         "language": "en",
         "page": "aboutus",
         "position": "cards-sx-btn",
-        "content": "CONTACT US",
-        "additional": "/contact-us"
+        "content": "Contribute",
+        "additional": "/contribute"
     },
     {
         "language": "en",
         "page": "aboutus",
         "position": "cards-dx",
-        "content": "This database wants to collect voice samples that can be used to recognize emotions through the application of deep learning"
+        "content": "<strong>i3lab</strong> (Innovative, Interactive Interfaces Laboratory) is a laboratory that focuses on the application of innovative interactive technologies and applications in various domains such as health, learning, industry, and retail. One of the main target groups addressed by our research are children with special needs, in order to promote social, emotional and intellectual benefits."
     },
     {
         "language": "en",
         "page": "aboutus",
         "position": "cards-dx-btn",
-        "content": "CONTRIBUTE",
-        "additional": "/contribute"
+        "content": "Contact Us",
+        "additional": "/contact-us"
     },
 
 
@@ -326,26 +326,26 @@
     {
         "language": "it",
         "page": "faq",
-        "content": "The samples will be used to help reasearchers find new technological solutions",
-        "additional": "Risposta del faq"
+        "content": "Do you have any questions? Let us know",
+        "additional": "Contact us through the specific page"
     },
     {
         "language": "it",
         "page": "faq",
-        "content": "Qualcosa d'altro",
-        "additional": "Risposta del faq"
+        "content": "Hai qualche domanda? Facci sapere",
+        "additional": "Contattaci attraverso la pagina apposita"
     },
     {
         "language": "en",
         "page": "faq",
-        "content": "The samples will be used to help reasearchers find new technological solutions",
-        "additional": "Answer to faq"
+        "content": "Do you have any questions? Let us know",
+        "additional": "Contact us through the specific page"
     },
     {
         "language": "en",
         "page": "faq",
-        "content": "The samples will be used to help reasearchers find new technological solutions",
-        "additional": "Answer to faq"
+        "content": "Hai qualche domanda? Facci sapere",
+        "additional": "Contattaci attraverso la pagina apposita"
     },
 
 
@@ -356,7 +356,7 @@
     {
         "language": "en",
         "page": "recordguide",
-        "content": "Something"
+        "content": "<p style='margin: 0px 0px 8px'>Do we want to start recording?</p> <p style='margin: 0px 0px 8px'>First of all, make sure you are in a <strong>quiet room</strong> to avoid background noise. Also, to bring out the best in you, try to totally <strong>immerse yourself in the emotion</strong> you want to express by thinking about a moment when you experienced the emotion in question (for more information see <a href='https://en.wikipedia.org/wiki/Stanislavski%27s_system' target='_blank'>Stanislavski's Method</a>).</p> <strong>Have fun!</strong>"
     },
     {
         "language": "it",
@@ -372,7 +372,7 @@
     {
         "language": "en",
         "page": "evaluateguide",
-        "content": "Something"
+        "content": "<p style='margin: 0px 0px 8px'>Are you ready to evaluate how other people like you are doing?</p> <p style='margin: 0px 0px 8px'><strong>Listen</strong> to the vocal sample entirely trying to identify the emotion that the user wanted to express. Then select which emotion for you is the most suitable to describe what you have listened to and evaluate the quality of the recording (for example, report a sample recorded in a noisy room or that does not respect the sentence displayed).</p> <strong>Have fun!</strong>"
     },
     {
         "language": "it",
@@ -383,6 +383,35 @@
 
 
 
+    {
+        "language": "it",
+        "page": "contribute",
+        "content": "<h2>Contribuisci con le tue idee</h2> <p>Ti ringraziamo per essere interessato a contribuire al miglioramento di questo database. Se vuoi consigliarci qualche frase da recitare vogliamo ricordarti che: la frase può avere o non avere un significato, purchè rispetti la sintattica della lingua; evita di aggiungere frasi che possano risultare domande perchè potrebbero influire sulla cognizione e l'interpretazione della frase stessa da parte dell'utente.</p>"
+    },
+    {
+        "language": "en",
+        "page": "contribute",
+        "content": "<h2>Contribute with your ideas</h2> <p>Thank you for your interest in helping improve this database. If you want to recommend a few sentences to recite we want to remind you that: the sentence may or may not have a meaning, as long as it respects the syntactics of the language; avoid adding phrases that may be questions because they could affect the user's understanding and interpretation of the phrase itself.</p>"
+    },
+
+
+
+
+
+    {
+        "language": "it",
+        "page": "contactus",
+        "content": "<h2>Sei interessato a sapere qualcosa di più?</h2> <p>Vuoi sapere qualcosa in più riguardo al funzionamento della piattaforma o perchè lo facciamo? Vorresti ottenere i dati che raccogliamo per scopi di ricerca? Qualcosa d'altro? Basta contattarci</p>"
+    },
+    {
+        "language": "en",
+        "page": "contactus",
+        "content": "<h2>Are you interested in knowing something more?</h2> <p>Do you want to know more about how the platform works or why we do it? Would you like to get the data we collect for research purposes? Something else? Just contact us</p>"
+    },
+
+
+
+
 
 
 
@@ -391,12 +420,12 @@
     {
         "language": "it",
         "page": "recordcompleted",
-        "content": "Grazie per aver contribuito alla costruzione di questo database! Continua ad esprimere le tue emozioni con noi"
+        "content": "<h3>Grazie per aver contribuito alla costruzione di questo database!</h3> Adesso fai parte di questo progetto e la ricerca non potrebbe essertene più riconoscente. Continua a lavorare con noi provando ad esprimere altre emozioni o valutando come se la sono cavata gli altri"
     },
     {
         "language": "en",
         "page": "recordcompleted",
-        "content": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "<h3>Thank you for contributing to the construction of this database!</h3> You are now part of this project and the research could not be more grateful to you. Continue to work with us by trying to express other emotions or by evaluating how others have done"
     },
 
 
@@ -409,12 +438,12 @@
     {
         "language": "it",
         "page": "evaluationcompleted",
-        "content": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "<h3>Grazie per aver contribuito alla costruzione di questo database!</h3> Adesso fai parte di questo progetto e la ricerca non potrebbe essertene più riconoscente. Continua a lavorare con noi provando ad esprimere altre emozioni o valutando come se la sono cavata gli altri"
     },
     {
         "language": "en",
         "page": "evaluationcompleted",
-        "content": "Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        "content": "<h3>Thank you for contributing to the construction of this database!</h3> You are now part of this project and the research could not be more grateful to you. Continue to work with us by trying to express other emotions or by evaluating how others have done"
     }
 
 

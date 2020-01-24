@@ -37,6 +37,7 @@ class AboutUs extends Component {
                         carddx={this.state.content['cards-dx']}
                         btndx={this.state.content['cards-dx-btn']}/>
                 }
+                <div className={classes.Faq}>FAQ</div>
                 <Faq />
                 <Footer />
             </div>

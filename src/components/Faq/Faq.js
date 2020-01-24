@@ -16,7 +16,11 @@ class Faq extends Component {
             .then(response => {
                 const faqs = [];
                 response.data.map((el, i) => {
-                    return faqs[i] = [el.content, el.additional];
+                    // return faqs[i] = [el.content, el.additional];
+                    return faqs.push({
+                        question: el.content,
+                        answer: el.additional
+                    });
                 });
                 this.setState({ faqs: faqs });
             });
@@ -45,15 +49,15 @@ class Faq extends Component {
             this.state.faqs === null ?
                 null 
                 :
-                this.state.faqs.map((faq, i) => {
+                this.state.faqs.map((el, i) => {
                     const isActive = i === currQuestion;
                     return <Question 
                                 key={i}
                                 open={() => this.openQuestion(i)}
                                 close={this.closeQuestion}
                                 active={isActive} 
-                                question={faq[0]}
-                                answer={isActive ? this.state.faqs[1][i] : null}  />
+                                question={el.question}
+                                answer={isActive ? el.answer : null}  />
                 });
 
         return (

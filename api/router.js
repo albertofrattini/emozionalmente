@@ -457,6 +457,21 @@ module.exports = function (app) {
 
     });
 
+    app.get('/api/users/contribution', async (req, res, next) => {
+
+        const samples = await datadb.getUserSamples(req.session.user.username);
+        const evaluations = await datadb.getUserEvaluations(req.session.user.username);
+
+        res.send({
+            samples: samples.length,
+            evaluations: evaluations.length
+        });
+
+    });
+
+
+
+
 
 
 

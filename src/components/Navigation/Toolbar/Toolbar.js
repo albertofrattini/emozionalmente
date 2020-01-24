@@ -48,7 +48,7 @@ class Toolbar extends Component {
         let languageOptions = this.state.languages.length > 0 ?
             this.state.languages.map((el, i) => {
                 if (this.state.currLanguage === el) {
-                    return <option selected key={i} value={el}>{el}</option>    
+                    return <option key={i} value={el}>{el}</option>    
                 }
                 return <option key={i} value={el}>{el}</option>
             })
@@ -56,7 +56,8 @@ class Toolbar extends Component {
             null;
 
         let languageSelector = this.state.languages.length > 0 ?
-            <select className={classes.Select} onChange={this.changeLanguage.bind(this)}>
+            <select className={classes.Select} defaultValue={this.state.currLanguage} 
+                onChange={this.changeLanguage.bind(this)}>
                 {languageOptions}
             </select>
             :

@@ -85,7 +85,7 @@ class App extends Component {
       user)
       .then(response => {
         console.log(response.data.message);
-        alert('Signup successful! Now you can Login');
+        alert('Signup successful! Check out your mailbox for email confirmation');
         window.location.reload();
       })
       .catch(error => {
@@ -96,9 +96,6 @@ class App extends Component {
   } 
 
   render() {
-
-    // wrapping the Main component with userContext.Provider ensures that the 
-    // value we pass can be consumed within any of Main’s descendant child components
 
     const value = {
       user: this.state.user,

@@ -8,7 +8,9 @@ const infoCard = (props) => (
             <div className={classes.Image}>
                 {props.img}
             </div>
-            <h3>{props.text}</h3>
+            <div className={classes.Text} dangerouslySetInnerHTML={{
+                __html: props.text,
+            }}></div>
         </div>
         <Link to={props.path}>
             <button>

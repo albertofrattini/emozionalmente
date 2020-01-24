@@ -14,15 +14,9 @@
 .Description {
     margin: 0px 0px 32px;
     width: 100%;
-}
-
-.Description h1 {
-    text-align: center;
-}
-
-.Description p {
     text-align: center;
     line-height: 1.63;
+    color: var(--text-dark);
 }
 
 .Form {
@@ -71,6 +65,7 @@
     border-radius: 24px;
     margin: 0px 0px 32px;
     transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    cursor: pointer;
 }
 
 @media (min-width: 700px) {

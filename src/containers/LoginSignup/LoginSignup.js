@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './LoginSignup.css';
 import Logo from '../../components/Logo/Logo';
+import allCountriesSelect from '../../components/UI/AllCountriesSelect/AllCountriesSelect';
 
 const initialState = {
     passwordType: 'password',
@@ -60,6 +61,9 @@ class LoginSignup extends Component {
     }
 
     signup = () => {
+        if (this.state.age === '' || this.state.signupEmail === '' || 
+            this.state.signupUsername === '' || this.state.signupPassword === '' ||
+            this.state.nationality === '' || this.state.sex === '') return;
         this.props.signup(
             this.state.signupUsername, this.state.signupEmail, 
             this.state.signupPassword, this.state.nationality,
@@ -69,6 +73,7 @@ class LoginSignup extends Component {
     
 
     render () {
+
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>
@@ -102,16 +107,20 @@ class LoginSignup extends Component {
                                     value={this.state.signupPassword}
                                     type="password"
                                     onChange={event => this.setState({signupPassword: event.target.value})}/>
-                                <input placeholder="Italian, English, Spanish ..."
+                                {/* <input placeholder="Italian, English, Spanish ..."
                                     value={this.state.nationality}
-                                    onChange={event => this.setState({nationality: event.target.value})}/>
+                                    onChange={event => this.setState({nationality: event.target.value})}/> */}
+                                <select className={classes.Select} style={{ marginLeft: '0px' }}
+                                    onChange={event => this.setState({ nationality: event.target.value })}>
+                                    {allCountriesSelect}
+                                </select>
                                 <div className={classes.InputRow}>
                                     <input placeholder="24, 56 ..."
                                         value={this.state.age}
                                         type="number"
                                         onChange={event => this.setState({age: event.target.value})}/>
-                                    <select id="sexselect" className={classes.SexSelect} onChange={this.toggleSex}>
-                                        <option value="">---</option>
+                                    <select id="sexselect" className={classes.Select} onChange={this.toggleSex}>
+                                        <option value="">Sex</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="notspecified">I prefer not to say it</option>

@@ -12,6 +12,31 @@
     box-sizing: border-box;
 }
 
+.Introduction {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 64px 16px 32px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.Values {
+    width: 156px;
+    height: 72px;
+    padding: 4px 16px 4px 4px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 32px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    color: var(--text-dark);
+}
+
 .Card {
     width: 100%;
     max-width: 600px;

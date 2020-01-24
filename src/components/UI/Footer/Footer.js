@@ -10,16 +10,16 @@ const footer = (props) => (
                 <img src={logo} alt="Logo"/>
             </div>
             <div className={classes.Links}>
-                <Link to="/privacy" className={classes.Link}>
+                <Link to="#" className={classes.Link}>
                     Privacy
                 </Link>
-                <Link to="/terms" className={classes.Link}>
+                <Link to="#" className={classes.Link}>
                     Terms
                 </Link>
                 <Link to="/about-us" className={classes.Link}>
                     FAQ
                 </Link>
-                <Link to="/cookies" className={classes.Link}>
+                <Link to="#" className={classes.Link}>
                     Cookies
                 </Link>
             </div>
