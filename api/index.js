@@ -2,11 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const session = require('express-session');
-// const morgan = require('morgan');
 const { setupDb } = require('./database/builder');
 const bodyParser = require('body-parser');
 const path = require('path');
 const serverPort = process.env.PORT || 8080
+
+
+function test (req,res,next){
+	console.log("url: " +req.originalUrl);
+	console.log(__dirname);
+		next();
+	}
 
 var requestTime = function (req, res, next) {
 	req.requestTime = Date.now();
@@ -25,6 +31,9 @@ var itDefault = function (req, res, next) {
 	next();
 }
 
+// app.use(test);
+app.use(express.static(__dirname + "/../build"));
+
 app.use(session({
 	secret: 'segreto_da_sostituire_prima_del_deployment',
 	resave: false,
@@ -38,6 +47,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 require('./router')(app);
 require('./managerrouter')(app);
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + "/../build/index.html"))
+});
 
 app.listen(
 	serverPort,

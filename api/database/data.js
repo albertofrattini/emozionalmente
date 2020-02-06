@@ -103,7 +103,7 @@ module.exports.getSamplesOfLanguage = function (language) {
 module.exports.getAccuracy = async function () {
     const corr = await db('evaluated').where('correct', true).count('id').first(); 
     const tot = await db('evaluated').count('id').first();
-    const res = corr.count / tot.count;
+    const res = tot.count == 0 ? 0 : corr.count / tot.count;
     return { value : res };
 }
 
@@ -114,7 +114,7 @@ module.exports.getSamplesEmotionRecognizedAs = async function (mainEmotion, reco
     const rec = await db('samples').where('samples.emotion', mainEmotion)
                         .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
                         .where('evaluated.emotion', recognizedEmotion).count('evaluated.id').first();
-    const res = (rec.count / tot.count) * 100;
+    const res = tot.count == 0 ? 0 : (rec.count / tot.count) * 100;
     return { value: res };
 }
 

@@ -2,11 +2,10 @@ let db;
 
 module.exports.setupUsersDb = async function (database) {
     db = database;
-    await db.raw('create extension if not exists "uuid-ossp"');
     return db.schema.hasTable('users').then(exists => {
         if (!exists) {
             return db.schema.createTable('users', table => {
-                table.uuid('id').defaultTo(db.raw('uuid_generate_v4()'));
+                table.increments('id');
                 table.boolean('confirmed');
                 table.boolean('admin');
                 table.text('username');
@@ -15,15 +14,13 @@ module.exports.setupUsersDb = async function (database) {
                 table.enum('sex', ['male', 'female', 'notspecified']);
                 table.text('nationality');
                 table.integer('age');
-                table.float('points');
             });
         }
-        db.raw('drop extension if exists "uuid-ossp"');
     });
 }
 
 module.exports.signup = function (user) {
-    return db('users').insert(user).returning('id');
+    return db('users').insert(user);
 }
 
 module.exports.login = function (email, password) {
@@ -42,9 +39,9 @@ module.exports.findUserById = function (userid) {
     return db('users').where('id', userid).first();
 }
 
-module.exports.confirmUser = function (userid, confirmation) {
+module.exports.confirmUser = function (username, confirmation) {
     return db('users')
-        .where('id', userid)
+        .where('username', username)
         .update(confirmation);
 }
 

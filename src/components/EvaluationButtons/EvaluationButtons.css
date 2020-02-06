@@ -33,10 +33,12 @@
 }
 
 .Emotions {
+    margin: 24px 0px 0px;
     width: 100%;
     height: auto;
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
@@ -126,6 +128,7 @@
     }
 
     .Emotions {
+        margin: 0;
         padding: 8px 24px;
     }
 

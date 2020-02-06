@@ -1,15 +1,15 @@
 module.exports = {
 
-  confirm: id => ({
+  confirm: username => ({
     subject: 'Emozionalmente Confirmation',
     html: `
       <div>
         <h1>Welcome to Emozionalmente!</h1>
         <p>In order to activate your account we ask you to copy and paste the following link into your browser:</p>
-        <h4>localhost:3000/confirm/${id}</h4>
+        <h4>i3lab.elet.polimi.it/emozionalmente/confirm/${username}</h4>
       </div>
     `,      
-    text: `Copy and paste this link: localhost:3000/confirm/${id}`
+    text: `Copy and paste this link: i3lab.elet.polimi.it/emozionalmente/confirm/${username}`
   }),
 
   mycontact: element => ({

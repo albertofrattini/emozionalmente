@@ -229,10 +229,6 @@ module.exports = function (app) {
 
         datadb.getSamplesToEvaluate(quantity, curruser, language)
             .then(result => {
-                // if (req.session.lang !== 'en'){
-                //     const enEmotion = result.emotion;
-                //     result.emotion = fromEnglishToItalian(enEmotion);
-                // }
                 res.send(result);
             });
 
@@ -294,20 +290,20 @@ module.exports = function (app) {
         let user = req.body;
 
         const { error } = validateUser(user);
-        if (error) return res.status(400).send(error.details[0].message);
+        if (error) return res.status(400).send({ message: error.details[0].message });
 
         const mailRegistered = await userdb.findUserByEmail(user.email);
-        if (mailRegistered) return res.status(400).send('User already registered!');
+        if (mailRegistered) return res.status(400).send({ message: 'User already registered!' });
 
-        const usernameRegistered = await userdb.findUserByEmail(user.username);
-        if (usernameRegistered) return res.status(400).send('User already registered!');
+        const usernameRegistered = await userdb.findUserByUsername(user.username);
+        if (usernameRegistered) return res.status(400).send({ message: 'User already registered!' });
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
 
         userdb.signup(user)
-            .then((id) => {
-                sendEmail(user.email, emailTemplates.confirm(id[0]));
+            .then(() => {
+                sendEmail(user.email, emailTemplates.confirm(user.username));
             })
             .then(() => {
                 res.status(200).send({
@@ -321,16 +317,16 @@ module.exports = function (app) {
 
     });
 
-    app.get('/api/users/confirmation/:id', async function (req, res) {
+    app.get('/api/users/confirmation/:username', async function (req, res) {
 
-        const userid = req.params.id;
+        const username = req.params.username;
 
-        const user = await userdb.findUserById(userid);
+        const user = await userdb.findUserByUsername(username);
         if (!user) return res.status(400).send('You are not allowed to complete this operation!');
 
         const confirmation = { confirmed: true };
 
-        userdb.confirmUser(userid, confirmation)
+        userdb.confirmUser(username, confirmation)
             .then(_ => {
                 res.status(200).send({
                     message: 'Confirmation successful!'
@@ -376,7 +372,6 @@ module.exports = function (app) {
             email: user.email
         };
         req.session.admin = user.admin;
-        // req.session.lang = user.favlang;
         req.session.loggedin = true;
         req.session.save();
 

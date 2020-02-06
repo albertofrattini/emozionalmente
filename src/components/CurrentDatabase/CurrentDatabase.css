@@ -1,6 +1,6 @@
 .CurrentDatabase {
     width: 100%;
-    padding: 92px 0px 32px;
+    padding: 24px 0px 0px;
     box-sizing: border-box;
     display: flex;
     flex-flow: column;
@@ -21,8 +21,26 @@
     box-sizing: border-box;
 }
 
+.ContainerReverse {
+    width: 100%;
+    max-width: 1028px;
+    height: auto;
+    padding: 0px 16px;
+    margin: 48px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
 .Container img {
-    padding: 0px 64px;
+    padding: 0px 16px;
+    width: 210px;
+}
+
+.ContainerReverse img {
+    padding: 0px 16px;
     width: 210px;
 }
 
@@ -37,44 +55,67 @@
     box-shadow: 0 2px 6px 5px rgba(25,25,25,0.05);
 }
 
-.Text {
+.TextRight {
     width: 100%;
     max-width: 500px;
+    margin: 24px 0px 0px;
     height: auto;
     padding: 0px;
     box-sizing: border-box;
     color: var(--text-darker);
     line-height: 1.63;
+    text-align: center;
 }
 
-/* .Text h2 {
-    font-size: 24px;
+.TextLeft {
+    width: 100%;
+    max-width: 500px;
+    margin: 24px 0px 0px;
+    height: auto;
+    padding: 0px;
+    box-sizing: border-box;
     color: var(--text-darker);
-    margin: 0px 0px 16px;
     line-height: 1.63;
+    text-align: center;
 }
 
-.Text p {
-    font-size: 15px;
-    color: var(--text-dark);
-    margin: 12px 0px 0px;
-    line-height: 1.63;
-} */
+@media (min-width: 600px) {
 
-@media(min-width: 975px) {
+    .CurrentDatabase {
+        padding: 92px 0px 32px;
+    }
+
     .Container {
         flex-flow: row;
     }
 
-    .Text {
+    .ContainerReverse {
+        flex-flow: row-reverse;
+    }
+
+    .TextRight {
         margin: 0;
+        text-align: right;
     }
 
-    .Text h1 {
+    .TextLeft {
+        margin: 0;
         text-align: left;
     }
 
-    .Text p {
-        text-align: left;
+
+}
+
+@media (min-width: 775px) {
+
+    .Container img {
+        padding: 0px 64px;
+        width: 210px;
     }
+    
+    .ContainerReverse img {
+        padding: 0px 64px;
+        width: 210px;
+    }
+
 }

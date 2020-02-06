@@ -11,7 +11,7 @@ class Database extends Component {
         username: null,
         userContribution: null,
         data: null,
-        accuracy: null,
+        accuracy: 0,
         maxValue: 0,
         percentage: 0,
         mainEmotion: null,
@@ -67,6 +67,7 @@ class Database extends Component {
 
                 axios.get(`/api/data/comparison?first=${currEm.name}&second=${currEm.name}`)
                     .then(response => {
+                        console.log(response.data);
                         this.setState({ percentage: parseInt(response.data.value, 10) });
                     });
 
@@ -160,7 +161,7 @@ class Database extends Component {
             : 
             null;
             
-        let accuracyData = this.state.accuracy ? 
+        let accuracyData = (
             <div className={classes.Column}>
                 <div className={classes.Percentage} style={{ color: 'var(--logo-orange)' }}>
                     {this.state.accuracy}%
@@ -177,8 +178,7 @@ class Database extends Component {
                     }}>
                 </CircularProgressbar>
             </div>
-            :
-            null;
+        );
 
         let querySelectors = (
             <div className={classes.Column} style={{ color: 'var(--text-dark)' }}>
@@ -242,7 +242,7 @@ class Database extends Component {
                         null
                 }
                 <div className={classes.MainGraph}>
-                    <div className={classes.Card}>
+                    <div className={classes.MainCard}>
                         {dataBlocks}
                     </div>
                     <div className={classes.Card}>
@@ -251,8 +251,6 @@ class Database extends Component {
                         </div>
                         {accuracyData}
                     </div>
-                </div>
-                <div className={classes.MainGraph}>
                     <div className={classes.Card}>
                         {querySelectors}
                         {dataDisplayed}

@@ -34,7 +34,6 @@ class Contribute extends Component {
     }
 
     render () {
-
         return (
             <div className={classes.Container}>
                 <div className={classes.Description}

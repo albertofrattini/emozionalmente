@@ -73,7 +73,6 @@ class LoginSignup extends Component {
     
 
     render () {
-
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>

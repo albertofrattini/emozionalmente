@@ -143,13 +143,13 @@
         "language": "it",
         "page": "home",
         "position": "graphic-safety",
-        "content": "<h2>Le tue informazioni sono in buone mani</h2><p style='text-align: right'>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
+        "content": "<h2>Le tue informazioni sono in buone mani</h2><p>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
     },
     {
         "language": "it",
         "page": "home",
         "position": "graphic-deep-learning",
-        "content": "<h2>La potenza dei dati</h2><p style='text-align: left'>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
+        "content": "<h2>La potenza dei dati</h2><p>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
     },
 
 
@@ -230,13 +230,13 @@
         "language": "en",
         "page": "home",
         "position": "graphic-safety",
-        "content": "<h2>Your information is in good hands</h2> <p style='text-align: right'>The few data that we will ask you will only serve to enrich our research and give added value to the recordings. No data that you deliver to us will be used outside the scientific sphere</p>"
+        "content": "<h2>Your information is in good hands</h2> <p>The few data that we will ask you will only serve to enrich our research and give added value to the recordings. No data that you deliver to us will be used outside the scientific sphere</p>"
     },
     {
         "language": "en",
         "page": "home",
         "position": "graphic-deep-learning",
-        "content": "<h2>The power of data</h2> <p style='text-align: left'>The development of neural networks and deep learning nowadays allows us to use the data collected in many different ways. The samples we collect will be used to teach the machines to recognize the intrinsic emotions in human speech and therefore help people who are in difficulty when it comes to doing something (apparently) so simple: <strong>express their emotions</strong></p>"
+        "content": "<h2>The power of data</h2> <p>The development of neural networks and deep learning nowadays allows us to use the data collected in many different ways. The samples we collect will be used to teach the machines to recognize the intrinsic emotions in human speech and therefore help people who are in difficulty when it comes to doing something (apparently) so simple: <strong>express their emotions</strong></p>"
     },
 
 
