@@ -95,35 +95,42 @@ class LoginSignup extends Component {
                             </div>
                             :
                             <div className={classes.InputColumn}>
-                                <input placeholder="Insert your username"
+                                <div className={classes.InputText}>Username</div>
+                                <input placeholder="Username must be at least 5 characters long"
                                     value={this.state.signupUsername}
                                     onChange={event => this.setState({signupUsername: event.target.value})}/>
-                                <input placeholder="Insert your email"
+                                <div className={classes.InputText}>Email</div>
+                                <input placeholder="Insert a valid email"
                                     value={this.state.signupEmail}
                                     type="email"
                                     onChange={event => this.setState({signupEmail: event.target.value})}/>
-                                <input placeholder="Insert your password"
+                                <div className={classes.InputText}>Password</div>
+                                <input placeholder="Password must be at least 5 characters long"
                                     value={this.state.signupPassword}
                                     type="password"
                                     onChange={event => this.setState({signupPassword: event.target.value})}/>
-                                {/* <input placeholder="Italian, English, Spanish ..."
-                                    value={this.state.nationality}
-                                    onChange={event => this.setState({nationality: event.target.value})}/> */}
+                                <div className={classes.InputText}>Nationality</div>
                                 <select className={classes.Select} style={{ marginLeft: '0px' }}
                                     onChange={event => this.setState({ nationality: event.target.value })}>
                                     {allCountriesSelect}
                                 </select>
                                 <div className={classes.InputRow}>
-                                    <input placeholder="24, 56 ..."
-                                        value={this.state.age}
-                                        type="number"
-                                        onChange={event => this.setState({age: event.target.value})}/>
-                                    <select id="sexselect" className={classes.Select} onChange={this.toggleSex}>
-                                        <option value="">Sex</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="notspecified">I prefer not to say it</option>
-                                    </select>
+                                    <div className={classes.InputColumn}>
+                                        <div className={classes.InputText}>Age</div>
+                                        <input placeholder="24, 56 ..."
+                                            value={this.state.age}
+                                            type="number"
+                                            onChange={event => this.setState({age: event.target.value})}/>
+                                    </div>
+                                    <div className={classes.InputColumn}>
+                                        <div className={classes.InputText}>Sex</div>
+                                        <select id="sexselect" className={classes.Select} onChange={this.toggleSex}>
+                                            <option value=""></option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="notspecified">I prefer not to say it</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <button 
                                     onClick={this.signup}

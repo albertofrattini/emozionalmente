@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { MdPlayArrow, MdPause, /*MdDone*/ } from 'react-icons/md';
-import ThumbsDown from '../../assets/images/thumb-down.png';
-import ThumbsUp from '../../assets/images/thumb-up.png';
+import { MdPlayArrow, MdPause } from 'react-icons/md';
+import { FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 import classes from './ListenButton.css';
 
 class ListenButton extends Component {
@@ -27,7 +26,8 @@ class ListenButton extends Component {
         return (
             <div className={classes.Box}>
                 <div className={classes.ReviewCard} onClick={() => this.props.clickedreview('bad')}>
-                    <img src={ThumbsDown} alt="thumbsdown" />
+                    <FiThumbsDown size="28px" color="var(--logo-red)"/>
+                    <span>{this.props.tdown}</span>
                 </div>
                 <button className={classes.Listen} onClick={this.props.clicked} >
                     { this.props.isPlaying ?
@@ -37,11 +37,9 @@ class ListenButton extends Component {
                     }
                 </button>
                 <div className={classes.ReviewCard} onClick={() => this.props.clickedreview('good')}>
-                    <img src={ThumbsUp} alt="thumbsup" />
+                    <FiThumbsUp size="28px" color="var(--greener)"/>
+                    <span>{this.props.tup}</span>
                 </div>
-                {/* <button className={classes.Done} onClick={this.props.done}>
-                    <MdDone size="48px" color="var(--greener)"/>
-                </button> */}
             </div>
         );    
     }

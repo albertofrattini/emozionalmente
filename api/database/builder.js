@@ -9,6 +9,7 @@ let { setupDescriptionsDb } = require('./descriptions');
 let { setupUsersDb } = require('./users');
 let { setupContactDb } = require('./contact');
 let { setupContributeDb } = require('./contribute');
+let { setupLogger } = require('./logger');
 
 function setupDb () {
 	setupDataDb(database);
@@ -16,6 +17,7 @@ function setupDb () {
 	setupUsersDb(database);
 	setupContactDb(database);
 	setupContributeDb(database);
+	setupLogger(database);
 }
 
 module.exports = { database: database, setupDb };

@@ -3,10 +3,14 @@ module.exports = {
   confirm: username => ({
     subject: 'Emozionalmente Confirmation',
     html: `
-      <div>
-        <h1>Welcome to Emozionalmente!</h1>
-        <p>In order to activate your account we ask you to copy and paste the following link into your browser:</p>
-        <h4>i3lab.elet.polimi.it/emozionalmente/confirm/${username}</h4>
+      <div style="color: #344955; text-align: center; height: 256px">
+        <h1>Welcome to Emozionalmente, ${username}!</h1>
+        <p>Click on the button to verify your account</p>
+        <div style="height: 40px"></div>
+        <a href="https://i3lab.elet.polimi.it/emozionalmente/confirm/${username}" 
+          style="cursor: pointer; border: none; margin-top: 48px; text-align: center; padding: 16px 40px; text-decoration: none; color: white; background-color: #0c6291; border-radius: 8px;">
+          VERIFY
+        </a>
       </div>
     `,      
     text: `Copy and paste this link: i3lab.elet.polimi.it/emozionalmente/confirm/${username}`

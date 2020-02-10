@@ -57,10 +57,21 @@
     /* background-image: linear-gradient(113deg, #2484FD 4%, #00B4FF 14%, #767BF3 53%, #FA42AB 65%, #FB6B9D 87%, #FD978D 100%); */
 }
 
+.Row {
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 
 @media (min-width: 650px) {
     .Content img {
         width: 75%;
+    }
+
+    .Card img {
+        margin-top: 48px;
     }
 }
 

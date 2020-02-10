@@ -125,7 +125,7 @@
         "language": "it",
         "page": "home",
         "position": "cards-center-subtitle",
-        "content": "La quantità di registrazioni sarebbe inutile senza una validazione. Grazie alle stesse persone che hanno messo a disposizione la propria voce, vogliamo selezionare i sample migliori"
+        "content": "Vogliamo verificare la bontà delle registrazioni raccolte e selezionare i sample migliori. Per questo chiediamo alle stesse persone che hanno messo a disposizione la propria voce di validare il lavoro degli altri"
     },
     {
         "language": "it",
@@ -137,19 +137,19 @@
         "language": "it",
         "page": "home",
         "position": "cards-dx-subtitle",
-        "content": "Tutto ciò che facciamo è per aiutare la ricerca e migliorarla. Per questo il database che vogliamo creare sarà universalmente disponibile, così che chiunque possa ottenere grandi risultati in poco tempo"
+        "content": "Il nostro è un progetto di ricerca universitaria ed il nostro fine è quello di utilizzare le voci raccolte per studiare intelligenze artificiali affinché possano riconoscere ed esprimere emozioni"
     },
     {
         "language": "it",
         "page": "home",
         "position": "graphic-safety",
-        "content": "<h2>Le tue informazioni sono in buone mani</h2><p>I pochi dati che ti chiederemo serviranno solamente per arricchire la nostra ricerca e dare un valore aggiunto alle registrazioni. Nessun dato che ci consegnerai verrà utilizzato al di fuori dell'ambito scientifico</p>"
+        "content": "<h2>Le tue informazioni sono in buone mani</h2><p>I pochi dati che chiediamo di inserire in fase di registrazione servono per conoscere meglio chi contribuisce al nostro progetto. Tutte le informazioni verranno utilizzate esclusivamente a scopo di ricerca</p>"
     },
     {
         "language": "it",
         "page": "home",
         "position": "graphic-deep-learning",
-        "content": "<h2>La potenza dei dati</h2><p>Lo sviluppo delle reti neurali e del Deep Learning al giorno d'oggi ci permette di utilizzare i dati raccolti nei modi più disparati. I sample che raccogliamo serviranno per insegnare alle macchine a riconoscere le emozioni instrinseche nel parlato umano e quindi aiutare persone che si trovano in difficoltà quando si tratta di fare qualcosa di (apparentemente) così semplice: <strong>esprimere le proprie emozioni</strong></p>"
+        "content": "<h2>La potenza dei dati</h2><p>La potenza del Machine Learning e del Deep Learning ci permettono di utilizzare le registrazioni vocali raccolte per insegnare alle macchine a riconoscere le emozioni espresse col tono della voce.</p>"
     },
 
 
@@ -247,7 +247,204 @@
 
 
 
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide1-1of3",
+        "content": "Click"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide1-1of3",
+        "content": "Clicca"
+    },
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide1-2of3",
+        "content": "to choose another emotion, then press"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide1-2of3",
+        "content": "per scegliere un'altra emozione, poi"
+    },
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide1-3of3",
+        "content": "to start recording."
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide1-3of3",
+        "content": "per iniziare a registrare."
+    },
 
+
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide2-1of4",
+        "content": "Click"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide2-1of4",
+        "content": "Clicca"
+    },
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide2-2of4",
+        "content": "to listen, then"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide2-2of4",
+        "content": "per ascoltare, poi"
+    },
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide2-3of4",
+        "content": "when you are satisfied with the result. Press"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide2-3of4",
+        "content": "quando sei soddisfatto del risultato."
+    },
+    {
+        "language": "en",
+        "page": "record",
+        "position": "guide2-4of4",
+        "content": "to record again."
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "guide2-4of4",
+        "content": "per registrare di nuovo."
+    },
+
+
+
+
+
+
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide1-1of4",
+        "content": "Click"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide1-1of4",
+        "content": "Clicca"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide1-2of4",
+        "content": "to listen. Select"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide1-2of4",
+        "content": "per ascoltare. Seleziona"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide1-3of4",
+        "content": "or"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide1-3of4",
+        "content": "o"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide1-4of4",
+        "content": "to evaluate the quality and click on the expressed emotion."
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide1-4of4",
+        "content": "per valutare la qualità e clicca sull'emozione espressa."
+    },
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide2-1of2",
+        "content": "Click"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide2-1of2",
+        "content": "Clicca"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "guide2-2of2",
+        "content": "when you are satisfied with your evaluation."
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "guide2-2of2",
+        "content": "quando sei soddisfatto della tua valutazione."
+    },
+
+
+
+
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "review-tdown",
+        "content": "BAD"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "review-tdown",
+        "content": "NEG"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "review-tup",
+        "content": "GOOD"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "review-tup",
+        "content": "POS"
+    },
 
 
 

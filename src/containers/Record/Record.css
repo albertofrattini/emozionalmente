@@ -1,18 +1,9 @@
-.Overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10;
-}
-
 .Record {
     margin-top: 80px;
 }
 
 @media (min-width: 700px) {
     .Record {
-        margin-top: 128px;
+        margin-top: 140px;
     }
 }

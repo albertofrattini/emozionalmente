@@ -21,7 +21,8 @@ class Record extends Component {
         sampleUrl: '',
         newUser: false,
         emotions: [],
-        currentEmotion: ''
+        currentEmotion: '',
+        content: {}
     }
 
     blob = null;
@@ -45,6 +46,15 @@ class Record extends Component {
                     currentEmotion: response.data[index],
                     emotions: response.data 
                 });
+            });
+
+        axios.get('/api/descriptions/record')
+            .then(response => {
+                const content = {};
+                response.data.map(el => {
+                    return content[el.position] = el.content;
+                });
+                this.setState({ content: content });
             });
 
     }
@@ -77,6 +87,8 @@ class Record extends Component {
     }
 
     saveSample = () => {
+
+        if (this.state.sentences.length < 1) return;
 
         let data = new FormData();
         data.append('audio', this.blob);
@@ -111,7 +123,13 @@ class Record extends Component {
     }
 
     changeEmotion = (index) => {
-        const element = this.state.emotions[index];
+        let element;
+        if (index === 'random') {
+            const idx = getRandomInt(this.state.emotions.length);
+            element = this.state.emotions[idx];
+        } else {
+            element = this.state.emotions[index];
+        }
         this.setState({ 
             currentEmotion: element
         });
@@ -142,6 +160,9 @@ class Record extends Component {
                             currentEmotion={this.state.currentEmotion}
                             change={this.changeEmotion}
                             progress={this.state.progress}  
+                            guide1_1of3={this.state.content['guide1-1of3']}
+                            guide1_2of3={this.state.content['guide1-2of3']}
+                            guide1_3of3={this.state.content['guide1-3of3']}
                         /> 
                         {this.state.isRecording ? 
                             <StopButton clicked={this.stopRecording}/>
@@ -154,7 +175,12 @@ class Record extends Component {
                             <CheckListen 
                                 sampleUrl={this.state.sampleUrl}
                                 type={this.audioType}
-                                clicked={this.saveSample}/>
+                                clicked={this.saveSample}
+                                guide2_1of4={this.state.content['guide2-1of4']}
+                                guide2_2of4={this.state.content['guide2-2of4']}
+                                guide2_3of4={this.state.content['guide2-3of4']}
+                                guide2_4of4={this.state.content['guide2-4of4']}
+                            />
                         }
                     </div>
                 }
@@ -172,19 +198,3 @@ function getRandomInt(max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
-
-// function createAudioElement(blobUrl) {
-//     const downloadEl = document.createElement('a');
-//     downloadEl.style = 'display: block';
-//     downloadEl.innerHTML = 'download';
-//     downloadEl.download = 'audio.wav';
-//     downloadEl.href = blobUrl;
-//     const audioEl = document.createElement('audio');
-//     audioEl.controls = true;
-//     const sourceEl = document.createElement('source');
-//     sourceEl.src = blobUrl;
-//     sourceEl.type = 'audio/wav';
-//     audioEl.appendChild(sourceEl);
-//     document.body.appendChild(audioEl);
-//     document.body.appendChild(downloadEl);
-// }

@@ -4,6 +4,8 @@ import classes from './LandingDescription.css';
 import { NavLink } from 'react-router-dom';
 import { MdMic, MdPlayArrow } from 'react-icons/md';
 
+import log from '../../logger';
+
 
 const description = (props) => (
     <div className={classes.Description}>
@@ -20,8 +22,7 @@ const description = (props) => (
             <div className={classes.ButtonSection}>
                 <div className={classes.Column}>
                     <NavLink to="/record" style={{ textDecoration: 'none' }}>
-                        <div className={classes.Record}>
-                            {/* {props.buttonsx} */}
+                        <div className={classes.Record} onClick={() => log('@Home: btn Record -> @Record')}>
                             <MdMic size="60px" color="white"/>
                         </div>
                     </NavLink>
@@ -34,8 +35,7 @@ const description = (props) => (
                 </div>
                 <div className={classes.Column}>
                     <NavLink to="/evaluate" style={{ textDecoration: 'none' }}>
-                        <div className={classes.Evaluate}>
-                            {/* {props.buttondx} */}
+                        <div className={classes.Evaluate} onClick={() => log('@Home: btn Evaluate -> @Evaluate')}>
                             <MdPlayArrow size="64px" color="white"/>
                         </div>
                     </NavLink>

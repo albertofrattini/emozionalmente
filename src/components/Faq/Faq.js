@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './Faq.css';
 import Question from './Question/Question';
 import axios from 'axios';
+import log from '../../logger';
 
 class Faq extends Component {
 
@@ -28,6 +29,7 @@ class Faq extends Component {
     }
 
     openQuestion = (index) => {
+        log('@AboutUs: Faq opened question');
         this.setState({
             openedQuestion: index
         });

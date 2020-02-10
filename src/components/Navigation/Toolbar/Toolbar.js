@@ -82,10 +82,12 @@ class Toolbar extends Component {
                         {languageSelector}
                         {
                             this.props.user.username ? 
-                            <div className={classes.Username} onClick={this.props.logout}>
+                            <div className={classes.Username}>
                                 {this.props.user.username}
                                 <img src={userEmoji} alt="user icon" />
-                                <span className={classes.Tooltip}>Logout</span>
+                                <span className={classes.Tooltip} onClick={this.props.logout}>
+                                    Logout
+                                </span>
                             </div>
                             :
                             <Link to="/login-signup">

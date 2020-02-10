@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import classes from './SentenceCard.css';
 import Emojis from '../UI/Emojis/Emojis';
 import Progress from '../Progress/Progress';
-import { MdArrowForward, MdDone } from 'react-icons/md';
-import ThumbsDown from '../../assets/images/thumb-down.png';
-import ThumbsUp from '../../assets/images/thumb-up.png';
+import { MdArrowForward, MdDone, MdMic, MdPlayArrow } from 'react-icons/md';
+import { FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
 
 const sentenceCard = (props) => {
 
@@ -30,6 +29,10 @@ const sentenceCard = (props) => {
         modal = (
             <div className={classes.EmotionsModal}>
                 <div className={classes.EmotionsList}>
+                    <span style={{ color: 'var(--text-light)', marginBottom: '24px' }} 
+                        onClick={() => changeEmotion('random')}>
+                        Random
+                    </span>
                     {emotionsModal}
                 </div>
             </div>
@@ -38,6 +41,8 @@ const sentenceCard = (props) => {
 
     let selectEmotionButton = null;
     let doneButton = null;
+    let topInstruction = (<div className={classes.TopInstruction}></div>);
+    let doneInstruction = null;
 
     if (props.record) {
         const curr = props.currentEmotion;
@@ -57,9 +62,6 @@ const sentenceCard = (props) => {
                     curr ?
                         <div className={classes.Column}>
                             <img className={classes.Emoji} src={Emojis[curr.name]} alt={curr.emotion}/>
-                            {/* <div className={classes.SelectedEmotion} style={{ color: curr.color }}>
-                                    {curr.emotion}
-                                </div> */}
                         </div>
                         : 
                         null
@@ -70,11 +72,11 @@ const sentenceCard = (props) => {
                         :
                         props.currentReview === 'good' ? 
                             <div className={classes.Column}>
-                                <img className={classes.Evaluation} src={ThumbsUp} alt="thumbsdown" />
+                                <FiThumbsUp size="36px" color="var(--greener)"/>
                             </div>
                             :
                             <div className={classes.Column}>
-                                <img className={classes.Evaluation} src={ThumbsDown} alt="thumbsdown" />
+                                <FiThumbsDown size="36px" color="var(--logo-red)"/>
                             </div>
 
                 }
@@ -89,6 +91,40 @@ const sentenceCard = (props) => {
                 <MdDone size="48px" color="var(--greener)"/>
             </button>
         );
+
+        doneInstruction = (
+            <div className={classes.DoneInstruction}>
+                {props.guide2_1of2}
+                <MdDone size="24px" color="var(--greener)" style={{ margin: '0px 8px' }}/>
+                {props.guide2_2of2}
+            </div>
+        );
+
+    }
+
+    if (props.record) {
+        topInstruction = (
+            <div className={classes.TopInstruction}>
+                {props.guide1_1of3}
+                <img className={classes.EmojiInstruction} 
+                    src={Emojis[props.currentEmotion.name]} alt={props.currentEmotion.emotion}/>
+                {props.guide1_2of3}
+                <MdMic size="24px" color="var(--logo-red)" style={{ margin: '0px 8px' }}/>
+                {props.guide1_3of3}
+            </div>
+        );
+    } else {
+        topInstruction = (
+            <div className={classes.TopInstruction}>
+                {props.guide1_1of4}
+                <MdPlayArrow size="24px" color="var(--logo-violet)" style={{ margin: '0px 8px' }}/>
+                {props.guide1_2of4}
+                <FiThumbsDown size="20px" color="var(--logo-red)" style={{ margin: '0px 8px' }}/>
+                {props.guide1_3of4}
+                <FiThumbsUp size="20px" color="var(--greener)" style={{ margin: '0px 8px' }}/>
+                {props.guide1_4of4}
+            </div>
+        );
     }
         
     return (
@@ -97,6 +133,8 @@ const sentenceCard = (props) => {
                 <Progress prog={props.progress} evaluate={props.evaluate} emotions={props.emotions}/>
             </div>
             <div className={classes.CardContainer}>
+                {topInstruction}
+                {doneInstruction}
                 <div className={classes.EmotionContainer}>
                     {selectEmotionButton}
                 </div>

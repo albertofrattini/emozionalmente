@@ -2,7 +2,7 @@ import React from 'react';
 
 const allCountriesSelect = (
     <React.Fragment>
-   <option value="">Nationality</option>
+   <option value=""></option>
    <option value="Afganistan">Afghanistan</option>
    <option value="Albania">Albania</option>
    <option value="Algeria">Algeria</option>

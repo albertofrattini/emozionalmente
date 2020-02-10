@@ -10,25 +10,19 @@ const footer = (props) => (
                 <img src={logo} alt="Logo"/>
             </div>
             <div className={classes.Links}>
-                <Link to="#" className={classes.Link}>
+                <Link to="#" className={classes.NullLink}>
                     Privacy
                 </Link>
-                <Link to="#" className={classes.Link}>
+                <Link to="#" className={classes.NullLink}>
                     Terms
                 </Link>
                 <Link to="/about-us" className={classes.Link}>
                     FAQ
                 </Link>
-                <Link to="#" className={classes.Link}>
+                <Link to="#" className={classes.NullLink}>
                     Cookies
                 </Link>
             </div>
-            {/* <div className={classes.Other}>
-                <div className={classes.Languages}>
-                    <button onClick={props.clicked}>it</button>
-                    <button onClick={props.clicked}>en</button>
-                </div>
-            </div> */}
         </div>
     </div>
 );

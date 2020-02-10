@@ -36,15 +36,13 @@ class App extends Component {
           password: password
       })
       .then( response => {
-        console.log(response.data.message);
         this.setState({
           user: response.data.user
         });
         window.location.href = '/';
       })
       .catch(error => {
-        console.log(error.message);
-        alert('Email or Password are not correct, check again!');
+        alert(error.response.data.message);
         window.location.reload();
       });
 
@@ -84,13 +82,11 @@ class App extends Component {
       '/api/users/signup', 
       user)
       .then(response => {
-        console.log(response.data.message);
-        alert('Signup successful! Check out your mailbox for email confirmation');
+        alert(response.data.message);
         window.location.reload();
       })
       .catch(error => {
-        console.log(error.message);
-        alert('Some field doesn\'t satisfy our constraints... try again!');
+        alert(error.response.data.message);
       });
 
   } 

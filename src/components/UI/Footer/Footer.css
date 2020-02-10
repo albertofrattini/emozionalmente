@@ -56,6 +56,14 @@
     color: var(--logo-orange);
 }
 
+.NullLink {
+    color: var(--text-lightest);
+    font-size: 16px;
+    padding: 8px 0px;
+    text-decoration: none;
+    cursor: default;
+}
+
 .Other {
     width: 100%;
     max-width: 256px;

@@ -85,7 +85,7 @@
     }
 
     .Element {
-        height: 70vh;
+        height: 470px;
         border-radius: 0px;
     }
 
@@ -98,8 +98,7 @@
 @media (min-width: 1100px) {
 
     .Element {
-        height: 60vh;
-        border-radius: 0px;
+        height: 400px;
     }
 
     .Image {

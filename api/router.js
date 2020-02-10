@@ -1,10 +1,12 @@
 const sendEmail = require('./utilities/emailsend');
 const emailTemplates = require('./utilities/emailtemplates');
+const errors = require('./utilities/responses');
 const descriptionsdb = require('./database/descriptions');
 const userdb = require('./database/users');
 const datadb = require('./database/data');
 const contactdb = require('./database/contact');
 const contributedb = require('./database/contribute');
+const loggerdb = require('./database/logger');
 
 const emotions = require('./database/init/emotions.json');
 
@@ -58,6 +60,21 @@ module.exports = function (app) {
 
     });
 
+    app.post('/api/logger', (req, res) => {
+
+        const log = {
+            info: req.body.info,
+            username: req.session.user ? req.session.user.username : 'unknown',
+            timestamp: req.requestTime
+        };
+
+        loggerdb.insertLog(log)
+            .then(_ => {
+                res.status(200).send('ok');
+            });
+
+    }); 
+
 
 
 
@@ -89,7 +106,6 @@ module.exports = function (app) {
             content: "English samples",
             value: enSamples.value
         }
-        // currentDb['accuracy'] = await datadb.getAccuracy();
 
         res.send(currentDb);
 
@@ -289,14 +305,16 @@ module.exports = function (app) {
 
         let user = req.body;
 
-        const { error } = validateUser(user);
+        const { error } = validateUser(user, req);
         if (error) return res.status(400).send({ message: error.details[0].message });
 
         const mailRegistered = await userdb.findUserByEmail(user.email);
-        if (mailRegistered) return res.status(400).send({ message: 'User already registered!' });
+        if (mailRegistered) 
+        return res.status(400).send({ message: errors.responses[req.session.lang]['signupEmailError'] });
 
         const usernameRegistered = await userdb.findUserByUsername(user.username);
-        if (usernameRegistered) return res.status(400).send({ message: 'User already registered!' });
+        if (usernameRegistered) 
+        return res.status(400).send({ message: errors.responses[req.session.lang]['signupUsernameError'] });
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
@@ -307,7 +325,7 @@ module.exports = function (app) {
             })
             .then(() => {
                 res.status(200).send({
-                    message: 'Signup successful!'
+                    message: errors.responses[req.session.lang]['signupSuccessful']
                 });
             }).catch(error => {
                 res.status(400).send({
@@ -345,16 +363,16 @@ module.exports = function (app) {
 
         const credentials = req.body;
 
-        const { error } = validateCredentials(credentials);
+        const { error } = validateCredentials(credentials, req);
         if (error) return res.status(400).send(error.details[0].message);
 
         const user = await userdb.findUserByEmail(credentials.email);
-        if (!user) return res.status(400).send('Invalid email or password!');
+        if (!user) return res.status(400).send({ message: errors.responses[req.session.lang]['loginError'] });
 
-        if (!user.confirmed) return res.status(200).send('You are already registered but the email has not been confirmed...');
+        if (!user.confirmed) return res.status(400).send({ message: errors.responses[req.session.lang]['loginUnconfirmedError'] });
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) return res.status(400).send('Invalid email or password!');
+        if (!isValid) return res.status(400).send({ message: errors.responses[req.session.lang]['loginError'] });
 
         res.status(200).send(
             {
@@ -521,22 +539,42 @@ module.exports = function (app) {
 
 
 
-function validateUser(user) {
+function validateUser(user, req) {
     const schema = {
-        username: Joi.string().min(5).max(255).required(),
-        email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(255).required(),
-        nationality: Joi.string(),
-        age: Joi.string(),
-        sex: Joi.string()
+        username: Joi.string().min(5).max(255).required().error(() => {
+            return {
+              message: errors.responses[req.session.lang]['joi']['signupUsername'],
+            };
+          }),
+        email: Joi.string().min(5).max(255).required().email().error(() => {
+            return {
+              message: errors.responses[req.session.lang]['joi']['signupEmail'],
+            };
+          }),
+        password: Joi.string().min(5).max(255).required().error(() => {
+            return {
+              message: errors.responses[req.session.lang]['joi']['signupPassword'],
+            };
+          }),
+        nationality: Joi.string().required(),
+        age: Joi.string().required(),
+        sex: Joi.string().required()
     };
     return Joi.validate(user, schema);
 }
 
-function validateCredentials(credentials) {
+function validateCredentials(credentials, req) {
     const schema = {
-        email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(255).required()
+        email: Joi.string().min(5).max(255).required().email().error(() => {
+            return {
+              message: errors.responses[req.session.lang]['joi']['loginEmail'],
+            };
+          }),
+        password: Joi.string().min(5).max(255).required().error(() => {
+            return {
+              message: errors.responses[req.session.lang]['joi']['loginPassword'],
+            };
+          })
     };
     return Joi.validate(credentials, schema);
 }

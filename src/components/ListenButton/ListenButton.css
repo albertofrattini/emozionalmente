@@ -2,7 +2,7 @@
     margin: auto;
     margin-top: 8px;
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;
     padding: 0px 8px;
     box-sizing: border-box;
     height: auto;
@@ -25,11 +25,17 @@
 }
 
 .ReviewCard {
+    width: 88px;
     padding: 12px 24px;
     margin: 0px 16px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 14px;
     /* font-size: 16px;
     font-weight: bold;
     color: var(--text-dark);

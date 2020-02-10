@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './InfoCard.css';
 import { Link } from 'react-router-dom';
+import log from '../../../logger';
 
 const infoCard = (props) => (
     <div className={classes.Card}>
@@ -13,7 +14,7 @@ const infoCard = (props) => (
             }}></div>
         </div>
         <Link to={props.path}>
-            <button>
+            <button onClick={() => log('@AboutUs: clicked btn -> ' + props.path)}>
                     {props.action}
             </button>
         </Link>

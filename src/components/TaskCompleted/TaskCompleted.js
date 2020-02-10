@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import classes from './TaskCompleted.css';
-import thinking from '../../assets/images/thinking.png';
+import happy from '../../assets/images/user.png';
 import { Link } from 'react-router-dom';
 
 class TaskCompleted extends Component {
@@ -22,21 +22,26 @@ class TaskCompleted extends Component {
 
     render() {
 
-        let homeColor = this.props.record ? 'var(--logo-red)' : 'var(--logo-violet)';
-
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>
-                    <img src={thinking} alt="thinking person" />
+                    <img src={happy} alt="happy emoji" />
                     <div className={classes.Text} dangerouslySetInnerHTML={{
                         __html: this.state.content
                     }}>
                     </div>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <div className={classes.Button} style={{ backgroundColor: homeColor }}>
-                            Home
-                        </div>
-                    </Link>
+                    <div className={classes.Row}>
+                        <Link to="/record" style={{ textDecoration: 'none' }}>
+                            <div className={classes.Button} style={{ backgroundColor: 'var(--logo-red)' }}>
+                                Record
+                            </div>
+                        </Link>
+                        <Link to="/evaluate" style={{ textDecoration: 'none' }}>
+                            <div className={classes.Button} style={{ backgroundColor: 'var(--logo-violet)' }}>
+                                Evaluate
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

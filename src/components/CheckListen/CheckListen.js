@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './CheckListen.css';
-import { MdPlayArrow, MdDone, MdPause } from 'react-icons/md';
+import { MdPlayArrow, MdDone, MdPause, MdMic } from 'react-icons/md';
 import { createAnalyser, killWave } from '../UI/AudioWave/AudioWave';
 
 class CheckListen extends Component {
@@ -37,6 +37,15 @@ class CheckListen extends Component {
 
         return (
             <div className={classes.Options}>
+                <div className={classes.TopInstruction}>
+                    {this.props.guide2_1of4}
+                    <MdPlayArrow size="24px" color="var(--bluer)" style={{ margin: '0px 8px' }}/>
+                    {this.props.guide2_2of4}
+                    <MdDone size="24px" color="var(--greener)" style={{ margin: '0px 8px' }}/>
+                    {this.props.guide2_3of4}
+                    <MdMic size="24px" color="var(--logo-red)" style={{ margin: '0px 8px' }}/>
+                    {this.props.guide2_4of4}
+                </div>
                 <button className={classes.Play} onClick={this.playOrPauseSample}>
                     {this.state.isPlaying ?
                         <MdPause size="56px" color="var(--bluer)"/>

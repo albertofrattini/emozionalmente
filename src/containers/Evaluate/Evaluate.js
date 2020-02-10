@@ -19,7 +19,8 @@ class Evaluate extends Component {
         sampleUrl: '',
         selectedEmotion: null,
         selectedReview: '',
-        newUser: false
+        newUser: false,
+        content: {}
     }
 
     componentDidMount () {
@@ -37,6 +38,15 @@ class Evaluate extends Component {
         axios.get('/api/data/emotions')
             .then(response => {
                 this.setState({ emotions: response.data });
+            });
+
+        axios.get('/api/descriptions/evaluate')
+            .then(response => {
+                const content = {};
+                response.data.map(el => {
+                    return content[el.position] = el.content;
+                });
+                this.setState({ content: content });
             });
 
     }
@@ -80,6 +90,8 @@ class Evaluate extends Component {
     }
 
     saveEvaluation = () => {
+
+        if (this.state.samples.length < 1) return;
 
         const sample = this.state.samples[this.state.index];
 
@@ -162,38 +174,46 @@ class Evaluate extends Component {
                     this.state.progress.length === 5 ?
                     <TaskCompleted />
                     :
-                    <div className={classes.Content}>
-                        <div className={classes.Evaluate}>
-                            <SentenceCard 
-                                sentence={ this.state.samples.length > 0 ?
-                                    this.state.samples[this.state.index].sentence
-                                    : 'Loading...'
-                                } 
-                                evaluate
-                                hasevaluation={this.state.selectedEmotion !== null 
-                                    &&
-                                    this.state.selectedReview !== '' ?
-                                    true : false
-                                }
-                                done={this.postEvaluation}
-                                currentEmotion={this.state.selectedEmotion}
-                                currentReview={this.state.selectedReview}
-                                clicked={this.changeSentence}  
-                                progress={this.state.progress} 
-                            />
-                            {this.state.sampleUrl === '' ?
-                                null
-                                :
-                                audioFile
+                    <div className={classes.Evaluate}>
+                        <SentenceCard 
+                            sentence={ this.state.samples.length > 0 ?
+                                this.state.samples[this.state.index].sentence
+                                : 'Loading...'
+                            } 
+                            evaluate
+                            hasevaluation={this.state.selectedEmotion !== null 
+                                &&
+                                this.state.selectedReview !== '' ?
+                                true : false
                             }
-                            <ListenButton 
-                                clicked={this.playOrPauseSample}
-                                isPlaying={this.state.isPlaying}
-                                clickedreview={this.selectReview}/>
-                            <EvaluationButtons 
-                                emotions={this.state.emotions}
-                                clicked={this.selectEmotion}/>
-                        </div>
+                            done={this.postEvaluation}
+                            currentEmotion={this.state.selectedEmotion}
+                            currentReview={this.state.selectedReview}
+                            clicked={this.changeSentence}  
+                            progress={this.state.progress} 
+                            guide1_1of4={this.state.content['guide1-1of4']}
+                            guide1_2of4={this.state.content['guide1-2of4']}
+                            guide1_3of4={this.state.content['guide1-3of4']}
+                            guide1_4of4={this.state.content['guide1-4of4']}
+                            guide2_1of2={this.state.content['guide2-1of2']}
+                            guide2_2of2={this.state.content['guide2-2of2']}
+                        />
+                        {this.state.sampleUrl === '' ?
+                            null
+                            :
+                            audioFile
+                        }
+                        <ListenButton 
+                            clicked={this.playOrPauseSample}
+                            isPlaying={this.state.isPlaying}
+                            clickedreview={this.selectReview}
+                            tdown={this.state.content['review-tdown']}
+                            tup={this.state.content['review-tup']}
+                        />
+                        <EvaluationButtons 
+                            emotions={this.state.emotions}
+                            clicked={this.selectEmotion}
+                        />
                     </div>
                 }
             </div>
