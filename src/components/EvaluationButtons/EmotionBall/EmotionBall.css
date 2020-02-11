@@ -1,7 +1,7 @@
 .Column {
     width: 92px;
     height: auto;
-    padding: 8px;
+    padding: 0px 8px;
     border-radius: 4px;
     display: flex;
     flex-flow: column;
@@ -12,8 +12,8 @@
 
 .Emotion {
     margin-top: 8px;
-    font-size: 18px;
-    letter-spacing: 0.05em;
+    font-size: 17px;
+    letter-spacing: 0.04em;
     font-weight: bold;
     background-color: white;
     display: flex;
@@ -22,7 +22,7 @@
 }
 
 .Emoji {
-    width: 48px;
+    width: 42px;
     height: auto;
 }
 

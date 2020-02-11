@@ -83,7 +83,7 @@ class Toolbar extends Component {
                         {
                             this.props.user.username ? 
                             <div className={classes.Username}>
-                                {this.props.user.username}
+                                <p className={classes.UsernameText}>{this.props.user.username}</p>
                                 <img src={userEmoji} alt="user icon" />
                                 <span className={classes.Tooltip} onClick={this.props.logout}>
                                     Logout

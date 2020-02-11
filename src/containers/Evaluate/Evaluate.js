@@ -133,8 +133,16 @@ class Evaluate extends Component {
             this.setState({ isPlaying: !isPlaying });
             document.getElementById('voicesample').pause();
         } else {
-            this.setState({ isPlaying: !isPlaying });
-            document.getElementById('voicesample').play();
+            var playPromise = document.getElementById('voicesample').play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    this.setState({ isPlaying: !isPlaying });
+                })  
+                .catch(error => {
+                    console.log(error);
+                });
+            }
+
         }
     }
 
@@ -159,8 +167,8 @@ class Evaluate extends Component {
         if (this.state.sampleUrl !== '') {
             audioFile = (
                 <audio id="voicesample" onEnded={this.restorePlayButton}>
-                <source src={this.state.sampleUrl} type={'audio/wav'}/>
-            </audio>
+                    <source src={this.state.sampleUrl} type={'audio/wav'}/>
+                </audio>
             );
         }
 

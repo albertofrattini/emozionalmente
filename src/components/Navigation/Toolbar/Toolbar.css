@@ -49,13 +49,23 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    font-size: 18px;
+    font-size: 17px;
     cursor: pointer;
     position: relative;
 }
 
 .Username img {
-    height: 80%;
+    height: 28px;
+    width: 28px;
+}
+
+.UsernameText {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+    margin-right: 8px;
 }
 
 .Tooltip {

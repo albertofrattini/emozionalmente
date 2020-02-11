@@ -1,7 +1,7 @@
 .EvaluationButtons {
     width: 100%;
     max-width: 1028px;
-    height: 140px;
+    height: auto;
     margin: auto;
     margin-top: 8px;
     padding: 0px;
@@ -113,7 +113,7 @@
 @media (min-width: 800px) {
 
     .EvaluationButtons {
-        margin-top: 40px;
+        margin-top: 32px;
     }
 
     .Container {
@@ -129,7 +129,7 @@
 
     .Emotions {
         margin: 0;
-        padding: 8px 24px;
+        padding: 0px 24px;
     }
 
     .Emotions:hover ~ .ShowEmotion {

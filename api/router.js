@@ -252,13 +252,18 @@ module.exports = function (app) {
 
     app.get('/api/data/download/:id', (req, res) => {
 
+        console.log('download');
+
         datadb.findSample(req.params.id)
             .then(result => {
 
+                console.log('inside then');
                 let filePath = 
                     path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
                 res.download(filePath);
             });
+
+        console.log('after then');
 
     });
 
