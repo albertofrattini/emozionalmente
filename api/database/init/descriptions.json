@@ -2,18 +2,6 @@
     {
         "language": "it",
         "page": "navbar",
-        "content": "REGISTRA",
-        "additional": "/record"
-    },
-    {
-        "language": "it",
-        "page": "navbar",
-        "content": "VALUTA",
-        "additional": "/evaluate"
-    },
-    {
-        "language": "it",
-        "page": "navbar",
         "content": "DATABASE",
         "additional": "/database"
     },
@@ -26,18 +14,6 @@
 
 
 
-    {
-        "language": "en",
-        "page": "navbar",
-        "content": "RECORD",
-        "additional": "/record"
-    },
-    {
-        "language": "en",
-        "page": "navbar",
-        "content": "EVALUATE",
-        "additional": "/evaluate"
-    },
     {
         "language": "en",
         "page": "navbar",
@@ -251,38 +227,16 @@
         "language": "en",
         "page": "record",
         "position": "guide1-1of3",
-        "content": "Click"
+        "content": "Click below here to choose another emotion"
     },
     {
         "language": "it",
         "page": "record",
         "position": "guide1-1of3",
-        "content": "Clicca"
+        "content": "Clicca qui sotto per scegliere un'altra emozione"
     },
-    {
-        "language": "en",
-        "page": "record",
-        "position": "guide1-2of3",
-        "content": "to choose another emotion, then press"
-    },
-    {
-        "language": "it",
-        "page": "record",
-        "position": "guide1-2of3",
-        "content": "per scegliere un'altra emozione, poi"
-    },
-    {
-        "language": "en",
-        "page": "record",
-        "position": "guide1-3of3",
-        "content": "to start recording."
-    },
-    {
-        "language": "it",
-        "page": "record",
-        "position": "guide1-3of3",
-        "content": "per iniziare a registrare."
-    },
+
+
 
 
     {
@@ -357,38 +311,16 @@
         "language": "en",
         "page": "evaluate",
         "position": "guide1-2of4",
-        "content": "to listen. Select"
+        "content": "to listen. Which emotions do you think it has been expressed?"
     },
     {
         "language": "it",
         "page": "evaluate",
         "position": "guide1-2of4",
-        "content": "per ascoltare. Seleziona"
+        "content": "per ascoltare. Quale emozione pensi sia stata espressa?"
     },
-    {
-        "language": "en",
-        "page": "evaluate",
-        "position": "guide1-3of4",
-        "content": "or"
-    },
-    {
-        "language": "it",
-        "page": "evaluate",
-        "position": "guide1-3of4",
-        "content": "o"
-    },
-    {
-        "language": "en",
-        "page": "evaluate",
-        "position": "guide1-4of4",
-        "content": "to evaluate the quality and click on the expressed emotion."
-    },
-    {
-        "language": "it",
-        "page": "evaluate",
-        "position": "guide1-4of4",
-        "content": "per valutare la qualità e clicca sull'emozione espressa."
-    },
+
+
 
 
     {
@@ -558,7 +490,7 @@
     {
         "language": "it",
         "page": "recordguide",
-        "content": "<p style='margin: 0px 0px 8px'>Vogliamo iniziare a registrare?</p> <p style='margin: 0px 0px 8px'>Prima di tutto, assicurati di trovarti in una stanza <strong>silenziosa</strong> per evitare rumori di sottofondo. Inoltre, per tirar fuori il meglio di te, <strong>cerca di immergerti totalmente nell'emozione</strong> che vuoi esprimere pensando ad un momento in cui hai provato l'emozione in questione (per saperne di più vedi <a href='https://it.wikipedia.org/wiki/Metodo_Stanislavskij' target='_blank'>Metodo Stanislavski</a>).</p> <strong>Buon divertimento!</strong>"
+        "content": "<p style='margin: 0px 0px 8px'>Vogliamo iniziare a registrare?</p> <p style='margin: 0px 0px 8px'>In questa sezione dovrai <strong>leggere una frase</strong> cercando di esprimere un'emozione da te scelta. Assicurati di trovarti in una <strong>stanza silenziosa</strong> per evitare rumori di sottofondo. Inoltre, <strong>cerca di immergerti totalmente nell'emozione</strong> che vuoi esprimere (per saperne di più leggi <a href='https://it.wikipedia.org/wiki/Metodo_Stanislavskij' target='_blank'>Metodo Stanislavski</a>).</p>"
     },
 
 

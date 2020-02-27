@@ -1,13 +1,18 @@
 .Column {
     width: 92px;
     height: auto;
-    padding: 0px 8px;
-    border-radius: 4px;
+    padding: 8px;
+    border-radius: 8px;
     display: flex;
     flex-flow: column;
     justify-content: start;
     align-items: center;
     transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+    cursor: pointer;
+}
+
+.Highlight {
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }
 
 .Emotion {
@@ -31,5 +36,5 @@
 }
 
 .Column:hover {
-    cursor: pointer;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
 }

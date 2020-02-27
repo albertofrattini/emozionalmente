@@ -5,6 +5,8 @@ import { userContext } from './hoc/Context/UserContext';
 import axios from 'axios';
 
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import Record from './containers/Record/Record';
+import Evaluate from './containers/Evaluate/Evaluate';
 
 class App extends Component {
 
@@ -103,8 +105,9 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/login-signup"
-              component={ () => <LoginSignup login={this.login} signup={this.signup}/> }
-            />
+              component={ () => <LoginSignup login={this.login} signup={this.signup}/> }/>
+            <Route path="/record" component={Record}/>
+            <Route path="/evaluate" component={Evaluate}/>  
             <Route component={DefaultContainer} />
           </Switch>
         </BrowserRouter>

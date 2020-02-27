@@ -9,14 +9,10 @@ const generalInfo = (props) => (
         <div className={classes.Container}>
             <InfoCard 
                 img={<img src={poliLogo} alt="polimi logo"/>}
-                text={props.cardsx[0]}
-                action={props.btnsx[0]}
-                path={props.btnsx[1]} />
+                text={props.cardsx[0]}/>
             <InfoCard 
                 img={<img src={i3labLogo} alt="i3lab logo"/>}
-                text={props.carddx[0]}
-                action={props.btndx[0]} 
-                path={props.btndx[1]} /> 
+                text={props.carddx[0]}/> 
         </div>
     </div>
 );

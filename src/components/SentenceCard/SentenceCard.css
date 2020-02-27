@@ -31,7 +31,7 @@
     height: auto;
     top: -16px;
     left: 0;
-    font-size: 15px;
+    font-size: 17px;
     color: var(--text-light);
     display: flex;
     justify-content: center;
@@ -58,6 +58,7 @@
 }
 
 .Card {
+    position: relative;
     width: 100%;
     height: 100%;
     padding: 16px 48px;
@@ -75,9 +76,9 @@
 }
 
 .EmotionContainer {
-    margin-top: 20px;
+    margin-top: 14px;
     width: 100%;
-    height: 40px;
+    height: 44px;
     top: 0;
     left: 0;
     display: flex;
@@ -96,15 +97,40 @@
 
 .Column {
     width: 92px;
+    height: auto;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    position: relative;
+}
+
+.Help {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.PointArrow {
+    position: absolute;
+    top: 35%;
+    height: 40px;
+    width: 40px;
+    color: var(--blue);
+    right: -80%;
+    animation: arrow 0.4s linear 0s infinite alternate;
+}
+
+@keyframes arrow {
+    0% {right: -90%;}
+    100% {right: -80%;}
 }
 
 .Emoji {
-    width: 40px;
+    width: 44px;
     border-radius: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -149,7 +175,8 @@
 .SelectedEmotion {
     padding: 4px;
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: 22px;
+    letter-spacing: 1.5px;
     font-weight: bold;
     cursor: pointer;
 }
@@ -173,7 +200,7 @@
     height: 64px;
     position: absolute;
     bottom: 16px;
-    right: 156px;
+    right: 228px;
     border-radius: 100%;
     background-color: white;
     border: none;
@@ -214,9 +241,9 @@
     }
 
     .Box {
-        max-width: 1028px;
+        max-width: 1200px;
         padding: 0px;
-        margin-top: 48px;
+        margin-top: 32px;
     }
 
     .CardContainer {
@@ -246,7 +273,6 @@
 @media (min-width: 850px) {
 
     .Box {
-        max-width: 1028px;
         padding: 0px 32px;
     }
 
@@ -256,7 +282,7 @@
     }
 
     .Card {
-        font-size: 24px;
+        font-size: 22px;
         line-height: 2;
         padding: 48px;
     }
@@ -278,7 +304,7 @@
         width: 100%;
         height: 100%;
         max-width: 96px;
-        padding: 32px 0px 32px 32px;
+        padding: 32px 32px 32px 0px;
         box-sizing: border-box;
         display: flex;
         justify-content: center;

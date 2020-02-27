@@ -1,123 +1,59 @@
 [
 	{
 		"language": "it",
-		"sentence": "Mi chiamo Luca e sono un gattino"
+		"sentence": "Gli operai si alzano presto."
 	},
 	{
 		"language": "it",
-		"sentence": "Torno a lavorare, ci sentiamo dopo amici miei"
+		"sentence": "I vigili sono muniti di pistola."
 	},
 	{
 		"language": "it",
-		"sentence": "Odio la natura, preferisco la vita in città"
+		"sentence": "La cascata fa molto rumore."
 	},
 	{
 		"language": "it",
-		"sentence": "Dio è un'invenzione dei potenti per controllare le masse"
+		"sentence": "L’autunno prossimo Tony partirà per la Spagna nella prima metà di ottobre."
 	},
 	{
 		"language": "it",
-		"sentence": "L’estate scorsa ho perso una scommessa"
+		"sentence": "Ora prendo la felpa di là ed esco per fare una passeggiata."
 	},
 	{
 		"language": "it",
-		"sentence": "Sono stato costretto a stare in piedi sul finestrino di una macchina"
+		"sentence": "Un attimo dopo s’è incamminato... ed è inciampato."
 	},
 	{
 		"language": "it",
-		"sentence": "Ho lasciato una scia sull’asfalto"
+		"sentence": "Vorrei il numero telefonico del Signor Piatti."
 	},
 	{
 		"language": "it",
-		"sentence": "Quel pezzo di terra è di mia proprietà"
+		"sentence": "La casa forte vuole col pane."
 	},
 	{
 		"language": "it",
-		"sentence": "Sono il re del continente Africano"
+		"sentence": "La forza trova il passo e l’aglio rosso."
 	},
 	{
 		"language": "it",
-		"sentence": "Che bella la vita a quattro zampe"
+		"sentence": "Il gatto sta scorrendo nella pera."
 	},
 	{
 		"language": "it",
-		"sentence": "I camionisti guidano a piedi scalzi"
+		"sentence": "Insalata pastasciutta coscia d’agnello limoncello."
 	},
 	{
 		"language": "it",
-		"sentence": "Il clima in Olanda mi turba"
+		"sentence": "Uno quarantatré dieci mille cinquantasette venti."
 	},
 	{
 		"language": "it",
-		"sentence": "Andrea ci regalerà tanti detersivi"
+		"sentence": "Sabato sera cosa farà?"
 	},
 	{
 		"language": "it",
-		"sentence": "Spero che ci dia anche altri oggetti utili"
-	},
-	{
-		"language": "it",
-		"sentence": "Alberto non vuole fare la foto con le angurie"
-	},
-	{
-		"language": "it",
-		"sentence": "Non voglio rischiare di mangiare troppo"
-	},
-	{
-		"language": "it",
-		"sentence": "Sul bus per Sarajevo rubano gli yogurt"
-	},
-	{
-		"language": "it",
-		"sentence": "Aspetta che vado a lavarmi le mani, così sono pronto per mangiare"
-	},
-	{
-		"language": "it",
-		"sentence": "Non è scotta. Non è al dente. È cotta giusta. Che per me è sbagliato."
-	},
-	{
-		"language": "it",
-		"sentence": "Se tutti confermate, prenoto l’invito"
-	},
-	{
-		"language": "it",
-		"sentence": "Oggi piove ma non vedo la ruggine"
-	},
-	{
-		"language": "it",
-		"sentence": "Domani mi sembra il giorno giusto per ripartire"
-	},
-	{
-		"language": "it",
-		"sentence": "Mi hanno dato il nome sbagliato per la persona giusta"
-	},
-	{
-		"language": "it",
-		"sentence": "Il Duomo ha un portale gotico del Quattrocento."
-	},
-	{
-		"language": "it",
-		"sentence": "Tale cappella è ora in ristrutturazione."
-	},
-	{
-		"language": "it",
-		"sentence": "Ha avuto due figli da un matrimonio precedente."
-	},
-	{
-		"language": "it",
-		"sentence": "Ciò potrebbe fornire una spiegazione al fenomeno della cosiddetta materia oscura."
-	},
-	{
-		"language": "it",
-		"sentence": "Durante la seconda guerra mondiale si impegnò in Indocina contro l'esercito giapponese."
-	},
-	{
-		"language": "it",
-		"sentence": "Successivamente trascorse cinque anni come legato di Cesare durante le campagne in Gallia."
-	},
-	{
-		"language": "it",
-		"sentence": "Voi potete dire sempre quello che volete e io non posso mai dire niente."
+		"sentence": "Porti con te quella cosa?"
 	},
 
 
@@ -127,34 +63,58 @@
 
 	{
 		"language": "en",
-		"sentence": "The cat was sitting in the kitchen on the blue chair"
+		"sentence": "Workers get up early."
 	},
 	{
 		"language": "en",
-		"sentence": "I love the sound of the wind"
+		"sentence": "Firefighters are equipped with a gun."
 	},
 	{
 		"language": "en",
-		"sentence": "Last summer I went to New York with my family"
+		"sentence": "The waterfall makes a lot of noise."
 	},
 	{
 		"language": "en",
-		"sentence": "Sometimes I see a truck passing in front of my window"
+		"sentence": "The next fall Tony will leave for Spain in the first half of October."
 	},
 	{
 		"language": "en",
-		"sentence": "The last century has been a moment of great development for human history"
+		"sentence": "Now I take the sweatshirt and go for a walk."
 	},
 	{
 		"language": "en",
-		"sentence": "When the sea starts to be cold I prefer going to the swimming pool"
+		"sentence": "A moment later he hath walked... and stumbled."
 	},
 	{
 		"language": "en",
-		"sentence": "The first time I had coffee it was during the first year of college"
+		"sentence": "I would like the telephone number of Mr. Piatti."
 	},
 	{
 		"language": "en",
-		"sentence": "My favorite sport is hockey but I don't like watching it on the tv"
+		"sentence": "The strong house wants with bread. "
+	},
+	{
+		"language": "en",
+		"sentence": "The force is up and red garlic."
+	},
+	{
+		"language": "en",
+		"sentence": "The cat is flowing in pear."
+	},
+	{
+		"language": "en",
+		"sentence": "Pasta salad leg of lamb limoncello."
+	},
+	{
+		"language": "en",
+		"sentence": "One forty-three ten thousand fifty-seven twenty."
+	},
+	{
+		"language": "en",
+		"sentence": "Saturday night, what will? "
+	},
+	{
+		"language": "en",
+		"sentence": "Bring with you that thing?"
 	}
 ]

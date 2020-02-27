@@ -13,11 +13,6 @@ const infoCard = (props) => (
                 __html: props.text,
             }}></div>
         </div>
-        <Link to={props.path}>
-            <button onClick={() => log('@AboutUs: clicked btn -> ' + props.path)}>
-                    {props.action}
-            </button>
-        </Link>
     </div>
 );
 

@@ -9,11 +9,11 @@ const navigationItem = (props) => (
     <li className={classes.NavigationItem} 
         onClick={() => log('@Toolbar: clicked link -> ' + props.link)}>
         <NavLink to={props.link}
-        activeStyle={{
-            backgroundColor: 'transparent',
-            color: '#f9aa33',
-            borderBottom: '2px solid #f9aa33'
-        }}>{props.children}</NavLink>
+            activeStyle={{
+                backgroundColor: 'transparent',
+                color: '#f9aa33',
+                borderBottom: '2px solid #f9aa33'
+            }}>{props.children}</NavLink>
     </li>
 );
 

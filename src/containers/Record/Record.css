@@ -1,9 +1,15 @@
+.Content {
+    height: 100vh;
+    box-sizing: border-box;
+}
+
 .Record {
     margin-top: 80px;
 }
 
 @media (min-width: 700px) {
     .Record {
-        margin-top: 140px;
+        margin-top: 0px;
+        padding-top: 16px;
     }
 }

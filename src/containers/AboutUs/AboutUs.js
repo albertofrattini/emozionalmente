@@ -33,12 +33,8 @@ class AboutUs extends Component {
                     :
                     <GeneralInfo 
                         cardsx={this.state.content['cards-sx']}
-                        btnsx={this.state.content['cards-sx-btn']}
-                        carddx={this.state.content['cards-dx']}
-                        btndx={this.state.content['cards-dx-btn']}/>
+                        carddx={this.state.content['cards-dx']}/>
                 }
-                <div className={classes.Faq}>FAQ</div>
-                <Faq />
                 <Footer />
             </div>
         );

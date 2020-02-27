@@ -25,6 +25,24 @@ class LoginSignup extends Component {
         };
     }
 
+    componentDidMount () {
+
+        document.getElementById("loginEmail").addEventListener("keyup", function(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                document.getElementById("submitLogin").click();
+            }
+        });
+
+        document.getElementById("loginPassword").addEventListener("keyup", function(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                document.getElementById("submitLogin").click();
+            }
+        });
+
+    }
+
     resetState () {
         this.setState( initialState );
         document.getElementById('sexselect').selectedIndex = 0;
@@ -57,6 +75,7 @@ class LoginSignup extends Component {
     }
 
     login = () => {
+        if(this.state.loginEmail === '' || this.state.loginPassword === '') return;
         this.props.login(this.state.loginEmail, this.state.loginPassword);
     }
 
@@ -73,6 +92,7 @@ class LoginSignup extends Component {
     
 
     render () {
+
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>
@@ -83,13 +103,13 @@ class LoginSignup extends Component {
                             ?
                             <div className={classes.InputColumn}>
                                 <span className={classes.GoToSignUp} onClick={this.toggleSignup}>Sign up</span>
-                                <input placeholder="Insert your email"
+                                <input placeholder="Insert your email" id="loginEmail"
                                     type="email"
                                     onChange={event => this.setState({loginEmail: event.target.value})}/>
-                                <input placeholder="Insert your password"
+                                <input placeholder="Insert your password" id="loginPassword"
                                     type={this.state.passwordType}
                                     onChange={event => this.setState({loginPassword: event.target.value})}/>
-                                <button 
+                                <button id="submitLogin"
                                     onClick={this.login}
                                     style={{ backgroundColor: 'var(--logo-green)' }}>LOGIN</button>
                             </div>

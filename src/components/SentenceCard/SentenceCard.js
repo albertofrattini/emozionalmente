@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import classes from './SentenceCard.css';
 import Emojis from '../UI/Emojis/Emojis';
 import Progress from '../Progress/Progress';
-import { MdArrowForward, MdDone, MdMic, MdPlayArrow } from 'react-icons/md';
-import { FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
+import { MdDone, MdPlayArrow, MdNavigateNext, MdHelpOutline } from 'react-icons/md';
+import { GoArrowLeft } from 'react-icons/go';
 
 const sentenceCard = (props) => {
 
@@ -52,37 +52,9 @@ const sentenceCard = (props) => {
                 <div className={classes.SelectedEmotion} style={{ color: curr.color }}>
                         {curr.emotion}
                 </div>
+                { props.new ? <GoArrowLeft className={classes.PointArrow} size="32px"></GoArrowLeft> : null }
             </div>
         );
-    } else {
-        const curr = props.currentEmotion;
-        selectEmotionButton = (
-            <div className={classes.Row}>
-                {
-                    curr ?
-                        <div className={classes.Column}>
-                            <img className={classes.Emoji} src={Emojis[curr.name]} alt={curr.emotion}/>
-                        </div>
-                        : 
-                        null
-                }
-                {
-                    props.currentReview === '' ? 
-                        null
-                        :
-                        props.currentReview === 'good' ? 
-                            <div className={classes.Column}>
-                                <FiThumbsUp size="36px" color="var(--greener)"/>
-                            </div>
-                            :
-                            <div className={classes.Column}>
-                                <FiThumbsDown size="36px" color="var(--logo-red)"/>
-                            </div>
-
-                }
-            </div>
-        );
-        
     }
 
     if (props.hasevaluation) {
@@ -105,24 +77,15 @@ const sentenceCard = (props) => {
     if (props.record) {
         topInstruction = (
             <div className={classes.TopInstruction}>
-                {props.guide1_1of3}
-                <img className={classes.EmojiInstruction} 
-                    src={Emojis[props.currentEmotion.name]} alt={props.currentEmotion.emotion}/>
-                {props.guide1_2of3}
-                <MdMic size="24px" color="var(--logo-red)" style={{ margin: '0px 8px' }}/>
-                {props.guide1_3of3}
+                {props.guidetop}
             </div>
         );
     } else {
         topInstruction = (
             <div className={classes.TopInstruction}>
-                {props.guide1_1of4}
+                {props.guide1_1of2}
                 <MdPlayArrow size="24px" color="var(--logo-violet)" style={{ margin: '0px 8px' }}/>
-                {props.guide1_2of4}
-                <FiThumbsDown size="20px" color="var(--logo-red)" style={{ margin: '0px 8px' }}/>
-                {props.guide1_3of4}
-                <FiThumbsUp size="20px" color="var(--greener)" style={{ margin: '0px 8px' }}/>
-                {props.guide1_4of4}
+                {props.guide1_2of2}
             </div>
         );
     }
@@ -141,12 +104,14 @@ const sentenceCard = (props) => {
                 {modal}
                 {doneButton}
                 <div className={classes.Card}>
+                <MdHelpOutline size="20px" color="var(--text-lighter)"
+                    className={classes.Help} onClick={props.toggleHelp}/>
                     {props.sentence}
                 </div>
             </div>
             <div className={classes.Right}>
                 <button className={classes.SkipButton} onClick={props.clicked}>
-                    <MdArrowForward size="24px" color="var(--text-dark)"/>
+                    <MdNavigateNext size="24px" color="var(--text-dark)"/>
                 </button>
             </div>
         </div>

@@ -6,6 +6,7 @@ import EvaluationButtons from '../../components/EvaluationButtons/EvaluationButt
 import axios from 'axios';
 import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
+import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
 
 class Evaluate extends Component {
 
@@ -20,7 +21,13 @@ class Evaluate extends Component {
         selectedEmotion: null,
         selectedReview: '',
         newUser: false,
-        content: {}
+        showGuide: false,
+        reviewArrow: false,
+        emotionsArrow: false,
+        content: {},
+        evaluationModal: false,
+        evaluationResult: null,
+        chosenEmotion: ''
     }
 
     componentDidMount () {
@@ -32,7 +39,10 @@ class Evaluate extends Component {
         
         axios.get('/api/users/hasevaluations')
             .then(response => {
-                this.setState({ newUser: response.data.newUser });
+                this.setState({ 
+                    newUser: response.data.newUser,
+                    showGuide: response.data.newUser
+                });
             });
         
         axios.get('/api/data/emotions')
@@ -97,6 +107,11 @@ class Evaluate extends Component {
 
         const emotion = this.state.selectedEmotion.name;
         const correct = emotion === sample.emotion;
+        this.setState({ 
+            evaluationModal: true,
+            evaluationResult: correct,
+            chosenEmotion: emotion
+        });
         const quality = this.state.selectedReview.toLowerCase();
         const sampleid = sample.id;
 
@@ -130,7 +145,10 @@ class Evaluate extends Component {
         if (this.state.sampleUrl === '') return;
         const isPlaying = this.state.isPlaying;
         if (isPlaying) {
-            this.setState({ isPlaying: !isPlaying });
+            this.setState({ 
+                isPlaying: !isPlaying,
+                reviewArrow: true
+            });
             document.getElementById('voicesample').pause();
         } else {
             var playPromise = document.getElementById('voicesample').play();
@@ -147,15 +165,31 @@ class Evaluate extends Component {
     }
 
     restorePlayButton = () => {
-        this.setState({ isPlaying: false });
+        this.setState({ 
+            isPlaying: false,
+            reviewArrow: true
+        });
     }
 
     selectEmotion = (element) => {
-        this.setState({ selectedEmotion: element });
+        this.setState({ 
+            selectedEmotion: element,
+            emotionsArrow: false
+        });
     }
 
     selectReview = (review) => {
-        this.setState({ selectedReview: review });
+        this.setState({ 
+            selectedReview: review,
+            reviewArrow: false,
+            emotionsArrow: true
+        });
+    }
+
+    toggleHelp = () => {
+        this.setState({
+            newUser: true
+        });
     }
 
 
@@ -163,6 +197,31 @@ class Evaluate extends Component {
 
 
         let audioFile = null;
+        let modal = null;
+
+
+        if (this.state.evaluationModal) {
+            setTimeout(() => {
+                this.setState({ evaluationModal: false, evaluationResult: null })
+            }, 4000);
+            if (this.state.evaluationResult) {
+                modal = (
+                    <div className={classes.Modal}>
+                        <div className={classes.EvaluationCard}>
+                            You got it right, the speaker wanted to express Emotion!
+                        </div>
+                    </div>
+                );
+            } else {
+                modal = (
+                    <div className={classes.Modal}>
+                        <div className={classes.EvaluationCard}>
+                            You didn't catch which emotion the speaker wanted to express... that's fine, other Percentage said the same as you!
+                        </div>
+                    </div>
+                );
+            }
+        }
         
         if (this.state.sampleUrl !== '') {
             audioFile = (
@@ -174,6 +233,7 @@ class Evaluate extends Component {
 
         return (
             <div>
+                {modal}
                 {
                 this.state.newUser ?
 
@@ -183,7 +243,10 @@ class Evaluate extends Component {
                     <TaskCompleted />
                     :
                     <div className={classes.Evaluate}>
+                        <ActivityOptions recLabel="Parla" evalLabel="Ascolta" />
                         <SentenceCard 
+                            toggleHelp={this.toggleHelp}
+                            new={this.state.newUser}
                             sentence={ this.state.samples.length > 0 ?
                                 this.state.samples[this.state.index].sentence
                                 : 'Loading...'
@@ -199,10 +262,8 @@ class Evaluate extends Component {
                             currentReview={this.state.selectedReview}
                             clicked={this.changeSentence}  
                             progress={this.state.progress} 
-                            guide1_1of4={this.state.content['guide1-1of4']}
-                            guide1_2of4={this.state.content['guide1-2of4']}
-                            guide1_3of4={this.state.content['guide1-3of4']}
-                            guide1_4of4={this.state.content['guide1-4of4']}
+                            guide1_1of2={this.state.content['guide1-1of4']}
+                            guide1_2of2={this.state.content['guide1-2of4']}
                             guide2_1of2={this.state.content['guide2-1of2']}
                             guide2_2of2={this.state.content['guide2-2of2']}
                         />
@@ -212,13 +273,17 @@ class Evaluate extends Component {
                             audioFile
                         }
                         <ListenButton 
+                            selected={this.state.selectedReview}
                             clicked={this.playOrPauseSample}
                             isPlaying={this.state.isPlaying}
                             clickedreview={this.selectReview}
+                            showGuide={this.state.reviewArrow && this.state.showGuide}
                             tdown={this.state.content['review-tdown']}
                             tup={this.state.content['review-tup']}
                         />
                         <EvaluationButtons 
+                            selected={this.state.selectedEmotion ? this.state.selectedEmotion.name : null}
+                            showGuide={this.state.emotionsArrow && this.state.showGuide}
                             emotions={this.state.emotions}
                             clicked={this.selectEmotion}
                         />

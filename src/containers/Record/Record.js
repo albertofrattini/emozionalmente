@@ -8,7 +8,7 @@ import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
-import Aux from '../../hoc/Aux/Aux';
+import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
 
 
 class Record extends Component {
@@ -20,6 +20,7 @@ class Record extends Component {
         isRecording: false,
         sampleUrl: '',
         newUser: false,
+        showGuide: false,
         emotions: [],
         currentEmotion: '',
         content: {}
@@ -36,7 +37,10 @@ class Record extends Component {
 
         axios.get('/api/users/hassamples')
             .then(response => {
-                this.setState({ newUser: response.data.newUser });
+                this.setState({ 
+                    newUser: response.data.newUser, 
+                    showGuide: response.data.newUser 
+                });
             });
         
         axios.get('/api/data/emotions')
@@ -131,14 +135,21 @@ class Record extends Component {
             element = this.state.emotions[index];
         }
         this.setState({ 
-            currentEmotion: element
+            currentEmotion: element,
+            showGuide: false
+        });
+    }
+
+    toggleHelp = () => {
+        this.setState({
+            newUser: true
         });
     }
 
     render () {
 
         return (
-            <Aux>
+            <div className={classes.Content}>
                 {
                 this.state.newUser ?
                     <GuideCard 
@@ -149,7 +160,10 @@ class Record extends Component {
                     <TaskCompleted record/>
                     :
                     <div className={classes.Record}>
+                        <ActivityOptions recLabel="Parla" evalLabel="Ascolta" />
                         <SentenceCard 
+                            toggleHelp={this.toggleHelp}
+                            new={this.state.showGuide}
                             sentence={this.state.sentences.length > 0 ? 
                                 this.state.sentences[this.state.index].sentence
                                 : 'Loading...'
@@ -160,9 +174,7 @@ class Record extends Component {
                             currentEmotion={this.state.currentEmotion}
                             change={this.changeEmotion}
                             progress={this.state.progress}  
-                            guide1_1of3={this.state.content['guide1-1of3']}
-                            guide1_2of3={this.state.content['guide1-2of3']}
-                            guide1_3of3={this.state.content['guide1-3of3']}
+                            guidetop={this.state.content['guide1-1of3']}
                         /> 
                         {this.state.isRecording ? 
                             <StopButton clicked={this.stopRecording}/>
@@ -184,7 +196,7 @@ class Record extends Component {
                         }
                     </div>
                 }
-            </Aux>
+            </div>
         );
     }
 

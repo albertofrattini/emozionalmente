@@ -13,11 +13,6 @@ class Layout extends Component {
         items: null
     }
 
-    prova = {
-        "Record": "/record",
-        "Evaluate": "/evaluate"
-    }
-
     componentDidMount () {
 
         axios.get('/api/descriptions/navbar')

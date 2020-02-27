@@ -36,12 +36,28 @@
     margin: 24px 0px 0px;
     width: 100%;
     height: auto;
+    position: relative;
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
+}
+
+.PointArrow {
+    position: absolute;
+    top: 25px;
+    height: 40px;
+    width: 40px;
+    color: var(--blue);
+    left: 0;
+    animation: arrow 0.4s linear 0s infinite alternate;
+}
+
+@keyframes arrow {
+    0% {left: -24px;}
+    100% {left: -12px;}
 }
 
 .ShowEmotion {
@@ -113,7 +129,7 @@
 @media (min-width: 800px) {
 
     .EvaluationButtons {
-        margin-top: 32px;
+        margin-top: 40px;
     }
 
     .Container {
