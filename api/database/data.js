@@ -44,12 +44,11 @@ module.exports.setupDataDb = function (database) {
     });
 }
 
-module.exports.getSentencesToRecord = function (quantity, currentuser, language) {
+module.exports.getSentencesToRecord = function (quantity, language) {
     // Returns a fixed amount of random sentences, excluding the ones already sampled
     // TODO: we can return the same sentences as long as the user records another emotion
     return db.select('*').from('sentences')
         .where('language', language)
-        .whereNotIn('id', db.select('sentenceid').from('samples').where('speaker', currentuser))
         .orderBy(db.raw('RANDOM()'))
         .limit(quantity);
 }

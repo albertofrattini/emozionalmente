@@ -23,7 +23,9 @@ class Record extends Component {
         showGuide: false,
         emotions: [],
         currentEmotion: '',
-        content: {}
+        content: {},
+        alreadyRecordedSamples: [],
+        checkFirstSentence: true
     }
 
     blob = null;
@@ -39,7 +41,8 @@ class Record extends Component {
             .then(response => {
                 this.setState({ 
                     newUser: response.data.newUser, 
-                    showGuide: response.data.newUser 
+                    showGuide: response.data.newUser,
+                    alreadyRecordedSamples: response.data.samples
                 });
             });
         
@@ -48,7 +51,7 @@ class Record extends Component {
                 const index = getRandomInt(response.data.length);
                 this.setState({ 
                     currentEmotion: response.data[index],
-                    emotions: response.data 
+                    emotions: response.data
                 });
             });
 
@@ -61,6 +64,17 @@ class Record extends Component {
                 this.setState({ content: content });
             });
 
+    }
+
+    componentDidUpdate () {
+
+        if (this.state.checkFirstSentence &&
+            this.state.sentences.length > 0 &&
+            this.state.currentEmotion !== '' &&
+            (this.state.newUser || this.state.alreadyRecordedSamples.length > 0)) {
+                this.state.checkFirstSentence = false;
+                this.changeSentence();
+            }
     }
 
     guideExecuted = () => {
@@ -106,8 +120,12 @@ class Record extends Component {
             )
             .then(() => {
                 this.state.progress.push(this.state.currentEmotion);
-                this.state.sentences.splice(this.state.index, 1);
-                return this.setState({ 
+                this.state.alreadyRecordedSamples.push({
+                    sentenceid: sentenceid,
+                    emotion: emotion 
+                });
+                this.changeEmotion('random');
+                this.setState({ 
                     sampleUrl: ''
                 });
             })
@@ -116,28 +134,104 @@ class Record extends Component {
             });
     }
 
+    checkTuple = (sentenceid, emotioncode) => {
+
+        let result = this.state.alreadyRecordedSamples.filter(e => {
+            return e.sentenceid === sentenceid && e.emotion === emotioncode;
+        });
+        return result.length > 0;
+
+    }   
+
     changeSentence = () => {
+
         let idx = this.state.index;
-        if (idx < this.state.sentences.length - 1) {
-            idx = idx + 1;
+        let exists;
+        let newemotion;
+
+        // TODO: casi limite, ci metterebbe un po' a trovare le tuple
+        do {
+            newemotion = null;
+            if (idx < this.state.sentences.length - 1) {
+                idx = idx + 1;
+            } else {
+                idx = 0;
+            }
+            exists = this.checkTuple(
+                this.state.sentences[idx].id,
+                this.state.currentEmotion.name
+            );
+            if (exists) {
+                const ranidx = getRandomInt(this.state.emotions.length);
+                newemotion = this.state.emotions[ranidx];
+                exists = this.checkTuple(
+                    this.state.sentences[idx].id,
+                    newemotion.name
+                );
+            }
+        } while (exists);
+        
+        if (newemotion) {
+            this.setState({
+                sampleUrl: '',
+                index: idx,
+                currentEmotion: newemotion
+            });
         } else {
-            idx = 0;
+            this.setState({ 
+                sampleUrl: '', 
+                index: idx 
+            });
         }
-        this.setState({ sampleUrl: '', index: idx });
+
     }
 
     changeEmotion = (index) => {
-        let element;
-        if (index === 'random') {
-            const idx = getRandomInt(this.state.emotions.length);
-            element = this.state.emotions[idx];
+
+        let idx;
+        let newemotion;
+        let exists;
+
+        // TODO: casi limite, ci metterebbe un po' a trovare le tuple
+        do {
+            idx = this.state.index;
+            if (index === 'random') {
+                const idx = getRandomInt(this.state.emotions.length);
+                newemotion = this.state.emotions[idx];
+            } else {
+                newemotion = this.state.emotions[index];
+            }
+            exists = this.checkTuple(
+                this.state.sentences[idx].id,
+                newemotion.name
+            );
+            if (exists) {
+                if (idx < this.state.sentences.length - 1) {
+                    idx = idx + 1;
+                } else {
+                    idx = 0;
+                }
+                exists = this.checkTuple(
+                    this.state.sentences[idx].id,
+                    newemotion.name
+                );
+            }
+        } while(exists);
+
+        if (idx !== this.state.index) {
+            this.setState({
+                currentEmotion: newemotion,
+                showGuide: false,
+                sampleUrl: '',
+                index: idx
+            });
         } else {
-            element = this.state.emotions[index];
+            this.setState({ 
+                currentEmotion: newemotion,
+                showGuide: false,
+                sampleUrl: ''
+            });
         }
-        this.setState({ 
-            currentEmotion: element,
-            showGuide: false
-        });
     }
 
     toggleHelp = () => {

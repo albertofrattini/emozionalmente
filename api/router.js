@@ -173,11 +173,10 @@ module.exports = function (app) {
 
     app.get('/api/sentences', (req, res) => {
         
-        const quantity = req.query.quantity ? req.query.quantity : 10;
-        const curruser = req.session.user ? req.session.user.username : null;
+        const quantity = req.query.quantity ? req.query.quantity : 14;
         const language = req.session.lang;
 
-        datadb.getSentencesToRecord(quantity, curruser, language)
+        datadb.getSentencesToRecord(quantity, language)
             .then(result => {
                 res.send(result);
             });
@@ -252,18 +251,12 @@ module.exports = function (app) {
 
     app.get('/api/data/download/:id', (req, res) => {
 
-        console.log('download');
-
         datadb.findSample(req.params.id)
             .then(result => {
-
-                console.log('inside then');
                 let filePath = 
                     path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
                 res.download(filePath);
             });
-
-        console.log('after then');
 
     });
 
@@ -441,26 +434,34 @@ module.exports = function (app) {
 
     app.get('/api/users/hassamples', (req, res) => {
 
-        // IMPORTANT !! ONLY TEMPORARY
-        // return res.send({ newUser: false });
-
         if (!req.session.user) return res.send({ newUser: true });
 
         datadb.getUserSamples(req.session.user.username)
             .then(result => {
                 if (result.length > 0) {
-                    res.send({ newUser: false });
+                    let toSend = [];
+                    result.map((e, _) => {
+                        toSend.push({
+                            "sentenceid": e.sentenceid,
+                            "emotion": e.emotion
+                        });
+                        return e;
+                    });
+                    res.send({ 
+                        newUser: false,
+                        samples: toSend
+                    });
                 } else {
-                    res.send({ newUser: true });
+                    res.send({ 
+                        newUser: true,
+                        samples: []
+                    });
                 }
             });
 
     });
 
     app.get('/api/users/hasevaluations', (req, res) => {
-
-        // IMPORTANT !! ONLY TEMPORARY
-        // return res.send({ newUser: false });
 
         if (!req.session.user) return res.send({ newUser: true });
 

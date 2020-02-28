@@ -3,7 +3,6 @@ import Home from '../../containers/Home/Home';
 import Database from '../../containers/Database/Database';
 import AboutUs from '../../containers/AboutUs/AboutUs';
 import ContactUs from '../../containers/ContactUs/ContactUs';
-import Contribute from '../../containers/Contribute/Contribute';
 import Manager from '../../containers/Manager/Manager';
 import Confirm from '../../containers/Confirm/Confirm';
 import Layout from '../Layout/Layout';

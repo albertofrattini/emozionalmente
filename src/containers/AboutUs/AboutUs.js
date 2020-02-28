@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GeneralInfo from '../../components/GeneralInfo/GeneralInfo';
-import Faq from '../../components/Faq/Faq';
 import classes from './AboutUs.css';
 import Footer from '../../components/UI/Footer/Footer';
 import axios from 'axios';

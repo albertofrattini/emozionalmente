@@ -10,4 +10,11 @@
 
 .Ball img {
     width: 40px;
+    animation: bigger 0.8s ease 0s 1 normal;
+}
+
+@keyframes bigger {
+    0% {width: 0px;}
+    50% {width: 64px;}
+    100% {width: 40px;}
 }

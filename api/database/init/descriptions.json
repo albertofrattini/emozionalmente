@@ -59,25 +59,25 @@
         "language": "it",
         "page": "home",
         "position": "landing-btn-sx",
-        "content": "Registra"
+        "content": "Parla"
     },
     {
         "language": "it",
         "page": "home",
         "position": "landing-btn-sub-sx",
-        "content": "Registra la tua voce esprimendo un'emozione da te scelta"
+        "content": "Leggi le frasi proposte esprimendo un'emozione a scelta tra quelle disponibili"
     },
     {
         "language": "it",
         "page": "home",
         "position": "landing-btn-dx",
-        "content": "Valuta"
+        "content": "Ascolta"
     },
     {
         "language": "it",
         "page": "home",
         "position": "landing-btn-sub-dx",
-        "content": "Ascolta la voce di altre persone e valuta quale emozione hanno voluto esprimere"
+        "content": "Ascolta la voce di altre persone cercando di capire quale emozione hanno voluto esprimere"
     },
     {
         "language": "it",
@@ -146,25 +146,25 @@
         "language": "en",
         "page": "home",
         "position": "landing-btn-sx",
-        "content": "Record"
+        "content": "Speak"
     },
     {
         "language": "en",
         "page": "home",
         "position": "landing-btn-sub-sx",
-        "content": "Record your voice expressing an emotion of your choice"
+        "content": "Read the available sentences trying to express an emotion among those available"
     },
     {
         "language": "en",
         "page": "home",
         "position": "landing-btn-dx",
-        "content": "Evaluate"
+        "content": "Listen"
     },
     {
         "language": "en",
         "page": "home",
         "position": "landing-btn-sub-dx",
-        "content": "Listen to other people's voices and select which emotion they wanted to express for you"
+        "content": "Listen to other people's voices trying to find out which emotion they wanted to express"
     },
     {
         "language": "en",
@@ -215,6 +215,39 @@
         "content": "<h2>The power of data</h2> <p>The development of neural networks and deep learning nowadays allows us to use the data collected in many different ways. The samples we collect will be used to teach the machines to recognize the intrinsic emotions in human speech and therefore help people who are in difficulty when it comes to doing something (apparently) so simple: <strong>express their emotions</strong></p>"
     },
 
+
+
+
+
+
+
+
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "options-rec-label",
+        "content": "Speak"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "options-rec-label",
+        "content": "Parla"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "options-eval-label",
+        "content": "Listen"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "options-eval-label",
+        "content": "Ascolta"
+    },
 
 
 
@@ -279,14 +312,50 @@
         "language": "en",
         "page": "record",
         "position": "guide2-4of4",
-        "content": "to record again."
+        "content": "to record again"
     },
     {
         "language": "it",
         "page": "record",
         "position": "guide2-4of4",
-        "content": "per registrare di nuovo."
+        "content": "per registrare di nuovo"
     },
+
+
+
+
+
+
+
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "options-rec-label",
+        "content": "Speak"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "options-rec-label",
+        "content": "Parla"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "options-eval-label",
+        "content": "Listen"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "options-eval-label",
+        "content": "Ascolta"
+    },
+
+
+
 
 
 
@@ -368,6 +437,19 @@
     {
         "language": "en",
         "page": "evaluate",
+        "position": "review-tdown-tooltip",
+        "content": "Click here if you <strong>didn't understand</strong> what has been said or the sample has <strong>background noise</strong>"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "review-tdown-tooltip",
+        "content": "Clicca qui <strong>se non hai capito</strong> cosa è stato detto o se ci sono dei <strong>rumori di sottofondo</strong>"
+    },
+
+    {
+        "language": "en",
+        "page": "evaluate",
         "position": "review-tup",
         "content": "GOOD"
     },
@@ -377,6 +459,48 @@
         "position": "review-tup",
         "content": "POS"
     },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "review-tup-tooltip",
+        "content": "Click here if you <strong>recognize the phrase</strong> and there is <strong>no background noise</strong>"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "review-tup-tooltip",
+        "content": "Clicca qui <strong>se non hai capito</strong> cosa è stato detto o se la registrazione ha dei <strong>rumori di sottofondo</strong>"
+    },
+
+
+
+
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "correct-evaluation",
+        "content": "You got it!"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "correct-evaluation",
+        "content": "Hai indovinato!"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "incorrect-evaluation",
+        "content": "You didn't guess it right... it was "
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "incorrect-evaluation",
+        "content": "Non hai indovinato... era "
+    },
+
+
 
 
 

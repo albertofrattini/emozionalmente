@@ -67,7 +67,6 @@ class Database extends Component {
 
                 axios.get(`/api/data/comparison?first=${currEm.name}&second=${currEm.name}`)
                     .then(response => {
-                        console.log(response.data);
                         this.setState({ percentage: parseInt(response.data.value, 10) });
                     });
 
@@ -146,14 +145,16 @@ class Database extends Component {
 
         let dataBlocks = this.state.data ?
             [...Object.keys(this.state.data)].map((el, i) => {
-                const height = (this.state.data[el].value * 250) / this.state.maxValue;
+                const height = (this.state.data[el].value * 220) / this.state.maxValue;
                 return (
-                    <div key={i} className={classes.Block}>
-                        <div className={classes.BlockText}>
-                            {this.state.data[el].content}
-                        </div>
-                        <div className={classes.Data} style={{ height: height + 'px' }}>
-                            {this.state.data[el].value}
+                    <div key={i} className={classes.BlockContainer}>
+                        {this.state.data[el].value}
+                        <div key={i} className={classes.Block}>
+                            <div className={classes.BlockText}>
+                                {this.state.data[el].content}
+                            </div>
+                            <div className={classes.Data} style={{ height: height + 'px' }}>
+                            </div>
                         </div>
                     </div>
                 );
@@ -185,21 +186,23 @@ class Database extends Component {
                 {modalUp}
                 {modalDown}
                 {
-                    this.state.mainEmotion === null ? 
-                        null : 
-                        <div className={classes.ButtonSelector} 
-                            onClick={() => this.setState({ showUpEmotionModal: true })}>
-                                {this.state.mainEmotion.emotion}
-                        </div>
-                }
-                <div className={classes.QueryText}>samples recognized as</div>
-                {
+                    this.state.mainEmotion === null ||
                     this.state.recognizedEmotion === null ? 
                         null : 
-                        <div className={classes.ButtonSelector} 
-                            onClick={() => this.setState({ showDownEmotionModal: true })}>
-                                {this.state.recognizedEmotion.emotion}
-                        </div>
+                        <React.Fragment>
+                            <div className={classes.ButtonSelector} 
+                                onClick={() => this.setState({ showUpEmotionModal: true })}>
+                                    {this.state.mainEmotion.emotion}
+                            </div>
+                            <div style={{ fontSize: '15px', textAlign: 'center', lineHeight: '1.63' }}>
+                                Samples expressing {this.state.mainEmotion.emotion} that have
+                                been recognized as {this.state.recognizedEmotion.emotion}
+                            </div>
+                            <div className={classes.ButtonSelector} 
+                                onClick={() => this.setState({ showDownEmotionModal: true })}>
+                                    {this.state.recognizedEmotion.emotion}
+                            </div>
+                        </React.Fragment>
                 }
             </div>
         );
@@ -229,25 +232,42 @@ class Database extends Component {
                 {
                     this.state.userContribution ? 
                         <div className={classes.Introduction}>
-                            <div className={classes.Values}>
-                                <MdMic size="48px" color="var(--logo-red)"/>
-                                {this.state.userContribution.samples}
+                            <div className={classes.Welcome}>
+                                <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>Ciao Alberto,</p> 
+                                ecco i risultati che fino ad ora hai ottenuto su Emozionalmente. Speriamo
+                                di riceverne presto altri
                             </div>
-                            <div className={classes.Values}>
-                                <MdPlayArrow size="48px" color="var(--logo-violet)"/>
-                                {this.state.userContribution.evaluations}
+                            <div className={classes.Column}>
+                                <div className={classes.Values}>
+                                    <MdMic size="48px" color="var(--logo-red)"/>
+                                    {this.state.userContribution.samples}
+                                </div>
+                                <div className={classes.Values}>
+                                    <MdPlayArrow size="48px" color="var(--logo-violet)"/>
+                                    {this.state.userContribution.evaluations}
+                                </div>
                             </div>
                         </div>
                         :
                         null
                 }
                 <div className={classes.MainGraph}>
+                    <div className={classes.Database}>
+                        <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>
+                            Il nostro Database di voci
+                        </p>
+                        La sezione seguente è un resoconto della situazione attuale del database. 
+                        Partendo dalla precisione per arrivare alle percentuale che spiega come le 
+                        varie emozioni sono state percepite da coloro che hanno valutato i sample.
+                    </div>
                     <div className={classes.MainCard}>
                         {dataBlocks}
                     </div>
                     <div className={classes.Card}>
-                        <div className={classes.BlockText} style={{ fontSize: '24px' }}>
-                            Accuracy
+                        <div className={classes.Column} style={{ fontSize: '15px' }}>
+                            <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>Precisione</p>
+                            Il grafico riporta la quantità di sample in cui l'emozione che si è stata espressa
+                            è anche stata riconosciuta dagli altri
                         </div>
                         {accuracyData}
                     </div>

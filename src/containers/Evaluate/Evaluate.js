@@ -7,6 +7,7 @@ import axios from 'axios';
 import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
+import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
 
 class Evaluate extends Component {
 
@@ -16,7 +17,6 @@ class Evaluate extends Component {
         samples: [],
         emotions: [],
         isPlaying: false,
-        emotionIndex: 0,
         sampleUrl: '',
         selectedEmotion: null,
         selectedReview: '',
@@ -27,7 +27,7 @@ class Evaluate extends Component {
         content: {},
         evaluationModal: false,
         evaluationResult: null,
-        chosenEmotion: ''
+        wantedEmotion: ''
     }
 
     componentDidMount () {
@@ -110,7 +110,7 @@ class Evaluate extends Component {
         this.setState({ 
             evaluationModal: true,
             evaluationResult: correct,
-            chosenEmotion: emotion
+            wantedEmotion: sample.emotion
         });
         const quality = this.state.selectedReview.toLowerCase();
         const sampleid = sample.id;
@@ -121,7 +121,7 @@ class Evaluate extends Component {
             quality: quality,
             emotion: emotion
         } 
-
+        
         axios.post('/api/data/evaluations',
             data
             )
@@ -129,11 +129,6 @@ class Evaluate extends Component {
                 console.log(response.data.message);
                 this.state.progress.push(this.state.selectedEmotion);
                 this.state.samples.splice(this.state.index, 1);
-                return this.setState({ 
-                    sampleUrl: '',
-                    selectedEmotion: null,
-                    selectedReview: ''
-                });
             })
             .catch(error => {
                 console.error(error);
@@ -195,31 +190,39 @@ class Evaluate extends Component {
 
     render () {
 
-
         let audioFile = null;
         let modal = null;
+        let wantedEmotion = null;
 
 
         if (this.state.evaluationModal) {
-            setTimeout(() => {
-                this.setState({ evaluationModal: false, evaluationResult: null })
-            }, 4000);
+
+            this.state.emotions.map((e, _) => {
+                if (e.name === this.state.wantedEmotion) {
+                    wantedEmotion = e.emotion;
+                }
+                return e;
+            });
+
+            console.log(wantedEmotion);
+
+            setTimeout(
+                () => {
+                    this.setState({ 
+                        evaluationModal: false, 
+                        evaluationResult: null,
+                        sampleUrl: '',
+                        selectedEmotion: null,
+                        selectedReview: '',
+                        reviewArrow: false,
+                        emotionsArrow: false
+                    })
+                }, 4000);
+
             if (this.state.evaluationResult) {
-                modal = (
-                    <div className={classes.Modal}>
-                        <div className={classes.EvaluationCard}>
-                            You got it right, the speaker wanted to express Emotion!
-                        </div>
-                    </div>
-                );
+                modal = ( <EvaluationCard correct emotion={wantedEmotion}/> );
             } else {
-                modal = (
-                    <div className={classes.Modal}>
-                        <div className={classes.EvaluationCard}>
-                            You didn't catch which emotion the speaker wanted to express... that's fine, other Percentage said the same as you!
-                        </div>
-                    </div>
-                );
+                modal = ( <EvaluationCard emotion={wantedEmotion}/> );
             }
         }
         
