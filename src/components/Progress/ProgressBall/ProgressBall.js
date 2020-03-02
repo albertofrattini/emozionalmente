@@ -12,6 +12,14 @@ const progressBall = (props) => {
                     null :
                     <img src={props.imgSrc} alt={props.color} />
             }
+            {
+                props.tooltip ?
+                    <div className={classes.Tooltip}>
+                        {props.tooltip}
+                    </div>
+                    :
+                    null
+            }
         </div>
     );
 }

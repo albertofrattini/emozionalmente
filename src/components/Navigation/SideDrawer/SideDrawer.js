@@ -28,7 +28,11 @@ const sideDrawer = (props) => {
                 <div className={classes.Login}>
                     {
                         props.user.username ?
-                            <div onClick={props.logout}>{props.user.username}</div>
+                            <div>
+                                <div>{props.user.username}</div>
+                                <div style={{ color: 'var(--logo-red)', marginTop: '16px' }} 
+                                    onClick={props.logout}>Logout</div>
+                            </div>
                             :
                             <Link to="/login-signup">Login / Signup</Link>
                     }     

@@ -79,11 +79,12 @@ class Toolbar extends Component {
                         <nav>
                             <NavigationItems items={this.props.navitems}/>
                         </nav>
-                        {languageSelector}
                         {
                             this.props.user.username ? 
                             <div className={classes.Username}>
-                                <p className={classes.UsernameText}>{this.props.user.username}</p>
+                                <Link to="/database" style={{ textDecoration: 'none' }}>
+                                        <p className={classes.UsernameText}>{this.props.user.username}</p>
+                                </Link>
                                 <img src={userEmoji} alt="user icon" />
                                 <span className={classes.Tooltip} onClick={this.props.logout}>
                                     Logout
@@ -94,6 +95,7 @@ class Toolbar extends Component {
                                 <LoginBtn />
                             </Link>
                         }
+                        {languageSelector}
                     </div>
                     <HamburgerBtn 
                         clicked={this.props.open}/>

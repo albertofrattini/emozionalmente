@@ -5,6 +5,7 @@ import AboutUs from '../../containers/AboutUs/AboutUs';
 import ContactUs from '../../containers/ContactUs/ContactUs';
 import Manager from '../../containers/Manager/Manager';
 import Confirm from '../../containers/Confirm/Confirm';
+import Faq from '../../containers/Faq/Faq';
 import Layout from '../Layout/Layout';
 import { Route } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ const defaultContainer = () => (
         <Route path="/about-us" component={AboutUs} />
         <Route path="/contact-us" component={ContactUs} />
         <Route path="/manager" component={Manager} />
+        <Route path="/faq" component={Faq} />
         <Route path="/confirm/:id" component={Confirm} />
     </Layout>
 

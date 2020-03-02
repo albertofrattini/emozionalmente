@@ -9,11 +9,14 @@ import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
 import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
+import Loader from '../../components/UI/Loader/Loader';
 
 
 class Record extends Component {
 
     state = {
+        isLoading: true,
+        isUploading: false,
         index: 0,
         progress: [],
         sentences: [],
@@ -24,57 +27,36 @@ class Record extends Component {
         emotions: [],
         currentEmotion: '',
         content: {},
-        alreadyRecordedSamples: [],
-        checkFirstSentence: true
+        toBeRecordedSamples: [],
+        isTaskCompleted: false,
+        noSentenceAvailable: false
     }
 
     blob = null;
 
-    componentDidMount () {
+    async componentDidMount () {
 
-        axios.get('/api/sentences?quantity=20')
-            .then(response => {
-                this.setState({ sentences: response.data });
-            });
+        let sentences = await axios.get('/api/sentences?quantity=20');
+        let hassamples = await axios.get('/api/users/hassamples');
+        let emotions = await axios.get('/api/data/emotions');
+        let descriptions = await axios.get('/api/descriptions/record');
+        const content = {};
+        descriptions.data.map(e => {
+            return content[e.position] = e.content;
+        });
+        this.setState({
+            sentences: sentences.data,
+            newUser: hassamples.data.newUser,
+            showGuide: hassamples.data.newUser,
+            toBeRecordedSamples: hassamples.data.samples,
+            noSentenceAvailable: hassamples.data.samples.length === 0,
+            isTaskCompleted: hassamples.data.samples.length === 0,
+            emotions: emotions.data,
+            content: content,
+            isLoading: false
+        });
+        this.changeSentence();
 
-        axios.get('/api/users/hassamples')
-            .then(response => {
-                this.setState({ 
-                    newUser: response.data.newUser, 
-                    showGuide: response.data.newUser,
-                    alreadyRecordedSamples: response.data.samples
-                });
-            });
-        
-        axios.get('/api/data/emotions')
-            .then(response => {
-                const index = getRandomInt(response.data.length);
-                this.setState({ 
-                    currentEmotion: response.data[index],
-                    emotions: response.data
-                });
-            });
-
-        axios.get('/api/descriptions/record')
-            .then(response => {
-                const content = {};
-                response.data.map(el => {
-                    return content[el.position] = el.content;
-                });
-                this.setState({ content: content });
-            });
-
-    }
-
-    componentDidUpdate () {
-
-        if (this.state.checkFirstSentence &&
-            this.state.sentences.length > 0 &&
-            this.state.currentEmotion !== '' &&
-            (this.state.newUser || this.state.alreadyRecordedSamples.length > 0)) {
-                this.state.checkFirstSentence = false;
-                this.changeSentence();
-            }
     }
 
     guideExecuted = () => {
@@ -93,10 +75,11 @@ class Record extends Component {
 
     } 
 
-    stopRecording = () => {
+    stopRecording = async () => {
 
-        this.blob = stopRecording();
-        const audioUrl = URL.createObjectURL(this.blob);
+        this.blob = await stopRecording();
+        // const audioUrl = URL.createObjectURL(this.blob);
+        const audioUrl = this.blob.url;
         this.setState({
             sampleUrl: audioUrl,
             isRecording: false
@@ -107,6 +90,8 @@ class Record extends Component {
     saveSample = () => {
 
         if (this.state.sentences.length < 1) return;
+
+        this.setState({ isUploading: true });
 
         let data = new FormData();
         data.append('audio', this.blob);
@@ -120,13 +105,15 @@ class Record extends Component {
             )
             .then(() => {
                 this.state.progress.push(this.state.currentEmotion);
-                this.state.alreadyRecordedSamples.push({
-                    sentenceid: sentenceid,
-                    emotion: emotion 
+                this.state.toBeRecordedSamples = this.state.toBeRecordedSamples.filter(e => {
+                    return !(e.sentenceid === sentenceid && e.emotion === emotion);
                 });
-                this.changeEmotion('random');
+                this.changeSentence();
+                if (this.state.progress.length === 5) 
+                    setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
                 this.setState({ 
-                    sampleUrl: ''
+                    sampleUrl: '',
+                    isUploading: false
                 });
             })
             .catch(error => {
@@ -134,103 +121,87 @@ class Record extends Component {
             });
     }
 
-    checkTuple = (sentenceid, emotioncode) => {
-
-        let result = this.state.alreadyRecordedSamples.filter(e => {
-            return e.sentenceid === sentenceid && e.emotion === emotioncode;
-        });
-        return result.length > 0;
-
-    }   
 
     changeSentence = () => {
 
-        let idx = this.state.index;
-        let exists;
-        let newemotion;
+        let sentenceIndex;
+        let currEmotion;
 
-        // TODO: casi limite, ci metterebbe un po' a trovare le tuple
-        do {
-            newemotion = null;
-            if (idx < this.state.sentences.length - 1) {
-                idx = idx + 1;
-            } else {
-                idx = 0;
+        const index = getRandomInt(this.state.toBeRecordedSamples.length);
+        const newTuple = this.state.toBeRecordedSamples[index];
+        this.state.sentences.filter((e, i) => {
+            if (e.id === newTuple.sentenceid) {
+                sentenceIndex = i;
             }
-            exists = this.checkTuple(
-                this.state.sentences[idx].id,
-                this.state.currentEmotion.name
-            );
-            if (exists) {
-                const ranidx = getRandomInt(this.state.emotions.length);
-                newemotion = this.state.emotions[ranidx];
-                exists = this.checkTuple(
-                    this.state.sentences[idx].id,
-                    newemotion.name
-                );
-            }
-        } while (exists);
-        
-        if (newemotion) {
-            this.setState({
-                sampleUrl: '',
-                index: idx,
-                currentEmotion: newemotion
-            });
+            return e;
+        });
+        const currEmotionArr = this.state.emotions.filter(e => {
+            return e.name === newTuple.emotion;
+        });
+        if (currEmotionArr.length === 1) {
+            currEmotion = currEmotionArr[0];
         } else {
-            this.setState({ 
-                sampleUrl: '', 
-                index: idx 
-            });
+            console.log('An error occured while retrieving the emotion...');
         }
-
+        this.setState({
+            sampleUrl: '',
+            index: sentenceIndex,
+            currentEmotion: currEmotion
+        });
     }
 
     changeEmotion = (index) => {
 
-        let idx;
         let newemotion;
-        let exists;
 
-        // TODO: casi limite, ci metterebbe un po' a trovare le tuple
-        do {
-            idx = this.state.index;
-            if (index === 'random') {
-                const idx = getRandomInt(this.state.emotions.length);
-                newemotion = this.state.emotions[idx];
-            } else {
-                newemotion = this.state.emotions[index];
-            }
-            exists = this.checkTuple(
-                this.state.sentences[idx].id,
-                newemotion.name
-            );
-            if (exists) {
-                if (idx < this.state.sentences.length - 1) {
-                    idx = idx + 1;
-                } else {
-                    idx = 0;
-                }
-                exists = this.checkTuple(
-                    this.state.sentences[idx].id,
-                    newemotion.name
-                );
-            }
-        } while(exists);
-
-        if (idx !== this.state.index) {
-            this.setState({
-                currentEmotion: newemotion,
-                showGuide: false,
-                sampleUrl: '',
-                index: idx
-            });
+        if (index === 'random') {
+            const idx = getRandomInt(this.state.emotions.length);
+            newemotion = this.state.emotions[idx];
         } else {
-            this.setState({ 
+            newemotion = this.state.emotions[index];
+        }
+
+        const currentSentenceid = this.state.sentences[this.state.index].id;
+        const isValid = this.state.toBeRecordedSamples.filter(e => {
+            return e.sentenceid === currentSentenceid && e.emotion === newemotion.name;
+        }).length > 0;
+
+        if (isValid) {
+            // Dopo aver cambiato l'emozione, la frase corrente non viene cambiata perchè
+            // ancora da fare la registrazione con la nuova emozione e la vecchia frase.
+            this.setState({
                 currentEmotion: newemotion,
                 showGuide: false,
                 sampleUrl: ''
             });
+        } else {
+            // Cerco una frase diversa perchè quella attuale, cioè, la combinazione attuale scelta,
+            // non è più disponibile. Guarda quali sono le tuple ancora disponibili con l'emozione
+            // appena selezionata. Se ce ne sono, ne prende una a caso e aggiorna, se no...
+            const tmpArr = this.state.toBeRecordedSamples.filter(e => {
+                return e.emotion === newemotion.name;
+            });
+            if (tmpArr.length > 0) {
+                const idx = getRandomInt(tmpArr.length);
+                const newTuple = tmpArr[idx];
+                let newSentenceIndex;
+                this.state.sentences.filter((e, i) => {
+                    if (e.id === newTuple.sentenceid) {
+                        newSentenceIndex = i;
+                    }
+                    return e;
+                });
+                this.setState({
+                    currentEmotion: newemotion,
+                    showGuide: false,
+                    sampleUrl: '',
+                    index: newSentenceIndex
+                });
+            } else {
+                // ... non ci sono più frasi da registrare con l'emozione che è stata selezionata,
+                // quindi avvisa l'utente, così che possa scegliere un'altra emozione.
+                alert('Hai già registrato tutte le frasi disponibili con quella emozione. Provane altre! :)');
+            }
         }
     }
 
@@ -243,54 +214,73 @@ class Record extends Component {
     render () {
 
         return (
-            <div className={classes.Content}>
+
+            <React.Fragment>
                 {
-                this.state.newUser ?
-                    <GuideCard 
-                        record
-                        end={this.guideExecuted}/>
-                    : 
-                    this.state.progress.length === 5 ?
-                    <TaskCompleted record/>
-                    :
-                    <div className={classes.Record}>
-                        <ActivityOptions recLabel="Parla" evalLabel="Ascolta" />
-                        <SentenceCard 
-                            toggleHelp={this.toggleHelp}
-                            new={this.state.showGuide}
-                            sentence={this.state.sentences.length > 0 ? 
-                                this.state.sentences[this.state.index].sentence
-                                : 'Loading...'
-                            } 
-                            record
-                            clicked={this.changeSentence}
-                            emotions={this.state.emotions}
-                            currentEmotion={this.state.currentEmotion}
-                            change={this.changeEmotion}
-                            progress={this.state.progress}  
-                            guidetop={this.state.content['guide1-1of3']}
-                        /> 
-                        {this.state.isRecording ? 
-                            <StopButton clicked={this.stopRecording}/>
-                            :
-                            <RecordButton clicked={this.startRecording}/>
-                        }
-                        {this.state.sampleUrl === '' ?
-                            null
-                            :
-                            <CheckListen 
-                                sampleUrl={this.state.sampleUrl}
-                                type={this.audioType}
-                                clicked={this.saveSample}
-                                guide2_1of4={this.state.content['guide2-1of4']}
-                                guide2_2of4={this.state.content['guide2-2of4']}
-                                guide2_3of4={this.state.content['guide2-3of4']}
-                                guide2_4of4={this.state.content['guide2-4of4']}
-                            />
-                        }
-                    </div>
-                }
-            </div>
+                    this.state.isLoading ?
+                        <Loader pageLoading/>
+                        :
+                        <div className={classes.Content}>
+                            {
+                                this.state.isUploading ?
+                                    <div className={classes.Uploading}>
+                                        <Loader/>
+                                    </div>
+                                    :
+                                    null
+                            }
+                            {
+                                this.state.newUser ?
+                                <GuideCard 
+                                record
+                                end={this.guideExecuted}/>
+                                : 
+                                this.state.isTaskCompleted ?
+                                <TaskCompleted record
+                                    noSentenceAvailable={this.state.noSentenceAvailable}/>
+                                :
+                                <div className={classes.Record}>
+                                    <ActivityOptions 
+                                        recLabel={this.state.content['options-rec-label']} 
+                                        evalLabel={this.state.content['options-eval-label']} />
+                                    <SentenceCard 
+                                        toggleHelp={this.toggleHelp}
+                                        new={this.state.showGuide}
+                                        sentence={this.state.sentences.length > 0 ? 
+                                            this.state.sentences[this.state.index].sentence
+                                            : 'Loading...'
+                                        } 
+                                        record
+                                        clicked={this.changeSentence}
+                                        emotions={this.state.emotions}
+                                        currentEmotion={this.state.currentEmotion}
+                                        change={this.changeEmotion}
+                                        progress={this.state.progress}  
+                                        guidetop={this.state.content['guide1']}
+                                        /> 
+                                    {this.state.isRecording ? 
+                                        <StopButton clicked={this.stopRecording}/>
+                                        :
+                                        <RecordButton clicked={this.startRecording}/>
+                                    }
+                                    {this.state.sampleUrl === '' ?
+                                        null
+                                        :
+                                        <CheckListen 
+                                        sampleUrl={this.state.sampleUrl}
+                                        type={this.audioType}
+                                        clicked={this.saveSample}
+                                        guide2_1of4={this.state.content['guide2-1of4']}
+                                        guide2_2of4={this.state.content['guide2-2of4']}
+                                        guide2_3of4={this.state.content['guide2-3of4']}
+                                        guide2_4of4={this.state.content['guide2-4of4']}
+                                        />
+                                    }
+                                </div>
+                            }
+                        </div>
+                }       
+            </React.Fragment>
         );
     }
 

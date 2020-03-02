@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MdPlayArrow, MdPause } from 'react-icons/md';
 import { FiThumbsDown, FiThumbsUp } from 'react-icons/fi';
-import { GoArrowLeft } from 'react-icons/go';
+import { GoArrowLeft, GoArrowRight } from 'react-icons/go';
 import classes from './ListenButton.css';
 
 class ListenButton extends Component {
@@ -56,9 +56,17 @@ class ListenButton extends Component {
                 <div className={badReview} style={badStyle} onClick={() => this.props.clickedreview('bad')}>
                     <FiThumbsDown size="28px" color="var(--logo-red)"/>
                     <span>{this.props.tdown}</span>
-                    <span className={classes.Tooltip}>
-                        Clicca qui se non capisci cosa è stato detto o ci sono dei rumori di sottofondo
-                    </span>
+                    <span className={classes.Tooltip} dangerouslySetInnerHTML={{
+                        __html: this.props.tdowntooltip
+                    }}></span>
+                    { 
+                        this.props.showGuide ?
+                            <GoArrowRight 
+                                className={classes.LeftArrow}
+                                size="32px"></GoArrowRight>
+                            : 
+                            null 
+                    }
                 </div>
                 <button className={playEffect} onClick={this.props.clicked} >
                     { this.props.isPlaying ?
@@ -70,10 +78,15 @@ class ListenButton extends Component {
                 <div className={goodReview} style={goodStyle} onClick={() => this.props.clickedreview('good')}>
                     <FiThumbsUp size="28px" color="var(--greener)"/>
                     <span>{this.props.tup}</span>
-                    <span className={classes.Tooltip}>
-                        Clicca qui se riconosci la frase in sovraimpressione e non ci sono rumori di disturbo
-                    </span>
-                    { this.props.showGuide ? <GoArrowLeft className={classes.PointArrow} size="32px"></GoArrowLeft> : null }
+                    <span className={classes.Tooltip} dangerouslySetInnerHTML={{
+                        __html: this.props.tuptooltip
+                    }}></span>
+                    { 
+                        this.props.showGuide ?
+                            <GoArrowLeft className={classes.RightArrow} size="32px"></GoArrowLeft>
+                            : 
+                            null 
+                    }
                 </div>
             </div>
         );    

@@ -1,15 +1,16 @@
 .Content {
     height: 100vh;
     box-sizing: border-box;
+    position: relative;
+}
+
+.Uploading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
 }
 
 .Record {
-    margin-top: 80px;
-}
-
-@media (min-width: 700px) {
-    .Record {
-        margin-top: 0px;
-        padding-top: 16px;
-    }
+    padding-top: 16px;
 }

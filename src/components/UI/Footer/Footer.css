@@ -46,7 +46,7 @@
 
 .Link {
     color: var(--text-lightest);
-    font-size: 16px;
+    font-size: 18px;
     padding: 8px 0px;
     text-decoration: none;
     transition: all 0.2s cubic-bezier(.25,.8,.25,1);

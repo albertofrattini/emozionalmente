@@ -32,10 +32,7 @@
 }
 
 .InputText {
-    width: 100%;
-    font-size: 16px;
-    margin: 0px 0px 8px 8px;
-    color: var(--text-dark);
+    margin-bottom: 8px;
 }
 
 ::placeholder {
@@ -43,8 +40,9 @@
 }
 
 .Card button {
-    height: 40px;
-    padding: 0px 32px;
+    height: 48px;
+    padding: 0px 48px;
+    background-color: var(--bluer);
     color: white;
     border: none;
     font-size: 14px;
@@ -74,10 +72,11 @@
 
 .InputColumn {
     width: 100%;
+    color: var(--text-dark);
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     box-sizing: border-box;
 }
 
@@ -94,7 +93,7 @@
 .GoToSignUp {
     width: 100%;
     margin-bottom: 12px;
-    font-size: 15px;
+    font-size: 18px;
     text-decoration: underline;
     text-align: end;
     color: var(--bluer);

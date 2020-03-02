@@ -35,15 +35,16 @@
 
 .Select {
     width: 64px;
-    height: 24px;
+    height: 40px;
+    text-transform: uppercase;
     background-color: white;
-    border: 1px solid var(--blue);
-    margin: 0px 24px 0px 0px;
+    border: 1px solid #eeeeee;
+    margin: 0px 0px 0px 24px;
     cursor: pointer;
 }
 
 .Username {
-    width: 128px;
+    width: auto;
     height: 40px;
     background-color: transparent;
     display: flex;
@@ -60,12 +61,14 @@
 }
 
 .UsernameText {
-    width: 100px;
+    width: auto;
+    max-width: 100px;
+    color: var(--text-dark);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: center;
-    margin-right: 8px;
+    text-align: right;
+    margin: 0px 8px 0px 0px;
 }
 
 .Tooltip {

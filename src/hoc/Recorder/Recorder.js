@@ -1,125 +1,105 @@
-var leftchannel = [];
-var rightchannel = [];
-var recorder = null;
-var recordingLength = 0;
-// var volume = null;
-var mediaStream = null;
-var sampleRate = 44100;
-var context = null;
-var blob = null;
+var recordingObject = {
+    microphone: null,
+    recorder: null,
+    frequencyBins: null,
+    jsNode: null,
+    analyzerNode: null,
+    audioContext: null,
+    chunks: [],
+    last: null
+};
 
 module.exports.startRecording = function () {
-    // Initialize recorder
+
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
-            console.log("Start recording...");
-            // creates the audio context
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            context = new AudioContext();
-            // creates an audio node from the microphone incoming stream
-            mediaStream = context.createMediaStreamSource(stream);
-            // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createScriptProcessor
-            // bufferSize: the onaudioprocess event is called when the buffer is full
-            var bufferSize = 2048;
-            var numberOfInputChannels = 2;
-            var numberOfOutputChannels = 2;
-            if (context.createScriptProcessor) {
-                recorder = context.createScriptProcessor(bufferSize, numberOfInputChannels, numberOfOutputChannels);
-            } else {
-                recorder = context.createJavaScriptNode(bufferSize, numberOfInputChannels, numberOfOutputChannels);
-            }
-            recorder.onaudioprocess = function (e) {
-                leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)));
-                rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)));
-                recordingLength += bufferSize;
-            }
-            // we connect the recorder
-            mediaStream.connect(recorder);
-            recorder.connect(context.destination);
+
+            recordingObject.microphone = stream;
+            var audioContext = new AudioContext();
+            var sourceNode = audioContext.createMediaStreamSource(stream);
+            var volumeNode = audioContext.createGain();
+            var analyzerNode = audioContext.createAnalyser();
+            var outputNode = audioContext.createMediaStreamDestination();
+
+            sourceNode.channelCount = 1;
+            volumeNode.channelCount = 1;
+            analyzerNode.channelCount = 1;
+            outputNode.channelCount = 1;
+
+            sourceNode.connect(volumeNode);
+            volumeNode.connect(analyzerNode);
+            analyzerNode.connect(outputNode);
+
+            recordingObject.recorder = new MediaRecorder(outputNode.stream);
+
+            analyzerNode.fftSize = 128;
+            analyzerNode.smoothingTimeConstant = 0.96;
+            recordingObject.frequencyBins = new Uint8Array(analyzerNode.frequencyBinCount);
+
+            recordingObject.jsNode = audioContext.createScriptProcessor(256, 1, 1);
+            recordingObject.jsNode.connect(audioContext.destination);
+
+            var beeperVolume = audioContext.createGain();
+            beeperVolume.connect(audioContext.destination);
+
+            recordingObject.analyzerNode = analyzerNode;
+            recordingObject.audioContext = audioContext;
+
+
+            recordingObject.chunks = [];
+            recordingObject.recorder.ondataavailable = (e) => {
+                recordingObject.chunks.push(e.data);
+            };
+
+            // recordingObject.jsNode.onaudioprocess = () => {
+            //     recordingObject.analyzerNode.getByteFrequencyData(recordingObject.frequencyBins);
+            //     let sum = 0;
+            //     for (var i = 0; i < recordingObject.frequencyBins.length; i++) {
+            //         sum += recordingObject.frequencyBins[i];
+            //     }
+            //     // let average = sum / recordingObject.frequencyBins.length;
+            // }
+
+            recordingObject.recorder.start(20000);
+
+
         })
         .catch(error => {
             console.log('An error occured while trying to record the sample:');
             console.log(error);
         });
+
 }
+
 
 module.exports.stopRecording = function () {
-    // stop recording
-    recorder.disconnect(context.destination);
-    mediaStream.disconnect(recorder);
-    // we flat the left and right channels down
-    // Float32Array[] => Float32Array
-    var leftBuffer = flattenArray(leftchannel, recordingLength);
-    var rightBuffer = flattenArray(rightchannel, recordingLength);
-    // we interleave both channels together
-    // [left[0],right[0],left[1],right[1],...]
-    var interleaved = interleave(leftBuffer, rightBuffer);
-    // we create our wav file
-    var buffer = new ArrayBuffer(44 + interleaved.length * 2);
-    var view = new DataView(buffer);
-    // RIFF chunk descriptor
-    writeUTFBytes(view, 0, 'RIFF');
-    view.setUint32(4, 44 + interleaved.length * 2, true);
-    writeUTFBytes(view, 8, 'WAVE');
-    // FMT sub-chunk
-    writeUTFBytes(view, 12, 'fmt ');
-    view.setUint32(16, 16, true); // chunkSize
-    view.setUint16(20, 1, true); // wFormatTag
-    view.setUint16(22, 2, true); // wChannels: stereo (2 channels)
-    view.setUint32(24, sampleRate, true); // dwSamplesPerSec
-    view.setUint32(28, sampleRate * 4, true); // dwAvgBytesPerSec
-    view.setUint16(32, 4, true); // wBlockAlign
-    view.setUint16(34, 16, true); // wBitsPerSample
-    // data sub-chunk
-    writeUTFBytes(view, 36, 'data');
-    view.setUint32(40, interleaved.length * 2, true);
-    // write the PCM samples
-    var index = 44;
-    var volume = 1;
-    for (var i = 0; i < interleaved.length; i++) {
-        view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
-        index += 2;
-    }
-    // our final blob
-    blob = new Blob([view], { type: 'audio/wav' });
-    initializeVariables();
-    return blob;
-}
 
-var flattenArray = function (channelBuffer, recordingLength) {
-    var result = new Float32Array(recordingLength);
-    var offset = 0;
-    for (var i = 0; i < channelBuffer.length; i++) {
-        var buffer = channelBuffer[i];
-        result.set(buffer, offset);
-        offset += buffer.length;
-    }
-    return result;
-}
+    return new Promise((res, rej) => {
 
-var interleave = function (leftChannel, rightChannel) {
-    var length = leftChannel.length + rightChannel.length;
-    var result = new Float32Array(length);
-    var inputIndex = 0;
-    for (var index = 0; index < length;) {
-        result[index++] = leftChannel[inputIndex];
-        result[index++] = rightChannel[inputIndex];
-        inputIndex++;
-    }
-    return result;
-}
+        recordingObject.jsNode.onaudioprocess = undefined;
 
-var writeUTFBytes = function (view, offset, string) {
-    for (var i = 0; i < string.length; i++) {
-        view.setUint8(offset + i, string.charCodeAt(i));
-    }
-}
+        recordingObject.recorder.onstop = (e) => {
+            let blob = new Blob(recordingObject.chunks, { type: 'audio/wav' });
+            // let blob2 = new Blob(recordingObject.chunks, { type: 'audio/ogg; codecs=opus' });
+            recordingObject.last = {
+                url: URL.createObjectURL(blob),
+                blob: blob
+            }
+            // var a1 = document.createElement('a');
+            // var a2 = document.createElement('a');
+            // document.body.appendChild(a1);
+            // document.body.appendChild(a2);
+            // a1.href = URL.createObjectURL(blob);
+            // a2.href = URL.createObjectURL(blob2);
+            // a1.download = "blob";
+            // a2.download = "blob2";
+            // a1.click();
+            // a2.click();
+            res(recordingObject.last);
+        }
 
-var initializeVariables = function () {
-    leftchannel = [];
-    rightchannel = [];
-    recorder = null;
-    recordingLength = 0;
-    mediaStream = null;
-    context = null;
+        recordingObject.recorder.stop();
+
+    });
+
 }

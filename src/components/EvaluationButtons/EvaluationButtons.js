@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './EvaluationButtons.css';
 import EmotionBall from './EmotionBall/EmotionBall';
 import Emojis from '../UI/Emojis/Emojis';
-import { GoArrowRight } from 'react-icons/go';
+import { GoArrowRight, GoArrowLeft } from 'react-icons/go';
 
 const evaluationButtons = (props) => {
 
@@ -25,8 +25,9 @@ const evaluationButtons = (props) => {
         <div className={classes.EvaluationButtons}>
             <div className={classes.Container}>
                 <div className={classes.Emotions}>
-                    { props.showGuide ? <GoArrowRight className={classes.PointArrow} size="32px"></GoArrowRight> : null }
+                    { props.showGuide ? <GoArrowRight className={classes.LeftArrow} size="32px"></GoArrowRight> : null }
                     {getEmotionBalls}
+                    { props.showGuide ? <GoArrowLeft className={classes.RightArrow} size="32px"></GoArrowLeft> : null }
                 </div>
             </div>
         </div>

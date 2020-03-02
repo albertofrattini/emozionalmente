@@ -1,0 +1,23 @@
+.Container {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Transparent {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.Loader {
+    width: 104px;
+    height: 104px;
+    color: var(--logo-orange);
+    animation: spin 4s linear 0s infinite;
+}
+
+@keyframes spin {
+    100% {transform: rotate(360deg);}
+}

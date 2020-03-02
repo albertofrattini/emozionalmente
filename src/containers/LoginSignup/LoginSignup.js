@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './LoginSignup.css';
 import Logo from '../../components/Logo/Logo';
 import allCountriesSelect from '../../components/UI/AllCountriesSelect/AllCountriesSelect';
+import axios from 'axios';
 
 const initialState = {
     passwordType: 'password',
@@ -21,11 +22,21 @@ class LoginSignup extends Component {
         super(props);
         this.state = {
             ...initialState,
-            loginPage: true
+            loginPage: true,
+            content: {}
         };
     }
 
     componentDidMount () {
+
+        axios.get('/api/descriptions/loginsignup')
+            .then(response => {
+                const content = {};
+                response.data.map(el => {
+                    return content[el.position] = el.content;
+                });
+                this.setState({ content: content });
+            });
 
         document.getElementById("loginEmail").addEventListener("keyup", function(e) {
             if (e.keyCode === 13) {
@@ -44,8 +55,9 @@ class LoginSignup extends Component {
     }
 
     resetState () {
-        this.setState( initialState );
+        this.setState({...initialState, loginPage: false });
         document.getElementById('sexselect').selectedIndex = 0;
+        document.getElementById('nationalityselect').selectedIndex = 0;
     }
 
     toggleSignup = () => {
@@ -102,48 +114,70 @@ class LoginSignup extends Component {
                     { this.state.loginPage 
                             ?
                             <div className={classes.InputColumn}>
-                                <span className={classes.GoToSignUp} onClick={this.toggleSignup}>Sign up</span>
-                                <input placeholder="Insert your email" id="loginEmail"
+                                <span className={classes.GoToSignUp} onClick={this.toggleSignup}>
+                                    {this.state.content['login-signup-btn']}
+                                </span>
+                                <input placeholder={this.state.content['login-email']} id="loginEmail"
                                     type="email"
                                     onChange={event => this.setState({loginEmail: event.target.value})}/>
-                                <input placeholder="Insert your password" id="loginPassword"
+                                <input placeholder={this.state.content['login-password']} id="loginPassword"
                                     type={this.state.passwordType}
                                     onChange={event => this.setState({loginPassword: event.target.value})}/>
-                                <button id="submitLogin"
-                                    onClick={this.login}
-                                    style={{ backgroundColor: 'var(--logo-green)' }}>LOGIN</button>
+                                <div style={{ width: '256px', margin: 'auto', textAlign: 'center'}}>
+                                    <button id="submitLogin" onClick={this.login}>
+                                            {this.state.content['login-btn']}
+                                    </button>
+                                </div>
                             </div>
                             :
                             <div className={classes.InputColumn}>
-                                <div className={classes.InputText}>Username</div>
-                                <input placeholder="Username must be at least 5 characters long"
+                                <span>
+                                    {this.state.content['signup-username-title']}
+                                </span>
+                                <span className={classes.InputText} style={{ fontSize: '14px' }}>
+                                    {this.state.content['signup-username-subtitle']}
+                                </span>
+                                <input placeholder={this.state.content['signup-username-placeholder']}
                                     value={this.state.signupUsername}
                                     onChange={event => this.setState({signupUsername: event.target.value})}/>
-                                <div className={classes.InputText}>Email</div>
-                                <input placeholder="Insert a valid email"
+                                <span>
+                                    {this.state.content['signup-email-title']}
+                                </span>
+                                <input placeholder={this.state.content['signup-email-placeholder']}
                                     value={this.state.signupEmail}
                                     type="email"
                                     onChange={event => this.setState({signupEmail: event.target.value})}/>
-                                <div className={classes.InputText}>Password</div>
-                                <input placeholder="Password must be at least 5 characters long"
+                                <span>
+                                    {this.state.content['signup-password-title']}
+                                </span>
+                                <span className={classes.InputText} style={{ fontSize: '14px' }}>
+                                    {this.state.content['signup-password-subtitle']}
+                                </span>
+                                <input placeholder={this.state.content['signup-password-placeholder']}
                                     value={this.state.signupPassword}
                                     type="password"
                                     onChange={event => this.setState({signupPassword: event.target.value})}/>
-                                <div className={classes.InputText}>Nationality</div>
-                                <select className={classes.Select} style={{ marginLeft: '0px' }}
+                                <span className={classes.InputText}>
+                                    {this.state.content['signup-nationality-title']}
+                                </span>
+                                <select id="nationalityselect" className={classes.Select} style={{ marginLeft: '0px' }}
                                     onChange={event => this.setState({ nationality: event.target.value })}>
                                     {allCountriesSelect}
                                 </select>
                                 <div className={classes.InputRow}>
                                     <div className={classes.InputColumn}>
-                                        <div className={classes.InputText}>Age</div>
-                                        <input placeholder="24, 56 ..."
+                                        <span className={classes.InputText}>
+                                            {this.state.content['signup-age-title']}
+                                        </span>
+                                        <input placeholder={this.state.content['signup-age-placeholder']}
                                             value={this.state.age}
                                             type="number"
                                             onChange={event => this.setState({age: event.target.value})}/>
                                     </div>
                                     <div className={classes.InputColumn}>
-                                        <div className={classes.InputText}>Sex</div>
+                                        <span className={classes.InputText} style={{ marginLeft: '8px' }}>
+                                            {this.state.content['signup-sex-title']}
+                                        </span>
                                         <select id="sexselect" className={classes.Select} onChange={this.toggleSex}>
                                             <option value=""></option>
                                             <option value="male">Male</option>
@@ -152,9 +186,11 @@ class LoginSignup extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                <button 
-                                    onClick={this.signup}
-                                    style={{ backgroundColor: 'var(--logo-blue)' }}>SIGNUP</button>
+                                <div style={{ width: '256px', margin: 'auto', textAlign: 'center'}}>
+                                    <button onClick={this.signup}>
+                                            {this.state.content['signup-btn']}
+                                    </button>
+                                </div>
                             </div>
                     }
                 </div>

@@ -7,7 +7,6 @@ import { MdMic, MdPlayArrow } from 'react-icons/md';
 class Database extends Component {
 
     state = {
-        loggedin: false,
         username: null,
         userContribution: null,
         data: null,
@@ -18,7 +17,8 @@ class Database extends Component {
         recognizedEmotion: null,
         emotions: [],
         showUpEmotionModal: false,
-        showDownEmotionModal: false
+        showDownEmotionModal: false,
+        content: {}
     }
 
     componentDidMount () {
@@ -26,18 +26,16 @@ class Database extends Component {
         axios.get('/api/users/loggedin')
             .then(response => {
                 const username = response.data.user.username;
-                this.setState({
-                    loggedin: username !== null
-                });
                 if (username) {
                     axios.get('/api/users/contribution')
                         .then(response => {
                             this.setState({
-                                userContribution: response.data
+                                userContribution: response.data,
+                                username: username
                             })
                         });
                 }
-            })
+            });
 
         axios.get('/api/data/database')
             .then(response => {
@@ -76,6 +74,14 @@ class Database extends Component {
                     });
             });
 
+        axios.get('/api/descriptions/database')
+            .then(response => {
+                const content = {};
+                response.data.map(el => {
+                    return content[el.position] = el.content;
+                });
+                this.setState({ content: content });
+            });
         
 
     }
@@ -151,7 +157,7 @@ class Database extends Component {
                         {this.state.data[el].value}
                         <div key={i} className={classes.Block}>
                             <div className={classes.BlockText}>
-                                {this.state.data[el].content}
+                                {this.state.content[this.state.data[el].content]}
                             </div>
                             <div className={classes.Data} style={{ height: height + 'px' }}>
                             </div>
@@ -194,10 +200,11 @@ class Database extends Component {
                                 onClick={() => this.setState({ showUpEmotionModal: true })}>
                                     {this.state.mainEmotion.emotion}
                             </div>
-                            <div style={{ fontSize: '15px', textAlign: 'center', lineHeight: '1.63' }}>
-                                Samples expressing {this.state.mainEmotion.emotion} that have
-                                been recognized as {this.state.recognizedEmotion.emotion}
-                            </div>
+                            <div style={{ fontSize: '15px', textAlign: 'center', lineHeight: '1.63' }}
+                                dangerouslySetInnerHTML={{
+                                    __html: this.state.content['comparison1'] + this.state.mainEmotion.emotion
+                                                + this.state.content['comparison2'] + this.state.recognizedEmotion.emotion
+                                }}></div>
                             <div className={classes.ButtonSelector} 
                                 onClick={() => this.setState({ showDownEmotionModal: true })}>
                                     {this.state.recognizedEmotion.emotion}
@@ -226,18 +233,20 @@ class Database extends Component {
             </div>
         );
 
-
         return (
             <div className={classes.Content}>
                 {
                     this.state.userContribution ? 
                         <div className={classes.Introduction}>
                             <div className={classes.Welcome}>
-                                <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>Ciao Alberto,</p> 
-                                ecco i risultati che fino ad ora hai ottenuto su Emozionalmente. Speriamo
-                                di riceverne presto altri
+                                <p style={{ fontSize: '42px', fontWeight: '500', marginTop: '0px' }}>
+                                    {this.state.username},
+                                </p> 
+                                <p dangerouslySetInnerHTML={{
+                                    __html: this.state.content['user-intro']
+                                }}></p>
                             </div>
-                            <div className={classes.Column}>
+                            <div className={classes.Column} style={{ alignItems: 'center' }}>
                                 <div className={classes.Values}>
                                     <MdMic size="48px" color="var(--logo-red)"/>
                                     {this.state.userContribution.samples}
@@ -253,21 +262,25 @@ class Database extends Component {
                 }
                 <div className={classes.MainGraph}>
                     <div className={classes.Database}>
-                        <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>
-                            Il nostro Database di voci
-                        </p>
-                        La sezione seguente è un resoconto della situazione attuale del database. 
-                        Partendo dalla precisione per arrivare alle percentuale che spiega come le 
-                        varie emozioni sono state percepite da coloro che hanno valutato i sample.
+                        <p style={{ fontSize: '36px', fontWeight: '500', margin: '0px' }}
+                            dangerouslySetInnerHTML={{
+                                __html: this.state.content['general-title']
+                            }}></p>
+                        <p dangerouslySetInnerHTML={{
+                            __html: this.state.content['general-subtitle']
+                        }}></p>
                     </div>
                     <div className={classes.MainCard}>
                         {dataBlocks}
                     </div>
                     <div className={classes.Card}>
                         <div className={classes.Column} style={{ fontSize: '15px' }}>
-                            <p style={{ fontSize: '28px', fontWeight: '800', marginTop: '0px' }}>Precisione</p>
-                            Il grafico riporta la quantità di sample in cui l'emozione che si è stata espressa
-                            è anche stata riconosciuta dagli altri
+                            <p style={{ fontSize: '28px', fontWeight: '800', margin: '0px' }}>
+                                {this.state.content['accuracy-title']}
+                            </p>
+                            <p dangerouslySetInnerHTML={{
+                                __html: this.state.content['accuracy-subtitle']
+                            }}></p>
                         </div>
                         {accuracyData}
                     </div>

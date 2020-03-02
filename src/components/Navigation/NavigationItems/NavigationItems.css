@@ -11,7 +11,7 @@
 @media (min-width: 1027px) {
     .NavigationItems {
         flex-flow: row;
-        margin: 0px 32px 0px 0px;
+        margin: 0px 16px 0px 0px;
         height: 80px;
     }
 }

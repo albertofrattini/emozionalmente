@@ -67,6 +67,13 @@ module.exports.getSamplesToEvaluate = function (quantity, currentuser, language)
         .limit(quantity);
 }
 
+module.exports.getOtherEvaluationsOfSample = async function (sampleid) {
+    const total = await db('evaluated').where('sampleid', sampleid).count('id').first();
+    const correct = await db('evaluated').where('sampleid', sampleid).andWhere('correct', false).count('id').first();
+    const result = total.count == 1 ? 0 : (correct.count / total.count) * 100;
+    return { value: result };
+}
+
 module.exports.findSample = function (id) {
     return db('samples').where('id', id).first();
 }

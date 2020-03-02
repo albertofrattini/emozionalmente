@@ -23,6 +23,10 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+let samplesCombinations = {
+    "it": [],
+    "en": []
+};
 
 
 
@@ -88,22 +92,22 @@ module.exports = function (app) {
         
         const totSamples = await datadb.getTotalSamples();
         currentDb['totalSamples'] = {
-            content: "Total samples",
+            content: "db-total-samples",
             value: totSamples.value
         }
         const totEvaluations = await datadb.getTotalEvaluations();
         currentDb['totalEvaluations'] = {
-            content: "Total evaluations",
+            content: "db-total-evaluations",
             value: totEvaluations.value
         }
         const itSamples = await datadb.getSamplesOfLanguage('it');
         currentDb['italianSamples'] = {
-            content: "Italian samples",
+            content: "db-it-samples",
             value: itSamples.value
         }
         const enSamples = await datadb.getSamplesOfLanguage('en');
         currentDb['englishSamples'] = {
-            content: "English samples",
+            content: "db-en-samples",
             value: enSamples.value
         }
 
@@ -276,14 +280,15 @@ module.exports = function (app) {
         }
 
         datadb.insertEvaluation(evaluation)
-        .then(() => {
-            res.status(200).send({
-                message: 'Upload successful!'
+            .then(async function () {
+                let otherEvaluations = await datadb.getOtherEvaluationsOfSample(evaluation.sampleid);
+                res.status(200).send({
+                    otherEvaluations: otherEvaluations
+                });
+            })
+            .catch(error => {
+                console.error(error);
             });
-        })
-        .catch(error => {
-            console.error(error);
-        });
 
     });
 
@@ -432,20 +437,34 @@ module.exports = function (app) {
 
     });
 
-    app.get('/api/users/hassamples', (req, res) => {
+    app.get('/api/users/hassamples', async (req, res) => {
 
-        if (!req.session.user) return res.send({ newUser: true });
+        let allCombinations = [];
+
+        if (!samplesCombinations[req.session.lang].length > 0) {
+            const allSentences = await datadb.getSentencesToRecord(100, req.session.lang);
+            const allEmotions = emotions[req.session.lang];
+            for (var i in allSentences) {
+                for (var j in allEmotions) {
+                    allCombinations.push({
+                        "sentenceid": allSentences[i].id,
+                        "emotion": allEmotions[j].name
+                    });
+                }
+            }
+            samplesCombinations[req.session.lang] = allCombinations;
+        }
+
+        if (!req.session.user) 
+            return res.send({ newUser: true, samples: samplesCombinations[req.session.lang] });
 
         datadb.getUserSamples(req.session.user.username)
             .then(result => {
                 if (result.length > 0) {
-                    let toSend = [];
-                    result.map((e, _) => {
-                        toSend.push({
-                            "sentenceid": e.sentenceid,
-                            "emotion": e.emotion
-                        });
-                        return e;
+                    const toSend = samplesCombinations[req.session.lang].filter(x => {
+                        return !result.filter(y => {
+                            return x.sentenceid === y.sentenceid && x.emotion === y.emotion;
+                        }).length > 0;
                     });
                     res.send({ 
                         newUser: false,
@@ -454,7 +473,7 @@ module.exports = function (app) {
                 } else {
                     res.send({ 
                         newUser: true,
-                        samples: []
+                        samples: samplesCombinations[req.session.lang]
                     });
                 }
             });

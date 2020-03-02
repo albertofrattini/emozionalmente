@@ -5,13 +5,12 @@ import incorrect from '../../assets/images/thinking_face.png';
 
 const evaluationCard = (props) => {
 
-    let content = null;
-
-    if (props.correct) {
-        content = "You got it right, the speaker wanted to express " + props.emotion;
-    } else {
-        content = "You didn't catch which emotion the speaker wanted to express... It was supposed to be " + props.emotion;
-    }
+    let content = (
+        <React.Fragment>
+            {props.sentence} 
+            <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{props.emotion}</span>
+        </React.Fragment>
+    );
 
     return (
         <div className={classes.Modal}>

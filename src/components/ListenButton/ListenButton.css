@@ -12,19 +12,34 @@
     position: relative;
 }
 
-.PointArrow {
+.RightArrow {
     position: absolute;
     top: 8px;
     height: 40px;
     width: 40px;
     color: var(--blue);
     right: -80%;
-    animation: arrow 0.4s linear 0s infinite alternate;
+    animation: arrowright 0.4s linear 0s infinite alternate;
 }
 
-@keyframes arrow {
+.LeftArrow {
+    position: absolute;
+    top: 8px;
+    height: 40px;
+    width: 40px;
+    color: var(--blue);
+    left: -80%;
+    animation: arrowleft 0.4s linear 0s infinite alternate;
+}
+
+@keyframes arrowright {
     0% {right: -80%;}
     100% {right: -70%;}
+}
+
+@keyframes arrowleft {
+    0% {left: -80%;}
+    100% {left: -70%;}
 }
 
 .Listen {
@@ -79,7 +94,7 @@
     z-index: 10;
     line-height: 1.63;
     visibility: hidden;
-    width: 170px;
+    width: 200px;
     background-color: var(--blue);
     color: white;
     text-align: center;
@@ -87,7 +102,7 @@
     padding: 8px;
     box-sizing: border-box;
     bottom: 130%;
-    left: -17px;
+    left: -30px;
     opacity: 0;
     transition: opacity 1s;
     font-size: 14px;

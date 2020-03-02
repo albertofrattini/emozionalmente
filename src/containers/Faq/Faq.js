@@ -8,6 +8,7 @@ class Faq extends Component {
 
     state = {
         openedQuestion: -1,
+        content: {},
         faqs: null
     }
 
@@ -16,14 +17,17 @@ class Faq extends Component {
         axios.get('/api/descriptions/faq?lang=it')
             .then(response => {
                 const faqs = [];
-                response.data.map((el, i) => {
-                    // return faqs[i] = [el.content, el.additional];
+                const content = {};
+                response.data.map((el, _) => {
+                    if (el.position) {
+                        return content[el.position] = el.content;
+                    }
                     return faqs.push({
                         question: el.content,
                         answer: el.additional
                     });
                 });
-                this.setState({ faqs: faqs });
+                this.setState({ faqs: faqs, content: content });
             });
 
     }
@@ -41,6 +45,18 @@ class Faq extends Component {
         })
     }
 
+    toggleQuestion = (index) => {
+        if (this.state.openedQuestion === index) {
+            this.setState({
+                openedQuestion: -1
+            })
+        } else {
+            this.setState({
+                openedQuestion: index
+            });
+        }
+    }
+
 
 
     render () {
@@ -55,17 +71,24 @@ class Faq extends Component {
                     const isActive = i === currQuestion;
                     return <Question 
                                 key={i}
-                                open={() => this.openQuestion(i)}
-                                close={this.closeQuestion}
+                                toggleQuestion={() => this.toggleQuestion(i)}
                                 active={isActive} 
                                 question={el.question}
                                 answer={isActive ? el.answer : null}  />
                 });
 
         return (
-            <div className={classes.Faq}>
-                <div className={classes.Container}>
-                    {renderedQuestions}
+            <div className={classes.Container}>
+                <p style={{ fontSize: '32px' }} dangerouslySetInnerHTML={{
+                    __html: this.state.content['intro1']
+                }}></p>
+                <p dangerouslySetInnerHTML={{
+                    __html: this.state.content['intro2']
+                }}></p>
+                <div className={classes.Faq}>
+                    <div className={classes.Questions}>
+                        {renderedQuestions}
+                    </div>
                 </div>
             </div>
         );

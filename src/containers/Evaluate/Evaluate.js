@@ -8,10 +8,12 @@ import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
 import EvaluationCard from '../../components/EvaluationCard/EvaluationCard';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Evaluate extends Component {
 
     state = {
+        isLoading: true,
         index: 0,
         progress: [],
         samples: [],
@@ -27,37 +29,28 @@ class Evaluate extends Component {
         content: {},
         evaluationModal: false,
         evaluationResult: null,
-        wantedEmotion: ''
+        wantedEmotion: '',
+        isTaskCompleted: false
     }
 
-    componentDidMount () {
+    async componentDidMount () {
 
-        axios.get('/api/data/samples?quantity=20')
-            .then(response => {
-                this.setState({ samples: response.data });
-            });
-        
-        axios.get('/api/users/hasevaluations')
-            .then(response => {
-                this.setState({ 
-                    newUser: response.data.newUser,
-                    showGuide: response.data.newUser
-                });
-            });
-        
-        axios.get('/api/data/emotions')
-            .then(response => {
-                this.setState({ emotions: response.data });
-            });
-
-        axios.get('/api/descriptions/evaluate')
-            .then(response => {
-                const content = {};
-                response.data.map(el => {
-                    return content[el.position] = el.content;
-                });
-                this.setState({ content: content });
-            });
+        let samples = await axios.get('/api/data/samples?quantity=20');
+        let hasevaluations = await axios.get('/api/users/hasevaluations');
+        let emotions = await axios.get('/api/data/emotions');
+        let descriptions = await axios.get('/api/descriptions/evaluate');
+        const content = {};
+        descriptions.data.map(e => {
+            return content[e.position] = e.content;
+        });
+        this.setState({
+            samples: samples.data,
+            newUser: hasevaluations.data.newUser,
+            showGuide: hasevaluations.data.newUser,
+            emotions: emotions.data,
+            content: content,
+            isLoading: false
+        });
 
     }
 
@@ -126,8 +119,11 @@ class Evaluate extends Component {
             data
             )
             .then(response => {
-                console.log(response.data.message);
-                this.state.progress.push(this.state.selectedEmotion);
+                this.state.progress.push({
+                    ...this.state.selectedEmotion, 
+                    uncorrect: !correct,
+                    uncorrectPercentage: parseInt(response.data.otherEvaluations.value, 10)
+                });
                 this.state.samples.splice(this.state.index, 1);
             })
             .catch(error => {
@@ -194,6 +190,9 @@ class Evaluate extends Component {
         let modal = null;
         let wantedEmotion = null;
 
+        if (this.state.progress.length === 5) {
+            setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
+        }
 
         if (this.state.evaluationModal) {
 
@@ -203,8 +202,6 @@ class Evaluate extends Component {
                 }
                 return e;
             });
-
-            console.log(wantedEmotion);
 
             setTimeout(
                 () => {
@@ -217,12 +214,20 @@ class Evaluate extends Component {
                         reviewArrow: false,
                         emotionsArrow: false
                     })
-                }, 4000);
+                }, 3000);
 
             if (this.state.evaluationResult) {
-                modal = ( <EvaluationCard correct emotion={wantedEmotion}/> );
+                modal = ( 
+                    <EvaluationCard correct emotion={wantedEmotion}
+                                    sentence={this.state.content['correct-evaluation']}
+                    /> 
+                );
             } else {
-                modal = ( <EvaluationCard emotion={wantedEmotion}/> );
+                modal = ( 
+                    <EvaluationCard emotion={wantedEmotion}
+                                    sentence={this.state.content['incorrect-evaluation']}
+                    /> 
+                );
             }
         }
         
@@ -235,64 +240,77 @@ class Evaluate extends Component {
         }
 
         return (
-            <div>
-                {modal}
-                {
-                this.state.newUser ?
 
-                    <GuideCard end={this.guideExecuted}/>
-                    :
-                    this.state.progress.length === 5 ?
-                    <TaskCompleted />
-                    :
-                    <div className={classes.Evaluate}>
-                        <ActivityOptions recLabel="Parla" evalLabel="Ascolta" />
-                        <SentenceCard 
-                            toggleHelp={this.toggleHelp}
-                            new={this.state.newUser}
-                            sentence={ this.state.samples.length > 0 ?
-                                this.state.samples[this.state.index].sentence
-                                : 'Loading...'
-                            } 
-                            evaluate
-                            hasevaluation={this.state.selectedEmotion !== null 
-                                &&
-                                this.state.selectedReview !== '' ?
-                                true : false
+            <React.Fragment>
+                {
+                    this.state.isLoading ?
+                        <Loader pageLoading/>
+                        :
+                        <div>
+                            {modal}
+                            {
+                            this.state.newUser ?
+                                <GuideCard end={this.guideExecuted}/>
+                                :
+                                this.state.isTaskCompleted ?
+                                <TaskCompleted />
+                                :
+                                <div className={classes.Evaluate}>
+                                    <ActivityOptions 
+                                        recLabel={this.state.content['options-rec-label']} 
+                                        evalLabel={this.state.content['options-eval-label']} />
+                                    <SentenceCard 
+                                        toggleHelp={this.toggleHelp}
+                                        new={this.state.newUser}
+                                        sentence={ this.state.samples.length > 0 ?
+                                            this.state.samples[this.state.index].sentence
+                                            : 'Loading...'
+                                        } 
+                                        evaluate
+                                        hasevaluation={this.state.selectedEmotion !== null 
+                                            &&
+                                            this.state.selectedReview !== '' ?
+                                            true : false
+                                        }
+                                        done={this.postEvaluation}
+                                        currentEmotion={this.state.selectedEmotion}
+                                        currentReview={this.state.selectedReview}
+                                        clicked={this.changeSentence}  
+                                        progress={this.state.progress} 
+                                        guide1_1of2={this.state.content['guide1-1of4']}
+                                        guide1_2of2={this.state.content['guide1-2of4']}
+                                        guide2_1of2={this.state.content['guide2-1of2']}
+                                        guide2_2of2={this.state.content['guide2-2of2']}
+                                        tooltip_sentence={this.state.content['tooltip-evaluation']}
+                                    />
+                                    {this.state.sampleUrl === '' ?
+                                        null
+                                        :
+                                        audioFile
+                                    }
+                                    <ListenButton 
+                                        selected={this.state.selectedReview}
+                                        clicked={this.playOrPauseSample}
+                                        isPlaying={this.state.isPlaying}
+                                        clickedreview={this.selectReview}
+                                        showGuide={this.state.reviewArrow && this.state.showGuide}
+                                        tdown={this.state.content['review-tdown']}
+                                        tup={this.state.content['review-tup']}
+                                        tdowntooltip={this.state.content['review-tdown-tooltip']}
+                                        tuptooltip={this.state.content['review-tup-tooltip']}
+                                    />
+                                    <EvaluationButtons 
+                                        selected={this.state.selectedEmotion ? this.state.selectedEmotion.name : null}
+                                        showGuide={this.state.emotionsArrow && this.state.showGuide}
+                                        emotions={this.state.emotions}
+                                        clicked={this.selectEmotion}
+                                    />
+                                </div>
                             }
-                            done={this.postEvaluation}
-                            currentEmotion={this.state.selectedEmotion}
-                            currentReview={this.state.selectedReview}
-                            clicked={this.changeSentence}  
-                            progress={this.state.progress} 
-                            guide1_1of2={this.state.content['guide1-1of4']}
-                            guide1_2of2={this.state.content['guide1-2of4']}
-                            guide2_1of2={this.state.content['guide2-1of2']}
-                            guide2_2of2={this.state.content['guide2-2of2']}
-                        />
-                        {this.state.sampleUrl === '' ?
-                            null
-                            :
-                            audioFile
-                        }
-                        <ListenButton 
-                            selected={this.state.selectedReview}
-                            clicked={this.playOrPauseSample}
-                            isPlaying={this.state.isPlaying}
-                            clickedreview={this.selectReview}
-                            showGuide={this.state.reviewArrow && this.state.showGuide}
-                            tdown={this.state.content['review-tdown']}
-                            tup={this.state.content['review-tup']}
-                        />
-                        <EvaluationButtons 
-                            selected={this.state.selectedEmotion ? this.state.selectedEmotion.name : null}
-                            showGuide={this.state.emotionsArrow && this.state.showGuide}
-                            emotions={this.state.emotions}
-                            clicked={this.selectEmotion}
-                        />
-                    </div>
+                        </div>
                 }
-            </div>
+            </React.Fragment>
+            
         );
     }
 

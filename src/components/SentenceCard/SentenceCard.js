@@ -93,7 +93,8 @@ const sentenceCard = (props) => {
     return (
         <div className={classes.Box}>
             <div className={classes.Left}>
-                <Progress prog={props.progress} evaluate={props.evaluate} emotions={props.emotions}/>
+                <Progress prog={props.progress} evaluate={props.evaluate} 
+                            emotions={props.emotions} tooltip_sentence={props.tooltip_sentence}/>
             </div>
             <div className={classes.CardContainer}>
                 {topInstruction}

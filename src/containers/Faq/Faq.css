@@ -1,11 +1,23 @@
+.Container {
+    width: 100%;
+    max-width: 1028px;
+    margin: 88px auto 0px;
+    display: flex;
+    flex-flow: column;
+    justify-content: start;
+    align-items: flex-start;
+    color: var(--text-dark);
+}
+
 .Faq {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 32px;
 }
 
-.Container {
+.Questions {
     width: 100%;
     max-width: 1028px;
     padding: 0px 16px;

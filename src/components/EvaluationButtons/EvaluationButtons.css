@@ -45,17 +45,32 @@
     box-sizing: border-box;
 }
 
-.PointArrow {
+.RightArrow {
+    position: absolute;
+    top: 25px;
+    height: 40px;
+    width: 40px;
+    color: var(--blue);
+    right: 0;
+    animation: arrowright 0.4s linear 0s infinite alternate;
+}
+
+@keyframes arrowright {
+    0% {right: -24px;}
+    100% {right: -12px;}
+}
+
+.LeftArrow {
     position: absolute;
     top: 25px;
     height: 40px;
     width: 40px;
     color: var(--blue);
     left: 0;
-    animation: arrow 0.4s linear 0s infinite alternate;
+    animation: arrowleft 0.4s linear 0s infinite alternate;
 }
 
-@keyframes arrow {
+@keyframes arrowleft {
     0% {left: -24px;}
     100% {left: -12px;}
 }

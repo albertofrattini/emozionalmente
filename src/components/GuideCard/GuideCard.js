@@ -39,7 +39,7 @@ class GuideCard extends Component {
 
     render () {
 
-        let btnLabel = this.state.loggedin ? 'Start' : 'Login';
+        let btnLabel = this.state.loggedin ? 'OK' : 'LOGIN';
 
         return (
             <div className={classes.Container}>

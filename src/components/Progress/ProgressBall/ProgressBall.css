@@ -6,11 +6,48 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .Ball img {
     width: 40px;
     animation: bigger 0.8s ease 0s 1 normal;
+}
+
+.Ball .Tooltip {
+    position: absolute;
+    z-index: 20;
+    line-height: 1.63;
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--blue);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    box-sizing: border-box;
+    top: -75%;
+    left: 140%;
+    opacity: 0;
+    transition: opacity 1s;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.Ball .Tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--blue) transparent transparent;
+}
+
+.Ball:hover .Tooltip {
+    opacity: 0.9;
+    visibility: visible;
 }
 
 @keyframes bigger {
