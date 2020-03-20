@@ -9,6 +9,7 @@ var recordingObject = {
     last: null
 };
 
+
 module.exports.startRecording = function () {
 
     navigator.mediaDevices.getUserMedia({ audio: true })
@@ -50,15 +51,6 @@ module.exports.startRecording = function () {
             recordingObject.recorder.ondataavailable = (e) => {
                 recordingObject.chunks.push(e.data);
             };
-
-            // recordingObject.jsNode.onaudioprocess = () => {
-            //     recordingObject.analyzerNode.getByteFrequencyData(recordingObject.frequencyBins);
-            //     let sum = 0;
-            //     for (var i = 0; i < recordingObject.frequencyBins.length; i++) {
-            //         sum += recordingObject.frequencyBins[i];
-            //     }
-            //     // let average = sum / recordingObject.frequencyBins.length;
-            // }
 
             recordingObject.recorder.start(20000);
 

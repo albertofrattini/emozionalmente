@@ -29,8 +29,10 @@ const sideDrawer = (props) => {
                     {
                         props.user.username ?
                             <div>
-                                <div>{props.user.username}</div>
-                                <div style={{ color: 'var(--logo-red)', marginTop: '16px' }} 
+                                <Link to="/user" style={{ textDecoration: 'none' }}>
+                                    <div onClick={props.toggleClose}>{props.user.username}</div>
+                                </Link>
+                                <div style={{ color: 'var(--logo-red)', marginTop: '32px' }} 
                                     onClick={props.logout}>Logout</div>
                             </div>
                             :

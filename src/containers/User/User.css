@@ -1,0 +1,139 @@
+.Introduction {
+    width: 100%;
+    max-width: 1028px;
+    margin: 80px auto 0px;
+    padding: 64px 16px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Welcome {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.63;
+    padding: 24px;
+}
+
+.Values {
+    width: 156px;
+    height: 72px;
+    padding: 4px 16px 4px 4px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 32px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    color: var(--text-dark);
+    margin: 4px 0px;
+}
+
+.Column {
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+    line-height: 1.63;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.MainGraph {
+    width: 100%;
+    max-width: 1028px;
+    padding: 48px 16px 0px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.MainCard {
+    width: 100%;
+    max-width: 700px;
+    height: 350px;
+    padding: 24px;
+    margin: 24px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.BlockContainer {
+    width: 24px;
+    margin: 0px 8px;
+    height: 100%;
+    display: flex;
+    flex-flow: column-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 18px;
+}
+
+.Block {
+    width: 100%;
+    height: 100%;
+    margin: 0px 0px 8px;
+    font-size: 14px;
+    background-color: white;
+    border-bottom: 1px solid #cccccc;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.BlockText {
+    display: none;
+    text-align: center;
+    margin-bottom: 8px;
+    line-height: 1.43;
+    color: var(--text-dark);
+}
+
+.Data {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    color: white;
+    padding-top: 2px;
+    box-sizing: border-box;
+    background-color: var(--logo-red);
+    border-radius: 4px 4px 0px 0px;
+}
+
+@media (min-width: 600px) {
+    .Introduction {
+        flex-flow: row;
+    }
+
+    .Column {
+        width: 35%;
+        align-items: flex-end;
+    }
+
+    .Welcome {
+        width: 65%;
+    }
+
+    .BlockContainer {
+        width: 100%;
+        max-width: 56px;
+    }
+
+    .BlockText {
+        display: block;
+    }
+}

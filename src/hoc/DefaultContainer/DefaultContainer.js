@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from '../../containers/Home/Home';
 import Database from '../../containers/Database/Database';
+import User from '../../containers/User/User';
 import AboutUs from '../../containers/AboutUs/AboutUs';
 import ContactUs from '../../containers/ContactUs/ContactUs';
 import Manager from '../../containers/Manager/Manager';
@@ -14,6 +15,7 @@ const defaultContainer = () => (
     <Layout>
         <Route path="/" exact component={Home} />
         <Route path="/database" component={Database} />
+        <Route path="/user" component={User} />
         <Route path="/about-us" component={AboutUs} />
         <Route path="/contact-us" component={ContactUs} />
         <Route path="/manager" component={Manager} />

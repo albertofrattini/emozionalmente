@@ -5,7 +5,7 @@ const session = require('express-session');
 const { setupDb } = require('./database/builder');
 const bodyParser = require('body-parser');
 const path = require('path');
-const serverPort = process.env.PORT || 8080
+const serverPort = 8080;
 
 
 function test (req,res,next){

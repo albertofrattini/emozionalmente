@@ -26,6 +26,7 @@ class Evaluate extends Component {
         showGuide: false,
         reviewArrow: false,
         emotionsArrow: false,
+        isHelpGuide: false,
         content: {},
         evaluationModal: false,
         evaluationResult: null,
@@ -63,7 +64,7 @@ class Evaluate extends Component {
     }
 
     guideExecuted = () => {
-        this.setState({ newUser: false });
+        this.setState({ newUser: false, isHelpGuide: false });
     }
 
     changeSentence = () => {
@@ -122,9 +123,12 @@ class Evaluate extends Component {
                 this.state.progress.push({
                     ...this.state.selectedEmotion, 
                     uncorrect: !correct,
-                    uncorrectPercentage: parseInt(response.data.otherEvaluations.value, 10)
+                    otherEvaluations: response.data.otherEvaluations
                 });
                 this.state.samples.splice(this.state.index, 1);
+                if (!this.state.evaluationModal) {
+                    this.setState({});
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -179,7 +183,20 @@ class Evaluate extends Component {
 
     toggleHelp = () => {
         this.setState({
-            newUser: true
+            newUser: true,
+            isHelpGuide: true
+        });
+    }
+
+    toggleEvaluationCard = () => {
+        this.setState({ 
+            evaluationModal: false, 
+            evaluationResult: null,
+            sampleUrl: '',
+            selectedEmotion: null,
+            selectedReview: '',
+            reviewArrow: false,
+            emotionsArrow: false
         });
     }
 
@@ -203,28 +220,15 @@ class Evaluate extends Component {
                 return e;
             });
 
-            setTimeout(
-                () => {
-                    this.setState({ 
-                        evaluationModal: false, 
-                        evaluationResult: null,
-                        sampleUrl: '',
-                        selectedEmotion: null,
-                        selectedReview: '',
-                        reviewArrow: false,
-                        emotionsArrow: false
-                    })
-                }, 3000);
-
             if (this.state.evaluationResult) {
                 modal = ( 
-                    <EvaluationCard correct emotion={wantedEmotion}
+                    <EvaluationCard correct emotion={wantedEmotion} clicked={this.toggleEvaluationCard}
                                     sentence={this.state.content['correct-evaluation']}
                     /> 
                 );
             } else {
                 modal = ( 
-                    <EvaluationCard emotion={wantedEmotion}
+                    <EvaluationCard emotion={wantedEmotion} clicked={this.toggleEvaluationCard}
                                     sentence={this.state.content['incorrect-evaluation']}
                     /> 
                 );
@@ -250,7 +254,7 @@ class Evaluate extends Component {
                             {modal}
                             {
                             this.state.newUser ?
-                                <GuideCard end={this.guideExecuted}/>
+                                <GuideCard end={this.guideExecuted} help={this.state.isHelpGuide}/>
                                 :
                                 this.state.isTaskCompleted ?
                                 <TaskCompleted />
@@ -276,12 +280,17 @@ class Evaluate extends Component {
                                         currentEmotion={this.state.selectedEmotion}
                                         currentReview={this.state.selectedReview}
                                         clicked={this.changeSentence}  
-                                        progress={this.state.progress} 
+                                        progress={this.state.progress}
+                                        tdown={this.state.content['review-tdown']}
+                                        tup={this.state.content['review-tup']} 
+                                        emotions={this.state.emotions}
                                         guide1_1of2={this.state.content['guide1-1of4']}
                                         guide1_2of2={this.state.content['guide1-2of4']}
                                         guide2_1of2={this.state.content['guide2-1of2']}
                                         guide2_2of2={this.state.content['guide2-2of2']}
                                         tooltip_sentence={this.state.content['tooltip-evaluation']}
+                                        tooltip_first={this.state.content['tooltip-first-evaluation']}
+                                        nextbtn={this.state.content['next-btn']}
                                     />
                                     {this.state.sampleUrl === '' ?
                                         null
@@ -294,6 +303,7 @@ class Evaluate extends Component {
                                         isPlaying={this.state.isPlaying}
                                         clickedreview={this.selectReview}
                                         showGuide={this.state.reviewArrow && this.state.showGuide}
+                                        showTooltip={this.state.showGuide}
                                         tdown={this.state.content['review-tdown']}
                                         tup={this.state.content['review-tup']}
                                         tdowntooltip={this.state.content['review-tdown-tooltip']}
@@ -301,7 +311,9 @@ class Evaluate extends Component {
                                     />
                                     <EvaluationButtons 
                                         selected={this.state.selectedEmotion ? this.state.selectedEmotion.name : null}
-                                        showGuide={this.state.emotionsArrow && this.state.showGuide}
+                                        showGuide={this.state.emotionsArrow && 
+                                                    this.state.showGuide &&
+                                                    !this.state.selectedEmotion}
                                         emotions={this.state.emotions}
                                         clicked={this.selectEmotion}
                                     />

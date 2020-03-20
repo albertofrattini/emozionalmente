@@ -93,8 +93,9 @@ const sentenceCard = (props) => {
     return (
         <div className={classes.Box}>
             <div className={classes.Left}>
-                <Progress prog={props.progress} evaluate={props.evaluate} 
-                            emotions={props.emotions} tooltip_sentence={props.tooltip_sentence}/>
+                <Progress prog={props.progress} evaluate={props.evaluate} tdown={props.tdown} 
+                            tup={props.tup} emotions={props.emotions} 
+                            tooltip_sentence={props.tooltip_sentence} tooltip_first={props.tooltip_first}/>
             </div>
             <div className={classes.CardContainer}>
                 {topInstruction}
@@ -112,6 +113,7 @@ const sentenceCard = (props) => {
             </div>
             <div className={classes.Right}>
                 <button className={classes.SkipButton} onClick={props.clicked}>
+                    <span style={{ marginRight: '8px' }}>{props.nextbtn}</span>
                     <MdNavigateNext size="24px" color="var(--text-dark)"/>
                 </button>
             </div>

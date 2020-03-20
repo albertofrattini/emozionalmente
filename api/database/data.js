@@ -45,33 +45,95 @@ module.exports.setupDataDb = function (database) {
 }
 
 module.exports.getSentencesToRecord = function (quantity, language) {
-    // Returns a fixed amount of random sentences, excluding the ones already sampled
-    // TODO: we can return the same sentences as long as the user records another emotion
     return db.select('*').from('sentences')
         .where('language', language)
         .orderBy(db.raw('RANDOM()'))
         .limit(quantity);
 }
 
-module.exports.getSamplesToEvaluate = function (quantity, currentuser, language) {
-    // Returns a fixed amount of random samples, excluding the ones recorded by the user
-    // itself and the ones already evaluated by the user.
-    // return db.select('samples.id', 'sentenceid', 'emotion', 'timestamp', 'sentence')
-    return db.select('samples.id', 'emotion', 'sentence')
-        .from('samples')
-        .where('samples.language', language)
-        .whereNot('samples.speaker', currentuser)
-        .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
-        .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
-        .orderBy(db.raw('RANDOM()'))
-        .limit(quantity);
+module.exports.getSamplesToEvaluate = async function (quantity, currentuser, language) {
+    const stillNotEvaluatedEnough = await db.select('samples.id')
+            .from('samples')
+            // samples that have been evaluated less than 3 times
+            .whereIn('samples.id', db.select('sampleid')
+                                    .from('evaluated')
+                                    .groupBy('sampleid')
+                                    .having(db.raw('count(*) < 3')))
+            // samples that have never been evaluated
+            .orWhereNotIn('samples.id', db.select('sampleid')
+                                        .from('evaluated')
+                                        .groupBy('sampleid'));
+    if (stillNotEvaluatedEnough.length > 0) {
+        console.log(stillNotEvaluatedEnough.length);
+        const arrayStillNotEvaluatedEnough = stillNotEvaluatedEnough.map(e => {
+            return e.id;
+        });
+        return db.select('samples.id', 'emotion', 'sentence')
+            .from('samples')
+            .whereIn('samples.id', arrayStillNotEvaluatedEnough)
+            .where('samples.language', language)
+            .whereNot('samples.speaker', currentuser)
+            .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+            .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
+            .orderBy(db.raw('RANDOM()'))
+            .limit(quantity);
+    } else {
+        return db.select('samples.id', 'emotion', 'sentence')
+            .from('samples')
+            .where('samples.language', language)
+            .whereNot('samples.speaker', currentuser)
+            .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+            .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
+            .orderBy(db.raw('RANDOM()'))
+            .limit(quantity);
+    }
 }
 
-module.exports.getOtherEvaluationsOfSample = async function (sampleid) {
-    const total = await db('evaluated').where('sampleid', sampleid).count('id').first();
-    const correct = await db('evaluated').where('sampleid', sampleid).andWhere('correct', false).count('id').first();
-    const result = total.count == 1 ? 0 : (correct.count / total.count) * 100;
-    return { value: result };
+module.exports.getOtherEvaluationsOfSample = async function (sampleid, evaluator) {
+    const result = {};
+    const total = await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator).count('id').first();
+    if (total.count == 0) return { total: 0 };
+    result.total = total.count;
+    result.good = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('quality', 'good').count('id').first()).count) / total.count) * 100, 10);
+    result.bad = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('quality', 'bad').count('id').first()).count) / total.count) * 100, 10);
+    result.hp = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'hp').count('id').first()).count) / total.count) * 100, 10);
+    result.sd = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'sd').count('id').first()).count) / total.count) * 100, 10);
+    result.ds = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'ds').count('id').first()).count) / total.count) * 100, 10);
+    result.fr = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'fr').count('id').first()).count) / total.count) * 100, 10);
+    result.sr = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'sr').count('id').first()).count) / total.count) * 100, 10);
+    result.nt = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'nt').count('id').first()).count) / total.count) * 100, 10);
+    result.an = parseInt((((await db('evaluated').where('sampleid', sampleid).whereNot('evaluator', evaluator)
+                    .where('emotion', 'an').count('id').first()).count) / total.count) * 100, 10);
+    return result;
+}
+
+module.exports.getUserSampleContribution = async function (user) {
+    const result = {};
+    result.total = (await db('samples').where('samples.speaker', user).count('id').first()).count;
+    result.hp = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'hp').count('id').first()).count;
+    result.sd = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'sd').count('id').first()).count;
+    result.an = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'an').count('id').first()).count;
+    result.fr = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'fr').count('id').first()).count;
+    result.ds = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'ds').count('id').first()).count;
+    result.nt = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'nt').count('id').first()).count;
+    result.sr = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'sr').count('id').first()).count;
+    return result;
+}
+
+module.exports.getUserEvaluationContribution = async function (user) {
+    const result = {};
+    result.total = (await db('evaluated').where('evaluated.evaluator', user).count('id').first()).count;
+    result.correct = (await db('evaluated').where('evaluated.evaluator', user).andWhere('correct', true).count('id').first()).count;
+    result.notcorrect = (await db('evaluated').where('evaluated.evaluator', user).andWhere('correct', false).count('id').first()).count;
+    return result;
 }
 
 module.exports.findSample = function (id) {

@@ -19,14 +19,14 @@
     z-index: 20;
     line-height: 1.63;
     visibility: hidden;
-    width: 200px;
+    width: 250px;
     background-color: var(--blue);
     color: white;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
     padding: 8px;
     box-sizing: border-box;
-    top: -75%;
+    top: -240%;
     left: 140%;
     opacity: 0;
     transition: opacity 1s;

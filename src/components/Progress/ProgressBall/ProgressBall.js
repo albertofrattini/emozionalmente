@@ -14,8 +14,9 @@ const progressBall = (props) => {
             }
             {
                 props.tooltip ?
-                    <div className={classes.Tooltip}>
-                        {props.tooltip}
+                    <div className={classes.Tooltip} style={props.style} dangerouslySetInnerHTML={{
+                        __html: props.tooltip
+                    }}>
                     </div>
                     :
                     null

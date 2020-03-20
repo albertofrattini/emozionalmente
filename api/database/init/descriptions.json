@@ -282,6 +282,20 @@
     },
 
 
+    {
+        "language": "en",
+        "page": "record",
+        "position": "next-btn",
+        "content": "Skip"
+    },
+    {
+        "language": "it",
+        "page": "record",
+        "position": "next-btn",
+        "content": "Salta"
+    },
+
+
 
 
     {
@@ -402,6 +416,20 @@
     },
 
 
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "next-btn",
+        "content": "Skip"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "next-btn",
+        "content": "Salta"
+    },
+
+
 
 
     {
@@ -481,7 +509,7 @@
         "language": "it",
         "page": "evaluate",
         "position": "review-tup-tooltip",
-        "content": "Clicca qui <strong>se non hai capito</strong> cosa è stato detto o se la registrazione ha dei <strong>rumori di sottofondo</strong>"
+        "content": "Clicca qui se <strong>riconosci la frase</strong> e <strong>non ci sono rumori di sottofondo</strong>"
     },
 
 
@@ -515,13 +543,25 @@
         "language": "en",
         "page": "evaluate",
         "position": "tooltip-evaluation",
-        "content": " of the people that evaluated this sample guessed wrong too"
+        "content": "Other users said"
     },
     {
         "language": "it",
         "page": "evaluate",
         "position": "tooltip-evaluation",
-        "content": " delle persone che hanno ascoltato questa registrazione hanno sbagliato la valutazione"
+        "content": "Gli altri utenti hanno detto"
+    },
+    {
+        "language": "en",
+        "page": "evaluate",
+        "position": "tooltip-first-evaluation",
+        "content": "Congratulations, you are the first user evaluating this sample!"
+    },
+    {
+        "language": "it",
+        "page": "evaluate",
+        "position": "tooltip-first-evaluation",
+        "content": "Congratulazioni, sei il primo utente a valutare questa registrazione!"
     },
 
 
@@ -538,10 +578,50 @@
 
     {
         "language": "it",
-        "page": "database",
+        "page": "user",
         "position": "user-intro",
         "content": "ecco i risultati che fino ad ora hai ottenuto su Emozionalmente. Continua ad aiutarci ad espandere questo database, ne saremmo molto felici"
     },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-intro",
+        "content": "here there are the results that you have yet reached on Emozionalmente. Keep up helping us expanding this database, everyone would be incredibly grateful to you"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "block-correct",
+        "content": "Corretti"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "block-correct",
+        "content": "Correct"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "block-notcorrect",
+        "content": "Sbagliati"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "block-notcorrect",
+        "content": "Not Correct"
+    },
+
+
+
+
+
+
+
+
+
+
     {
         "language": "it",
         "page": "database",
@@ -608,12 +688,7 @@
 
 
 
-    {
-        "language": "en",
-        "page": "database",
-        "position": "user-intro",
-        "content": "here there are the results that you have yet reached on Emozionalmente. Keep up helping us expanding this database, everyone would be incredibly grateful to you"
-    },
+    
     {
         "language": "en",
         "page": "database",

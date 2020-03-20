@@ -24,6 +24,7 @@ class ListenButton extends Component {
 
     render () {
 
+        let tooltip = classes.Tooltip;
         let playEffect = classes.Listen;
         let badReview = classes.ReviewCard;
         let goodReview = classes.ReviewCard;
@@ -33,6 +34,10 @@ class ListenButton extends Component {
         let badStyle = {
             border: "2px solid transparent"
         };
+
+        // if (!this.props.showTooltip) {
+        //     tooltip = [classes.Tooltip, classes.DisplayNone].join(' ');
+        // }
 
         if (this.props.isPlaying) {
             playEffect = [classes.Listen, classes.Pulse].join(' ');
@@ -56,11 +61,11 @@ class ListenButton extends Component {
                 <div className={badReview} style={badStyle} onClick={() => this.props.clickedreview('bad')}>
                     <FiThumbsDown size="28px" color="var(--logo-red)"/>
                     <span>{this.props.tdown}</span>
-                    <span className={classes.Tooltip} dangerouslySetInnerHTML={{
+                    <span className={tooltip} dangerouslySetInnerHTML={{
                         __html: this.props.tdowntooltip
                     }}></span>
                     { 
-                        this.props.showGuide ?
+                        this.props.showGuide && this.props.selected === '' ?
                             <GoArrowRight 
                                 className={classes.LeftArrow}
                                 size="32px"></GoArrowRight>
@@ -78,11 +83,11 @@ class ListenButton extends Component {
                 <div className={goodReview} style={goodStyle} onClick={() => this.props.clickedreview('good')}>
                     <FiThumbsUp size="28px" color="var(--greener)"/>
                     <span>{this.props.tup}</span>
-                    <span className={classes.Tooltip} dangerouslySetInnerHTML={{
+                    <span className={tooltip} dangerouslySetInnerHTML={{
                         __html: this.props.tuptooltip
                     }}></span>
                     { 
-                        this.props.showGuide ?
+                        this.props.showGuide && this.props.selected === '' ?
                             <GoArrowLeft className={classes.RightArrow} size="32px"></GoArrowLeft>
                             : 
                             null 

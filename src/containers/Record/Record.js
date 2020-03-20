@@ -8,11 +8,20 @@ import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
+// import { convertToWav } from '../../hoc/Recorder/iRecorder';
 import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
 import Loader from '../../components/UI/Loader/Loader';
 
+// import '../../hoc/Recorder/p5.sound';
+// import * as p5 from '../../hoc/Recorder/p5';
+
 
 class Record extends Component {
+
+    // constructor (props) {
+    //     super(props);
+    //     this.myRef = React.createRef();
+    // }
 
     state = {
         isLoading: true,
@@ -24,18 +33,28 @@ class Record extends Component {
         sampleUrl: '',
         newUser: false,
         showGuide: false,
+        isHelpGuide: false,
         emotions: [],
         currentEmotion: '',
         content: {},
         toBeRecordedSamples: [],
         isTaskCompleted: false,
-        noSentenceAvailable: false
+        noSentenceAvailable: false,
+        isUnsupportedPlatform: false
     }
 
     blob = null;
+    // mic = null;
+    // recorder = null;
+    // soundFile = null;
 
     async componentDidMount () {
-
+        
+        let isMicrophoneSupported = (navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+        let isAudioRecordingSupported = typeof MediaRecorder !== 'undefined';
+        if (!isAudioRecordingSupported || !isMicrophoneSupported) {
+            this.setState({ isUnsupportedPlatform: true })
+        } 
         let sentences = await axios.get('/api/sentences?quantity=20');
         let hassamples = await axios.get('/api/users/hassamples');
         let emotions = await axios.get('/api/data/emotions');
@@ -57,29 +76,69 @@ class Record extends Component {
         });
         this.changeSentence();
 
+        // this.myP5 = new p5(this.Sketch, this.myRef.current);
+
     }
 
+
+
+
+    // Sketch = (p) => {
+
+    //     p.setup = () => {
+    //         p.createCanvas(window.innerWidth, window.innerHeight);
+    //         this.mic = new p5.AudioIn();
+    //     }
+
+    //     p.start = () => {
+    //         this.mic.start();
+    //         this.recorder = new p5.SoundRecorder();
+    //         this.recorder.setInput(this.mic);
+    //         this.soundFile = new p5.SoundFile();
+    //         this.recorder.record(this.soundFile);
+    //     }
+
+    //     p.stop = () => {
+    //         this.recorder.stop();
+    //     }
+    // }
+
+
+
+
+
+
     guideExecuted = () => {
-        this.setState({ newUser: false });
+        this.setState({ newUser: false, isHelpGuide: false });
     }
 
     startRecording = () => {
 
         if (this.state.sentences.length < 1) return;
 
-        this.setState({ 
-            isRecording: true,
-            sampleUrl: ''
-        });
-        startRecording();
+        // this.myRef.setup();
+        // this.myRef.start();
+
+        setTimeout(
+            () => {
+                this.setState({ 
+                    isRecording: true,
+                    sampleUrl: ''
+                });
+                startRecording();
+            }, 100);
 
     } 
 
     stopRecording = async () => {
 
-        this.blob = await stopRecording();
-        // const audioUrl = URL.createObjectURL(this.blob);
-        const audioUrl = this.blob.url;
+        let obj = await stopRecording();
+        this.blob = obj.blob;
+        const audioUrl = obj.url;
+        // this.myRef.stop();
+        // let view = convertToWav(this.soundFile);
+        // let blob = new Blob([view], { type: 'audio/wav' });
+        // const audioUrl = URL.createObjectURL(blob);
         this.setState({
             sampleUrl: audioUrl,
             isRecording: false
@@ -108,9 +167,14 @@ class Record extends Component {
                 this.state.toBeRecordedSamples = this.state.toBeRecordedSamples.filter(e => {
                     return !(e.sentenceid === sentenceid && e.emotion === emotion);
                 });
-                this.changeSentence();
-                if (this.state.progress.length === 5) 
-                    setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
+                if (this.state.toBeRecordedSamples.length < 1) {
+                    this.state.noSentenceAvailable = true;
+                } else {
+                    this.changeSentence();
+                }
+                if (this.state.progress.length === 5 || this.state.noSentenceAvailable) {
+                    setTimeout(() => this.setState({ isTaskCompleted: true }), 2000);
+                }
                 this.setState({ 
                     sampleUrl: '',
                     isUploading: false
@@ -120,7 +184,6 @@ class Record extends Component {
                 console.log(error.message);
             });
     }
-
 
     changeSentence = () => {
 
@@ -207,7 +270,8 @@ class Record extends Component {
 
     toggleHelp = () => {
         this.setState({
-            newUser: true
+            newUser: true,
+            isHelpGuide: true
         });
     }
 
@@ -230,14 +294,23 @@ class Record extends Component {
                                     null
                             }
                             {
-                                this.state.newUser ?
+                                this.state.newUser && !this.state.isUnsupportedPlatform ?
                                 <GuideCard 
                                 record
-                                end={this.guideExecuted}/>
+                                end={this.guideExecuted}
+                                help={this.state.isHelpGuide}/>
                                 : 
                                 this.state.isTaskCompleted ?
                                 <TaskCompleted record
                                     noSentenceAvailable={this.state.noSentenceAvailable}/>
+                                :
+                                this.state.isUnsupportedPlatform ?
+                                <div className={classes.Record}>
+                                    <ActivityOptions 
+                                        recLabel={this.state.content['options-rec-label']} 
+                                        evalLabel={this.state.content['options-eval-label']} />
+                                        La piattaforma in uso non è attulamente supportata. Puoi utilizzare Chrome o Firefox su computer desktop.
+                                </div>
                                 :
                                 <div className={classes.Record}>
                                     <ActivityOptions 
@@ -257,6 +330,7 @@ class Record extends Component {
                                         change={this.changeEmotion}
                                         progress={this.state.progress}  
                                         guidetop={this.state.content['guide1']}
+                                        nextbtn={this.state.content['next-btn']}
                                         /> 
                                     {this.state.isRecording ? 
                                         <StopButton clicked={this.stopRecording}/>

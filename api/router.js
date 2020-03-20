@@ -264,7 +264,7 @@ module.exports = function (app) {
 
     });
 
-    app.post('/api/data/evaluations', (req, res, next) => {
+    app.post('/api/data/evaluations', async (req, res, next) => {
 
         const evaluator = req.session.user ? req.session.user.username : null;
         const language = req.session.lang;
@@ -281,7 +281,8 @@ module.exports = function (app) {
 
         datadb.insertEvaluation(evaluation)
             .then(async function () {
-                let otherEvaluations = await datadb.getOtherEvaluationsOfSample(evaluation.sampleid);
+                let otherEvaluations = 
+                    await datadb.getOtherEvaluationsOfSample(evaluation.sampleid, evaluation.evaluator);
                 res.status(200).send({
                     otherEvaluations: otherEvaluations
                 });
@@ -497,12 +498,12 @@ module.exports = function (app) {
 
     app.get('/api/users/contribution', async (req, res, next) => {
 
-        const samples = await datadb.getUserSamples(req.session.user.username);
-        const evaluations = await datadb.getUserEvaluations(req.session.user.username);
+        const samples = await datadb.getUserSampleContribution(req.session.user.username);
+        const evaluations = await datadb.getUserEvaluationContribution(req.session.user.username);
 
         res.send({
-            samples: samples.length,
-            evaluations: evaluations.length
+            sampleContribution: samples,
+            evaluationContribution: evaluations
         });
 
     });

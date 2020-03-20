@@ -82,7 +82,7 @@ class Toolbar extends Component {
                         {
                             this.props.user.username ? 
                             <div className={classes.Username}>
-                                <Link to="/database" style={{ textDecoration: 'none' }}>
+                                <Link to="/user" style={{ textDecoration: 'none' }}>
                                         <p className={classes.UsernameText}>{this.props.user.username}</p>
                                 </Link>
                                 <img src={userEmoji} alt="user icon" />

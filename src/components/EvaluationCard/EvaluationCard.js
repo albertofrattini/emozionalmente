@@ -6,15 +6,15 @@ import incorrect from '../../assets/images/thinking_face.png';
 const evaluationCard = (props) => {
 
     let content = (
-        <React.Fragment>
+        <div style={{ marginTop: '16px' }}>
             {props.sentence} 
             <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{props.emotion}</span>
-        </React.Fragment>
+        </div>
     );
 
     return (
-        <div className={classes.Modal}>
-            <div className={classes.EvaluationCard}>
+        <div id="modal" className={classes.Modal}>
+            <div id="card" className={classes.EvaluationCard}>
                 {   
                 props.correct ? 
                     <img src={correct} alt="correct answer"/>
@@ -22,6 +22,7 @@ const evaluationCard = (props) => {
                     <img src={incorrect} alt="not correct"/>
                 }
                 {content}
+                <div className={classes.Button} onClick={() => props.clicked()}>OK</div>
             </div>
         </div>
     );

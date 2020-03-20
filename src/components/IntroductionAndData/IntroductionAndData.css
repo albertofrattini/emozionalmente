@@ -22,7 +22,7 @@
 .Element {
     width: 100%;
     max-width: 800px;
-    height: 60vh;
+    height: auto;
     border-radius: 4px;
     margin: auto;
     margin-bottom: 32px;

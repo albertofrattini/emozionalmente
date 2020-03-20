@@ -218,9 +218,10 @@
 }
 
 .SkipButton {
-    width: 48px;
     height: 48px;
-    border-radius: 100%;
+    padding: 0px 8px 0px 16px;
+    border-radius: 32px;
+    font-size: 13px;
     background-color: white;
     border: none;
     display: flex;

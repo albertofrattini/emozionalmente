@@ -44,11 +44,17 @@ class GuideCard extends Component {
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <div className={classes.Back}>
-                            <MdArrowBack size="40px" color="var(--text-dark)"/>
-                        </div>
-                    </Link>
+                    {
+                        this.props.help ?
+                            null
+                            :
+                            <Link to="/" style={{ textDecoration: 'none' }}>
+                                <div className={classes.Back}>
+                                    <MdArrowBack size="40px" color="var(--text-dark)"/>
+                                </div>
+                            </Link>
+
+                    }
                     <img src={thinking} alt="thinking person" />
                     <div className={classes.Text} dangerouslySetInnerHTML={{ 
                         __html: this.state.guide.length > 0 ? this.state.guide[0].content : null 

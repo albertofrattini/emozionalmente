@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import classes from './Database.css';
 import axios from 'axios';
-import { MdMic, MdPlayArrow } from 'react-icons/md';
 
 class Database extends Component {
 
     state = {
-        username: null,
-        userContribution: null,
         data: null,
         accuracy: 0,
         maxValue: 0,
@@ -22,20 +19,6 @@ class Database extends Component {
     }
 
     componentDidMount () {
-
-        axios.get('/api/users/loggedin')
-            .then(response => {
-                const username = response.data.user.username;
-                if (username) {
-                    axios.get('/api/users/contribution')
-                        .then(response => {
-                            this.setState({
-                                userContribution: response.data,
-                                username: username
-                            })
-                        });
-                }
-            });
 
         axios.get('/api/data/database')
             .then(response => {
@@ -235,31 +218,6 @@ class Database extends Component {
 
         return (
             <div className={classes.Content}>
-                {
-                    this.state.userContribution ? 
-                        <div className={classes.Introduction}>
-                            <div className={classes.Welcome}>
-                                <p style={{ fontSize: '42px', fontWeight: '500', marginTop: '0px' }}>
-                                    {this.state.username},
-                                </p> 
-                                <p dangerouslySetInnerHTML={{
-                                    __html: this.state.content['user-intro']
-                                }}></p>
-                            </div>
-                            <div className={classes.Column} style={{ alignItems: 'center' }}>
-                                <div className={classes.Values}>
-                                    <MdMic size="48px" color="var(--logo-red)"/>
-                                    {this.state.userContribution.samples}
-                                </div>
-                                <div className={classes.Values}>
-                                    <MdPlayArrow size="48px" color="var(--logo-violet)"/>
-                                    {this.state.userContribution.evaluations}
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        null
-                }
                 <div className={classes.MainGraph}>
                     <div className={classes.Database}>
                         <p style={{ fontSize: '36px', fontWeight: '500', margin: '0px' }}
