@@ -41,6 +41,7 @@
     border: 1px solid #eeeeee;
     margin: 0px 0px 0px 24px;
     cursor: pointer;
+    color: var(--text-dark);
 }
 
 .Username {

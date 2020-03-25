@@ -1,0 +1,35 @@
+.Container {
+    margin: 16px 0px;
+}
+
+.yAxis {
+    color: transparent;
+}
+
+.yAxis g {
+    stroke-width: 0.5;
+    color: #777;
+}
+
+.xAxis {
+    color: transparent;
+}
+
+.xAxis g {
+    stroke-dasharray: 2,2;
+    stroke-width: 0.5;
+    color: #777;
+}
+
+.Square {
+    display: inline-block;
+    width: 18px;
+    height: 14px;
+}
+
+.Text {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0px 8px;
+}
+

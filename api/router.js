@@ -85,67 +85,7 @@ module.exports = function (app) {
     /***************
      **** DATABASE
      ******************/
-
-    app.get('/api/data/database', async (req, res) => {
-
-        let currentDb = {};
-        
-        const totSamples = await datadb.getTotalSamples();
-        currentDb['totalSamples'] = {
-            content: "db-total-samples",
-            value: totSamples.value
-        }
-        const totEvaluations = await datadb.getTotalEvaluations();
-        currentDb['totalEvaluations'] = {
-            content: "db-total-evaluations",
-            value: totEvaluations.value
-        }
-        const itSamples = await datadb.getSamplesOfLanguage('it');
-        currentDb['italianSamples'] = {
-            content: "db-it-samples",
-            value: itSamples.value
-        }
-        const enSamples = await datadb.getSamplesOfLanguage('en');
-        currentDb['englishSamples'] = {
-            content: "db-en-samples",
-            value: enSamples.value
-        }
-
-        res.send(currentDb);
-
-    });
-
-    app.get('/api/data/accuracy', async function (req, res) {
-
-        let result = {};
-
-        const accuracy = await datadb.getAccuracy();
-        result["value"] = accuracy.value * 100;
-
-        res.send(result);
-
-    });
-
-    app.get('/api/data/comparison', function (req, res) {
-
-        const mainEmotion = req.query.first;
-        const recognizedEmotion = req.query.second;
-
-        datadb.getSamplesEmotionRecognizedAs(mainEmotion, recognizedEmotion)
-            .then(result => {
-                res.send(result);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-    }); 
-
-
-
-
-
-
+    
     /***************
      **** DESCRIPTIONS
      ******************/
@@ -293,6 +233,172 @@ module.exports = function (app) {
 
     });
 
+
+
+
+
+
+
+
+
+    app.get('/api/data/database/samples', function (req, res) {
+
+        const minAge = req.query.min;
+        const maxAge = req.query.max;
+        const sex = req.query.s ? req.query.s : '';
+        const nationality = req.query.n ? req.query.n : '';
+
+        datadb.getAllSamples(minAge, maxAge, sex, nationality)
+            .then(result => {
+                let samples = []
+                const dates = {}
+                const day = {}
+                emotions[req.session.lang].map(e => {
+                    return day[e.name] = 0
+                });
+                result.map(e => {
+                    const date = new Date(parseInt(e.timestamp)).toString();
+                    const strDate = date.substring(13,15) + '-' + date.substring(4,7) + '-' + date.substring(8,10);
+                    if (!dates[strDate]) {
+                        dates[strDate] = {...day}
+                    }
+                    return dates[strDate][e.emotion] += 1
+                });
+                samples = [...Object.keys(dates)].map(e => {
+                    return {date: e, ...dates[e]};
+                });
+                res.send(samples);
+            })
+            .catch(error => {   
+                console.log(error);
+            });
+
+    });
+
+    app.get('/api/data/database/users', function (req, res) {
+
+        
+        const minAge = req.query.min;
+        const maxAge = req.query.max;
+        const sex = req.query.s ? req.query.s : '';
+        const nationality = req.query.n ? req.query.n : '';
+
+        userdb.getAllUsers(minAge, maxAge, sex, nationality)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+                res.send([]);
+            });
+    });
+
+    app.get('/api/data/database/evaluations', function (req, res) {
+
+        const minAge = req.query.min;
+        const maxAge = req.query.max;
+        const sex = req.query.s ? req.query.s : '';
+        const nationality = req.query.n ? req.query.n : '';
+        const values = {
+            quantity: [],
+            scatter: []
+        }
+
+        datadb.getEvaluationsPerQuantity(minAge, maxAge, sex, nationality)
+            .then(quantity => {
+
+                values.quantity = [...quantity];
+                datadb.getAllEvaluations(minAge, maxAge, sex, nationality)
+                    .then(result => {
+                        let scatter = []
+                        const dates = {}
+                        result.map(e => {
+                            const date = new Date(parseInt(e.timestamp)).toString();
+                            const strDate = date.substring(13,15) + '-' + date.substring(4,7) + '-' + date.substring(8,10);
+                            if (!dates[strDate]) {
+                                dates[strDate] = { value: 0 }
+                            }
+                            return dates[strDate]['value'] += 1
+                        });
+                        scatter = [...Object.keys(dates)].map(e => {
+                            return {date: e, value: dates[e]['value']};
+                        });
+                        values.scatter = [...scatter];
+                        res.send(values);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        res.send(values);
+                    });
+            })
+            .catch(error => {
+                console.log(error);
+                res.send([]);
+            });
+
+    });
+
+    app.get('/api/data/database/comparison', function (req, res) {
+
+        const emotion = req.query.e;
+        const minAge = parseInt(req.query.min);
+        const maxAge = parseInt(req.query.max);
+        const sex = req.query.s ? req.query.s : '';
+        const nationality = req.query.n ? req.query.n : '';
+
+        datadb.getSamplesEmotionRecognizedAs(minAge, maxAge, sex, nationality, emotion)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    }); 
+
+    app.get('/api/data/database/accuracy', function (req, res) {
+
+        const minAge = req.query.min;
+        const maxAge = req.query.max;
+        const sex = req.query.s ? req.query.s : '';
+        const nationality = req.query.n ? req.query.n : '';
+
+        datadb.getAllEvaluations(minAge, maxAge, sex, nationality)
+            .then(result => {
+                const dates = {}
+                const day = {}
+                emotions[req.session.lang].map(e => {
+                    day[e.name + '_correct'] = 0;
+                    return day[e.name + '_wrong'] = 0;
+                });
+                let previous = {...day};
+                result.map(e => {
+                    const date = new Date(parseInt(e.timestamp)).toString();
+                    const strDate = date.substring(13,15) + '-' + date.substring(4,7) + '-' + date.substring(8,10);
+                    if (!dates[strDate]) {
+                        dates[strDate] = {...previous};
+                    }
+                    if (e.recognized === e.real) dates[strDate][e.real + '_correct'] += 1;
+                    else dates[strDate][e.real + '_wrong'] += 1;
+                    return previous = {...dates[strDate]};
+                });
+                const evaluations = [...Object.keys(dates)].map(e => {
+                    const perc = {}
+                    emotions[req.session.lang].forEach(e1 => {
+                        const total = dates[e][e1.name + '_correct'] + dates[e][e1.name + '_wrong'];
+                        if (total === 0) return perc[e1.name] = 0;
+                        return perc[e1.name] = Math.round((dates[e][e1.name + '_correct'] / total) * 100);
+                    });
+                    return {date: e, ...perc};
+                });
+                res.send(evaluations);
+            })
+            .catch(error => {
+                console.log(error);
+                res.send([]);
+            });
+
+    }); 
 
 
 

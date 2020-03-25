@@ -1,0 +1,18 @@
+.Square {
+    margin: 0px 6px 0px 16px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+  }
+  
+  .Text {
+    display: inline-block;
+    font-size: 14px;
+  }
+
+  .GuideContainer {
+    width: auto;
+    display: inline-block;
+    margin: 8px;
+  }

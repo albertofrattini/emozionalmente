@@ -1,0 +1,10 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: none;
+  shape-rendering: crispEdges;
+}
+
+.browser text {
+  text-anchor: end;
+}

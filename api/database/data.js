@@ -52,31 +52,27 @@ module.exports.getSentencesToRecord = function (quantity, language) {
 }
 
 module.exports.getSamplesToEvaluate = async function (quantity, currentuser, language) {
-    const stillNotEvaluatedEnough = await db.select('samples.id')
-            .from('samples')
-            // samples that have been evaluated less than 3 times
-            .whereIn('samples.id', db.select('sampleid')
-                                    .from('evaluated')
-                                    .groupBy('sampleid')
-                                    .having(db.raw('count(*) < 3')))
-            // samples that have never been evaluated
-            .orWhereNotIn('samples.id', db.select('sampleid')
-                                        .from('evaluated')
-                                        .groupBy('sampleid'));
-    if (stillNotEvaluatedEnough.length > 0) {
-        console.log(stillNotEvaluatedEnough.length);
-        const arrayStillNotEvaluatedEnough = stillNotEvaluatedEnough.map(e => {
-            return e.id;
-        });
-        return db.select('samples.id', 'emotion', 'sentence')
-            .from('samples')
-            .whereIn('samples.id', arrayStillNotEvaluatedEnough)
-            .where('samples.language', language)
-            .whereNot('samples.speaker', currentuser)
-            .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
-            .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
-            .orderBy(db.raw('RANDOM()'))
-            .limit(quantity);
+    
+    const mustBeEvaluated = await db.select('samples.id', 'emotion', 'sentence')
+                                    .from('samples')
+                                    .whereIn('samples.id', db.select('samples.id')
+                                                            .from('samples')
+                                                            .whereIn('samples.id', db.select('sampleid')
+                                                                                    .from('evaluated')
+                                                                                    .groupBy('sampleid')
+                                                                                    .having(db.raw('count(*) < 3')))
+                                                            .orWhereNotIn('samples.id', db.select('sampleid')
+                                                                                        .from('evaluated')
+                                                                                        .groupBy('sampleid')))
+                                    .where('samples.language', language)
+                                    .whereNot('samples.speaker', currentuser)
+                                    .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+                                    .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
+                                    .orderBy(db.raw('RANDOM()'))
+                                    .limit(quantity);
+
+    if (mustBeEvaluated.length > 0) {
+        return mustBeEvaluated;
     } else {
         return db.select('samples.id', 'emotion', 'sentence')
             .from('samples')
@@ -136,6 +132,97 @@ module.exports.getUserEvaluationContribution = async function (user) {
     return result;
 }
 
+module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gender, nationality) {
+    let countQuery = db('evaluated')
+                        .join('users', 'evaluated.evaluator', '=', 'users.username')
+                        .where('users.age', '>=', minAge)
+                        .where('users.age', '<=', maxAge);
+    if (gender !== '') {
+        countQuery = countQuery.where('users.sex', gender);
+    }
+    if (nationality !== '') {
+        countQuery = countQuery.where('users.nationality', nationality);
+    }
+    countQuery = countQuery.groupBy('sampleid').as('ignored_alias');
+    const quantities = await db.min('myCount').max('myCount').from(countQuery.select('sampleid').count('sampleid as myCount')).first();
+    const result = []
+    for(var i = quantities.min; i <= quantities.max; i++) {
+        let query = db('evaluated')
+                        .join('users', 'evaluated.evaluator', '=', 'users.username')
+                        .where('users.age', '>=', minAge)
+                        .where('users.age', '<=', maxAge);
+        if (gender !== '') {
+            query = query.where('users.sex', gender);
+        }
+        if (nationality !== '') {
+            query = query.where('users.nationality', nationality);
+        }
+        query = query.groupBy('sampleid').having(db.raw('count(*) = ' + i));
+        const obj = await db.count('*').from('samples').whereIn('id', query.select('sampleid')).first();
+        if (obj.count > 0) {
+            result.push({
+                count: parseInt(i),
+                quantity: parseInt(obj.count)
+            });
+        }
+    }
+    return result;
+}
+
+module.exports.getSamplesEmotionRecognizedAs = function (minAge, maxAge, gender, nationality, refEmotion) {
+    let query = db('samples')
+                    .join('users', 'samples.speaker', '=', 'users.username')
+                    .where('users.age', '>=', minAge)
+                    .where('users.age', '<=', maxAge);
+    if (gender !== '') {
+        query = query.where('users.sex', gender);
+    }
+    if (nationality !== '') {
+        query = query.where('users.nationality', nationality);
+    }
+    query = query.where('samples.emotion', refEmotion)
+                    .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
+                    .groupBy('samples.emotion', 'evaluated.emotion');
+    return query.select('samples.emotion', 'evaluated.emotion').count('* as value');
+}
+
+module.exports.getAllSamples = function (minAge, maxAge, gender, nationality) {
+    let query = db('samples')
+                    .join('users', 'samples.speaker', '=', 'users.username')
+                    .where('users.age', '>=', minAge)
+                    .where('users.age', '<=', maxAge);
+    if (gender !== '') {
+        query = query.where('users.sex', gender);
+    }
+    if (nationality !== '') {
+        query = query.where('users.nationality', nationality);
+    }
+    query = query.orderBy('samples.timestamp');
+    return query.select('*');
+}
+
+module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality) {
+    let query = db('evaluated')
+                .join('samples', 'evaluated.sampleid', '=', 'samples.id')
+                .join('users', 'evaluated.evaluator', '=', 'users.username')
+                .where('users.age', '>=', minAge)
+                .where('users.age', '<=', maxAge);
+    if (gender !== '') {
+        query = query.where('users.sex', gender);
+    }
+    if (nationality !== '') {
+        query = query.where('users.nationality', nationality);
+    }
+    query = query.orderBy('evaluated.timestamp');
+    return query.select('evaluated.emotion as recognized', 'samples.emotion as real', 'evaluated.timestamp as timestamp');
+}
+
+
+
+
+
+
+
 module.exports.findSample = function (id) {
     return db('samples').where('id', id).first();
 }
@@ -154,36 +241,6 @@ module.exports.getUserSamples = function (user) {
 
 module.exports.getUserEvaluations = function (user) {
     return db('evaluated').where('evaluated.evaluator', user);
-}
-
-module.exports.getTotalSamples = function () {
-    return db('samples').count('id as value').first();
-}
-
-module.exports.getTotalEvaluations = function () {
-    return db('evaluated').count('id as value').first();
-}
-
-module.exports.getSamplesOfLanguage = function (language) {
-    return db('samples').where('language', language).count('id as value').first();
-}
-
-module.exports.getAccuracy = async function () {
-    const corr = await db('evaluated').where('correct', true).count('id').first(); 
-    const tot = await db('evaluated').count('id').first();
-    const res = tot.count == 0 ? 0 : corr.count / tot.count;
-    return { value : res };
-}
-
-module.exports.getSamplesEmotionRecognizedAs = async function (mainEmotion, recognizedEmotion) {
-    const tot = await db('samples').where('samples.emotion', mainEmotion)
-                        .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
-                        .count('evaluated.id').first();
-    const rec = await db('samples').where('samples.emotion', mainEmotion)
-                        .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
-                        .where('evaluated.emotion', recognizedEmotion).count('evaluated.id').first();
-    const res = tot.count == 0 ? 0 : (rec.count / tot.count) * 100;
-    return { value: res };
 }
 
 
@@ -222,11 +279,6 @@ module.exports.updateSentence = function (id, updates) {
 
 /**** SAMPLES ****/
 
-// GET
-module.exports.getAllSamples = function () {
-    return db('samples');
-}
-
 // GET USER SAMPLES
 module.exports.getSamplesOfUser = function (username) {
     return db('samples')
@@ -248,11 +300,6 @@ module.exports.deleteSample = function (id) {
 }
 
 /**** EVALUATED ****/
-
-// GET
-module.exports.getAllEvaluations = function () {
-    return db('evaluated');
-}
 
 // GET USER EVALUATIONS
 module.exports.getEvaluationsOfUser = function (username) {

@@ -45,6 +45,27 @@ module.exports.confirmUser = function (username, confirmation) {
         .update(confirmation);
 }
 
+module.exports.getAllUsers = function (minAge, maxAge, gender, nationality) {
+    let query = db('users')
+                    .where('users.age', '>=', minAge)
+                    .where('users.age', '<=', maxAge);
+    if (gender !== '') {
+        query = query.where('sex', gender);
+    }
+    if (nationality !== '') {
+        query = query.where('nationality', nationality);
+    }
+    query = query.groupBy('age', 'nationality', 'sex');
+    return query.select('sex', 'nationality', 'age').count('* as number');
+}
+
+
+
+
+
+
+
+
 
 /********************** 
  **** CRUD section
@@ -56,10 +77,9 @@ module.exports.getUser = function (username) {
         .from('users')
         .where('username', username);
 }
-// GET ALL
-module.exports.getAllUsers = function () {
-    return db.select('id', 'username', 'email', 'sex', 'nationality', 'age', 'points')
-        .from('users');
+// INSERT
+module.exports.insertUser = function (user) {
+    return db('users').insert(user);
 }
 // UPDATE
 module.exports.updateUser = function (id, updates) {
