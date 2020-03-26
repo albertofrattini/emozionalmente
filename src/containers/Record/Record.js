@@ -8,20 +8,11 @@ import GuideCard from '../../components/GuideCard/GuideCard';
 import TaskCompleted from '../../components/TaskCompleted/TaskCompleted';
 import axios from 'axios';
 import { startRecording, stopRecording } from '../../hoc/Recorder/Recorder';
-// import { convertToWav } from '../../hoc/Recorder/iRecorder';
 import ActivityOptions from '../../components/Navigation/ActivityOptions/ActivityOptions';
 import Loader from '../../components/UI/Loader/Loader';
 
-// import '../../hoc/Recorder/p5.sound';
-// import * as p5 from '../../hoc/Recorder/p5';
-
 
 class Record extends Component {
-
-    // constructor (props) {
-    //     super(props);
-    //     this.myRef = React.createRef();
-    // }
 
     state = {
         isLoading: true,
@@ -44,9 +35,6 @@ class Record extends Component {
     }
 
     blob = null;
-    // mic = null;
-    // recorder = null;
-    // soundFile = null;
 
     async componentDidMount () {
         
@@ -76,32 +64,7 @@ class Record extends Component {
         });
         this.changeSentence();
 
-        // this.myP5 = new p5(this.Sketch, this.myRef.current);
-
     }
-
-
-
-
-    // Sketch = (p) => {
-
-    //     p.setup = () => {
-    //         p.createCanvas(window.innerWidth, window.innerHeight);
-    //         this.mic = new p5.AudioIn();
-    //     }
-
-    //     p.start = () => {
-    //         this.mic.start();
-    //         this.recorder = new p5.SoundRecorder();
-    //         this.recorder.setInput(this.mic);
-    //         this.soundFile = new p5.SoundFile();
-    //         this.recorder.record(this.soundFile);
-    //     }
-
-    //     p.stop = () => {
-    //         this.recorder.stop();
-    //     }
-    // }
 
 
 
@@ -115,9 +78,6 @@ class Record extends Component {
     startRecording = () => {
 
         if (this.state.sentences.length < 1) return;
-
-        // this.myRef.setup();
-        // this.myRef.start();
 
         setTimeout(
             () => {
@@ -135,10 +95,6 @@ class Record extends Component {
         let obj = await stopRecording();
         this.blob = obj.blob;
         const audioUrl = obj.url;
-        // this.myRef.stop();
-        // let view = convertToWav(this.soundFile);
-        // let blob = new Blob([view], { type: 'audio/wav' });
-        // const audioUrl = URL.createObjectURL(blob);
         this.setState({
             sampleUrl: audioUrl,
             isRecording: false
@@ -189,6 +145,8 @@ class Record extends Component {
 
         let sentenceIndex;
         let currEmotion;
+
+        if (this.state.toBeRecordedSamples.length === 0) return;
 
         const index = getRandomInt(this.state.toBeRecordedSamples.length);
         const newTuple = this.state.toBeRecordedSamples[index];

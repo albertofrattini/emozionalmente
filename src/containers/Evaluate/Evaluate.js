@@ -36,7 +36,7 @@ class Evaluate extends Component {
 
     async componentDidMount () {
 
-        let samples = await axios.get('/api/data/samples?quantity=20');
+        let samples = await axios.get('/api/data/samples?quantity=50');
         let hasevaluations = await axios.get('/api/users/hasevaluations');
         let emotions = await axios.get('/api/data/emotions');
         let descriptions = await axios.get('/api/descriptions/evaluate');
@@ -120,6 +120,9 @@ class Evaluate extends Component {
             data
             )
             .then(response => {
+                if (this.state.progress.length === 5) {
+                    this.state.progress = [];
+                }
                 this.state.progress.push({
                     ...this.state.selectedEmotion, 
                     uncorrect: !correct,
@@ -155,7 +158,6 @@ class Evaluate extends Component {
                     console.log(error);
                 });
             }
-
         }
     }
 
@@ -207,7 +209,8 @@ class Evaluate extends Component {
         let modal = null;
         let wantedEmotion = null;
 
-        if (this.state.progress.length === 5) {
+        // if (this.state.progress.length === 5) {
+        if (this.state.samples.length === 0 && !this.state.isLoading) {
             setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
         }
 

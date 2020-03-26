@@ -10,7 +10,7 @@ class ConnectedScatter extends React.Component {
 
         var margin = {top: 16, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#chartscatter").node().getBoundingClientRect().width - margin.left - margin.right,
-            height = 550 - margin.top - margin.bottom;
+            height = 500 - margin.top - margin.bottom;
 
         var svg = d3.select("#chartscatter")
         .append("svg")
@@ -69,6 +69,7 @@ class ConnectedScatter extends React.Component {
                 .attr("cy", function(d) { return y(d.value) } )
                 .attr("r", 5)
                 .attr("fill", "#69b3a2")
+
 
     }
 

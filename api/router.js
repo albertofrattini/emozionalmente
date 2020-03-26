@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
         cb(null, 'api/database/samples')
     },
     filename: function (req, file, cb) {
-        cb(null, req.query.sentenceid + '_' + req.requestTime + '.wav');
+        cb(null, /*req.query.sentenceid + '_' + */req.requestTime + '.wav');
     }
 });
 const upload = multer({ storage: storage });
@@ -197,8 +197,7 @@ module.exports = function (app) {
 
         datadb.findSample(req.params.id)
             .then(result => {
-                let filePath = 
-                    path.join(req.samplesUrl, `${result.sentenceid}_${result.timestamp}.wav`);
+                let filePath = path.join(req.samplesUrl, result.timestamp + ".wav");
                 res.download(filePath);
             });
 

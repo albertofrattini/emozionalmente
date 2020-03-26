@@ -70,6 +70,14 @@ class PieChart extends React.Component {
                                 .innerRadius(0)
                                 .outerRadius(radius)
 
+        var mouseover = function(d) {
+            d3.select(this).style("opacity", 1)
+        }
+
+        var mouseleave = function(d) {
+            d3.select(this).style("opacity", 0)
+        }
+
         // Build the pie chartpie: Basically, each part of the pie is a path that we build using the arc function.
         svg.selectAll('mySlices')
             .data(data_ready)
@@ -77,7 +85,7 @@ class PieChart extends React.Component {
             .append('path')
             .attr('d', arcGenerator)
             .attr('fill', function(d){ return(color(d.data.key)) })
-            .style("opacity", 0.85)
+            .style("opacity", 1)
 
         // Now add the annotation. Use the centroid method to get the best coordinates
         svg.selectAll('mySlices')
@@ -88,45 +96,28 @@ class PieChart extends React.Component {
                 if (!d.value) return;
                 if (isSamples) return d.value;
                 else {
-                    if ((d.value / total) > 0.08) return parseInt(Math.round((d.value / total) * 100, 1)) + "%";
+                    if ((d.value / total) > 0.04) return parseInt(Math.round((d.value / total) * 100, 1)) + "%";
                     else return '';
                 }
             })
-            .attr("transform", function(d) { console.log(d); return "translate(" + arcGenerator.centroid(d) + ")";  })
+            .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
             .attr("fill", "var(--text-darker)")
             .style("text-anchor", "middle")
             .style("font-size", 18)
-
-    }
-
-    componentDidUpdate () {
-
-        // var width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
-        // height = 450,
-        // margin = 40;
-
-        // // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-        // var radius = Math.min(width, height) / 2 - margin
-
-        // var color = d3.scaleOrdinal()
-        //                 .domain(names)
-        //                 .range(colors);
-
-        // var arcGenerator = d3.arc()
-        //                         .innerRadius(0)
-        //                         .outerRadius(radius)
-
-        
-        // var circle = d3.select("#" + this.props.vizid).select("svg")
-        //                     .select("g").selectAll("mySlices")
-        //                     .data(this.props.data);
-        // circle().exit().remove();
-        // circle().enter().append('path')
-        //             .attr('d', arcGenerator)
-        //             .attr('fill', function(d){ return(color(d.data.key)) })
-        //             .style("opacity", 0.85)
         
 
+        d3.selectAll('path').on("mouseover", function(d){
+
+            d3.selectAll("path").style("opacity", 0.8)
+            d3.select(this).style("opacity", 1)
+        
+        })
+        
+        d3.selectAll('path').on("mouseleave", function(d){
+        
+            d3.selectAll("path").style("opacity", 1)
+            
+        })
 
     }
 

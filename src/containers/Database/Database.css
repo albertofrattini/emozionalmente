@@ -1,11 +1,15 @@
 .Content {
     color: var(--text-dark);
     width: 100%;
-    max-width: 1028px;
+    max-width: 1200px;
     margin: 140px auto 0px;
-    padding: 0px 32px;
+    padding: 0px 8px;
     box-sizing: border-box;
     position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .Content p {
@@ -15,6 +19,7 @@
 }
 
 .Content h1 {
+    margin-top: 0px;
     font-size: 40px;
 }
 
@@ -25,7 +30,7 @@
 }
 
 .Content h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 100;
     line-height: 1.73;
 }
@@ -36,22 +41,10 @@
     margin: 64px 0px 48px;
 }
 
-.Uploading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-}
-
 .FilterRow {
-    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 24px 0px;
     flex-wrap: wrap;
 }
 
@@ -60,11 +53,24 @@
     margin-right: 16px;
 }
 
-.FilterRow button, select {
-    width: auto;
+.FilterRow  select {
+    min-width: 156px;
     height: 40px;
     padding: 0px 12px;
-    margin: 8px 16px 8px 0px;
+    margin: 16px 16px 8px 0px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: var(--logo-red);
+    border: 1px solid var(--logo-red);
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.FilterRow button {
+    height: 40px;
+    padding: 0px 12px;
+    margin: 16px 16px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
@@ -79,7 +85,7 @@
     max-width: 92px;
     height: 40px;
     padding: 0px 12px;
-    margin: 8px 16px 8px 0px;
+    margin: 16px 16px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
@@ -90,7 +96,11 @@
 
 .EmotionSelect {
     display: block;
-    margin: 16px 8px 24px;
+    margin: 12px 8px;
+    padding: 16px 24px;
+    height: 48px;
+    background-color: white;
+    font-size: 16px;
     color: var(--text-dark);
     border: 1px solid var(--text-dark);
 }
@@ -101,4 +111,121 @@
     color: var(--text-dark);
     border: 1px solid var(--text-dark);
     cursor: pointer;
+}
+
+.Filters {
+    width: 100%;
+}
+
+.Graph {
+    width: 100%;
+}
+
+.SectionFilter {
+    display: inline-block;
+    padding: 16px;
+    max-width: 192px;
+    margin-bottom: 64px;
+    border: 1px solid var(--text-light);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 9;
+}
+
+.SectionFilter:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.Icon {
+    display: inline-block;
+    height: 100%;
+    max-width: 48px;
+    padding: 0px 0px 0px 16px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.Icon div {
+    height: 3px;
+    margin: 2px 0px;
+    background-color: var(--text-dark);
+}
+
+.Drawer {
+    display: none;
+    position: absolute;
+    width: 226px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    top: 101%;
+    left: -1px;
+    z-index: 10;
+    background-color: white;
+}
+
+.SectionElement {
+    padding: 24px 16px;
+    cursor: default;
+    box-sizing: border-box;
+    font-size: 18px;
+    position: relative;
+}
+
+.SectionElement:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.SectionFilter:hover .Drawer {
+    display: block;
+}
+
+.SectionDrawer {
+    display: none;
+    position: absolute;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    left: 100%;
+    top: 0;
+    background-color: white;
+}
+                
+.SectionElement:hover .SectionDrawer {
+    display: block;
+}
+
+.SectionDrawer div {
+    cursor: pointer;
+    padding: 24px 16px;
+    font-size: 18px;
+    background-color: white;
+    color: var(--text-dark);
+}
+
+.SectionDrawer div:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 1000px) {
+
+    .Content {
+        flex-flow: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .FilterRow {
+        width: 280px;
+    }
+
+    .Filters {
+        width: 33%;
+    }
+    
+    .Graph {
+        width: 67%;
+    }
+
 }

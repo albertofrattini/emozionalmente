@@ -16,7 +16,7 @@ class StackedAreaChart extends React.Component {
 
 
         var margin = {top: 32, right: 32, bottom: 64, left: 32},
-            width = d3.selectAll("#killingbees").node().getBoundingClientRect().width - margin.left - margin.right,
+            width = d3.selectAll("#chartstacked").node().getBoundingClientRect().width - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
         var parseDate = d3.timeParse("%y-%b-%d");
@@ -88,6 +88,19 @@ class StackedAreaChart extends React.Component {
         svg.append("g")
             .attr("class", "y axis")
             .call(yAxis);
+
+        d3.selectAll('path').on("mouseenter", function(d){
+
+            d3.selectAll("path").style("opacity", 0.7)
+            d3.select(this).style("opacity", 1)
+        
+        })
+        
+        d3.selectAll('path').on("mouseleave", function(d){
+        
+            d3.selectAll("path").style("opacity", 1)
+              
+        })
     
     }
 

@@ -12,7 +12,7 @@ class ConnectedScatterPlot extends React.Component {
 
         var margin = {top: 32, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#chartscatterplot").node().getBoundingClientRect().width - margin.left - margin.right,
-            height = 550 - margin.top - margin.bottom;
+            height = 520 - margin.top - margin.bottom;
 
         var parseDate = d3.timeParse("%y-%b-%d");
 
@@ -56,11 +56,10 @@ class ConnectedScatterPlot extends React.Component {
             .append("path")
                 .attr("d", function(d){ return line(d.values) } )
                 .attr("stroke", function(d){ return color(d.name) })
-                .style("stroke-width", 1.5)
+                .style("stroke-width", 2)
                 .style("fill", "none")
                 .attr("opacity", 0.85)
 
-        // Add the points
         svg.selectAll("myDots")
             .data(dataReady)
             .enter()
@@ -72,22 +71,8 @@ class ConnectedScatterPlot extends React.Component {
             .append("circle")
                 .attr("cx", function(d) { return x(d.date) } )
                 .attr("cy", function(d) { return y(d.value) } )
-                .attr("r", 5)
+                .attr("r", 4)
                 .attr("stroke", "white")
-
-        // Add a legend at the end of each line
-        // svg.selectAll("myLabels")
-        //     .data(dataReady)
-        //     .enter()
-        //         .append('g')
-        //         .append("text")
-        //         .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; }) // keep only the last value of each time series
-        //         .attr("transform", function(d) { return "translate(" + x(d.value.time) + "," + y(d.value.value) + ")"; }) // Put the text at the position of the last point
-        //         .attr("x", 12) // shift the text a bit more right
-        //         .text(function(d) { return d.name; })
-        //         .style("fill", function(d){ return myColor(d.name) })
-        //         .style("font-size", 15);
-
 
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -95,6 +80,19 @@ class ConnectedScatterPlot extends React.Component {
         
         svg.append("g")
             .call(d3.axisLeft(y));
+
+        d3.selectAll('path').on("mouseenter", function(d){
+
+            d3.selectAll("path").style("opacity", 0.2)
+            d3.select(this).style("opacity", 1)
+        
+        })
+        
+        d3.selectAll('path').on("mouseleave", function(d){
+        
+            d3.selectAll("path").style("opacity", 1)
+            
+        })
 
     }
 

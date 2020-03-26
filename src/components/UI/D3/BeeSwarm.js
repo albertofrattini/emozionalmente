@@ -15,7 +15,7 @@ class BeeSwarm extends React.Component {
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
-            height = 700 - margin.top - margin.bottom,
+            height = 550 - margin.top - margin.bottom,
             padding = window.innerWidth * 0.08; 
 
         let svg = d3.select('#killingbees').append('svg')
@@ -34,12 +34,12 @@ class BeeSwarm extends React.Component {
                     .range([0 + 80, height - 80]);
 
         let size = d3.scaleSqrt()
-                        .range([2,20]);
+                        .range([2,18]);
 
         let ageAxis = d3.axisBottom(x)
                             .tickSize(height - 10);
 
-        let nationalityAxis = d3.axisLeft(y).ticks().tickSize(width - window.innerWidth * 0.15).tickPadding(10);
+        let nationalityAxis = d3.axisLeft(y).ticks().tickSize(width - window.innerWidth * 0.12).tickPadding(10);
 
         let data_setX = "age";
         let data_setY = "nationality";
@@ -53,31 +53,37 @@ class BeeSwarm extends React.Component {
             return d.number * 2 / 3; }
         ));
 
-        // start ticks for animations and transitions
-
         function tick(){
             d3.selectAll('.circ')
                 .attr('cx', function(d){return d.x})
                 .attr('cy', function(d){return d.y})
         };
 
-        var Tooltip = d3.select("#tooltip")
-            .style("opacity", 0)
-            .style("background-color", "white")
-            .style("height", "32px")
-            .style("padding", "5px")
-            .style("margin", "16px")
-            .style("font-size", "18px")
+        var Tooltip = d3.select("#killingbees")
+                            .append("div")
+                            .style("position", "absolute")
+                            .style("visibility", "hidden")
+                            .style("background-color", "white")
+                            .style("border", "solid")
+                            .style("border-width", "1px")
+                            .style("border-radius", "4px")
+                            .style("padding", "5px")
 
         var mouseover = function(d) {
             Tooltip
-            .html('<b>' + d.number + '</b>' +  ' are ' + '<u>' + d.age + '</u>' + ' years old')
-            .style("opacity", 1);
+                .style("visibility", "visible");
+        }
+
+        var mousemove = function(d) {
+            Tooltip
+                .html('<b>' + d.number + '</b>' +  ' are ' + '<u>' + d.age + '</u>' + ' years old')
+                .style("left", (d3.mouse(this)[0]+200) + "px")
+                .style("top", (d3.mouse(this)[1]+100) + "px")
         }
 
         var mouseleave = function(d) {
             Tooltip
-            .style("opacity", 0)
+                .style("visibility", "hidden")
         }
 
         svg.append("g")
@@ -90,25 +96,20 @@ class BeeSwarm extends React.Component {
             .attr("transform","translate(" + ( width - padding ) + ",0)")
             .classed(classes.yAxis, true);
 
-        // Draw circles
         svg.selectAll('.circ').data(data).enter()
-            // .filter(function(d) { return d.number > 3 })
             .append('circle').classed('circ', true)
             .attr('r', function(d) { return size(d.number) })
             .attr('cx', function(d){ return x(d.age); })
             .attr('cy', function(d){ return y(d.nationality); })
             .attr("fill", function(d) { return colors(d.sex); })
-            .on("mouseover", mouseover) // What to do when hovered
-            // .on("mousemove", mousemove)
-            .on("mouseleave", mouseleave)
-            // .attr("stroke", "rgba(0,0,0,.2)")
-            // .attr("stroke-width", 1)
-            .call(d3.drag() // call specific function when circle is dragged
+            .on("mouseover", mouseover) 
+            .on("mousemove", mousemove)
+            .on("mouseout", mouseleave)
+            .call(d3.drag()
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended));
 
-        // Start force layout
         let simulation = d3.forceSimulation(data)
                             .force('x', d3.forceX( function(d){
                                 return x(d[data_setX])
@@ -141,6 +142,21 @@ class BeeSwarm extends React.Component {
             d.fx = null;
             d.fy = null;
         }
+
+        d3.selectAll('.circ').on("mouseenter", function(d){
+
+            d3.selectAll(".circ").style("opacity", 0.5)
+            d3.select(this).style("opacity", 1)
+        
+        })
+      
+        d3.selectAll('.circ').on("mouseleave", function(d){
+      
+            d3.selectAll(".circ").style("opacity", 1)
+            // d3.select("#tooltip").style("opacity", 0)
+            // d3.selectAll("#tooltip p").remove()
+          
+        })
     }
 
 
@@ -157,7 +173,6 @@ class BeeSwarm extends React.Component {
                     <div className={guide.Text}>female</div>
                 </div>
                 <div id="killingbees" className={classes.Container}></div>
-                <div id="tooltip"></div>
             </React.Fragment>
         );
 

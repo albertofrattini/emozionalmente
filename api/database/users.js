@@ -48,7 +48,9 @@ module.exports.confirmUser = function (username, confirmation) {
 module.exports.getAllUsers = function (minAge, maxAge, gender, nationality) {
     let query = db('users')
                     .where('users.age', '>=', minAge)
-                    .where('users.age', '<=', maxAge);
+                    .where('users.age', '<=', maxAge)
+                    .whereNot('users.username', 'emovo')
+                    .whereIn('username', db.select('speaker').from('samples').groupBy('speaker'));
     if (gender !== '') {
         query = query.where('sex', gender);
     }

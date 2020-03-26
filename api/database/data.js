@@ -52,6 +52,18 @@ module.exports.getSentencesToRecord = function (quantity, language) {
 }
 
 module.exports.getSamplesToEvaluate = async function (quantity, currentuser, language) {
+
+    if (currentuser === 'alberto' || currentuser === 'fabio') {
+        return db.select('samples.id', 'emotion', 'sentence')
+            .from('samples')
+            .where('samples.language', language)
+            // .whereNot('samples.speaker', currentuser)
+            .where('samples.speaker', 'emovo')
+            .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+            .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
+            .orderBy(db.raw('RANDOM()'))
+            .limit(quantity);
+    }
     
     const mustBeEvaluated = await db.select('samples.id', 'emotion', 'sentence')
                                     .from('samples')
@@ -132,11 +144,19 @@ module.exports.getUserEvaluationContribution = async function (user) {
     return result;
 }
 
+
+
+
+/***************************************************************************************************
+ * DATABASE
+ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
 module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gender, nationality) {
     let countQuery = db('evaluated')
                         .join('users', 'evaluated.evaluator', '=', 'users.username')
                         .where('users.age', '>=', minAge)
-                        .where('users.age', '<=', maxAge);
+                        .where('users.age', '<=', maxAge)
+                        .whereNot('users.username', 'emovo');
     if (gender !== '') {
         countQuery = countQuery.where('users.sex', gender);
     }
@@ -173,7 +193,8 @@ module.exports.getSamplesEmotionRecognizedAs = function (minAge, maxAge, gender,
     let query = db('samples')
                     .join('users', 'samples.speaker', '=', 'users.username')
                     .where('users.age', '>=', minAge)
-                    .where('users.age', '<=', maxAge);
+                    .where('users.age', '<=', maxAge)
+                    .whereNot('users.username', 'emovo');
     if (gender !== '') {
         query = query.where('users.sex', gender);
     }
@@ -190,7 +211,8 @@ module.exports.getAllSamples = function (minAge, maxAge, gender, nationality) {
     let query = db('samples')
                     .join('users', 'samples.speaker', '=', 'users.username')
                     .where('users.age', '>=', minAge)
-                    .where('users.age', '<=', maxAge);
+                    .where('users.age', '<=', maxAge)
+                    .whereNot('users.username', 'emovo');
     if (gender !== '') {
         query = query.where('users.sex', gender);
     }
@@ -206,7 +228,8 @@ module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality
                 .join('samples', 'evaluated.sampleid', '=', 'samples.id')
                 .join('users', 'evaluated.evaluator', '=', 'users.username')
                 .where('users.age', '>=', minAge)
-                .where('users.age', '<=', maxAge);
+                .where('users.age', '<=', maxAge)
+                .whereNot('users.username', 'emovo');
     if (gender !== '') {
         query = query.where('users.sex', gender);
     }
@@ -216,6 +239,10 @@ module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality
     query = query.orderBy('evaluated.timestamp');
     return query.select('evaluated.emotion as recognized', 'samples.emotion as real', 'evaluated.timestamp as timestamp');
 }
+
+/***************************************************************************************************
+ * DATABASE
+ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
 
 
