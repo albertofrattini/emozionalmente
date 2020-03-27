@@ -6,14 +6,38 @@
     border-radius: 100%;
   }
   
-  .Text {
-    display: inline-block;
-    font-size: 14px;
-    margin-right: 8px;
-  }
+.Text {
+  display: inline-block;
+  font-size: 14px;
+  margin-right: 8px;
+}
 
-  .GuideContainer {
-    width: auto;
-    display: inline-block;
-    margin: 8px;
-  }
+.GuideContainer {
+  width: auto;
+  display: inline-block;
+  margin: 8px;
+}
+
+
+
+
+/* .widget {
+  height: 100vh;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+} */
+
+.progressBar {
+  fill: var(--logo-orange);
+}
+
+.progressBarBg {
+  fill: var(--bluer);
+}
+
+.progressLabel {
+  fill: var(--logo-orange);
+  font-size: 48px;
+  text-anchor: middle;
+}

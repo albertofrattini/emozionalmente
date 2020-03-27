@@ -3,15 +3,67 @@ import * as d3 from 'd3';
 import './StackedAreaChart.css';
 import guide from './Guide.css';
 
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date(currentDate));
+        currentDate = currentDate.addDays(1);
+    }
+    return dateArray;
+}
+
 
 class StackedAreaChart extends React.Component {
 
 
     componentDidMount() {
 
-        const data = [...this.props.data];
+        let data = [...this.props.data];
+        console.log(data);
         const names = this.props.emotionNames;
         const colors = this.props.emotionColors;
+        if (data.length === 1) {
+            const begin = {
+                date: '20-Mar-01'
+            }
+            names.map(e => {
+                return begin[e] = 0
+            });
+            data.unshift(begin);
+        } else {
+            const l = data.length - 1;
+            const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
+            const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
+            const begin = Date.parse(db);
+            const end = Date.parse(de);
+            const alldays = getDates(new Date(begin), new Date(end));
+            const alldates = alldays.map(element => {
+                let values = null;
+                const str = element.toString();
+                const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
+                data.forEach(d => {
+                    if (d.date === strDate) {
+                        values = d;
+                    }
+                });
+                if (values) return values;
+                values = {
+                    date: strDate
+                }
+                names.map(e => {
+                    return values[e] = 0
+                });
+                return values;
+            });
+            data = alldates;
+        }
 
 
 
@@ -23,8 +75,6 @@ class StackedAreaChart extends React.Component {
 
         var x = d3.scaleTime()
                     .range([0, width]);
-                    // .domain([new Date(2020, 2, 1), new Date(2020, 2, 25)])
-                    // .ticks(d3.timeDay.every(1));
                 
         var y = d3.scaleLinear()
                     .range([height, 0]);
@@ -39,7 +89,7 @@ class StackedAreaChart extends React.Component {
                     .x(function(d) { return x(d.data.date); })
                     .y0(function(d) { return y(d[0]); })
                     .y1(function(d) { return y(d[1]); })
-                    //.curve(d3.curveCardinal);
+                    .curve(d3.curveMonotoneX);
 
         var stack = d3.stack()
                         .keys(names)

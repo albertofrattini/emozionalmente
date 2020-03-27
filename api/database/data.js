@@ -53,7 +53,7 @@ module.exports.getSentencesToRecord = function (quantity, language) {
 
 module.exports.getSamplesToEvaluate = async function (quantity, currentuser, language) {
 
-    if (currentuser === 'alberto' || currentuser === 'fabio') {
+    if (currentuser === 'alberto' || currentuser === 'fabio' || currentuser === 'cicci') {
         return db.select('samples.id', 'emotion', 'sentence')
             .from('samples')
             .where('samples.language', language)
@@ -123,19 +123,6 @@ module.exports.getOtherEvaluationsOfSample = async function (sampleid, evaluator
     return result;
 }
 
-module.exports.getUserSampleContribution = async function (user) {
-    const result = {};
-    result.total = (await db('samples').where('samples.speaker', user).count('id').first()).count;
-    result.hp = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'hp').count('id').first()).count;
-    result.sd = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'sd').count('id').first()).count;
-    result.an = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'an').count('id').first()).count;
-    result.fr = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'fr').count('id').first()).count;
-    result.ds = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'ds').count('id').first()).count;
-    result.nt = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'nt').count('id').first()).count;
-    result.sr = (await db('samples').where('samples.speaker', user).andWhere('emotion', 'sr').count('id').first()).count;
-    return result;
-}
-
 module.exports.getUserEvaluationContribution = async function (user) {
     const result = {};
     result.total = (await db('evaluated').where('evaluated.evaluator', user).count('id').first()).count;
@@ -170,7 +157,8 @@ module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gende
         let query = db('evaluated')
                         .join('users', 'evaluated.evaluator', '=', 'users.username')
                         .where('users.age', '>=', minAge)
-                        .where('users.age', '<=', maxAge);
+                        .where('users.age', '<=', maxAge)
+                        .whereNot('users.username', 'emovo');
         if (gender !== '') {
             query = query.where('users.sex', gender);
         }
@@ -189,21 +177,27 @@ module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gende
     return result;
 }
 
-module.exports.getSamplesEmotionRecognizedAs = function (minAge, maxAge, gender, nationality, refEmotion) {
+module.exports.getSamplesEmotionRecognizedAs = function (currentuser, v, minAge, maxAge, gender, nationality, refEmotion) {
     let query = db('samples')
                     .join('users', 'samples.speaker', '=', 'users.username')
-                    .where('users.age', '>=', minAge)
-                    .where('users.age', '<=', maxAge)
-                    .whereNot('users.username', 'emovo');
-    if (gender !== '') {
-        query = query.where('users.sex', gender);
+                    .where('samples.emotion', refEmotion)
+                    .join('evaluated', 'samples.id', '=', 'evaluated.sampleid');
+    if (currentuser && !v) {
+        query = query.where('evaluated.evaluator', currentuser);
+    } else if(v === 'others') {
+        query = query.where('samples.speaker', currentuser);
+    } else {
+        query = query.where('users.age', '>=', minAge)
+                        .where('users.age', '<=', maxAge)
+                        .whereNot('users.username', 'emovo');
+        if (gender !== '') {
+            query = query.where('users.sex', gender);
+        }
+        if (nationality !== '') {
+            query = query.where('users.nationality', nationality);
+        }
     }
-    if (nationality !== '') {
-        query = query.where('users.nationality', nationality);
-    }
-    query = query.where('samples.emotion', refEmotion)
-                    .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
-                    .groupBy('samples.emotion', 'evaluated.emotion');
+    query = query.groupBy('samples.emotion', 'evaluated.emotion');
     return query.select('samples.emotion', 'evaluated.emotion').count('* as value');
 }
 
@@ -240,12 +234,103 @@ module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality
     return query.select('evaluated.emotion as recognized', 'samples.emotion as real', 'evaluated.timestamp as timestamp');
 }
 
+/*********
+ * USER
+ ********/
+
+ module.exports.getUserComparisonWithAll = async function (user, emotions) {
+    const people = []
+    const currentuser = []
+    const general = []
+
+    for (var i = 0; i < emotions.length; i++) {
+
+        let tot = await db.count('*').from('evaluated')
+                            .whereNot('evaluator', user)
+                            .join('samples', 'evaluated.sampleid', '=', 'samples.id')
+                            .where('samples.emotion', emotions[i].name).first();
+        let num = await db.count('*').from('evaluated')
+                            .whereNot('evaluator', user)
+                            .join('samples', 'evaluated.sampleid', '=', 'samples.id')
+                            .where('samples.emotion', emotions[i].name)
+                            .where('correct', true).first();
+        
+        tot = parseInt(tot.count);
+        num = parseInt(num.count);
+
+        people.push({
+            axis: emotions[i].emotion,
+            value: tot === 0 ? 0.0 : Math.round((num / tot) * 100) / 100
+        });
+
+        tot = await db.count('*').from('evaluated')
+                            .where('evaluator', user)
+                            .join('samples', 'evaluated.sampleid', '=', 'samples.id')
+                            .where('samples.emotion', emotions[i].name).first();
+        num = await db.count('*').from('evaluated')
+                            .where('evaluator', user)
+                            .join('samples', 'evaluated.sampleid', '=', 'samples.id')
+                            .where('samples.emotion', emotions[i].name)
+                            .where('correct', true).first();
+        
+        tot = parseInt(tot.count);
+        num = parseInt(num.count);
+        
+        currentuser.push({
+            axis: emotions[i].emotion,
+            value: tot === 0 ? 0.0 : Math.round((num / tot) * 100) / 100
+        });
+        
+    }
+    general.push(people);
+    general.push(currentuser);
+    return general;
+}
+
+module.exports.getUserListenComparisonWithOthers = async function (user) {
+    const id = await db.select('id').from('users').where('username', user);
+    const values = await db.select('users.id as id').count('users.id as value').from('users')
+                            .join('evaluated', 'evaluated.evaluator', '=', 'users.username')
+                            .groupBy('users.id');
+    return {
+        uid: id,
+        values: values
+    }
+}
+
+module.exports.getUserSpeakComparisonWithOthers = async function (user) {
+    const id = await db.select('id').from('users').where('username', user);
+    const values = await db.select('users.id as id', 'samples.emotion as emotion').count('* as value').from('samples')
+                            .join('users', 'samples.speaker', '=', 'users.username')
+                            .groupBy('users.id', 'samples.emotion')
+                            .orderBy('users.id');
+    return {
+        uid: id,
+        values: values
+    }       
+}
+
+module.exports.getUserSampleAccuracy = async function (user) {
+    let total = await db.count('*').from('samples')
+                        .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
+                        .where('samples.speaker', user).first();
+    let correct = await db.count('*').from('samples')
+                            .join('evaluated', 'samples.id', '=', 'evaluated.sampleid')
+                            .where('samples.speaker', user)
+                            .where('correct', true).first();
+    
+    total = parseInt(total.count);
+    correct = parseInt(correct.count);
+
+    return {
+        total: total,
+        correct: correct
+    }
+}
+
 /***************************************************************************************************
  * DATABASE
  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-
-
-
 
 
 

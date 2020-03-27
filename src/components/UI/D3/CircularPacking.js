@@ -23,14 +23,18 @@ class CircularPacking extends React.Component {
                     .append("svg")
                         .attr("width", width)
                         .attr("height", height)
+
+        var colors = [...Array(10)].map((e,i) => {
+            return 'rgba(249, 170, 51, ' + (1 - i*0.1) + ')';
+        })
                         
         var color = d3.scaleOrdinal()
             .domain(counts)
-            .range(d3.schemeCategory10);
+            .range(colors);
 
         var size = d3.scaleSqrt()
             .domain([minCount, maxCount])
-            .range([10,100])
+            .range([5,70])
 
         var Tooltip = d3.select("#chartpacking")
                             .append("div")
@@ -69,7 +73,7 @@ class CircularPacking extends React.Component {
             .attr("cx", width / 2)
             .attr("cy", height / 2)
             .style("fill", function(d){ return color(d.count)})
-            .style("fill-opacity", 0.8)
+            .style("fill-opacity", 1)
             .on("mouseover", mouseover) 
             .on("mousemove", mousemove)
             .on("mouseout", mouseleave)

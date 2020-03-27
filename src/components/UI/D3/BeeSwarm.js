@@ -15,8 +15,14 @@ class BeeSwarm extends React.Component {
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
-            height = 550 - margin.top - margin.bottom,
-            padding = window.innerWidth * 0.08; 
+            height = 600 - margin.top - margin.bottom,
+            // padding = window.innerWidth * 0.08; 
+            padding = window.innerWidth * 0.08;
+        
+        console.log(width);
+        if (width > 670) {
+            padding = window.innerWidth * 0.06;
+        }
 
         let svg = d3.select('#killingbees').append('svg')
                         .attr('width', width)
@@ -27,19 +33,18 @@ class BeeSwarm extends React.Component {
                         .range(['#1c77c3', '#f285a5']);
 
         let x = d3.scaleLinear()
-                    .range([0 + padding, width - padding]);
+                    .range([0 + padding, width - padding * 2]);
 
         let y = d3.scalePoint()
                     .domain([...Object.keys(nationalities_dict)].sort())
-                    .range([0 + 80, height - 80]);
+                    .range([0 + 50, height - 80]);
 
         let size = d3.scaleSqrt()
                         .range([2,18]);
 
         let ageAxis = d3.axisBottom(x)
-                            .tickSize(height - 10);
-
-        let nationalityAxis = d3.axisLeft(y).ticks().tickSize(width - window.innerWidth * 0.12).tickPadding(10);
+                            .tickSize(height - 20);
+        let nationalityAxis = d3.axisRight(y).ticks().tickSize(width - window.innerWidth * 2);
 
         let data_setX = "age";
         let data_setY = "nationality";
@@ -50,7 +55,7 @@ class BeeSwarm extends React.Component {
         }));
 
         size.domain(d3.extent(data, function(d) {
-            return d.number * 2 / 3; }
+            return d.number / 1.4; }
         ));
 
         function tick(){
@@ -76,9 +81,9 @@ class BeeSwarm extends React.Component {
 
         var mousemove = function(d) {
             Tooltip
-                .html('<b>' + d.number + '</b>' +  ' are ' + '<u>' + d.age + '</u>' + ' years old')
-                .style("left", (d3.mouse(this)[0]+200) + "px")
-                .style("top", (d3.mouse(this)[1]+100) + "px")
+                .html(d.number)
+                .style("left", (d3.mouse(this)[0]+580) + "px")
+                .style("top", (d3.mouse(this)[1]-40) + "px")
         }
 
         var mouseleave = function(d) {
@@ -93,7 +98,7 @@ class BeeSwarm extends React.Component {
 
         svg.append("g")
             .call(nationalityAxis)
-            .attr("transform","translate(" + ( width - padding ) + ",0)")
+            .attr("transform","translate(" + ( width - padding * 1.5 ) + ",0)")
             .classed(classes.yAxis, true);
 
         svg.selectAll('.circ').data(data).enter()
@@ -153,8 +158,6 @@ class BeeSwarm extends React.Component {
         d3.selectAll('.circ').on("mouseleave", function(d){
       
             d3.selectAll(".circ").style("opacity", 1)
-            // d3.select("#tooltip").style("opacity", 0)
-            // d3.selectAll("#tooltip p").remove()
           
         })
     }
@@ -162,16 +165,24 @@ class BeeSwarm extends React.Component {
 
     render () {
 
+        let genders = (
+            <React.Fragment>
+                {
+                    [...Object.keys(this.props.genders)].map(e => {
+                        return (
+                            <div key={e} className={guide.GuideContainer}>
+                                <div className={guide.Square} style={{ backgroundColor: e === 'male' ? '#1c77c3' : '#f285a5' }}></div>
+                                <div className={guide.Text}>{e}</div>
+                            </div>
+                        );
+                    })
+                }
+            </React.Fragment>
+        );
+
         return (
             <React.Fragment>
-                <div className={guide.GuideContainer}>
-                    <div className={guide.Square} style={{ backgroundColor: '#1c77c3' }}></div>
-                    <div className={guide.Text}>male</div>
-                </div>
-                <div className={guide.GuideContainer}>
-                    <div className={guide.Square} style={{ backgroundColor: '#f285a5'}}></div>
-                    <div className={guide.Text}>female</div>
-                </div>
+                {genders}
                 <div id="killingbees" className={classes.Container}></div>
             </React.Fragment>
         );

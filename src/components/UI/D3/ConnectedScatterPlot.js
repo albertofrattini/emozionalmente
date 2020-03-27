@@ -8,7 +8,17 @@ class ConnectedScatterPlot extends React.Component {
         
         const data = this.props.data;
         const names = this.props.emotionNames;
-        const colors = this.props.emotionColors;        
+        const colors = this.props.emotionColors;     
+        if (data.length === 1) {
+            const begin = {
+                date: '20-Mar-01'
+            }
+            names.map(e => {
+                return begin[e] = 0
+            });
+            data.unshift(begin);
+        }
+
 
         var margin = {top: 32, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#chartscatterplot").node().getBoundingClientRect().width - margin.left - margin.right,
@@ -22,7 +32,7 @@ class ConnectedScatterPlot extends React.Component {
         var y = d3.scaleLinear()
                     .range([height, 0]);
 
-        var color = d3.scaleOrdinal().domain(names).range(colors);
+        var color = d3.scaleOrdinal().domain([...names, 'avg']).range([...colors, '#000']);
 
         var line = d3.line()
                     .x(function(d) { return x(d.date) })
@@ -36,18 +46,46 @@ class ConnectedScatterPlot extends React.Component {
                         .append("g")
                             .attr("transform",
                                 "translate(" + margin.left + "," + margin.top + ")");
-                                
+          
+        var lowestValue = 100;
+        var highestValue = 0;
+
+
         var dataReady = names.map(e => { 
             return {
                 name: e,
                 values: data.map(function(d) {
+                    if (d[e] < lowestValue) {
+                        lowestValue = d[e];
+                    }
+                    if (d[e] > highestValue) {
+                        highestValue = d[e];
+                    }
                     return {date: parseDate(d.date), value: d[e]};
                 })
             };
         });
 
+        var avgData = {
+            name: 'avg',
+            values: data.map(function(d) {
+                let sum = 0;
+                names.forEach(e => {
+                    sum += d[e];
+                });
+                sum /= names.length;
+                return {date: parseDate(d.date), value: sum};
+            })
+        }
+
+        dataReady.push(avgData);
+
+        if (lowestValue < 5) {
+            lowestValue += 5;
+        }
+
         x.domain(d3.extent(data, function(d) { return parseDate(d.date); }));
-        y.domain([0, 100]);
+        y.domain([lowestValue - 5, highestValue + 5]);
 
 
         svg.selectAll("myLines")
@@ -56,7 +94,10 @@ class ConnectedScatterPlot extends React.Component {
             .append("path")
                 .attr("d", function(d){ return line(d.values) } )
                 .attr("stroke", function(d){ return color(d.name) })
-                .style("stroke-width", 2)
+                .style("stroke-width", function(d) {
+                    if (d.name === 'avg') return 3.5;
+                    else return 2; 
+                })
                 .style("fill", "none")
                 .attr("opacity", 0.85)
 
@@ -73,6 +114,7 @@ class ConnectedScatterPlot extends React.Component {
                 .attr("cy", function(d) { return y(d.value) } )
                 .attr("r", 4)
                 .attr("stroke", "white")
+                .style("opacity", 1)
 
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -84,6 +126,7 @@ class ConnectedScatterPlot extends React.Component {
         d3.selectAll('path').on("mouseenter", function(d){
 
             d3.selectAll("path").style("opacity", 0.2)
+            d3.selectAll("circle").style("opacity", 0.0)
             d3.select(this).style("opacity", 1)
         
         })
@@ -91,6 +134,7 @@ class ConnectedScatterPlot extends React.Component {
         d3.selectAll('path').on("mouseleave", function(d){
         
             d3.selectAll("path").style("opacity", 1)
+            d3.selectAll("circle").style("opacity", 1)
             
         })
 
@@ -107,9 +151,15 @@ class ConnectedScatterPlot extends React.Component {
             );
         });
 
+        
+
         return (
             <React.Fragment>
                 {emotions}
+                <div className={guide.GuideContainer}>
+                    <div className={guide.Square} style={{ backgroundColor: '#000' }}></div>
+                    <div className={guide.Text}>Totale</div>
+                </div>
                 <div id="chartscatterplot"></div>
             </React.Fragment>
         );

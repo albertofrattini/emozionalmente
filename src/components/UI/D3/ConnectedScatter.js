@@ -1,16 +1,63 @@
 import React from 'react';
 import * as d3 from 'd3';
 
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date(currentDate));
+        currentDate = currentDate.addDays(1);
+    }
+    return dateArray;
+}
+
 class ConnectedScatter extends React.Component {
 
 
     componentDidMount () {
 
         var data = this.props.data;
+        if (data.length === 1) {
+            const begin = {
+                date: '20-Mar-01',
+                value: 0
+            }
+            data.unshift(begin);
+        } else {
+            const l = data.length - 1;
+            const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
+            const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
+            const begin = Date.parse(db);
+            const end = Date.parse(de);
+            const alldays = getDates(new Date(begin), new Date(end));
+            const alldates = alldays.map(element => {
+                let values = null;
+                const str = element.toString();
+                const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
+                data.forEach(d => {
+                    if (d.date === strDate) {
+                        values = d;
+                    }
+                });
+                if (values) return values;
+                values = {
+                    date: strDate,
+                    value: 0
+                }
+                return values;
+            });
+            data = alldates;
+        }
 
-        var margin = {top: 16, right: 32, bottom: 64, left: 32},
+        var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#chartscatter").node().getBoundingClientRect().width - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            height = 550 - margin.top - margin.bottom;
 
         var svg = d3.select("#chartscatter")
         .append("svg")
@@ -69,6 +116,10 @@ class ConnectedScatter extends React.Component {
                 .attr("cy", function(d) { return y(d.value) } )
                 .attr("r", 5)
                 .attr("fill", "#69b3a2")
+                .style("opacity", function(d) { 
+                    if(d.value === 0) return 0; 
+                    else return 1;
+                })
 
 
     }

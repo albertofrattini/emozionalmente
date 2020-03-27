@@ -579,39 +579,324 @@
     {
         "language": "it",
         "page": "user",
-        "position": "user-intro",
-        "content": "ecco i risultati che fino ad ora hai ottenuto su Emozionalmente. Continua ad aiutarci ad espandere questo database, ne saremmo molto felici"
-    },
-    {
-        "language": "en",
-        "page": "user",
-        "position": "user-intro",
-        "content": "here there are the results that you have yet reached on Emozionalmente. Keep up helping us expanding this database, everyone would be incredibly grateful to you"
+        "position": "user-title",
+        "content": "Ciao "
     },
     {
         "language": "it",
         "page": "user",
-        "position": "block-correct",
-        "content": "Corretti"
-    },
-    {
-        "language": "en",
-        "page": "user",
-        "position": "block-correct",
-        "content": "Correct"
+        "position": "user-subtitle",
+        "content": "Benvenuto sulla tua pagina utente. In questa pagina potrai esplorare i tuoi risultati, compararli con gli altri e molto altro."
     },
     {
         "language": "it",
         "page": "user",
-        "position": "block-notcorrect",
-        "content": "Sbagliati"
+        "position": "graph-circular-1",
+        "content": "Hai ascoltato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-2",
+        "content": " registrazioni in totale, di più del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-3",
+        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-sub",
+        "content": "Il grafico riporta la quantità di ascolti effettuati da tutti gli utenti. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale degli ascolti."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-1",
+        "content": "La tua percentuale di accuratezza nel riconoscere le emozioni è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-2",
+        "content": "%, mentre quella di tutti gli altri utenti è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-3",
+        "content": "%."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-sub",
+        "content": "In rosso puoi vedere come se la cavano tutti gli altri utenti, mentre l'area verde evidenzia le tua capacità di riconoscimento."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-listenpie-1",
+        "content": "La tua percentuale di accuratezza nel riconoscere "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-listenpie-2",
+        "content": " è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-listenpie-3",
+        "content": "%."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-listenpie-sub",
+        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale hai riconosciuto l'emozione di riferimento: "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-1",
+        "content": "Hai effettuato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-2",
+        "content": " registrazioni in totale, di più del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-3",
+        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-sub",
+        "content": "Il grafico riporta la quantità di registrazioni effettuate da tutti gli utenti, divise per emozione. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale delle registrazioni."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-loadbar-1",
+        "content": "La tua percentuale di accuratezza nell'esprimere le emozioni è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-loadbar-2",
+        "content": "%, secondo gli altri utenti della piattaforma. "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-loadbar-3",
+        "content": "Prova a recitare meglio per migliorarti!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-loadbar-sub",
+        "content": "La percentuale rappresenta la percentuale di riconoscimento delle tue registrazioni."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-1",
+        "content": "La tua percentuale di accuratezza nell'esprimere "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-2",
+        "content": " è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-3",
+        "content": "%."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-sub",
+        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale è stata riconosciuta l'emozione di che hai voluto esprimere: "
+    },
+
+
+
+
+
+
+
+
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-title",
+        "content": "Ciao "
     },
     {
         "language": "en",
         "page": "user",
-        "position": "block-notcorrect",
-        "content": "Not Correct"
+        "position": "user-subtitle",
+        "content": "Benvenuto sulla tua pagina utente. In questa pagina potrai esplorare i tuoi risultati, compararli con gli altri e molto altro."
     },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-1",
+        "content": "Hai ascoltato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-2",
+        "content": " registrazioni in totale, di più del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-3",
+        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-sub",
+        "content": "Il grafico riporta la quantità di ascolti effettuati da tutti gli utenti. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale degli ascolti."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-1",
+        "content": "La tua percentuale di accuratezza nel riconoscere le emozioni è del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-2",
+        "content": "%, mentre quella di tutti gli altri utenti è del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-3",
+        "content": "%."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-sub",
+        "content": "In rosso puoi vedere come se la cavano tutti gli altri utenti, mentre l'area verde evidenzia le tua capacità di riconoscimento."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-1",
+        "content": "La tua percentuale di accuratezza nel riconoscere "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-2",
+        "content": " è del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-3",
+        "content": "%."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-sub",
+        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale hai riconosciuto l'emozione di riferimento: "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-1",
+        "content": "Hai effettuato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-2",
+        "content": " registrazioni in totale, di più del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-3",
+        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-sub",
+        "content": "Il grafico riporta la quantità di registrazioni effettuate da tutti gli utenti, divise per emozione. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale delle registrazioni."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-loadbar-1",
+        "content": "La tua percentuale di accuratezza nell'esprimere le emozioni è del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-loadbar-2",
+        "content": "%, secondo gli altri utenti della piattaforma. "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-loadbar-3",
+        "content": "Prova a recitare meglio per migliorarti!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-loadbar-sub",
+        "content": "La percentuale rappresenta la percentuale di riconoscimento delle tue registrazioni."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-1",
+        "content": "La tua percentuale di accuratezza nell'esprimere "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-2",
+        "content": " è del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-3",
+        "content": "%."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-sub",
+        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale è stata riconosciuta l'emozione di che hai voluto esprimere: "
+    },
+
 
 
 
@@ -625,129 +910,8 @@
     {
         "language": "it",
         "page": "database",
-        "position": "general-title",
-        "content": "Il nostro Database di Emozioni"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "general-subtitle",
-        "content": "La sezione seguente è un resoconto della situazione attuale del database. Partendo dalla precisione per arrivare alle percentuale che spiega come le varie emozioni sono state percepite da coloro che hanno valutato i sample."
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "db-total-samples",
-        "content": "Registrazioni totali"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "db-total-evaluations",
-        "content": "Ascolti totali"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "db-it-samples",
-        "content": "Registrazioni in italiano"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "db-en-samples",
-        "content": "Registrazioni in inglese"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "accuracy-title",
-        "content": "Precisione"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "accuracy-subtitle",
-        "content": "La percentuale riporta la quantità di valutazioni degli utenti in cui l'emozione espressa è stata riconosciuta"
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "comparison1",
-        "content": "Registrazioni che volevano esprimere "
-    },
-    {
-        "language": "it",
-        "page": "database",
-        "position": "comparison2",
-        "content": " e sono state riconosciute come "
-    },
-
-
-
-
-
-
-    
-    {
-        "language": "en",
-        "page": "database",
-        "position": "general-title",
-        "content": "Our Emotional Database"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "general-subtitle",
-        "content": "The following section contains some data describing the current situation of the database. You can find the accuracy of the evaluations and much more."
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "db-total-samples",
-        "content": "Total samples"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "db-total-evaluations",
-        "content": "Total evaluations"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "db-it-samples",
-        "content": "Italian samples"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "db-en-samples",
-        "content": "English samples"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "accuracy-title",
-        "content": "Accuracy"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "accuracy-subtitle",
-        "content": "The percentage states the amount of evaluations in which the emotion expressed has been recognized"
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "comparison1",
-        "content": "Samples expressing "
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "comparison2",
-        "content": " that have been recognized as "
+        "position": "graph-",
+        "content": ""
     },
 
 

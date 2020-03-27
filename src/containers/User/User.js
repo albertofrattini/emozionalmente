@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import classes from './User.css';
 import axios from 'axios';
-import { MdMic, MdPlayArrow } from 'react-icons/md';
-import Loader from '../../components/UI/Loader/Loader';
+import RadarChart from '../../components/UI/D3/RadarChart';
+import PieChart from '../../components/UI/D3/PieChart';
+import CircularBarPlot from '../../components/UI/D3/CircularBarPlot';
+import RadialStackedBarChart from '../../components/UI/D3/RadialStackedBarChart';
+import LoadingBar from '../../components/UI/D3/LoadingBar';
 
 class User extends Component {
 
     state = {
-        username: null,
-        sampleContribution: null,
-        evaluationContribution: null,
-        emotions: [],
+        user: null,
         content: {},
-        isLoading: true
+        sexFilter: '',
+        nationalityFilter: '',
+        minAge: 0,
+        maxAge: 100,
+        isDownloading: true,
+        graphId: 'circular',
+        nationalitiesDict: null,
+        genderDict: null
     }
 
     async componentDidMount () {
@@ -23,114 +30,304 @@ class User extends Component {
                 return content[el.position] = el.content;
             });
         const user = await axios.get('/api/users/loggedin');
-        const contribution = await axios.get('/api/users/contribution');
         const emotions = await axios.get('/api/data/emotions');
-        let emotionDict = {};
-        emotions.data.map((el, i) => {
-            return emotionDict[el.name] = [el.emotion, el.color];
-        })
+        const emotionText = [];
+        const emotionNames = [];
+        const emotionColors = [];
+        emotions.data.map(e => {
+            emotionText.push(e.emotion);
+            emotionNames.push(e.name);
+            return emotionColors.push(e.color);
+        });
+        const colors = {}
+        const names = {}
+        for(var i = 0; i < emotionNames.length; i++) {
+            colors[emotionNames[i]] = emotionColors[i];
+            names[emotionNames[i]] = emotionText[i];
+        }
+        const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + user.data.user.username);
+        const data = totallisten.data;
+
         this.setState({
-            username: user.data.user.username,
-            sampleContribution: contribution.data.sampleContribution,
-            evaluationContribution: contribution.data.evaluationContribution,
-            emotions: emotionDict,
+            user: user.data.user,
             content: content,
-            isLoading: false
+            emotionText: emotionText,
+            emotionNames: emotionNames,
+            emotionColors: emotionColors,
+            colorDict: colors,
+            textDict: names,
+            data: data,
+            selectedEmotion: emotionNames[0],
+            isDownloading: false,
+            content: content
         });
 
     }
 
+    componentDidUpdate () {
+
+        if (this.state.isDownloading && this.state.user) {
+
+            this.downloadData();
+            
+        }
+            
+    }
+
+    downloadData = async () => {
+
+        let data = [];
+
+        switch(this.state.graphId) {
+            case 'circular':
+                const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + this.state.user.username);
+                data = totallisten.data;
+                break;
+            case 'radar':
+                const accuracycomparison = await axios.get('/api/data/database/user/accuracy?u=' + this.state.user.username);
+                data = accuracycomparison.data;
+                break;
+            case 'listenpie':
+                const emotioncomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion);
+                data = emotioncomparison.data;
+                break;
+            case 'radial':
+                const totalspeak = await axios.get('/api/data/database/user/speakcomparison?u=' + this.state.user.username);
+                data = totalspeak.data;
+                break;
+            case 'loadbar':
+                const speakaccuracy = await axios.get('/api/data/database/user/actor?u=' + this.state.user.username);
+                data = speakaccuracy.data;
+                break;
+            case 'speakpie':
+                const speakcomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion+ '&v=others');
+                data = speakcomparison.data;
+                break;
+            default:
+                console.log('graph not found!');    
+        }
+
+        this.setState({
+            isDownloading: false,
+            data: data
+        });
+
+    }
+
+    changeGraph = (graph) => {
+        this.setState({
+            isDownloading: true,
+            graphId: graph,
+            graphTotal: null,
+            graphPercentage: null
+        });
+    }
+
+    setValues = (total, percentage) => {
+        this.setState({
+            graphTotal: total,
+            graphPercentage: percentage
+        });
+    }
+
     render () {
 
-        let recordingBlocks = this.state.sampleContribution ?
-                    [...Object.keys(this.state.sampleContribution)].map((el, i) => {
-                        const height = this.state.sampleContribution.total === 0 ? 
-                                    0 :
-                                    (this.state.sampleContribution[el] * 220) / this.state.sampleContribution.total;
-                        return (
-                            <div key={i} className={classes.BlockContainer}>
-                                {this.state.sampleContribution[el]}
-                                <div key={i} className={classes.Block}>
-                                    <div className={classes.BlockText}>
-                                        {el === 'total' ? 'TOT' : this.state.emotions[el][0]}
-                                    </div>
-                                    <div 
-                                        className={classes.Data} 
-                                        style={{ 
-                                            height: height + 'px', 
-                                            backgroundColor: el === 'total' ? 'var(--text-dark)' : this.state.emotions[el][1] 
-                                        }}>
-                                    </div>
-                                </div>
+        let filteredGraph = null;
+        let graphDescription = null;
+        let emotionSelect = null;
+        let errorNotFound = null;
+        let total = this.state.graphTotal;
+        let performance = this.state.graphPercentage;
+
+        if (!this.state.isDownloading && this.state.user) {
+
+                switch(this.state.graphId) {
+                    case 'circular':
+                        filteredGraph = (
+                            <CircularBarPlot 
+                                data={this.state.data}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    case 'radar':
+                        filteredGraph = (
+                            <RadarChart
+                                data={this.state.data}
+                                emotionText={this.state.emotionText}
+                                emotionNames={this.state.emotionNames}
+                                emotionColors={this.state.emotionColors}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    case 'listenpie':
+                        if (!performance) {
+                            total = this.state.textDict[this.state.selectedEmotion];
+                            performance = 0;
+                        }
+                        emotionSelect = (
+                            <div className={classes.EmotionsTab}>
+                                {
+                                    this.state.emotionNames.map((e, i) => {
+                                        return  <div className={classes.Emotion}
+                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    onClick={() => this.setState({
+                                                        isDownloading: true,
+                                                        selectedEmotion: e,
+                                                        graphTotal: null,
+                                                        graphPercentage: null
+                                                    })}
+                                                    key={i}>
+                                                    {this.state.textDict[e]}
+                                                </div>
+                                    })
+                                }
                             </div>
                         );
-                    })
-                    : 
-                    null;
-
-        let evaluatingBlocks = this.state.evaluationContribution ?
-                    [...Object.keys(this.state.evaluationContribution)].map((el, i) => {
-                        const height = this.state.evaluationContribution.total === 0 ? 
-                            0 :
-                            (this.state.evaluationContribution[el] * 220) / this.state.evaluationContribution.total;
-                        return (
-                            <div key={i} className={classes.BlockContainer}>
-                                {this.state.evaluationContribution[el]}
-                                <div key={i} className={classes.Block}>
-                                    <div className={classes.BlockText} style={{ display: 'block' }}>
-                                        {el === 'total' ? 'TOT' : this.state.content['block-' + el]}
-                                    </div>
-                                    <div className={classes.Data} style={{ height: height + 'px' }}>
-                                    </div>
-                                </div>
+                        filteredGraph = (
+                            <PieChart
+                                data={this.state.data}
+                                emotionText={this.state.emotionText}
+                                emotionNames={this.state.emotionNames}
+                                emotionColors={this.state.emotionColors}
+                                selectedEmotion={this.state.selectedEmotion}
+                                textDict={this.state.textDict}
+                                colorDict={this.state.colorDict}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    case 'radial':
+                        filteredGraph = (
+                            <RadialStackedBarChart
+                                data={this.state.data}
+                                emotionText={this.state.emotionText}
+                                emotionNames={this.state.emotionNames}
+                                emotionColors={this.state.emotionColors}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    case 'loadbar':
+                        filteredGraph = (
+                            <LoadingBar
+                                data={this.state.data}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    case 'speakpie':
+                        if (!performance) {
+                            total = this.state.textDict[this.state.selectedEmotion];
+                            performance = 0;
+                        }
+                        emotionSelect = (
+                            <div className={classes.EmotionsTab}>
+                                {
+                                    this.state.emotionNames.map((e, i) => {
+                                        return  <div className={classes.Emotion}
+                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    onClick={() => this.setState({
+                                                        isDownloading: true,
+                                                        selectedEmotion: e,
+                                                        graphTotal: null,
+                                                        graphPercentage: null
+                                                    })}
+                                                    key={i}>
+                                                    {this.state.textDict[e]}
+                                                </div>
+                                    })
+                                }
                             </div>
                         );
-                    })
-                    : 
-                    null;
+                        filteredGraph = (
+                            <PieChart
+                                data={this.state.data}
+                                emotionText={this.state.emotionText}
+                                emotionNames={this.state.emotionNames}
+                                emotionColors={this.state.emotionColors}
+                                selectedEmotion={this.state.selectedEmotion}
+                                textDict={this.state.textDict}
+                                colorDict={this.state.colorDict}
+                                valuesCallback={this.setValues}/>
+                        );
+                        break;
+                    default:
+                        console.log('graph not found!');   
+                }
 
 
+            graphDescription = (
+                <React.Fragment>
+                    <h3>
+                        {this.state.content['graph-' + this.state.graphId + '-1']} 
+                        {total} 
+                        {this.state.content['graph-' + this.state.graphId + '-2']}
+                        {performance}
+                        {this.state.content['graph-' + this.state.graphId + '-3']}
+                    </h3>
+                    <p>
+                        {this.state.content['graph-' + this.state.graphId + '-sub']}
+                    </p>
+                </React.Fragment>
+            );
+
+            if (this.state.data.length === 0) {
+                errorNotFound = (
+                    <h2>Mi dispiace, ma non abbiamo trovato nessuna informazione</h2>
+                );
+            }
+
+
+
+        }
 
         return (
-            <React.Fragment>
-                {
-                    this.state.isLoading ?
-                        <Loader pageLoading/>
-                        :
-                        <div className={classes.Content}>
-                            <div className={classes.Introduction}>
-                                <div className={classes.Welcome}>
-                                    <p style={{ fontSize: '42px', fontWeight: '500', marginTop: '0px' }}>
-                                        {this.state.username},
-                                    </p> 
-                                    <p dangerouslySetInnerHTML={{
-                                        __html: this.state.content['user-intro']
-                                    }}></p>
-                                </div>
-                                <div className={classes.Column}>
-                                    <div className={classes.Values}>
-                                        <MdMic size="48px" color="var(--logo-red)"/>
-                                        {this.state.sampleContribution.total}
-                                    </div>
-                                    <div className={classes.Values}>
-                                        <MdPlayArrow size="48px" color="var(--logo-violet)"/>
-                                        {this.state.evaluationContribution.total}
-                                    </div>
+            <div className={classes.Content}>
+                <div className={classes.Filters}>
+                    {
+                        this.state.user ?
+                            <React.Fragment>
+                                <h1>{this.state.content['user-title']} {this.state.user.username},</h1>
+                                <h3>{this.state.content['user-subtitle']}</h3>
+                                <p>Email: {this.state.user.email}</p>
+                                <p>Sesso: {this.state.user.sex}</p>
+                                <p>Nazionalità: {this.state.user.nationality}</p>
+                            </React.Fragment>
+                            :
+                            null
+                    }
+                    <div className={classes.SectionFilter}>
+                        <div className={classes.Drawer}>
+                            <div className={classes.SectionElement}>
+                                Ascolti
+                                <div className={classes.SectionDrawer}>
+                                    <div onClick={() => this.changeGraph('circular')}>Ascolti effettuati</div>
+                                    <div onClick={() => this.changeGraph('radar')}>Sei un bravo ascoltatore?</div>
+                                    <div onClick={() => this.changeGraph('listenpie')}>Emozioni riconosciute</div>
                                 </div>
                             </div>
-                            <div className={classes.MainGraph}>
-                                <div className={classes.MainCard}>
-                                    {recordingBlocks}
-                                </div>
-                                <div className={classes.MainCard}>
-                                    {evaluatingBlocks}
+                            <div className={classes.SectionElement}>
+                                Registrazioni
+                                <div className={classes.SectionDrawer}>
+                                    <div onClick={() => this.changeGraph('radial')}>Registrazioni effettuate</div>
+                                    <div onClick={() => this.changeGraph('loadbar')}>Sei un bravo attore?</div>
+                                    <div onClick={() => this.changeGraph('speakpie')}>Come hai recitato</div>
                                 </div>
                             </div>
                         </div>
-                }
-            </React.Fragment>
+                        Selezione Grafico
+                        <div className={classes.Icon}>
+                            <div style={{ width: '24px' }}></div>
+                            <div style={{ width: '16px' }}></div>
+                            <div style={{ width: '24px' }}></div>
+                        </div>
+                    </div>
+                    {graphDescription}
+                </div>
+                <div className={classes.Graph}>       
+                    {emotionSelect}
+                    {errorNotFound}
+                    {filteredGraph}
+                </div>
+            </div>
         );
-
     }
 }
 

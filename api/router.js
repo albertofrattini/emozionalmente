@@ -340,12 +340,20 @@ module.exports = function (app) {
     app.get('/api/data/database/comparison', function (req, res) {
 
         const emotion = req.query.e;
-        const minAge = parseInt(req.query.min);
-        const maxAge = parseInt(req.query.max);
-        const sex = req.query.s ? req.query.s : '';
-        const nationality = req.query.n ? req.query.n : '';
+        const user = req.query.u;
+        const v = req.query.v;
+        let minAge = 0;
+        let maxAge = 100;
+        let sex = '';
+        let nationality = '';
+        if (!user) {
+            minAge = parseInt(req.query.min);
+            maxAge = parseInt(req.query.max);
+            sex = req.query.s ? req.query.s : '';
+            nationality = req.query.n ? req.query.n : '';
+        }
 
-        datadb.getSamplesEmotionRecognizedAs(minAge, maxAge, sex, nationality, emotion)
+        datadb.getSamplesEmotionRecognizedAs(user, v, minAge, maxAge, sex, nationality, emotion)
             .then(result => {
                 res.send(result);
             })
@@ -398,6 +406,65 @@ module.exports = function (app) {
             });
 
     }); 
+
+    app.get('/api/data/database/user/accuracy', function (req, res) {
+
+        const user = req.query.u;
+
+        datadb.getUserComparisonWithAll(user, emotions[req.session.lang])
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    }); 
+
+    app.get('/api/data/database/user/listencomparison', function (req, res) {
+
+        const user = req.query.u;
+
+        datadb.getUserListenComparisonWithOthers(user)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    });
+    
+    app.get('/api/data/database/user/speakcomparison', function (req, res) {
+
+        const user = req.query.u;
+
+        datadb.getUserSpeakComparisonWithOthers(user)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    });
+
+    app.get('/api/data/database/user/actor', function (req, res) {
+
+        const user = req.query.u;
+
+        datadb.getUserSampleAccuracy(user)
+            .then(result => {
+                res.send(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    }); 
+
+
+
 
 
 
@@ -496,7 +563,9 @@ module.exports = function (app) {
         
         req.session.user = {
             username: user.username,
-            email: user.email
+            email: user.email,
+            sex: user.sex,
+            nationality: user.nationality
         };
         req.session.admin = user.admin;
         req.session.loggedin = true;
@@ -598,18 +667,6 @@ module.exports = function (app) {
                     res.send({ newUser: true });
                 }
             });
-
-    });
-
-    app.get('/api/users/contribution', async (req, res, next) => {
-
-        const samples = await datadb.getUserSampleContribution(req.session.user.username);
-        const evaluations = await datadb.getUserEvaluationContribution(req.session.user.username);
-
-        res.send({
-            sampleContribution: samples,
-            evaluationContribution: evaluations
-        });
 
     });
 

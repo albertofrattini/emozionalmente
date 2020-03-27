@@ -19,14 +19,15 @@
 }
 
 .Content h1 {
-    margin-top: 0px;
-    font-size: 40px;
+    margin-top: 32px;
+    font-size: 34px;
 }
 
 .Content h2 {
     margin: 64px 0px 32px;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 100;
+    line-height: 1.73;
 }
 
 .Content h3 {
@@ -54,10 +55,9 @@
 }
 
 .FilterRow  select {
-    min-width: 156px;
     height: 40px;
     padding: 0px 12px;
-    margin: 16px 16px 8px 0px;
+    margin: 8px 8px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
@@ -69,8 +69,9 @@
 
 .FilterRow button {
     height: 40px;
+    min-width: 128px;
     padding: 0px 12px;
-    margin: 16px 16px 8px 0px;
+    margin: 8px 8px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
@@ -85,7 +86,7 @@
     max-width: 92px;
     height: 40px;
     padding: 0px 12px;
-    margin: 16px 16px 8px 0px;
+    margin: 8px 8px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
@@ -125,7 +126,7 @@
     display: inline-block;
     padding: 16px;
     max-width: 192px;
-    margin-bottom: 64px;
+    margin-bottom: 16px;
     border: 1px solid var(--text-light);
     color: var(--text-dark);
     display: flex;
@@ -168,10 +169,10 @@
 }
 
 .SectionElement {
-    padding: 24px 16px;
+    padding: 20px 16px;
     cursor: default;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 15px;
     position: relative;
 }
 
@@ -198,8 +199,9 @@
 
 .SectionDrawer div {
     cursor: pointer;
-    padding: 24px 16px;
-    font-size: 18px;
+    min-width: 256px;
+    padding: 20px 16px;
+    font-size: 15px;
     background-color: white;
     color: var(--text-dark);
 }
@@ -207,6 +209,25 @@
 .SectionDrawer div:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+.EmotionsTab {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    margin-left: 8px;
+    margin-bottom: 16px;
+    color: white;
+}
+
+.Emotion {
+    padding: 8px;
+    margin: 0px 1px 1px 0px;
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+
 
 @media (min-width: 1000px) {
 
@@ -216,16 +237,27 @@
         align-items: flex-start;
     }
 
-    .FilterRow {
-        width: 280px;
-    }
+    
 
     .Filters {
-        width: 33%;
+        width: 50%;
+        padding-right: 64px;
+        box-sizing: border-box;
     }
     
     .Graph {
-        width: 67%;
+        width: 50%;
+        max-width: 600px;
+    }
+
+    .SectionFilter {
+        margin-top: 32px;
+        margin-bottom: 24px;
+    }
+
+    .Content h1 {
+        margin-top: 0px;
     }
 
 }
+

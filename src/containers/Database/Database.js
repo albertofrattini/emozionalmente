@@ -7,6 +7,7 @@ import ConnectedScatterPlot from '../../components/UI/D3/ConnectedScatterPlot';
 import ConnectedScatter from '../../components/UI/D3/ConnectedScatter';
 import StackedAreaChart from '../../components/UI/D3/StackedAreaChart';
 import BeeSwarm from '../../components/UI/D3/BeeSwarm';
+import TreeMap from '../../components/UI/D3/TreeMap';
 
 class Database extends Component {
 
@@ -17,7 +18,9 @@ class Database extends Component {
         maxAge: 100,
         isDownloading: true,
         graphId: 'bee',
-        nationalitiesDict: null
+        nationalitiesDict: null,
+        genderDict: null,
+        content: {}
     }
 
     async componentDidMount () {
@@ -36,14 +39,25 @@ class Database extends Component {
             emotionNames.push(e.name);
             return emotionColors.push(e.color);
         });
+        const colors = {}
+        const names = {}
+        for(var i = 0; i < emotionNames.length; i++) {
+            colors[emotionNames[i]] = emotionColors[i];
+            names[emotionNames[i]] = emotionText[i];
+        }
         const users = await axios.get('/api/data/database/users' + '?min=' + this.state.minAge + '&max=' + this.state.maxAge);
         const data = users.data;
         const nationalitiesDict = {};
-        data.forEach(e => {
+        const genderDict = {};
+        users.data.forEach(e => {
             if (!nationalitiesDict[e.nationality]) {
                 nationalitiesDict[e.nationality] = 0;
+            }
+            if (!genderDict[e.sex]) {
+                genderDict[e.sex] = 0;
             } 
             nationalitiesDict[e.nationality] += 1;
+            genderDict[e.sex] += 1;
         });
         
         this.setState({
@@ -52,9 +66,13 @@ class Database extends Component {
             emotionNames: emotionNames,
             emotionColors: emotionColors,
             nationalitiesDict: nationalitiesDict,
+            genderDict: genderDict,
+            colorDict: colors,
+            textDict: names,
             data: data,
             selectedEmotion: emotionNames[0],
-            isDownloading: false
+            isDownloading: false,
+            content: {}
         });
 
     }
@@ -81,6 +99,20 @@ class Database extends Component {
             filter = filter + '&n=' + this.state.nationalityFilter;
         }
 
+        const users = await axios.get('/api/data/database/users' + filter);
+        const nationalitiesDict = {};
+        const genderDict = {};
+        users.data.forEach(e => {
+            if (!nationalitiesDict[e.nationality]) {
+                nationalitiesDict[e.nationality] = 0;
+            }
+            if (!genderDict[e.sex]) {
+                genderDict[e.sex] = 0;
+            } 
+            nationalitiesDict[e.nationality] += 1;
+            genderDict[e.sex] += 1;
+        });
+
         switch(this.state.graphId) {
             case 'bee':
                 const users = await axios.get('/api/data/database/users' + filter);
@@ -106,7 +138,7 @@ class Database extends Component {
                 const accuracy = await axios.get('/api/data/database/accuracy' + filter);
                 data = accuracy.data;
                 break;
-            case 'sumpie':
+            case 'treemap':
                 const totSamples = await axios.get('/api/data/database/samples' + filter);
                 data = totSamples.data;
             default:
@@ -115,7 +147,9 @@ class Database extends Component {
 
         this.setState({
             isDownloading: false,
-            data: data
+            data: data,
+            nationalitiesDict: nationalitiesDict,
+            genderDict: genderDict
         });
 
     }
@@ -163,8 +197,11 @@ class Database extends Component {
                     <select id="gender-select" value={this.state.sexFilter}
                         onChange={event => this.setState({ sexFilter: event.target.value })}>
                         <option value="">Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        {
+                            [...Object.keys(this.state.genderDict)].map((e,i) => {
+                                return <option key={i} value={e}>{e}</option>
+                            })
+                        }
                     </select>
                     <select id="nationalities-select" value={this.state.nationalityFilter}
                         onChange={event => this.setState({ nationalityFilter: event.target.value })}>
@@ -202,7 +239,8 @@ class Database extends Component {
                         filteredGraph = (
                             <BeeSwarm 
                                 data={this.state.data}
-                                nationalities={this.state.nationalitiesDict}/>
+                                nationalities={this.state.nationalitiesDict}
+                                genders={this.state.genderDict}/>
                         );
                         break;
                     case 'stacked':
@@ -271,27 +309,33 @@ class Database extends Component {
                             </React.Fragment>
                         );
                         emotionSelect = (
-                            <select className={classes.EmotionSelect} id="emotion-select" value={this.state.selectedEmotion}
-                                onChange={e => {
-                                    this.setState({
-                                        isDownloading: true,
-                                        selectedEmotion: e.target.value
-                                    });
-                                }}>
+                            <div className={classes.EmotionsTab}>
                                 {
-                                    this.state.emotionNames.map((e,i) => {
-                                        return <option key={i} value={e}>{this.state.emotionText[i]}</option>
+                                    this.state.emotionNames.map((e, i) => {
+                                        return  <div className={classes.Emotion}
+                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    onClick={() => this.setState({
+                                                        isDownloading: true,
+                                                        selectedEmotion: e,
+                                                        graphTotal: null,
+                                                        graphPercentage: null
+                                                    })}
+                                                    key={i}>
+                                                    {this.state.textDict[e]}
+                                                </div>
                                     })
                                 }
-                            </select>
+                            </div>
                         );
                         filteredGraph = (
                             <PieChart 
-                                vizid={"comparisonchartpie"}
                                 data={this.state.data}
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}
-                                emotionColors={this.state.emotionColors}/>
+                                emotionColors={this.state.emotionColors}
+                                selectedEmotion={this.state.selectedEmotion}
+                                textDict={this.state.textDict}
+                                colorDict={this.state.colorDict}/>
                         );
                         break;
                     case 'scatterplot':
@@ -313,7 +357,7 @@ class Database extends Component {
                                 emotionColors={this.state.emotionColors}/>
                         );
                         break;
-                    case 'sumpie':
+                    case 'treemap':
                         let total = 0;
                         this.state.data.forEach(e => {
                             this.state.emotionNames.forEach(n => {
@@ -332,9 +376,7 @@ class Database extends Component {
                             </React.Fragment>
                         );
                         filteredGraph = (
-                            <PieChart 
-                                samples
-                                vizid={"sampleschartpie"}
+                            <TreeMap 
                                 data={this.state.data}
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}
@@ -343,13 +385,22 @@ class Database extends Component {
                     default:
                         console.log('graph not found!');    
                 }
+
+                if (this.state.data.length === 0) {
+                    emotionSelect = null;
+                    filteredGraph = (
+                        <h2>No data has been found with these filters... Try another combination</h2>
+                    );
+                }
             }
-
+            
         }
-
+        
         return (
             <div className={classes.Content}>
                 <div className={classes.Filters}>
+                    <h1>The Emotional Database</h1>
+                    {filters}
                     <div className={classes.SectionFilter}>
                         <div className={classes.Drawer}>
                             <div className={classes.SectionElement}>
@@ -371,7 +422,7 @@ class Database extends Component {
                             <div className={classes.SectionElement}>
                                 Speak
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('sumpie')}>TotalSamplesPie</div>
+                                    <div onClick={() => this.changeGraph('treemap')}>TreeMap</div>
                                 </div>
                             </div>
                         </div>
@@ -382,11 +433,9 @@ class Database extends Component {
                             <div style={{ width: '24px' }}></div>
                         </div>
                     </div>
-                    {filters}
+                    {graphDescription}
                 </div>
                 <div className={classes.Graph}>
-                    <h1>The Emotional Database</h1>
-                    {graphDescription}
                     {emotionSelect}
                     {filteredGraph}
                 </div>
