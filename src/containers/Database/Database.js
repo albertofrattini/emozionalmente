@@ -72,7 +72,7 @@ class Database extends Component {
             data: data,
             selectedEmotion: emotionNames[0],
             isDownloading: false,
-            content: {}
+            content: content
         });
 
     }
@@ -98,20 +98,6 @@ class Database extends Component {
         if (this.state.nationalityFilter !== '') {
             filter = filter + '&n=' + this.state.nationalityFilter;
         }
-
-        const users = await axios.get('/api/data/database/users' + filter);
-        const nationalitiesDict = {};
-        const genderDict = {};
-        users.data.forEach(e => {
-            if (!nationalitiesDict[e.nationality]) {
-                nationalitiesDict[e.nationality] = 0;
-            }
-            if (!genderDict[e.sex]) {
-                genderDict[e.sex] = 0;
-            } 
-            nationalitiesDict[e.nationality] += 1;
-            genderDict[e.sex] += 1;
-        });
 
         switch(this.state.graphId) {
             case 'bee':
@@ -147,9 +133,7 @@ class Database extends Component {
 
         this.setState({
             isDownloading: false,
-            data: data,
-            nationalitiesDict: nationalitiesDict,
-            genderDict: genderDict
+            data: data
         });
 
     }
@@ -185,35 +169,36 @@ class Database extends Component {
         let filteredGraph = null;
         let graphDescription = null;
         let emotionSelect = null;
+        let total = null;
 
         if (this.state.nationalitiesDict) {
             filters = (
                 <div className={classes.FilterRow}>
-                    <p>Click on the buttons to create personalized filters, then click Apply. Click on Clear to reset the filters.</p>
+                    <p>{this.state.content['db-filters']}</p>
                     <input id="min-age" defaultValue={this.state.minAge} type="number" 
                         onChange={e => this.setState({ minAge: e.target.value })}></input>
                     <input id="max-age" defaultValue={this.state.maxAge} type="number"
                         onChange={e => this.setState({ maxAge: e.target.value })}></input>
                     <select id="gender-select" value={this.state.sexFilter}
                         onChange={event => this.setState({ sexFilter: event.target.value })}>
-                        <option value="">Gender</option>
+                        <option value="">{this.state.content['db-gender']}</option>
                         {
                             [...Object.keys(this.state.genderDict)].map((e,i) => {
-                                return <option key={i} value={e}>{e}</option>
+                                return <option key={i} value={e}>{this.state.content['db-' + e]}</option>
                             })
                         }
                     </select>
                     <select id="nationalities-select" value={this.state.nationalityFilter}
                         onChange={event => this.setState({ nationalityFilter: event.target.value })}>
-                        <option value="">Nationality</option>
+                        <option value="">{this.state.content['db-nationality']}</option>
                         {
                             [...Object.keys(this.state.nationalitiesDict)].map((e,i) => {
                                 return <option key={i} value={e}>{e}</option>
                             })
                         }
                     </select>
-                    <button onClick={this.resetFilters}>Clear Filters</button>
-                    <button onClick={this.applyFilters}>Apply</button>
+                    <button onClick={this.resetFilters}>{this.state.content['db-clear']}</button>
+                    <button onClick={this.applyFilters}>{this.state.content['db-apply']}</button>
                 </div>
             );
 
@@ -221,21 +206,10 @@ class Database extends Component {
 
                 switch(this.state.graphId) {
                     case 'bee':
-                        let totalusers = 0;
+                        total = 0;
                         this.state.data.forEach(e => {
-                            totalusers += parseInt(e.number);
+                            total += parseInt(e.number);
                         });
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This graph shows our users and only the ones that contributed at least once with a recording or an evaluation.
-                                    The vertical axe shows the nationality, while the horizontal one the age. We have <b>{totalusers}</b> users that contributed!
-                                </h3>
-                                <p>
-                                    Hover on the circles to know more.
-                                </p>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <BeeSwarm 
                                 data={this.state.data}
@@ -244,16 +218,6 @@ class Database extends Component {
                         );
                         break;
                     case 'stacked':
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This graph shows the amount of samples recorded by the users in time, divided by emotion.
-                                </h3>
-                                <p>
-                                    Try to move on the graph to highlight an emotion.
-                                </p>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <StackedAreaChart
                                     data={this.state.data}
@@ -263,51 +227,22 @@ class Database extends Component {
                         );
                         break;
                     case 'scatter':
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This graph shows the amount of vocal samples listened each day.
-                                </h3>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <ConnectedScatter
                                     data={this.state.data}/>
                         );
                         break;
                     case 'packing':
-                        let totaleval = 0;
+                        total = 0;
                         this.state.data.forEach(e => {
-                            totaleval += e.quantity * e.count;
+                            total += e.quantity * e.count;
                         })
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    Every circle represents a number. The bigger the circle, the more samples have been evaluated
-                                    that specific amount of times. Until now, there has been <b>{totaleval}</b> evaluations
-                                    on Emozionalmente!
-                                </h3>
-                                <p>
-                                    Hover on the circles to know more.
-                                </p>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <CircularPacking 
                                     data={this.state.data}/>
                         );
                         break;
                     case 'comppie':
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This pie tells how every emotion has been recognized by the users. 
-                                </h3>
-                                <p>
-                                    Only percentage higher than 3% are reported. Hover on one to highlight the slice.
-                                </p>
-                            </React.Fragment>
-                        );
                         emotionSelect = (
                             <div className={classes.EmotionsTab}>
                                 {
@@ -339,16 +274,6 @@ class Database extends Component {
                         );
                         break;
                     case 'scatterplot':
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This graph represents the accuracy of recognition in time for each emotion.
-                                </h3>
-                                <p>
-                                    Hover on one line to highlight it.
-                                </p>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <ConnectedScatterPlot
                                 data={this.state.data}
@@ -358,23 +283,12 @@ class Database extends Component {
                         );
                         break;
                     case 'treemap':
-                        let total = 0;
+                        total = 0;
                         this.state.data.forEach(e => {
                             this.state.emotionNames.forEach(n => {
                                 total += e[n];
                             });
                         });
-                        graphDescription = (
-                            <React.Fragment>
-                                <h3>
-                                    This graph represents the amount of samples recorded for each emotion. Until now,
-                                    we count <b>{total}</b> samples on Emozionalmente!
-                                </h3>
-                                <p>
-                                    Hover on one to highlight the slice.
-                                </p>
-                            </React.Fragment>
-                        );
                         filteredGraph = (
                             <TreeMap 
                                 data={this.state.data}
@@ -384,49 +298,57 @@ class Database extends Component {
                         );
                     default:
                         console.log('graph not found!');    
+
                 }
 
                 if (this.state.data.length === 0) {
                     emotionSelect = null;
                     filteredGraph = (
-                        <h2>No data has been found with these filters... Try another combination</h2>
+                        <h2>{this.state.content['db-error']}</h2>
                     );
                 }
             }
             
         }
+
+        graphDescription = (
+            <React.Fragment>
+                <h3>{this.state.content['db-' + this.state.graphId + '-1']}{total}</h3>
+                <p>{this.state.content['db-' + this.state.graphId + '-2']}</p>
+            </React.Fragment>
+        );
         
         return (
             <div className={classes.Content}>
                 <div className={classes.Filters}>
-                    <h1>The Emotional Database</h1>
+                    <h1>{this.state.content['db-title']}</h1>
                     {filters}
                     <div className={classes.SectionFilter}>
                         <div className={classes.Drawer}>
                             <div className={classes.SectionElement}>
-                                Users
+                                {this.state.content['db-users']}
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('bee')}>BeeSwarm</div>
-                                    <div onClick={() => this.changeGraph('stacked')}>StackedAreaChart</div>
-                                    <div onClick={() => this.changeGraph('scatter')}>ConnectedScatter</div>
+                                    <div onClick={() => this.changeGraph('bee')}>{this.state.content['db-bee-name']}</div>
+                                    <div onClick={() => this.changeGraph('stacked')}>{this.state.content['db-stacked-name']}</div>
+                                    <div onClick={() => this.changeGraph('scatter')}>{this.state.content['db-scatter-name']}</div>
                                 </div>
                             </div>
                             <div className={classes.SectionElement}>
-                                Listen
+                                {this.state.content['db-listen']}
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('packing')}>CircularPacking</div>
-                                    <div onClick={() => this.changeGraph('comppie')}>ComparisonPieChart</div>
-                                    <div onClick={() => this.changeGraph('scatterplot')}>ConnectedScatterPlot</div>
+                                    <div onClick={() => this.changeGraph('packing')}>{this.state.content['db-packing-name']}</div>
+                                    <div onClick={() => this.changeGraph('comppie')}>{this.state.content['db-comppie-name']}</div>
+                                    <div onClick={() => this.changeGraph('scatterplot')}>{this.state.content['db-scatterplot-name']}</div>
                                 </div>
                             </div>
                             <div className={classes.SectionElement}>
-                                Speak
+                                {this.state.content['db-speak']}
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('treemap')}>TreeMap</div>
+                                    <div onClick={() => this.changeGraph('treemap')}>{this.state.content['db-treemap-name']}</div>
                                 </div>
                             </div>
                         </div>
-                        Choose Graph
+                        {this.state.content['db-select']}
                         <div className={classes.Icon}>
                             <div style={{ width: '24px' }}></div>
                             <div style={{ width: '16px' }}></div>

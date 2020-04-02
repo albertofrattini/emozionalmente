@@ -84,6 +84,33 @@ class ConnectedScatterPlot extends React.Component {
             lowestValue += 5;
         }
 
+        var Tooltip = d3.select("#chartscatterplot")
+                            .append("div")
+                            .style("position", "absolute")
+                            .style("visibility", "hidden")
+                            .style("background-color", "white")
+                            .style("border", "solid")
+                            .style("border-width", "1px")
+                            .style("border-radius", "4px")
+                            .style("padding", "5px")
+
+        var mouseover = function(d) {
+            Tooltip
+                .style("visibility", "visible");
+        }
+        
+        var mousemove = function(d) {
+            Tooltip
+                .html((Math.round(d.value * 100)/100).toFixed(1) + "%")
+                .style("left", (d3.mouse(this)[0]+630) + "px")
+                .style("top", (d3.mouse(this)[1]+50) + "px")
+        }
+
+        var mouseleave = function(d) {
+            Tooltip
+                .style("visibility", "hidden")
+        }
+
         x.domain(d3.extent(data, function(d) { return parseDate(d.date); }));
         y.domain([lowestValue - 5, highestValue + 5]);
 
@@ -115,6 +142,9 @@ class ConnectedScatterPlot extends React.Component {
                 .attr("r", 4)
                 .attr("stroke", "white")
                 .style("opacity", 1)
+                .on("mouseover", mouseover) 
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseleave)
 
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -130,12 +160,25 @@ class ConnectedScatterPlot extends React.Component {
             d3.select(this).style("opacity", 1)
         
         })
+
+        d3.selectAll('circle').on("mouseenter", function(d){
+
+            d3.selectAll("circle").style("opacity", 0.0)
+            d3.select(this).style("opacity", 1)
+        
+        })
         
         d3.selectAll('path').on("mouseleave", function(d){
         
             d3.selectAll("path").style("opacity", 1)
             d3.selectAll("circle").style("opacity", 1)
             
+        })
+
+        d3.selectAll('circle').on("mouseleave", function(d){
+      
+            d3.selectAll("circle").style("opacity", 1)
+          
         })
 
     }

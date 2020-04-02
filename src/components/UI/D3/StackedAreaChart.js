@@ -9,6 +9,12 @@ Date.prototype.addDays = function(days) {
     return date;
 }
 
+Date.prototype.subDay = function() {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() - 1);
+    return date;
+}
+
 function getDates(startDate, stopDate) {
     var dateArray = [];
     var currentDate = startDate;
@@ -26,44 +32,43 @@ class StackedAreaChart extends React.Component {
     componentDidMount() {
 
         let data = [...this.props.data];
-        console.log(data);
         const names = this.props.emotionNames;
         const colors = this.props.emotionColors;
         if (data.length === 1) {
             const begin = {
-                date: '20-Mar-01'
+                date: '20-Mar-04'
             }
             names.map(e => {
                 return begin[e] = 0
             });
             data.unshift(begin);
-        } else {
-            const l = data.length - 1;
-            const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
-            const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
-            const begin = Date.parse(db);
-            const end = Date.parse(de);
-            const alldays = getDates(new Date(begin), new Date(end));
-            const alldates = alldays.map(element => {
-                let values = null;
-                const str = element.toString();
-                const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
-                data.forEach(d => {
-                    if (d.date === strDate) {
-                        values = d;
-                    }
-                });
-                if (values) return values;
-                values = {
-                    date: strDate
-                }
-                names.map(e => {
-                    return values[e] = 0
-                });
-                return values;
-            });
-            data = alldates;
         }
+
+        const l = data.length - 1;
+        const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
+        const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
+        const begin = Date.parse(db);
+        const end = Date.parse(de);
+        const alldays = getDates(new Date(begin), new Date(end));
+        const alldates = alldays.map(element => {
+            let values = null;
+            const str = element.toString();
+            const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
+            data.forEach(d => {
+                if (d.date === strDate) {
+                    values = d;
+                }
+            });
+            if (values) return values;
+            values = {
+                date: strDate
+            }
+            names.map(e => {
+                return values[e] = 0
+            });
+            return values;
+        });
+        data = alldates;
 
 
 

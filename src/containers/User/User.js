@@ -58,8 +58,7 @@ class User extends Component {
             textDict: names,
             data: data,
             selectedEmotion: emotionNames[0],
-            isDownloading: false,
-            content: content
+            isDownloading: false
         });
 
     }
@@ -270,7 +269,7 @@ class User extends Component {
 
             if (this.state.data.length === 0) {
                 errorNotFound = (
-                    <h2>Mi dispiace, ma non abbiamo trovato nessuna informazione</h2>
+                    <h2>{this.state.content['user-error']}</h2>
                 );
             }
 
@@ -286,9 +285,9 @@ class User extends Component {
                             <React.Fragment>
                                 <h1>{this.state.content['user-title']} {this.state.user.username},</h1>
                                 <h3>{this.state.content['user-subtitle']}</h3>
-                                <p>Email: {this.state.user.email}</p>
-                                <p>Sesso: {this.state.user.sex}</p>
-                                <p>Nazionalità: {this.state.user.nationality}</p>
+                                <p>{this.state.content['user-gender']} {this.state.user.email}</p>
+                                <p>{this.state.content['user-sex']} {this.state.user.sex}</p>
+                                <p>{this.state.content['user-nationality']} {this.state.user.nationality}</p>
                             </React.Fragment>
                             :
                             null
@@ -296,23 +295,23 @@ class User extends Component {
                     <div className={classes.SectionFilter}>
                         <div className={classes.Drawer}>
                             <div className={classes.SectionElement}>
-                                Ascolti
+                                {this.state.content['user-listen']}
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('circular')}>Ascolti effettuati</div>
-                                    <div onClick={() => this.changeGraph('radar')}>Sei un bravo ascoltatore?</div>
-                                    <div onClick={() => this.changeGraph('listenpie')}>Emozioni riconosciute</div>
+                                    <div onClick={() => this.changeGraph('circular')}>{this.state.content['graph-circular-name']}</div>
+                                    <div onClick={() => this.changeGraph('radar')}>{this.state.content['graph-radar-name']}</div>
+                                    <div onClick={() => this.changeGraph('listenpie')}>{this.state.content['graph-listenpie-name']}</div>
                                 </div>
                             </div>
                             <div className={classes.SectionElement}>
-                                Registrazioni
+                                {this.state.content['user-speak']}
                                 <div className={classes.SectionDrawer}>
-                                    <div onClick={() => this.changeGraph('radial')}>Registrazioni effettuate</div>
-                                    <div onClick={() => this.changeGraph('loadbar')}>Sei un bravo attore?</div>
-                                    <div onClick={() => this.changeGraph('speakpie')}>Come hai recitato</div>
+                                    <div onClick={() => this.changeGraph('radial')}>{this.state.content['graph-radial-name']}</div>
+                                    <div onClick={() => this.changeGraph('loadbar')}>{this.state.content['graph-loadbar-name']}</div>
+                                    <div onClick={() => this.changeGraph('speakpie')}>{this.state.content['graph-speakpie-name']}</div>
                                 </div>
                             </div>
                         </div>
-                        Selezione Grafico
+                        {this.state.content['user-select']}
                         <div className={classes.Icon}>
                             <div style={{ width: '24px' }}></div>
                             <div style={{ width: '16px' }}></div>

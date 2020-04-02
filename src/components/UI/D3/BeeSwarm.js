@@ -18,8 +18,7 @@ class BeeSwarm extends React.Component {
             height = 600 - margin.top - margin.bottom,
             // padding = window.innerWidth * 0.08; 
             padding = window.innerWidth * 0.08;
-        
-        console.log(width);
+    
         if (width > 670) {
             padding = window.innerWidth * 0.06;
         }

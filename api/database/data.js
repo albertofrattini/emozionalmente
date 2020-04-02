@@ -302,6 +302,7 @@ module.exports.getUserSpeakComparisonWithOthers = async function (user) {
     const id = await db.select('id').from('users').where('username', user);
     const values = await db.select('users.id as id', 'samples.emotion as emotion').count('* as value').from('samples')
                             .join('users', 'samples.speaker', '=', 'users.username')
+                            .whereNot('username', 'emovo')
                             .groupBy('users.id', 'samples.emotion')
                             .orderBy('users.id');
     return {

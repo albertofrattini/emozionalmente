@@ -25,35 +25,36 @@ class ConnectedScatter extends React.Component {
         var data = this.props.data;
         if (data.length === 1) {
             const begin = {
-                date: '20-Mar-01',
+                date: '20-Mar-04',
                 value: 0
             }
             data.unshift(begin);
-        } else {
-            const l = data.length - 1;
-            const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
-            const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
-            const begin = Date.parse(db);
-            const end = Date.parse(de);
-            const alldays = getDates(new Date(begin), new Date(end));
-            const alldates = alldays.map(element => {
-                let values = null;
-                const str = element.toString();
-                const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
-                data.forEach(d => {
-                    if (d.date === strDate) {
-                        values = d;
-                    }
-                });
-                if (values) return values;
-                values = {
-                    date: strDate,
-                    value: 0
-                }
-                return values;
-            });
-            data = alldates;
         }
+        const l = data.length - 1;
+        const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
+        const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
+        const begin = Date.parse(db);
+        const end = Date.parse(de);
+        const alldays = getDates(new Date(begin), new Date(end));
+        const alldates = alldays.map(element => {
+            let values = null;
+            const str = element.toString();
+            const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
+            data.forEach(d => {
+                if (d.date === strDate) {
+                    values = d;
+                }
+            });
+            if (values) return values;
+            values = {
+                date: strDate,
+                value: 0
+            }
+            return values;
+        });
+        data = alldates;
+
+
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#chartscatter").node().getBoundingClientRect().width - margin.left - margin.right,
@@ -79,6 +80,33 @@ class ConnectedScatter extends React.Component {
                 value: e.value
             };
         });
+
+        var Tooltip = d3.select("#chartscatter")
+                            .append("div")
+                            .style("position", "absolute")
+                            .style("visibility", "hidden")
+                            .style("background-color", "white")
+                            .style("border", "solid")
+                            .style("border-width", "1px")
+                            .style("border-radius", "4px")
+                            .style("padding", "5px")
+
+        var mouseover = function(d) {
+            Tooltip
+                .style("visibility", "visible");
+        }
+        
+        var mousemove = function(d) {
+            Tooltip
+                .html(d.value)
+                .style("left", (d3.mouse(this)[0]+650) + "px")
+                .style("top", (d3.mouse(this)[1]+0) + "px")
+        }
+
+        var mouseleave = function(d) {
+            Tooltip
+                .style("visibility", "hidden")
+        }
 
         
         var x = d3.scaleTime()
@@ -120,6 +148,24 @@ class ConnectedScatter extends React.Component {
                     if(d.value === 0) return 0; 
                     else return 1;
                 })
+                .on("mouseover", mouseover) 
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseleave)
+        
+        d3.selectAll('circle').on("mouseenter", function(d){
+
+            d3.selectAll("circle").style("opacity", 0.1)
+            d3.select(this).style("opacity", 1)
+        
+        })
+
+        d3.selectAll('circle').on("mouseleave", function(d){
+      
+            d3.selectAll("circle").style("opacity", 1)
+          
+        })
+
+        
 
 
     }

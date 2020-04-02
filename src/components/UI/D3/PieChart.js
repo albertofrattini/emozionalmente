@@ -107,7 +107,7 @@ class PieChart extends React.Component {
         d3.selectAll('path').on("mouseover", function(d){
 
             Tooltip.style("visibility", "visible");
-            d3.selectAll("path").style("opacity", 0.8)
+            d3.selectAll("path").style("opacity", 0.5)
             d3.select(this).style("opacity", 1)
         
         })

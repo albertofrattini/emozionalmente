@@ -24,13 +24,11 @@ class CircularPacking extends React.Component {
                         .attr("width", width)
                         .attr("height", height)
 
-        var colors = [...Array(10)].map((e,i) => {
-            return 'rgba(249, 170, 51, ' + (1 - i*0.1) + ')';
-        })
+        
                         
         var color = d3.scaleOrdinal()
             .domain(counts)
-            .range(colors);
+            .range(['rgba(249, 170, 51, 1)']);
 
         var size = d3.scaleSqrt()
             .domain([minCount, maxCount])

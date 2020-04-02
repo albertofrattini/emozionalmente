@@ -36,6 +36,33 @@ class TreeMap extends React.Component {
 
         var color = d3.scaleOrdinal().domain(texts).range(colors);
 
+        var Tooltip = d3.select("#treemap")
+                            .append("div")
+                            .style("position", "absolute")
+                            .style("visibility", "hidden")
+                            .style("background-color", "white")
+                            .style("border", "solid")
+                            .style("border-width", "1px")
+                            .style("border-radius", "4px")
+                            .style("padding", "5px")
+
+        var mouseover = function(d) {
+            Tooltip
+                .style("visibility", "visible");
+        }
+        
+        var mousemove = function(d) {
+            Tooltip
+                .html(d.value)
+                .style("left", (d3.mouse(this)[0]+630) + "px")
+                .style("top", (d3.mouse(this)[1]+50) + "px")
+        }
+
+        var mouseleave = function(d) {
+            Tooltip
+                .style("visibility", "hidden")
+        }
+
         // append the svg object to the body of the page
         var svg = d3.select("#treemap")
                         .append("svg")
@@ -67,7 +94,10 @@ class TreeMap extends React.Component {
             // .style("stroke", "black")
             .style("fill", function(d) {
                 return color(d.data.name);
-            });
+            })
+            .on("mouseover", mouseover) 
+            .on("mousemove", mousemove)
+            .on("mouseout", mouseleave)
 
         // and to add the text labels
         svg.selectAll("text")
@@ -76,10 +106,22 @@ class TreeMap extends React.Component {
             .append("text")
             .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
             .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-            .text(function(d){ return d.data.name + "  " + d.data.value})
+            .text(function(d){ return d.data.name})
             .attr("font-size", "18px")
             .attr("fill", "white")
 
+        d3.selectAll('rect').on("mouseenter", function(d){
+
+            d3.selectAll("rect").style("opacity", 0.4)
+            d3.select(this).style("opacity", 1)
+        
+        })
+
+        d3.selectAll('rect').on("mouseleave", function(d){
+        
+            d3.selectAll("rect").style("opacity", 1)
+            
+        })
 
 
     }

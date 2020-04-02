@@ -591,6 +591,48 @@
     {
         "language": "it",
         "page": "user",
+        "position": "user-sex",
+        "content": "Sesso: "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-email",
+        "content": "Email: "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-nationality",
+        "content": "Nazionalità: "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-listen",
+        "content": "Ascolti"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-speak",
+        "content": "Registrazioni"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-select",
+        "content": "Scegli Grafico"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-name",
+        "content": "Ascolti effettuati"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-circular-1",
         "content": "Hai ascoltato "
     },
@@ -611,6 +653,12 @@
         "page": "user",
         "position": "graph-circular-sub",
         "content": "Il grafico riporta la quantità di ascolti effettuati da tutti gli utenti. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale degli ascolti."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-name",
+        "content": "Sei un bravo ascoltatore?"
     },
     {
         "language": "it",
@@ -639,6 +687,12 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-listenpie-name",
+        "content": "Emozioni riconosciute"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-listenpie-1",
         "content": "La tua percentuale di accuratezza nel riconoscere "
     },
@@ -659,6 +713,12 @@
         "page": "user",
         "position": "graph-listenpie-sub",
         "content": "Ogni spicchio della torta rappresenta un'emozione con la quale hai riconosciuto l'emozione di riferimento: "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-name",
+        "content": "Registrazioni effettuate"
     },
     {
         "language": "it",
@@ -687,6 +747,12 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-loadbar-name",
+        "content": "Sei un bravo attore?"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-loadbar-1",
         "content": "La tua percentuale di accuratezza nell'esprimere le emozioni è del "
     },
@@ -707,6 +773,12 @@
         "page": "user",
         "position": "graph-loadbar-sub",
         "content": "La percentuale rappresenta la percentuale di riconoscimento delle tue registrazioni."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-name",
+        "content": "Come hai recitato"
     },
     {
         "language": "it",
@@ -732,6 +804,12 @@
         "position": "graph-speakpie-sub",
         "content": "Ogni spicchio della torta rappresenta un'emozione con la quale è stata riconosciuta l'emozione di che hai voluto esprimere: "
     },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-error",
+        "content": "Mi dispiace, ma non abbiamo trovato nessuna informazione"
+    },
 
 
 
@@ -751,6 +829,48 @@
         "page": "user",
         "position": "user-subtitle",
         "content": "Benvenuto sulla tua pagina utente. In questa pagina potrai esplorare i tuoi risultati, compararli con gli altri e molto altro."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-sex",
+        "content": "Sesso: "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-email",
+        "content": "Email: "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-nationality",
+        "content": "Nazionalità: "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-listen",
+        "content": "Ascolti"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-speak",
+        "content": "Registrazioni"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-select",
+        "content": "Scegli Grafico"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-name",
+        "content": "Ascolti effettuati"
     },
     {
         "language": "en",
@@ -779,6 +899,12 @@
     {
         "language": "en",
         "page": "user",
+        "position": "graph-radar-name",
+        "content": "Sei un bravo ascoltatore?"
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "graph-radar-1",
         "content": "La tua percentuale di accuratezza nel riconoscere le emozioni è del "
     },
@@ -799,6 +925,12 @@
         "page": "user",
         "position": "graph-radar-sub",
         "content": "In rosso puoi vedere come se la cavano tutti gli altri utenti, mentre l'area verde evidenzia le tua capacità di riconoscimento."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-name",
+        "content": "Emozioni riconosciute"
     },
     {
         "language": "en",
@@ -827,6 +959,12 @@
     {
         "language": "en",
         "page": "user",
+        "position": "graph-radial-name",
+        "content": "Registrazioni effettuate"
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "graph-radial-1",
         "content": "Hai effettuato "
     },
@@ -851,6 +989,12 @@
     {
         "language": "en",
         "page": "user",
+        "position": "graph-loadbar-name",
+        "content": "Sei un bravo attore?"
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "graph-loadbar-1",
         "content": "La tua percentuale di accuratezza nell'esprimere le emozioni è del "
     },
@@ -871,6 +1015,12 @@
         "page": "user",
         "position": "graph-loadbar-sub",
         "content": "La percentuale rappresenta la percentuale di riconoscimento delle tue registrazioni."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-name",
+        "content": "Come hai recitato"
     },
     {
         "language": "en",
@@ -910,8 +1060,413 @@
     {
         "language": "it",
         "page": "database",
-        "position": "graph-",
-        "content": ""
+        "position": "db-title",
+        "content": "Il Database di Emozioni"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-filters",
+        "content": "Clicca qui sotto per creare un filtro personalizzato selezionando età minima e massima, il sesso e la nazionalità, dopodiché clicca Applica. Clicca su Azzera per eliminare i filtri applicati."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-select",
+        "content": "Scegli Grafico"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-apply",
+        "content": "Applica"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-clear",
+        "content": "Azzera"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-gender",
+        "content": "Sesso"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-male",
+        "content": "Uomini"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-female",
+        "content": "Donne"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-nationality",
+        "content": "Nazionalità"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-users",
+        "content": "Utenti"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-listen",
+        "content": "Ascolti"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-speak",
+        "content": "Registrazioni"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-bee-name",
+        "content": "I nostri utenti"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-bee-1",
+        "content": "Questo grafico mostra gli utenti che hanno contribuito a questo progetto recitando almeno una frase. Attualmente ne contiamo "
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-bee-2",
+        "content": "Prova a passare il mouse sopra le palline per scoprire di più."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-stacked-name",
+        "content": "Andamento delle registrazioni"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-stacked-1",
+        "content": "Questo grafico mostra la quantità di sample registrati per giorno e per emozione."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-stacked-2",
+        "content": "Passa il mouse sul grafico per evidenziare un'emozione."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatter-name",
+        "content": "Andamento degli ascolti"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatter-1",
+        "content": "Questo grafico mostra la quantità di valutazioni effettuate ogni giorno."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatter-2",
+        "content": "Prova a passare il mouse sopra le palline per scoprire quanti sono di preciso."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-packing-name",
+        "content": "Quantità di ascolti"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-packing-1",
+        "content": "Questo grafico mostra la quantità sample che sono stati ascoltati un preciso numero di volte. Il totale di ascolti effettuati sulla piattaforma è "
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-packing-2",
+        "content": "Passando il mouse sulle palle, il numero descrive la quantità di ascolti. Più la palla è grande, più sample sono stati ascoltati quel preciso numero di volte."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-comppie-name",
+        "content": "Riconoscimento emozionale"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-comppie-1",
+        "content": "Scegliendo quale emozione usare come riferimento nella parte sopra, puoi capire come una determinata emozione è stata riconosciuta, in percentuale, da tutti gli utenti."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-comppie-2",
+        "content": "Passa il mouse sugli spicchi per conoscere la percentuale."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatterplot-name",
+        "content": "Percentuale di riconoscimento"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatterplot-1",
+        "content": "Questo grafico mostra l'andamento della percentuale di riconoscimento delle emozioni nel tempo."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-scatterplot-2",
+        "content": "Passa il mouse sopra ai pallini per scoprire i valore, oppure sulle linee per evidenziare una particolare emozione."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-treemap-name",
+        "content": "Quantità di registrazioni"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-treemap-1",
+        "content": "Questo grafico mostra la quantità di registrazioni effettuate divise per emozione. La quantità totale di registrazioni effettuate sulla piattaforma è "
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-treemap-2",
+        "content": "Passa il mouse sui rettangoli per scoprire la quantità di registrazioni per emozione."
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-error",
+        "content": "Nessuna informazione è stata trovata con questi filtri... Provane altri!"
+    },
+
+
+
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-title",
+        "content": "Il Database di Emozioni"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-filters",
+        "content": "Clicca qui sotto per creare un filtro personalizzato selezionando età minima e massima, il sesso e la nazionalità, dopodiché clicca Applica. Clicca su Azzera per eliminare i filtri applicati."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-select",
+        "content": "Scegli Grafico"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-apply",
+        "content": "Applica"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-clear",
+        "content": "Azzera"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-gender",
+        "content": "Sesso"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-male",
+        "content": "Uomini"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-female",
+        "content": "Donne"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-nationality",
+        "content": "Nazionalità"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-users",
+        "content": "Utenti"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-listen",
+        "content": "Ascolti"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-speak",
+        "content": "Registrazioni"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-bee-name",
+        "content": "I nostri utenti"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-bee-1",
+        "content": "Questo grafico mostra gli utenti che hanno contribuito a questo progetto recitando almeno una frase. Attualmente ne contiamo "
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-bee-2",
+        "content": "Prova a passare il mouse sopra le palline per scoprire di più."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-stacked-name",
+        "content": "Andamento delle registrazioni"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-stacked-1",
+        "content": "Questo grafico mostra la quantità di sample registrati per giorno e per emozione."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-stacked-2",
+        "content": "Passa il mouse sul grafico per evidenziare un'emozione."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatter-name",
+        "content": "Andamento degli ascolti"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatter-1",
+        "content": "Questo grafico mostra la quantità di valutazioni effettuate ogni giorno."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatter-2",
+        "content": "Prova a passare il mouse sopra le palline per scoprire quanti sono di preciso."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-packing-name",
+        "content": "Quantità di ascolti"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-packing-1",
+        "content": "Questo grafico mostra la quantità sample che sono stati ascoltati un preciso numero di volte. Il totale di ascolti effettuati sulla piattaforma è "
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-packing-2",
+        "content": "Passando il mouse sulle palle, il numero descrive la quantità di ascolti. Più la palla è grande, più sample sono stati ascoltati quel preciso numero di volte."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-comppie-name",
+        "content": "Riconoscimento emozionale"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-comppie-1",
+        "content": "Scegliendo quale emozione usare come riferimento nella parte sopra, puoi capire come una determinata emozione è stata riconosciuta, in percentuale, da tutti gli utenti."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-comppie-2",
+        "content": "Passa il mouse sugli spicchi per conoscere la percentuale."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatterplot-name",
+        "content": "Percentuale di riconoscimento"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatterplot-1",
+        "content": "Questo grafico mostra l'andamento della percentuale di riconoscimento delle emozioni nel tempo."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-scatterplot-2",
+        "content": "Passa il mouse sopra ai pallini per scoprire i valore, oppure sulle linee per evidenziare una particolare emozione."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-treemap-name",
+        "content": "Quantità di registrazioni"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-treemap-1",
+        "content": "Questo grafico mostra la quantità di registrazioni effettuate divise per emozione. La quantità totale di registrazioni effettuate sulla piattaforma è "
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-treemap-2",
+        "content": "Passa il mouse sui rettangoli per scoprire la quantità di registrazioni per emozione."
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-error",
+        "content": "Nessuna informazione è stata trovata con questi filtri... Provane altri!"
     },
 
 
