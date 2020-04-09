@@ -8,15 +8,37 @@ class ConnectedScatterPlot extends React.Component {
         
         const data = this.props.data;
         const names = this.props.emotionNames;
-        const colors = this.props.emotionColors;     
+        const colors = this.props.emotionColors;   
+  
+        // if (data[0].date !== '20-Mar-04') {
+        //     const begin = {
+        //         date: '20-Mar-05'
+        //     }
+        //     names.map(e => {
+        //         return begin[e] = 0
+        //     });
+        //     data.unshift(begin);
+        // }
         if (data.length === 1) {
             const begin = {
-                date: '20-Mar-01'
+                date: '20-Mar-04'
             }
             names.map(e => {
                 return begin[e] = 0
             });
             data.unshift(begin);
+        }
+        const l = data.length - 1;
+        let today = new Date(Date.now()).toString();
+        today = today.substring(13,15) + '-' + today.substring(4,7) + '-' + today.substring(8,10);
+        if (data[l].date !== today) {
+            const end = {
+                date: today
+            }
+            names.map(e => {
+                return end[e] = data[l][e]
+            });
+            data.push(end);
         }
 
 
@@ -84,31 +106,52 @@ class ConnectedScatterPlot extends React.Component {
             lowestValue += 5;
         }
 
-        var Tooltip = d3.select("#chartscatterplot")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "5px")
+        // var Tooltip = d3.select("#chartscatterplot")
+        //                     .append("div")
+        //                     .style("position", "absolute")
+        //                     .style("visibility", "hidden")
+        //                     .style("background-color", "white")
+        //                     .style("border", "solid")
+        //                     .style("border-width", "1px")
+        //                     .style("border-radius", "4px")
+        //                     .style("padding", "5px")
 
-        var mouseover = function(d) {
-            Tooltip
-                .style("visibility", "visible");
-        }
+        // var mouseover = function(d) {
+        //     Tooltip
+        //         .style("visibility", "visible");
+        // }
         
-        var mousemove = function(d) {
-            Tooltip
-                .html((Math.round(d.value * 100)/100).toFixed(1) + "%")
-                .style("left", (d3.mouse(this)[0]+630) + "px")
-                .style("top", (d3.mouse(this)[1]+50) + "px")
-        }
+        // var mousemove = function(d) {
+        //     Tooltip
+        //         .html((Math.round(d.value * 100)/100).toFixed(1) + "%")
+        //         .style("left", (d3.mouse(this)[0]+630) + "px")
+        //         .style("top", (d3.mouse(this)[1]+50) + "px")
+        // }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("visibility", "hidden")
+        // var mouseleave = function(d) {
+        //     Tooltip
+        //         .style("visibility", "hidden")
+        // }
+
+        var Tooltip = d3.select("body").append("div")
+                .attr("class", guide.Tooltip)
+                .style("opacity", 0);
+
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html('<div style="background-color: #efefef; padding: 8px; margin-bottom: 8px">' 
+                        + d3.timeFormat("%e/%m/%Y")(d.date) + '</div><div style="font-size: 16px; font-weight: 800;">' 
+                        + (Math.round(d.value * 100)/100).toFixed(1) + "%" + '</div>')
+                .style("left", (d3.event.pageX + 8) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
         x.domain(d3.extent(data, function(d) { return parseDate(d.date); }));
@@ -139,16 +182,16 @@ class ConnectedScatterPlot extends React.Component {
             .append("circle")
                 .attr("cx", function(d) { return x(d.date) } )
                 .attr("cy", function(d) { return y(d.value) } )
-                .attr("r", 4)
-                .attr("stroke", "white")
+                .attr("r", 3)
+                //.attr("stroke", "white")
                 .style("opacity", 1)
-                .on("mouseover", mouseover) 
-                .on("mousemove", mousemove)
-                .on("mouseout", mouseleave)
+                .on("mouseover", mover) 
+                // .on("mousemove", mousemove)
+                .on("mouseout", mleave)
 
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x).ticks(d3.timeDay.every(4)).tickFormat(d3.timeFormat('%d/%m')));
         
         svg.append("g")
             .call(d3.axisLeft(y));

@@ -214,6 +214,9 @@
 .EmotionsTab {
     display: flex;
     flex-flow: row;
+
+    justify-content: start;
+    align-items: center;
     flex-wrap: wrap;
     margin-top: 16px;
     margin-left: 8px;
@@ -222,14 +225,9 @@
 }
 
 .Emotion {
-    padding: 8px;
     margin: 0px 1px 1px 0px;
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
-}
-
-.Emotion:hover {
-    background-color: rgba(0, 0, 0, 0.2);
 }
 
 

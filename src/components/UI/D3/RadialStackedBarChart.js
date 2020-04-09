@@ -6,7 +6,12 @@ class RadialStackedBarChart extends React.Component {
 
     componentDidMount() {
 
-        const user = this.props.data.uid[0].id;
+        const user = this.props.data.uid;
+        const ptt1 = this.props.personal_tooltip_1;
+        const ptt2 = this.props.personal_tooltip_2;
+        const tt1 = this.props.tooltip_1;
+        const tt2 = this.props.tooltip_2;
+        const tmean = this.props.mean;
         const emotions = this.props.emotionNames;
         const texts = this.props.emotionText;
         const colors = this.props.emotionColors;
@@ -103,6 +108,52 @@ class RadialStackedBarChart extends React.Component {
             return m;
         });
 
+
+        var Tooltip = d3.select("body").append("div")
+            .attr("class", guide.Tooltip)
+            .style("opacity", 0)
+            .style("font-size", "15px")
+            .style("padding", "8px")
+            .style("max-width", "128px")
+            .style("text-align", "center");
+
+        var mover = function(d) {
+            let total = 0;
+            [...Object.keys(d.data)].forEach(e => {
+                if (e !== 'id') total += d.data[e];
+            });
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html(user === d.data.id ? 
+                            ptt1 + total + ptt2
+                            :
+                            d.data.id + tt1 + total + tt2)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mmove = function(d) {
+            let total = 0;
+            [...Object.keys(d.data)].forEach(e => {
+                if (e !== 'id') total += d.data[e];
+            });
+            Tooltip
+                .html(user === d.data.id ? 
+                        'Hai effettuato ' + total + ' registrazioni!'
+                        :
+                        d.data.id + ' ha effettuato ' + total + ' registrazioni!')
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
+        }
+
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        }
+
+
         x.domain(data.map(function(d) { return d.id; }));
         y.domain([0, maxY]);
         z.domain(keys);
@@ -126,7 +177,10 @@ class RadialStackedBarChart extends React.Component {
                 .startAngle(function(d) { return x(d.data.id); })
                 .endAngle(function(d) { return x(d.data.id) + x.bandwidth(); })
                 .padAngle(0.05)
-                .padRadius(innerRadius));
+                .padRadius(innerRadius))
+            .on("mouseover", mover) 
+            .on("mousemove", mmove)
+            .on("mouseout", mleave)
 
         var yAxis = svg.append("g")
             .attr("text-anchor", "middle");
@@ -139,25 +193,38 @@ class RadialStackedBarChart extends React.Component {
 
         yMeanTick.append("circle")
             .attr("fill", "none")
-            .attr("stroke", "rgba(0, 0, 0, 0.5)")
-            .attr("stroke-dasharray", "5 2")
-            .attr("r", y);
+            .attr("stroke", "rgba(0, 0, 0, 0.3)")
+            .attr("stroke-dasharray", "8 3")
+            .attr("r", y)
+            .on("mouseover", function(d){
+                Tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                Tooltip.html(tmean + parseFloat(meanSpeak).toFixed(2))
+                    .style("left", (d3.event.pageX + 16) + "px")
+                    .style("top", (d3.event.pageY - 24) + "px")
+            })
+            .on("mouseout", function(d){
+                Tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            })
 
-        var yTick = yAxis
-            .selectAll("g")
-            .data(yTicksValues)
-            .enter().append("g");
+        // var yTick = yAxis
+        //     .selectAll("g")
+        //     .data(yTicksValues)
+        //     .enter().append("g");
 
-        yTick.append("circle")
-            .attr("fill", "none")
-            .attr("stroke", "rgba(0, 0, 0, 0.08)")
-            .attr("r", y);
+        // yTick.append("circle")
+        //     .attr("fill", "none")
+        //     .attr("stroke", "rgba(0, 0, 0, 0.08)")
+        //     .attr("r", y);
 
-        yTick.append("text")
-            .attr("y", function(d) { return -y(d); })
-            .attr("dy", "0.35em")
-            .attr("fill", "none")
-            .style("fill", "rgba(0, 0, 0, 0.6)")
+        // yTick.append("text")
+        //     .attr("y", function(d) { return -y(d); })
+        //     .attr("dy", "0.35em")
+        //     .attr("fill", "none")
+        //     .style("fill", "rgba(0, 0, 0, 0.6)")
 
         // Legend
         // var legend = svg.append("g")

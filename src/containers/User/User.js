@@ -145,7 +145,12 @@ class User extends Component {
                         filteredGraph = (
                             <CircularBarPlot 
                                 data={this.state.data}
-                                valuesCallback={this.setValues}/>
+                                valuesCallback={this.setValues}
+                                personal_tooltip_1={this.state.content['graph-circular-tooltip-personal-1']}
+                                personal_tooltip_2={this.state.content['graph-circular-tooltip-personal-2']}
+                                tooltip_1={this.state.content['graph-circular-tooltip-1']}
+                                tooltip_2={this.state.content['graph-circular-tooltip-2']}
+                                mean={this.state.content['user-mean']}/>
                         );
                         break;
                     case 'radar':
@@ -155,7 +160,9 @@ class User extends Component {
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}
                                 emotionColors={this.state.emotionColors}
-                                valuesCallback={this.setValues}/>
+                                valuesCallback={this.setValues}
+                                personal_tooltip_1={this.state.content['graph-radar-tooltip-personal-1']}
+                                tooltip_1={this.state.content['graph-radar-tooltip-1']}/>
                         );
                         break;
                     case 'listenpie':
@@ -168,7 +175,12 @@ class User extends Component {
                                 {
                                     this.state.emotionNames.map((e, i) => {
                                         return  <div className={classes.Emotion}
-                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    style={{ 
+                                                        backgroundColor: this.state.colorDict[e], 
+                                                        padding: this.state.selectedEmotion === e ? '14px' : '8px',
+                                                        boxShadow: this.state.selectedEmotion === e ? 
+                                                                    '0 2px 8px rgba(0, 0, 0, 0.2)' : 'none'
+                                                    }}
                                                     onClick={() => this.setState({
                                                         isDownloading: true,
                                                         selectedEmotion: e,
@@ -201,7 +213,12 @@ class User extends Component {
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}
                                 emotionColors={this.state.emotionColors}
-                                valuesCallback={this.setValues}/>
+                                valuesCallback={this.setValues}
+                                personal_tooltip_1={this.state.content['graph-radial-tooltip-personal-1']}
+                                personal_tooltip_2={this.state.content['graph-radial-tooltip-personal-2']}
+                                tooltip_1={this.state.content['graph-radial-tooltip-1']}
+                                tooltip_2={this.state.content['graph-radial-tooltip-2']}
+                                mean={this.state.content['user-mean']}/>
                         );
                         break;
                     case 'loadbar':
@@ -221,7 +238,12 @@ class User extends Component {
                                 {
                                     this.state.emotionNames.map((e, i) => {
                                         return  <div className={classes.Emotion}
-                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    style={{ 
+                                                        backgroundColor: this.state.colorDict[e], 
+                                                        padding: this.state.selectedEmotion === e ? '14px' : '8px',
+                                                        boxShadow: this.state.selectedEmotion === e ? 
+                                                                    '0 2px 8px rgba(0, 0, 0, 0.2)' : 'none'
+                                                    }}
                                                     onClick={() => this.setState({
                                                         isDownloading: true,
                                                         selectedEmotion: e,
@@ -285,9 +307,10 @@ class User extends Component {
                             <React.Fragment>
                                 <h1>{this.state.content['user-title']} {this.state.user.username},</h1>
                                 <h3>{this.state.content['user-subtitle']}</h3>
-                                <p>{this.state.content['user-gender']} {this.state.user.email}</p>
+                                <p>{this.state.content['user-email']} {this.state.user.email}</p>
                                 <p>{this.state.content['user-sex']} {this.state.user.sex}</p>
                                 <p>{this.state.content['user-nationality']} {this.state.user.nationality}</p>
+                                <p>Età: {this.state.user.age}</p>
                             </React.Fragment>
                             :
                             null
@@ -311,7 +334,7 @@ class User extends Component {
                                 </div>
                             </div>
                         </div>
-                        {this.state.content['user-select']}
+                        {this.state.content['graph-' + this.state.graphId + '-name']}
                         <div className={classes.Icon}>
                             <div style={{ width: '24px' }}></div>
                             <div style={{ width: '16px' }}></div>

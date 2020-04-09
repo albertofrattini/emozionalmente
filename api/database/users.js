@@ -45,12 +45,12 @@ module.exports.confirmUser = function (username, confirmation) {
         .update(confirmation);
 }
 
-module.exports.getAllUsers = function (minAge, maxAge, gender, nationality) {
+module.exports.getAllUsers = function (minAge, maxAge, gender, nationality, lang) {
     let query = db('users')
                     .where('users.age', '>=', minAge)
                     .where('users.age', '<=', maxAge)
                     .whereNot('users.username', 'emovo')
-                    .whereIn('username', db.select('speaker').from('samples').groupBy('speaker'));
+                    .whereIn('username', db.select('speaker').from('samples').where('language', lang).groupBy('speaker'));
     if (gender !== '') {
         query = query.where('sex', gender);
     }

@@ -7,7 +7,12 @@ class CircularBarPlot extends React.Component {
     componentDidMount() {
 
         let data = this.props.data.values;
-        const user = this.props.data.uid[0].id;
+        const ptt1 = this.props.personal_tooltip_1;
+        const ptt2 = this.props.personal_tooltip_2;
+        const tt1 = this.props.tooltip_1;
+        const tt2 = this.props.tooltip_2;
+        const tmean = this.props.mean;
+        const user = this.props.data.uid;
         let userlistens = 0;
         data.forEach(e => {
             if (e.id === user) userlistens = parseInt(e.value);
@@ -15,8 +20,8 @@ class CircularBarPlot extends React.Component {
         
         var width = d3.selectAll("#circularbarplot").node().getBoundingClientRect().width,
         height = 500,
-        innerRadius = 60,
-        outerRadius = Math.min(width, height) / 2.5;
+        innerRadius = 80,
+        outerRadius = Math.min(width, height) / 1.6;
         
         // append the svg object to the body of the page
         var svg = d3.select('#circularbarplot')
@@ -25,7 +30,7 @@ class CircularBarPlot extends React.Component {
                         .attr("height", height/* + margin.top + margin.bottom*/)
                         //.style("transform", "rotate(-92deg)")
                         .append("g")
-                        .attr("transform", "translate(" + width / 2 + "," + ( height / 2 )+ ")"); 
+                        .attr("transform", "translate(" + width / 2 + "," + ( height / 1.4 )+ ")"); 
         
         var maxY = 0;
         data.forEach(e => {
@@ -53,6 +58,43 @@ class CircularBarPlot extends React.Component {
             .range([innerRadius, outerRadius])
             .domain([0, maxY]); // Domain of Y is from 0 to the max seen in the data
 
+
+
+        var Tooltip = d3.select("body").append("div")
+            .attr("class", guide.Tooltip)
+            .style("opacity", 0)
+            .style("font-size", "15px")
+            .style("padding", "8px")
+            .style("max-width", "128px")
+            .style("text-align", "center");
+
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html(user === d.id ? 
+                            ptt1 + d.value + ptt2
+                            :
+                            d.id + tt1 + d.value + tt2)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mmove = function(d) {
+            Tooltip
+                .html(user === d.id ? 
+                        ptt1 + d.value + ptt2
+                        :
+                        d.id + tt1 + d.value + tt2)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
+        }
+
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        }
             
             
         svg.append("g")
@@ -75,14 +117,30 @@ class CircularBarPlot extends React.Component {
             .endAngle(function(d) { return x(d.id) + x.bandwidth(); })
             .padAngle(0.05)
             .padRadius(innerRadius))
+            .on("mouseover", mover) 
+            .on("mousemove", mmove)
+            .on("mouseout", mleave)
 
         svg.append("g")
             .datum([mean])
             .append("circle")
             .attr("fill", "none")
-            .attr("stroke", "rgba(0, 0, 0, 0.7)")
-            .attr("stroke-dasharray", "5 2")
-            .attr("r", y);
+            .attr("stroke", "rgba(0, 0, 0, 0.3)")
+            .attr("stroke-dasharray", "8 3")
+            .attr("r", y)
+            .on("mouseover", function(d){
+                Tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                Tooltip.html(tmean + parseFloat(mean).toFixed(2))
+                    .style("left", (d3.event.pageX + 16) + "px")
+                    .style("top", (d3.event.pageY - 24) + "px")
+            })
+            .on("mouseout", function(d){
+                Tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
 
     }
 

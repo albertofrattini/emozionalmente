@@ -1,11 +1,14 @@
 import React from 'react';
 import * as d3 from 'd3';
+import guide from './Guide.css';
 
 class CircularPacking extends React.Component {
 
     componentDidMount() {
         
         const data = this.props.data;
+        const tt1 = this.props.tooltip_1;
+        const tt2 = this.props.tooltip_2;
         const counts = data.map(e => {
             return e.count;
         });
@@ -34,31 +37,34 @@ class CircularPacking extends React.Component {
             .domain([minCount, maxCount])
             .range([5,70])
 
-        var Tooltip = d3.select("#chartpacking")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "5px")
+        var Tooltip = d3.select("body").append("div")
+            .attr("class", guide.Tooltip)
+            .style("opacity", 0)
+            .style("font-size", "15px")
+            .style("padding", "8px")
+            .style("max-width", "128px")
+            .style("text-align", "center");
 
-        var mouseover = function(d) {
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html(d.quantity + tt1 + d.count + tt2)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mmove = function(d) {
             Tooltip
-                .style("visibility", "visible");
-        }
-        
-        var mousemove = function(d) {
-            Tooltip
-                .html('<b>' + d.quantity + '</b> samples where evaluated ' + '<u>' + d.count + '</u> times')
-                .style("left", (d3.mouse(this)[0]+200) + "px")
-                .style("top", (d3.mouse(this)[1]+100) + "px")
+                .html(d.quantity + tt1 + d.count + tt2)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
         }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("visibility", "hidden")
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
         var node = svg.append("g")
@@ -72,9 +78,9 @@ class CircularPacking extends React.Component {
             .attr("cy", height / 2)
             .style("fill", function(d){ return color(d.count)})
             .style("fill-opacity", 1)
-            .on("mouseover", mouseover) 
-            .on("mousemove", mousemove)
-            .on("mouseout", mouseleave)
+            .on("mouseover", mover) 
+            .on("mousemove", mmove)
+            .on("mouseout", mleave)
 
         var simulation = d3.forceSimulation()
             .force("center", d3.forceCenter(width / 2, height / 2)) // Attraction to the center of the svg area

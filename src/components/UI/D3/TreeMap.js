@@ -36,31 +36,58 @@ class TreeMap extends React.Component {
 
         var color = d3.scaleOrdinal().domain(texts).range(colors);
 
-        var Tooltip = d3.select("#treemap")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "5px")
+        // var Tooltip = d3.select("#treemap")
+        //                     .append("div")
+        //                     .style("position", "absolute")
+        //                     .style("visibility", "hidden")
+        //                     .style("background-color", "white")
+        //                     .style("border", "solid")
+        //                     .style("border-width", "1px")
+        //                     .style("border-radius", "4px")
+        //                     .style("padding", "5px")
 
-        var mouseover = function(d) {
-            Tooltip
-                .style("visibility", "visible");
-        }
+        // var mouseover = function(d) {
+        //     Tooltip
+        //         .style("visibility", "visible");
+        // }
         
-        var mousemove = function(d) {
+        // var mousemove = function(d) {
+        //     Tooltip
+        //         .html(d.value)
+        //         .style("left", (d3.mouse(this)[0]+630) + "px")
+        //         .style("top", (d3.mouse(this)[1]+50) + "px")
+        // }
+
+        // var mouseleave = function(d) {
+        //     Tooltip
+        //         .style("visibility", "hidden")
+        // }
+
+        var Tooltip = d3.select("body").append("div")
+                .attr("class", guide.Tooltip)
+                .style("opacity", 0)
+                .style("font-size", "18px");
+
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html(d.value)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mmove = function(d) {
             Tooltip
                 .html(d.value)
-                .style("left", (d3.mouse(this)[0]+630) + "px")
-                .style("top", (d3.mouse(this)[1]+50) + "px")
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
         }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("visibility", "hidden")
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
         // append the svg object to the body of the page
@@ -95,9 +122,9 @@ class TreeMap extends React.Component {
             .style("fill", function(d) {
                 return color(d.data.name);
             })
-            .on("mouseover", mouseover) 
-            .on("mousemove", mousemove)
-            .on("mouseout", mouseleave)
+            .on("mouseover", mover) 
+            .on("mousemove", mmove)
+            .on("mouseout", mleave)
 
         // and to add the text labels
         svg.selectAll("text")

@@ -3,28 +3,6 @@ import * as d3 from 'd3';
 import './StackedAreaChart.css';
 import guide from './Guide.css';
 
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-}
-
-Date.prototype.subDay = function() {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() - 1);
-    return date;
-}
-
-function getDates(startDate, stopDate) {
-    var dateArray = [];
-    var currentDate = startDate;
-    while (currentDate <= stopDate) {
-        dateArray.push(new Date(currentDate));
-        currentDate = currentDate.addDays(1);
-    }
-    return dateArray;
-}
-
 
 class StackedAreaChart extends React.Component {
 
@@ -34,23 +12,7 @@ class StackedAreaChart extends React.Component {
         let data = [...this.props.data];
         const names = this.props.emotionNames;
         const colors = this.props.emotionColors;
-        if (data.length === 1) {
-            const begin = {
-                date: '20-Mar-04'
-            }
-            names.map(e => {
-                return begin[e] = 0
-            });
-            data.unshift(begin);
-        }
-
-        const l = data.length - 1;
-        const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
-        const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
-        const begin = Date.parse(db);
-        const end = Date.parse(de);
-        const alldays = getDates(new Date(begin), new Date(end));
-        const alldates = alldays.map(element => {
+        const alldates = this.props.allDays.map(element => {
             let values = null;
             const str = element.toString();
             const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
@@ -86,7 +48,7 @@ class StackedAreaChart extends React.Component {
                 
         var color = d3.scaleOrdinal().domain(names).range(colors);
 
-        var xAxis = d3.axisBottom(x);
+        var xAxis = d3.axisBottom(x).ticks(d3.timeDay.every(4)).tickFormat(d3.timeFormat('%d/%m'));
 
         var yAxis = d3.axisLeft(y);
 
@@ -115,13 +77,13 @@ class StackedAreaChart extends React.Component {
             d.date = parseDate(d.date);
         });
 
-        var maxDateVal = d3.max(data, function(d){
-            var vals = d3.keys(d).map(function(key){ return key !== "date" ? d[key] : 0 });
-            return d3.sum(vals);
-        });
+        // var maxDateVal = d3.max(data, function(d){
+        //     var vals = d3.keys(d).map(function(key){ return key !== "date" ? d[key] : 0 });
+        //     return d3.sum(vals);
+        // });
 
         x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain([0, maxDateVal + 20]);
+        y.domain([0, this.props.maxValue + 20]);
 
         var browser = svg.selectAll(".browser")
                             .data(series)

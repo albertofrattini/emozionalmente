@@ -12,13 +12,13 @@ class BeeSwarm extends React.Component {
 
         const data = this.props.data;
         const nationalities_dict = this.props.nationalities;
+        const keys = Object.keys(nationalities_dict).length;
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
-            height = 600 - margin.top - margin.bottom,
-            // padding = window.innerWidth * 0.08; 
+            height = 230 * keys - margin.top - margin.bottom,
             padding = window.innerWidth * 0.08;
-    
+
         if (width > 670) {
             padding = window.innerWidth * 0.06;
         }
@@ -32,25 +32,39 @@ class BeeSwarm extends React.Component {
                         .range(['#1c77c3', '#f285a5']);
 
         let x = d3.scaleLinear()
-                    .range([0 + padding, width - padding * 2]);
+                    .range([0 + padding * 0.1, width - padding * 2]);
 
-        let y = d3.scalePoint()
+
+        let y = d3.scaleLinear().range([0 + padding, height - 5]);
+
+        let y1 = d3.scalePoint()
                     .domain([...Object.keys(nationalities_dict)].sort())
-                    .range([0 + 50, height - 80]);
+                    .range([0 + 70, height - 100]);
+        
+        let y2 = d3.scalePoint()
+                    .domain(["male", "female"])
+                    .range([0 + 70, height - 100]);
 
         let size = d3.scaleSqrt()
-                        .range([2,18]);
+                        .range([1,15]);
 
         let ageAxis = d3.axisBottom(x)
                             .tickSize(height - 20);
-        let nationalityAxis = d3.axisRight(y).ticks().tickSize(width - window.innerWidth * 2);
+        let nationalityAxis = d3.axisRight(y1).ticks().tickSize(width - window.innerWidth * 2);
+        let genderAxis = d3.axisRight(y2).ticks().tickSize(width - window.innerWidth * 2);
 
+        // starting visualization with:
         let data_setX = "age";
-        let data_setY = "nationality";
+        let data_set = "none";
 
-        x.domain(d3.extent(data, function(d) {
+        let xdom = d3.extent(data, function(d) {
             d.age = +d.age;
             return d.age;
+        });
+        x.domain([xdom[0] - 8, xdom[1] + 5]);
+
+        y.domain(d3.extent(data, function (d) {
+            return parseInt(d.number);
         }));
 
         size.domain(d3.extent(data, function(d) {
@@ -63,31 +77,31 @@ class BeeSwarm extends React.Component {
                 .attr('cy', function(d){return d.y})
         };
 
-        var Tooltip = d3.select("#killingbees")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "5px")
+        var Tooltip = d3.select("body").append("div")
+            .attr("class", guide.Tooltip)
+            .style("opacity", 0)
+            .style("font-size", "18px");
 
-        var mouseover = function(d) {
-            Tooltip
-                .style("visibility", "visible");
-        }
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html(d.number)
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
 
-        var mousemove = function(d) {
+        var mmove = function(d) {
             Tooltip
                 .html(d.number)
-                .style("left", (d3.mouse(this)[0]+580) + "px")
-                .style("top", (d3.mouse(this)[1]-40) + "px")
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
         }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("visibility", "hidden")
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
         svg.append("g")
@@ -96,31 +110,25 @@ class BeeSwarm extends React.Component {
 
 
         svg.append("g")
-            .call(nationalityAxis)
             .attr("transform","translate(" + ( width - padding * 1.5 ) + ",0)")
-            .classed(classes.yAxis, true);
+            .classed(classes.yAxis, true)
+            .attr("id", "ya");
 
         svg.selectAll('.circ').data(data).enter()
             .append('circle').classed('circ', true)
             .attr('r', function(d) { return size(d.number) })
             .attr('cx', function(d){ return x(d.age); })
-            .attr('cy', function(d){ return y(d.nationality); })
+            .attr('cy', function(d){ return height/2; })
             .attr("fill", function(d) { return colors(d.sex); })
-            .on("mouseover", mouseover) 
-            .on("mousemove", mousemove)
-            .on("mouseout", mouseleave)
-            .call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+            .on("mouseover", mover) 
+            .on("mousemove", mmove)
+            .on("mouseout", mleave)
 
         let simulation = d3.forceSimulation(data)
                             .force('x', d3.forceX( function(d){
                                 return x(d[data_setX])
                             }).strength(0.99))
-                            .force('y', d3.forceY( function(d) {
-                                return y(d[data_setY])
-                            } ).strength(0.99))
+                            .force('y', d3.forceY( height/2 ).strength(0.99))
                             .force('collide', d3.forceCollide(function(d) {
                                 return size(d.number) + 1
                             }).iterations(32))
@@ -131,21 +139,6 @@ class BeeSwarm extends React.Component {
         simulation.force('collide', d3.forceCollide(function(d) {
             return size(d.number) + 1
         }).iterations(32));
-
-        function dragstarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(.03).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-        }
-        function dragended(d) {
-            if (!d3.event.active) simulation.alphaTarget(.03);
-            d.fx = null;
-            d.fy = null;
-        }
 
         d3.selectAll('.circ').on("mouseenter", function(d){
 
@@ -159,6 +152,67 @@ class BeeSwarm extends React.Component {
             d3.selectAll(".circ").style("opacity", 1)
           
         })
+
+
+
+
+        d3.selectAll('#btn_sel').on('click', function () {
+
+            data_set = this.value;
+
+            if (data_set === "nationality") {
+
+                let axisSelection = d3.select("#ya")
+                                        .call(nationalityAxis)
+                                        .classed(classes.yAxis, true)
+
+                axisSelection.selectAll('.tick text')
+                                .text(function(d){
+                                    return d;
+                                })
+                
+            } else if (data_set === "sex") {
+
+                let axisSelection = d3.select("#ya")
+                                        .call(genderAxis)
+                                        .classed(classes.yAxis, true)
+                                    
+                axisSelection.selectAll('.tick text')
+                                .text(function(d){
+                                    switch(d){
+                                        case "male":
+                                            return "Male";
+                                            break;
+                                        case "female":
+                                            return "Female";
+                                            break;
+                                    }
+                                })
+                                    
+            }
+
+
+            simulation.force('y', d3.forceY(function(d){
+
+                if (data_set === "nationality"){
+                  return y1(d[data_set])
+                }else if(data_set === "sex"){
+                  return y2(d[data_set])
+                }
+
+            }).strength(0.5))
+
+            simulation.force('collide', d3.forceCollide(function(d) {
+                return size(d.number) + 1
+            }).iterations(32))
+        
+            simulation
+              .alphaDecay(0.1)
+              .alpha(0.5)
+              .restart()
+
+
+        })
     }
 
 
@@ -171,7 +225,7 @@ class BeeSwarm extends React.Component {
                         return (
                             <div key={e} className={guide.GuideContainer}>
                                 <div className={guide.Square} style={{ backgroundColor: e === 'male' ? '#1c77c3' : '#f285a5' }}></div>
-                                <div className={guide.Text}>{e}</div>
+                                <div className={guide.Text}>{this.props.genders[e]}</div>
                             </div>
                         );
                     })

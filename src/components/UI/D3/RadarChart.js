@@ -7,6 +7,8 @@ class RadarChart extends React.Component {
     componentDidMount() {
 
         const data = this.props.data;
+        const ptt1 = this.props.personal_tooltip_1;
+        const tt1 = this.props.tooltip_1;
         const texts = this.props.emotionText;
         const colors = this.props.emotionColors;
 
@@ -42,8 +44,6 @@ class RadarChart extends React.Component {
             roundStrokes: false,	
             color: color
         };
-        
-        // var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
             
         var allAxis = (data[0].map(function(i, j){return i.axis})),	
             total = allAxis.length,					
@@ -51,45 +51,26 @@ class RadarChart extends React.Component {
             Format = function(v) { return Math.round(v * 100) + "%"; },
             angleSlice = Math.PI * 2 / total;		
         
-        //Scale for the radius
         var rScale = d3.scaleLinear()
             .range([0, radius])
             .domain([0, cfg.maxValue]);
-            
-        /////////////////////////////////////////////////////////
-        //////////// Create the container SVG and g /////////////
-        /////////////////////////////////////////////////////////
-    
-        //Remove whatever chart with the same id/class was present before
+
         d3.select(id).select("svg").remove();
         
-        //Initiate the radar chart SVG
         var svg = d3.select(id).append("svg")
                 .attr("width",  cfg.w + cfg.margin.left + cfg.margin.right)
                 .attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom)
-        //Append a g element		
         var g = svg.append("g")
                 .attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
         
-        /////////////////////////////////////////////////////////
-        ////////// Glow filter for some extra pizzazz ///////////
-        /////////////////////////////////////////////////////////
-        
-        //Filter for the outside glow
         var filter = g.append('defs').append('filter').attr('id','glow'),
             feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
             feMerge = filter.append('feMerge'),
             feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
             feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
-    
-        /////////////////////////////////////////////////////////
-        /////////////// Draw the Circular grid //////////////////
-        /////////////////////////////////////////////////////////
         
-        //Wrapper for the grid & axes
         var axisGrid = g.append("g").attr("class", "axisWrapper");
         
-        //Draw the background circles
         axisGrid.selectAll(".levels")
             .data(d3.range(1,(cfg.levels+1)).reverse())
             .enter()
@@ -101,7 +82,6 @@ class RadarChart extends React.Component {
             .style("fill-opacity", cfg.opacityCircles)
             .style("filter" , "url(#glow)");
     
-        //Text indicating at what % each level is
         axisGrid.selectAll(".axisLabel")
             .data(d3.range(1,(cfg.levels+1)).reverse())
             .enter().append("text")
@@ -113,17 +93,12 @@ class RadarChart extends React.Component {
             .attr("fill", "#000000")
             .text(function(d,i) { return Format(cfg.maxValue * d/cfg.levels); });
     
-        /////////////////////////////////////////////////////////
-        //////////////////// Draw the axes //////////////////////
-        /////////////////////////////////////////////////////////
-        
-        //Create the straight lines radiating outward from the center
         var axis = axisGrid.selectAll(".axis")
             .data(allAxis)
             .enter()
             .append("g")
             .attr("class", "axis");
-        //Append the lines
+
         axis.append("line")
             .attr("x1", 0)
             .attr("y1", 0)
@@ -138,7 +113,6 @@ class RadarChart extends React.Component {
             })
             .style("stroke-width", "1px");
     
-        //Append the labels at each axis
         axis.append("text")
             .attr("class", "legend")
             .style("font-size", "11px")
@@ -156,28 +130,28 @@ class RadarChart extends React.Component {
             })
             .call(wrap, cfg.wrapWidth);
     
-        /////////////////////////////////////////////////////////
-        ///////////// Draw the radar chart blobs ////////////////
-        /////////////////////////////////////////////////////////
-        
-        //The radial line function
         var radarLine = d3.lineRadial()
-            //.interpolate("linear-closed")
             .radius(function(d) { return rScale(d.value); })
             .angle(function(d,i) {	return i*angleSlice; })
             .curve(d3.curveCardinalClosed);
             
-        if(cfg.roundStrokes) {
-            radarLine.interpolate("cardinal-closed");
-        }
+        // if(cfg.roundStrokes) {
+        //     radarLine.interpolate("cardinal-closed");
+        // }
+
+        var Tooltip = d3.select("body").append("div")
+            .attr("class", guide.Tooltip)
+            .style("opacity", 0)
+            .style("font-size", "15px")
+            .style("padding", "8px")
+            .style("max-width", "128px")
+            .style("text-align", "center");
                     
-        //Create a wrapper for the blobs	
         var blobWrapper = g.selectAll(".radarWrapper")
             .data(data)
             .enter().append("g")
             .attr("class", "radarWrapper");
                 
-        //Append the backgrounds	
         blobWrapper
             .append("path")
             .attr("class", "radarArea")
@@ -188,19 +162,52 @@ class RadarChart extends React.Component {
                 d3.selectAll(".radarArea")
                     .transition().duration(200)
                     .style("fill-opacity", 0.1); 
-                //Bring back the hovered over blob
                 d3.select(this)
                     .transition().duration(200)
                     .style("fill-opacity", 0.7);	
+                if (i === 0) {
+                    Tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    Tooltip.html(tt1 + obj[i] + "%")
+                        .style("left", (d3.event.pageX + 16) + "px")
+                        .style("top", (d3.event.pageY - 24) + "px");
+                } else {
+                    Tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    Tooltip.html(ptt1 + obj[i] + "%")
+                        .style("left", (d3.event.pageX + 16) + "px")
+                        .style("top", (d3.event.pageY - 24) + "px");
+                }
+                
+            })
+            .on("mousemove", function(d,i){
+                if (i === 0) {
+                    Tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    Tooltip.html("Gli altri utenti hanno, in media, un'accuratezza del " + obj[i] + "%")
+                        .style("left", (d3.event.pageX + 16) + "px")
+                        .style("top", (d3.event.pageY - 24) + "px");
+                } else {
+                    Tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    Tooltip.html("Hai un'accuratezza media del " + obj[i] + "%")
+                        .style("left", (d3.event.pageX + 16) + "px")
+                        .style("top", (d3.event.pageY - 24) + "px");
+                }
             })
             .on('mouseout', function(){
-                //Bring back all blobs
                 d3.selectAll(".radarArea")
                     .transition().duration(200)
                     .style("fill-opacity", cfg.opacityArea);
+                Tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
             });
             
-        //Create the outlines	
         blobWrapper.append("path")
             .attr("class", "radarStroke")
             .attr("d", function(d,i) { return radarLine(d); })
@@ -209,7 +216,6 @@ class RadarChart extends React.Component {
             .style("fill", "none")
             .style("filter" , "url(#glow)");		
         
-        //Append the circles
         blobWrapper.selectAll(".radarCircle")
             .data(function(d,i) { return d; })
             .enter().append("circle")
@@ -220,17 +226,12 @@ class RadarChart extends React.Component {
             .style("fill", function(d,i,j) { return cfg.color(j); })
             .style("fill-opacity", 0.8);
     
-        /////////////////////////////////////////////////////////
-        //////// Append invisible circles for tooltip ///////////
-        /////////////////////////////////////////////////////////
         
-        //Wrapper for the invisible circles on top
         var blobCircleWrapper = g.selectAll(".radarCircleWrapper")
             .data(data)
             .enter().append("g")
             .attr("class", "radarCircleWrapper");
             
-        //Append a set of invisible circles on top for the mouseover pop-up
         blobCircleWrapper.selectAll(".radarInvisibleCircle")
             .data(function(d,i) { return d; })
             .enter().append("circle")
@@ -256,14 +257,10 @@ class RadarChart extends React.Component {
                     .style("opacity", 0);
             });
             
-        //Set up the small tooltip for when you hover over a circle
         var tooltip = g.append("text")
             .attr("class", "tooltip")
             .style("opacity", 0);
         
-        /////////////////////////////////////////////////////////
-        /////////////////// Helper Function /////////////////////
-        /////////////////////////////////////////////////////////
     
         function wrap(text, width) {
             text.each(function() {

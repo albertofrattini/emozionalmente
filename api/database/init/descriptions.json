@@ -609,6 +609,12 @@
     {
         "language": "it",
         "page": "user",
+        "position": "user-age",
+        "content": "Età: "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "user-listen",
         "content": "Ascolti"
     },
@@ -621,8 +627,8 @@
     {
         "language": "it",
         "page": "user",
-        "position": "user-select",
-        "content": "Scegli Grafico"
+        "position": "user-mean",
+        "content": "Media: "
     },
     {
         "language": "it",
@@ -647,6 +653,30 @@
         "page": "user",
         "position": "graph-circular-3",
         "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-tooltip-1",
+        "content": " ha ascoltato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-tooltip-2",
+        "content": " registrazioni!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-tooltip-personal-1",
+        "content": "Hai ascoltato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-tooltip-personal-2",
+        "content": " registrazioni!"
     },
     {
         "language": "it",
@@ -677,6 +707,18 @@
         "page": "user",
         "position": "graph-radar-3",
         "content": "%."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-tooltip-1",
+        "content": "Gli altri utenti hanno, in media, un'accuratezza del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-tooltip-personal-1",
+        "content": "Hai un'accuratezza media del "
     },
     {
         "language": "it",
@@ -737,6 +779,30 @@
         "page": "user",
         "position": "graph-radial-3",
         "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-tooltip-1",
+        "content": " ha effettuato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-tooltip-2",
+        "content": " registrazioni!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-tooltip-personal-1",
+        "content": "Hai effettuato "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-tooltip-personal-2",
+        "content": " registrazioni!"
     },
     {
         "language": "it",
@@ -851,6 +917,12 @@
     {
         "language": "en",
         "page": "user",
+        "position": "user-age",
+        "content": "Età: "
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "user-listen",
         "content": "Ascolti"
     },
@@ -863,7 +935,7 @@
     {
         "language": "en",
         "page": "user",
-        "position": "user-select",
+        "position": "user-mean",
         "content": "Scegli Grafico"
     },
     {
@@ -889,6 +961,30 @@
         "page": "user",
         "position": "graph-circular-3",
         "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-tooltip-1",
+        "content": " ha ascoltato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-tooltip-2",
+        "content": " registrazioni!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-tooltip-personal-1",
+        "content": "Hai ascoltato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-tooltip-personal-2",
+        "content": " registrazioni!"
     },
     {
         "language": "en",
@@ -919,6 +1015,18 @@
         "page": "user",
         "position": "graph-radar-3",
         "content": "%."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-tooltip-1",
+        "content": "Gli altri utenti hanno, in media, un'accuratezza del "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-tooltip-personal-1",
+        "content": "Hai un'accuratezza media del "
     },
     {
         "language": "en",
@@ -979,6 +1087,30 @@
         "page": "user",
         "position": "graph-radial-3",
         "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-tooltip-1",
+        "content": " ha effettuato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-tooltip-2",
+        "content": " registrazioni!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-tooltip-personal-1",
+        "content": "Hai effettuato "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-tooltip-personal-2",
+        "content": " registrazioni!"
     },
     {
         "language": "en",
@@ -1046,6 +1178,12 @@
         "position": "graph-speakpie-sub",
         "content": "Ogni spicchio della torta rappresenta un'emozione con la quale è stata riconosciuta l'emozione di che hai voluto esprimere: "
     },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-error",
+        "content": "Mi dispiace, ma non abbiamo trovato nessuna informazione"
+    },
 
 
 
@@ -1062,6 +1200,12 @@
         "page": "database",
         "position": "db-title",
         "content": "Il Database di Emozioni"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-lang-select",
+        "content": "Verranno visualizzati i dati del Database"
     },
     {
         "language": "it",
@@ -1204,6 +1348,18 @@
     {
         "language": "it",
         "page": "database",
+        "position": "db-packing-tooltip-1",
+        "content": " registrazioni sono state ascoltate "
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-packing-tooltip-2",
+        "content": " volte"
+    },
+    {
+        "language": "it",
+        "page": "database",
         "position": "db-comppie-name",
         "content": "Riconoscimento emozionale"
     },
@@ -1259,8 +1415,17 @@
         "language": "it",
         "page": "database",
         "position": "db-error",
-        "content": "Nessuna informazione è stata trovata con questi filtri... Provane altri!"
+        "content": "La ricerca effettuata con questi filtri non ha prodotto risultati. Prova a cambiare i filtri applicati, azzerali oppure cambia lingua del database."
     },
+
+
+
+    
+
+
+
+
+
 
 
 
@@ -1269,6 +1434,12 @@
         "page": "database",
         "position": "db-title",
         "content": "Il Database di Emozioni"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-lang-select",
+        "content": "Verranno visualizzati i dati del Database"
     },
     {
         "language": "en",
@@ -1411,6 +1582,18 @@
     {
         "language": "en",
         "page": "database",
+        "position": "db-packing-tooltip-1",
+        "content": " registrazioni sono state ascoltate "
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-packing-tooltip-2",
+        "content": " volte"
+    },
+    {
+        "language": "en",
+        "page": "database",
         "position": "db-comppie-name",
         "content": "Riconoscimento emozionale"
     },
@@ -1466,7 +1649,7 @@
         "language": "en",
         "page": "database",
         "position": "db-error",
-        "content": "Nessuna informazione è stata trovata con questi filtri... Provane altri!"
+        "content": "La ricerca effettuata con questi filtri non ha prodotto risultati. Prova a cambiare i filtri applicati, azzerali oppure cambia lingua del database."
     },
 
 

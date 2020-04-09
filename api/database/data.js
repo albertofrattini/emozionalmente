@@ -138,9 +138,10 @@ module.exports.getUserEvaluationContribution = async function (user) {
  * DATABASE
  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gender, nationality) {
+module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gender, nationality, lang) {
     let countQuery = db('evaluated')
                         .join('users', 'evaluated.evaluator', '=', 'users.username')
+                        .where('evaluated.language', lang)
                         .where('users.age', '>=', minAge)
                         .where('users.age', '<=', maxAge)
                         .whereNot('users.username', 'emovo');
@@ -156,6 +157,7 @@ module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gende
     for(var i = quantities.min; i <= quantities.max; i++) {
         let query = db('evaluated')
                         .join('users', 'evaluated.evaluator', '=', 'users.username')
+                        .where('evaluated.language', lang)
                         .where('users.age', '>=', minAge)
                         .where('users.age', '<=', maxAge)
                         .whereNot('users.username', 'emovo');
@@ -177,10 +179,11 @@ module.exports.getEvaluationsPerQuantity = async function (minAge, maxAge, gende
     return result;
 }
 
-module.exports.getSamplesEmotionRecognizedAs = function (currentuser, v, minAge, maxAge, gender, nationality, refEmotion) {
+module.exports.getSamplesEmotionRecognizedAs = function (currentuser, v, minAge, maxAge, gender, nationality, refEmotion, lang) {
     let query = db('samples')
                     .join('users', 'samples.speaker', '=', 'users.username')
                     .where('samples.emotion', refEmotion)
+                    .where('samples.language', lang)
                     .join('evaluated', 'samples.id', '=', 'evaluated.sampleid');
     if (currentuser && !v) {
         query = query.where('evaluated.evaluator', currentuser);
@@ -201,9 +204,10 @@ module.exports.getSamplesEmotionRecognizedAs = function (currentuser, v, minAge,
     return query.select('samples.emotion', 'evaluated.emotion').count('* as value');
 }
 
-module.exports.getAllSamples = function (minAge, maxAge, gender, nationality) {
+module.exports.getAllSamples = function (minAge, maxAge, gender, nationality, lang) {
     let query = db('samples')
                     .join('users', 'samples.speaker', '=', 'users.username')
+                    .where('samples.language', lang)
                     .where('users.age', '>=', minAge)
                     .where('users.age', '<=', maxAge)
                     .whereNot('users.username', 'emovo');
@@ -217,10 +221,11 @@ module.exports.getAllSamples = function (minAge, maxAge, gender, nationality) {
     return query.select('*');
 }
 
-module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality) {
+module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality, lang) {
     let query = db('evaluated')
                 .join('samples', 'evaluated.sampleid', '=', 'samples.id')
                 .join('users', 'evaluated.evaluator', '=', 'users.username')
+                .where('evaluated.language', lang)
                 .where('users.age', '>=', minAge)
                 .where('users.age', '<=', maxAge)
                 .whereNot('users.username', 'emovo');
@@ -287,26 +292,22 @@ module.exports.getAllEvaluations = function (minAge, maxAge, gender, nationality
     return general;
 }
 
-module.exports.getUserListenComparisonWithOthers = async function (user) {
-    const id = await db.select('id').from('users').where('username', user);
-    const values = await db.select('users.id as id').count('users.id as value').from('users')
+module.exports.getUserListenComparisonWithOthers = async function () {
+    const values = await db.select('users.username as id').count('users.id as value').from('users')
                             .join('evaluated', 'evaluated.evaluator', '=', 'users.username')
                             .groupBy('users.id');
     return {
-        uid: id,
         values: values
     }
 }
 
-module.exports.getUserSpeakComparisonWithOthers = async function (user) {
-    const id = await db.select('id').from('users').where('username', user);
-    const values = await db.select('users.id as id', 'samples.emotion as emotion').count('* as value').from('samples')
+module.exports.getUserSpeakComparisonWithOthers = async function () {
+    const values = await db.select('users.username as id', 'samples.emotion as emotion').count('* as value').from('samples')
                             .join('users', 'samples.speaker', '=', 'users.username')
                             .whereNot('username', 'emovo')
                             .groupBy('users.id', 'samples.emotion')
                             .orderBy('users.id');
     return {
-        uid: id,
         values: values
     }       
 }

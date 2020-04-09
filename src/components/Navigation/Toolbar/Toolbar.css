@@ -34,7 +34,7 @@
 }
 
 .Select {
-    width: 64px;
+    width: auto;
     height: 40px;
     text-transform: uppercase;
     background-color: white;

@@ -20,11 +20,16 @@ class Database extends Component {
         graphId: 'bee',
         nationalitiesDict: null,
         genderDict: null,
-        content: {}
+        content: {},
+        languages: [],
+        currentLanguage: 'it'
     }
 
     async componentDidMount () {
 
+        const lang = await axios.get('/api/availablelanguages');
+        const languages = lang.data.available;
+        const currlang = lang.data.curr;
         const descriptions = await axios.get('/api/descriptions/database');
         const content = {};
         descriptions.data.map(el => {
@@ -45,22 +50,45 @@ class Database extends Component {
             colors[emotionNames[i]] = emotionColors[i];
             names[emotionNames[i]] = emotionText[i];
         }
-        const users = await axios.get('/api/data/database/users' + '?min=' + this.state.minAge + '&max=' + this.state.maxAge);
+        const users = await axios.get('/api/data/database/users' + '?min=' + this.state.minAge 
+                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
         const data = users.data;
         const nationalitiesDict = {};
-        const genderDict = {};
+        const genderDict = {
+            male: content['db-male'],
+            female: content['db-female']
+        };
         users.data.forEach(e => {
             if (!nationalitiesDict[e.nationality]) {
                 nationalitiesDict[e.nationality] = 0;
             }
-            if (!genderDict[e.sex]) {
-                genderDict[e.sex] = 0;
-            } 
             nationalitiesDict[e.nationality] += 1;
-            genderDict[e.sex] += 1;
         });
-        
+        const samples = await axios.get('/api/data/database/samples' + '?min=' + this.state.minAge 
+                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
+        const evaluations = await axios.get('/api/data/database/evaluations' + '?min=' + this.state.minAge 
+                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
+        let maxDaySamples = 0;
+        samples.data.forEach(e => {
+            let t = 0;
+            emotionNames.forEach(n => {
+                t += e[n];
+            });
+            if (t > maxDaySamples) maxDaySamples = t;
+        });
+        let maxDayEvaluations = 0;
+        evaluations.data.scatter.forEach(e => {
+            if (e.value > maxDayEvaluations) maxDayEvaluations = e.value;
+        });
+
+        const db = samples.data[0].date.substring(7,9) + " " 
+                    + samples.data[0].date.substring(3,6) + " " 
+                    + samples.data[0].date.substring(0,2) + " 00:00:00 GMT";
+        const allDays = getDates(new Date(Date.parse(db)), new Date(Date.now()));
+
         this.setState({
+            languages: languages,
+            currentLanguage: currlang,
             content: content,
             emotionText: emotionText,
             emotionNames: emotionNames,
@@ -72,7 +100,9 @@ class Database extends Component {
             data: data,
             selectedEmotion: emotionNames[0],
             isDownloading: false,
-            content: content
+            allDays: allDays,
+            maxDaySamples: maxDaySamples,
+            maxDayEvaluations: maxDayEvaluations
         });
 
     }
@@ -91,7 +121,7 @@ class Database extends Component {
 
         let data = [];
 
-        let filter = '?min=' + this.state.minAge + '&max=' + this.state.maxAge;
+        let filter = '?min=' + this.state.minAge + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage;
         if (this.state.sexFilter !== '') {
             filter = filter + '&s=' + this.state.sexFilter;
         }
@@ -150,8 +180,10 @@ class Database extends Component {
     }
 
     resetFilters = () => {
-        document.getElementById('nationalities-select').selectedIndex = 0;
-        document.getElementById('gender-select').selectedIndex = 0;
+        if (document.getElementById('nationalities-select')) {
+            document.getElementById('nationalities-select').selectedIndex = 0;
+            document.getElementById('gender-select').selectedIndex = 0;
+        }
         document.getElementById('min-age').value = 0;
         document.getElementById('max-age').value = 100;
         this.setState({
@@ -210,6 +242,19 @@ class Database extends Component {
                         this.state.data.forEach(e => {
                             total += parseInt(e.number);
                         });
+                        filters = (
+                            <div className={classes.FilterRow}>
+                                <p>{this.state.content['db-filters']}</p>
+                                <input id="min-age" defaultValue={this.state.minAge} type="number" 
+                                    onChange={e => this.setState({ minAge: e.target.value })}></input>
+                                <input id="max-age" defaultValue={this.state.maxAge} type="number"
+                                    onChange={e => this.setState({ maxAge: e.target.value })}></input>
+                                <button id="btn_sel" value="sex">{this.state.content['db-gender']}</button>
+                                <button id="btn_sel" value="nationality">{this.state.content['db-nationality']}</button>
+                                <button onClick={this.resetFilters}>{this.state.content['db-clear']}</button>
+                                <button onClick={this.applyFilters}>{this.state.content['db-apply']}</button>
+                            </div>
+                        );
                         filteredGraph = (
                             <BeeSwarm 
                                 data={this.state.data}
@@ -223,13 +268,17 @@ class Database extends Component {
                                     data={this.state.data}
                                     emotionText={this.state.emotionText}
                                     emotionNames={this.state.emotionNames}
-                                    emotionColors={this.state.emotionColors}/>
+                                    emotionColors={this.state.emotionColors}
+                                    allDays={this.state.allDays}
+                                    maxValue={this.state.maxDaySamples}/>
                         );
                         break;
                     case 'scatter':
                         filteredGraph = (
                             <ConnectedScatter
-                                    data={this.state.data}/>
+                                    data={this.state.data}
+                                    allDays={this.state.allDays}
+                                    maxValue={this.state.maxDayEvaluations}/>
                         );
                         break;
                     case 'packing':
@@ -239,7 +288,9 @@ class Database extends Component {
                         })
                         filteredGraph = (
                             <CircularPacking 
-                                    data={this.state.data}/>
+                                    data={this.state.data}
+                                    tooltip_1={this.state.content['db-packing-tooltip-1']}
+                                    tooltip_2={this.state.content['db-packing-tooltip-2']}/>
                         );
                         break;
                     case 'comppie':
@@ -248,7 +299,12 @@ class Database extends Component {
                                 {
                                     this.state.emotionNames.map((e, i) => {
                                         return  <div className={classes.Emotion}
-                                                    style={{ backgroundColor: this.state.colorDict[e] }}
+                                                    style={{ 
+                                                        backgroundColor: this.state.colorDict[e], 
+                                                        padding: this.state.selectedEmotion === e ? '14px' : '8px',
+                                                        boxShadow: this.state.selectedEmotion === e ? 
+                                                                    '0 2px 8px rgba(0, 0, 0, 0.2)' : 'none'
+                                                    }}
                                                     onClick={() => this.setState({
                                                         isDownloading: true,
                                                         selectedEmotion: e,
@@ -297,7 +353,8 @@ class Database extends Component {
                                 emotionColors={this.state.emotionColors}/>
                         );
                     default:
-                        console.log('graph not found!');    
+                        console.log('graph not found!');  
+                        break;  
 
                 }
 
@@ -317,11 +374,51 @@ class Database extends Component {
                 <p>{this.state.content['db-' + this.state.graphId + '-2']}</p>
             </React.Fragment>
         );
+
+        let languages = [...Object.keys(this.state.languages)];
+        let languageOptions = languages.length > 0 ?
+            languages.map((el, i) => {
+                return (
+                    <option key={i} value={el}>
+                        {this.state.languages[this.state.currentLanguage][el]}
+                    </option>
+                );    
+            })
+            :
+            null;
+
+        let languageSelector = languages.length > 0 ?
+            <select defaultValue={this.state.currentLanguage} 
+                style={{ 
+                    color: 'var(--text-dark)', 
+                    border: '1px solid var(--text-dark)',
+                    minWidth: 'auto',
+                    fontSize: '12px',
+                    minWidth: '92px',
+                    height: '32px'
+                }}
+                onChange={event => this.setState({ 
+                    currentLanguage: event.target.value,
+                    isDownloading: true 
+                    })}>
+                {languageOptions}
+            </select>
+            :
+            null;
+
+        let langSelect = (
+            <div className={classes.FilterRow}>
+                <h4>{this.state.content['db-lang-select']}</h4>
+                {languageSelector}
+            </div>
+        );
+
         
         return (
             <div className={classes.Content}>
                 <div className={classes.Filters}>
                     <h1>{this.state.content['db-title']}</h1>
+                    {langSelect}
                     {filters}
                     <div className={classes.SectionFilter}>
                         <div className={classes.Drawer}>
@@ -348,7 +445,7 @@ class Database extends Component {
                                 </div>
                             </div>
                         </div>
-                        {this.state.content['db-select']}
+                        {this.state.content['db-' + this.state.graphId + '-name']}
                         <div className={classes.Icon}>
                             <div style={{ width: '24px' }}></div>
                             <div style={{ width: '16px' }}></div>
@@ -365,6 +462,24 @@ class Database extends Component {
         );
     }
 
+}
+
+
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date(currentDate));
+        currentDate = currentDate.addDays(1);
+    }
+    return dateArray;
 }
 
 export default Database;

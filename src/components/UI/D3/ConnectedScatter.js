@@ -1,21 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
+import guide from './Guide.css';
 
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
-    return date;
-}
-
-function getDates(startDate, stopDate) {
-    var dateArray = [];
-    var currentDate = startDate;
-    while (currentDate <= stopDate) {
-        dateArray.push(new Date(currentDate));
-        currentDate = currentDate.addDays(1);
-    }
-    return dateArray;
-}
 
 class ConnectedScatter extends React.Component {
 
@@ -23,20 +9,7 @@ class ConnectedScatter extends React.Component {
     componentDidMount () {
 
         var data = this.props.data;
-        if (data.length === 1) {
-            const begin = {
-                date: '20-Mar-04',
-                value: 0
-            }
-            data.unshift(begin);
-        }
-        const l = data.length - 1;
-        const db = data[0].date.substring(7,9) + " " + data[0].date.substring(3,6) + " " + data[0].date.substring(0,2) + " 00:00:00 GMT";
-        const de = data[l].date.substring(7,9) + " " + data[l].date.substring(3,6) + " " + data[l].date.substring(0,2) + " 00:00:00 GMT";
-        const begin = Date.parse(db);
-        const end = Date.parse(de);
-        const alldays = getDates(new Date(begin), new Date(end));
-        const alldates = alldays.map(element => {
+        const alldates = this.props.allDays.map(element => {
             let values = null;
             const str = element.toString();
             const strDate = str.substring(13,15) + '-' + str.substring(4,7) + '-' + str.substring(8,10);
@@ -69,44 +42,40 @@ class ConnectedScatter extends React.Component {
                 "translate(" + margin.left + "," + margin.top + ")");
 
 
-        var minValue = 0;
-        var maxValue = 0;
+        // var minValue = 0;
+        // var maxValue = 0;
         var dataReady = data.map(e => {
-            if (e.value > maxValue) {
-                maxValue = e.value;
-            }
+            // if (e.value > maxValue) {
+            //     maxValue = e.value;
+            // }
             return {
                 date: d3.timeParse("%y-%b-%d")(e.date),
                 value: e.value
             };
         });
 
-        var Tooltip = d3.select("#chartscatter")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "5px")
 
-        var mouseover = function(d) {
-            Tooltip
-                .style("visibility", "visible");
-        }
-        
-        var mousemove = function(d) {
-            Tooltip
-                .html(d.value)
-                .style("left", (d3.mouse(this)[0]+650) + "px")
-                .style("top", (d3.mouse(this)[1]+0) + "px")
+        var Tooltip = d3.select("body").append("div")
+                .attr("class", guide.Tooltip)
+                .style("opacity", 0);
+
+        var mover = function(d) {
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html('<div style="background-color: #efefef; padding: 8px; margin-bottom: 8px">' 
+                        + d3.timeFormat("%e/%m/%Y")(d.date) + '</div><div style="font-size: 16px; font-weight: 800;">' 
+                        + d.value + '</div>')
+                .style("left", (d3.event.pageX + 8) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
+        } 
+
+        var mleave = function(d) {
+            Tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         }
 
-        var mouseleave = function(d) {
-            Tooltip
-                .style("visibility", "hidden")
-        }
 
         
         var x = d3.scaleTime()
@@ -115,10 +84,10 @@ class ConnectedScatter extends React.Component {
         
         svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+                .call(d3.axisBottom(x).ticks(d3.timeDay.every(4)).tickFormat(d3.timeFormat('%d/%m')));
                 
         var y = d3.scaleLinear()
-                    .domain( [minValue, maxValue + 10])
+                    .domain( [0, this.props.maxValue + 10])
                     .range([ height, 0 ]);
        
         svg.append("g")
@@ -134,34 +103,39 @@ class ConnectedScatter extends React.Component {
                 .y(function(d) { return y(d.value) })
                 )
 
-        svg
-            .append("g")
+        
+
+
+        svg.append("g")
             .selectAll("dot")
             .data(dataReady)
             .enter()
             .append("circle")
                 .attr("cx", function(d) { return x(d.date) } )
                 .attr("cy", function(d) { return y(d.value) } )
-                .attr("r", 5)
+                .attr("r", 4)
                 .attr("fill", "#69b3a2")
                 .style("opacity", function(d) { 
                     if(d.value === 0) return 0; 
                     else return 1;
                 })
-                .on("mouseover", mouseover) 
-                .on("mousemove", mousemove)
-                .on("mouseout", mouseleave)
+                .on("mouseover", mover)
+                .on("mouseout", mleave)
         
         d3.selectAll('circle').on("mouseenter", function(d){
 
-            d3.selectAll("circle").style("opacity", 0.1)
+            d3.selectAll("circle").style("opacity", 0)
             d3.select(this).style("opacity", 1)
+
         
         })
 
         d3.selectAll('circle').on("mouseleave", function(d){
       
-            d3.selectAll("circle").style("opacity", 1)
+            d3.selectAll("circle").style("opacity", function(d) { 
+                if(d.value === 0) return 0; 
+                else return 1;
+            })
           
         })
 

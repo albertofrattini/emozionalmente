@@ -9,6 +9,7 @@ const contributedb = require('./database/contribute');
 const loggerdb = require('./database/logger');
 
 const emotions = require('./database/init/emotions.json');
+const languages = require('./database/init/languages.json');
 
 const path = require('path');
 const Joi = require('joi');
@@ -59,7 +60,7 @@ module.exports = function (app) {
 
         res.send({
             curr: req.session.lang,
-            available: [...Object.keys(emotions)]
+            available: languages
         });
 
     });
@@ -244,10 +245,11 @@ module.exports = function (app) {
 
         const minAge = req.query.min;
         const maxAge = req.query.max;
+        const lang = req.query.l;
         const sex = req.query.s ? req.query.s : '';
         const nationality = req.query.n ? req.query.n : '';
 
-        datadb.getAllSamples(minAge, maxAge, sex, nationality)
+        datadb.getAllSamples(minAge, maxAge, sex, nationality, lang)
             .then(result => {
                 let samples = []
                 const dates = {}
@@ -279,10 +281,11 @@ module.exports = function (app) {
         
         const minAge = req.query.min;
         const maxAge = req.query.max;
+        const lang = req.query.l;
         const sex = req.query.s ? req.query.s : '';
         const nationality = req.query.n ? req.query.n : '';
 
-        userdb.getAllUsers(minAge, maxAge, sex, nationality)
+        userdb.getAllUsers(minAge, maxAge, sex, nationality, lang)
             .then(result => {
                 res.send(result);
             })
@@ -296,6 +299,7 @@ module.exports = function (app) {
 
         const minAge = req.query.min;
         const maxAge = req.query.max;
+        const lang = req.query.l;
         const sex = req.query.s ? req.query.s : '';
         const nationality = req.query.n ? req.query.n : '';
         const values = {
@@ -303,11 +307,11 @@ module.exports = function (app) {
             scatter: []
         }
 
-        datadb.getEvaluationsPerQuantity(minAge, maxAge, sex, nationality)
+        datadb.getEvaluationsPerQuantity(minAge, maxAge, sex, nationality, lang)
             .then(quantity => {
 
                 values.quantity = [...quantity];
-                datadb.getAllEvaluations(minAge, maxAge, sex, nationality)
+                datadb.getAllEvaluations(minAge, maxAge, sex, nationality, lang)
                     .then(result => {
                         let scatter = []
                         const dates = {}
@@ -344,16 +348,18 @@ module.exports = function (app) {
         const v = req.query.v;
         let minAge = 0;
         let maxAge = 100;
+        let lang = 'it';
         let sex = '';
         let nationality = '';
         if (!user) {
             minAge = parseInt(req.query.min);
             maxAge = parseInt(req.query.max);
+            lang = req.query.l;
             sex = req.query.s ? req.query.s : '';
             nationality = req.query.n ? req.query.n : '';
         }
 
-        datadb.getSamplesEmotionRecognizedAs(user, v, minAge, maxAge, sex, nationality, emotion)
+        datadb.getSamplesEmotionRecognizedAs(user, v, minAge, maxAge, sex, nationality, emotion, lang)
             .then(result => {
                 res.send(result);
             })
@@ -367,10 +373,11 @@ module.exports = function (app) {
 
         const minAge = req.query.min;
         const maxAge = req.query.max;
+        const lang = req.query.l;
         const sex = req.query.s ? req.query.s : '';
         const nationality = req.query.n ? req.query.n : '';
 
-        datadb.getAllEvaluations(minAge, maxAge, sex, nationality)
+        datadb.getAllEvaluations(minAge, maxAge, sex, nationality, lang)
             .then(result => {
                 const dates = {}
                 const day = {}
@@ -427,7 +434,10 @@ module.exports = function (app) {
 
         datadb.getUserListenComparisonWithOthers(user)
             .then(result => {
-                res.send(result);
+                res.send({
+                    uid: user,
+                    ...result
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -441,7 +451,10 @@ module.exports = function (app) {
 
         datadb.getUserSpeakComparisonWithOthers(user)
             .then(result => {
-                res.send(result);
+                res.send({
+                    uid: user,
+                    ...result
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -565,7 +578,8 @@ module.exports = function (app) {
             username: user.username,
             email: user.email,
             sex: user.sex,
-            nationality: user.nationality
+            nationality: user.nationality,
+            age: user.age
         };
         req.session.admin = user.admin;
         req.session.loggedin = true;

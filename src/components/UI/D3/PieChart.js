@@ -1,6 +1,7 @@
 import React from 'react';
 import * as d3 from 'd3';
 import guide from './Guide.css';
+import { dragDisable } from 'd3';
 
 class PieChart extends React.Component {
 
@@ -9,6 +10,7 @@ class PieChart extends React.Component {
         const names = this.props.emotionNames;
         const colors = this.props.emotionColors;
         const texts = this.props.textDict;
+        const coldict = this.props.colorDict;
         const selectEmotion = this.props.selectedEmotion;
         const valuesCallback = this.props.valuesCallback;
         const retrievedData = this.props.data;
@@ -58,15 +60,19 @@ class PieChart extends React.Component {
                         .range(colors);
 
 
-        var Tooltip = d3.select("#comparisonchartpie")
-                            .append("div")
-                            .style("position", "absolute")
-                            .style("visibility", "hidden")
-                            .style("background-color", "white")
-                            .style("border", "solid")
-                            .style("border-width", "1px")
-                            .style("border-radius", "4px")
-                            .style("padding", "8px")
+        // var Tooltip = d3.select("#comparisonchartpie")
+        //                     .append("div")
+        //                     .style("position", "absolute")
+        //                     .style("visibility", "hidden")
+        //                     .style("background-color", "white")
+        //                     .style("border", "solid")
+        //                     .style("border-width", "1px")
+        //                     .style("border-radius", "4px")
+        //                     .style("padding", "8px")
+
+        var Tooltip = d3.select("body").append("div")
+                .attr("class", guide.Tooltip)
+                .style("opacity", 0);
 
         // Compute the position of each group on the pie:
         var pie = d3.pie()
@@ -106,18 +112,27 @@ class PieChart extends React.Component {
 
         d3.selectAll('path').on("mouseover", function(d){
 
-            Tooltip.style("visibility", "visible");
             d3.selectAll("path").style("opacity", 0.5)
             d3.select(this).style("opacity", 1)
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+            Tooltip.html('<div style="background-color:' + coldict[d.data.key] + '; padding: 8px; margin-bottom: 8px; color: white;">' 
+                        + texts[d.data.key] + '</div><div style="font-size: 16px; font-weight: 800;">' 
+                        + Math.round((d.value/total) * 100) + "%" + '</div>')
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px");
         
         })
 
         d3.selectAll('path').on("mousemove", function(d){
 
             Tooltip
-                .html(Math.round((d.value/total) * 100) + "%")
-                .style("left", (d3.mouse(this)[0]+800) + "px")
-                .style("top", (d3.mouse(this)[1]+200) + "px")
+                .html('<div style="background-color:' + coldict[d.data.key] + '; padding: 8px; margin-bottom: 8px; color: white;">' 
+                        + texts[d.data.key] + '</div><div style="font-size: 16px; font-weight: 800;">' 
+                        + Math.round((d.value/total) * 100) + "%" + '</div>')
+                .style("left", (d3.event.pageX + 16) + "px")
+                .style("top", (d3.event.pageY - 24) + "px")
             
         
         })
@@ -125,7 +140,9 @@ class PieChart extends React.Component {
         d3.selectAll('path').on("mouseleave", function(d){
         
             d3.selectAll("path").style("opacity", 1)
-            Tooltip.style("visibility", "hidden")
+            Tooltip.transition()
+                .duration(200)
+                .style("opacity", 0);
             
         })
 
@@ -133,24 +150,10 @@ class PieChart extends React.Component {
 
     render () {
 
-        let orderedData = this.props.data.sort((a, b) => a.value <= b.value ? 1 : -1);
-        let emotions = orderedData.map(e => {
-            let style = {
-                backgroundColor: this.props.colorDict[e.emotion]
-            }
-            let text = this.props.textDict[e.emotion] + (e.emotion === this.props.selectedEmotion ? ' (Emozione Corretta)' : '');
-            return (
-                <div className={guide.GuideContainer} key={e.emotion}>
-                    <div className={guide.Square} style={style}></div>
-                    <div className={guide.Text}>{text}</div>
-                </div>
-            );
-        });
-
         return (
             <React.Fragment>
-                {emotions}
-                <div style={{ marginTop: '16px' }} id="comparisonchartpie"></div>
+                {/* {emotions} */}
+                <div style={{ marginTop: '48px' }} id="comparisonchartpie"></div>
             </React.Fragment>
         );
     }

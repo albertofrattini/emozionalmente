@@ -12,7 +12,7 @@ class Toolbar extends Component {
 
     state = {
         opacity: 0,
-        languages: [],
+        languages: {},
         currLanguage: ''
     }
 
@@ -44,18 +44,19 @@ class Toolbar extends Component {
     render () {
 
         const navItems = [classes.DesktopOnly, classes.LinksAndLogin].join(' ');
-
-        let languageOptions = this.state.languages.length > 0 ?
-            this.state.languages.map((el, i) => {
-                if (this.state.currLanguage === el) {
-                    return <option key={i} value={el}>{el}</option>    
-                }
-                return <option key={i} value={el}>{el}</option>
+        let languages = [...Object.keys(this.state.languages)]
+        let languageOptions = languages.length > 0 ?
+            languages.map((el, i) => {
+                    return (
+                        <option key={i} value={el}>
+                            {this.state.languages[this.state.currLanguage][el]}
+                        </option>   
+                    ); 
             })
             :
             null;
 
-        let languageSelector = this.state.languages.length > 0 ?
+        let languageSelector = languages.length > 0 ?
             <select className={classes.Select} defaultValue={this.state.currLanguage} 
                 onChange={this.changeLanguage.bind(this)}>
                 {languageOptions}
@@ -71,11 +72,6 @@ class Toolbar extends Component {
                         <Logo />
                     </div>
                     <div className={navItems}>
-                        
-                        {/* 
-                        <nav> is used to put all the navigation links of the Toolbar.
-                        They may be inserted inside the sideDrawer when dimension gets too small.
-                            */}
                         <nav>
                             <NavigationItems items={this.props.navitems}/>
                         </nav>
