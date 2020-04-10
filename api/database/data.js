@@ -53,17 +53,17 @@ module.exports.getSentencesToRecord = function (quantity, language) {
 
 module.exports.getSamplesToEvaluate = async function (quantity, currentuser, language) {
 
-    if (currentuser === 'alberto' || currentuser === 'fabio' || currentuser === 'cicci') {
-        return db.select('samples.id', 'emotion', 'sentence')
-            .from('samples')
-            .where('samples.language', language)
-            // .whereNot('samples.speaker', currentuser)
-            .where('samples.speaker', 'emovo')
-            .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
-            .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
-            .orderBy(db.raw('RANDOM()'))
-            .limit(quantity);
-    }
+    // if (currentuser === 'alberto' || currentuser === 'fabio' || currentuser === 'cicci') {
+    //     return db.select('samples.id', 'emotion', 'sentence')
+    //         .from('samples')
+    //         .where('samples.language', language)
+    //         // .whereNot('samples.speaker', currentuser)
+    //         .where('samples.speaker', 'emovo')
+    //         .whereNotIn('samples.id', db.select('sampleid').from('evaluated').where('evaluator', currentuser))
+    //         .join('sentences', 'samples.sentenceid', '=', 'sentences.id')
+    //         .orderBy(db.raw('RANDOM()'))
+    //         .limit(quantity);
+    // }
     
     const mustBeEvaluated = await db.select('samples.id', 'emotion', 'sentence')
                                     .from('samples')

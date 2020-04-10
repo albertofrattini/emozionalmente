@@ -18,7 +18,7 @@ class RadialStackedBarChart extends React.Component {
         const data = [];
         const speakperid = [];
         let userindex = -1;
-        let sum;
+        let sum = 0;
         let refid = -1;
         let obj = {};
         this.props.data.values.forEach(e => {
@@ -40,19 +40,20 @@ class RadialStackedBarChart extends React.Component {
                 if (e.id === user) {
                     userindex = data.length;
                 }
-            } else {
-                obj[e.emotion] = parseInt(e.value);
-                sum += parseInt(e.value);
             }
+            obj[e.emotion] = parseInt(e.value);
+            sum += parseInt(e.value);
         });
 
-        const userperformance = speakperid[userindex];
+        const userperformance = userindex !== -1 ? speakperid[userindex] : 0;
         let betterthan = 0;
         speakperid.forEach((e,i) => {
             if (i !== userindex) {
                 if (e < userperformance) {
                     betterthan += 1;
                 }
+            } else {
+                betterthan += 1;
             }
         });
         const percbetterperf = Math.round((betterthan / speakperid.length) * 100);
@@ -63,42 +64,46 @@ class RadialStackedBarChart extends React.Component {
                 suma += a[e];
                 sumb += b[e];
             });
-            return suma >= sumb ? -1 : 1;
+            if (suma === sumb) {
+                if (a.id === user) return -1;
+                else if (b.id === user) return 1;
+                else return -1;
+            } else {
+                return suma >= sumb ? -1 : 1;
+            }
         });
 
-        this.props.valuesCallback(userperformance, percbetterperf);
-
-
-
-
+        
+        
         var width = d3.selectAll("#radialstackedbarchart").node().getBoundingClientRect().width,
-            height = 500,
-            innerRadius = 80,
-            outerRadius = Math.min(width, height) / 2;
-
+        height = 500,
+        innerRadius = 80,
+        outerRadius = Math.min(width, height) / 2;
+        
         var svg = d3.select('#radialstackedbarchart')
-                    .append("svg")
-                        .attr("width", width/* + margin.left + margin.right*/)
-                        .attr("height", height/* + margin.top + margin.bottom*/)
-                        .style("transform", "rotate(-80deg)")
-                    .append("g")
-                        .attr("transform", "translate(" + width / 2 + "," + ( height / 2 )+ ")")
-
-
+        .append("svg")
+        .attr("width", width/* + margin.left + margin.right*/)
+        .attr("height", height/* + margin.top + margin.bottom*/)
+        .style("transform", "rotate(-80deg)")
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + ( height / 2 )+ ")")
+        
+        
         var x = d3.scaleBand()
-            .range([0, 2 * Math.PI])
-            .align(0);
-
+        .range([0, 2 * Math.PI])
+        .align(0);
+        
         var y = d3.scaleLinear()
-            .range([innerRadius, outerRadius]);
-
+        .range([innerRadius, outerRadius]);
+        
         var z = d3.scaleOrdinal()
-            .range(colors);
-
+        .range(colors);
+        
         var zClasses = texts;
-
+        
         var keys = emotions;
         var meanSpeak = d3.mean(data, function(d) { return d3.sum(keys, function(key) { return d[key]; }); })
+        this.props.valuesCallback(userperformance, percbetterperf, meanSpeak);
 
         var maxY = d3.max(data, function(d) { 
             let m = 0;

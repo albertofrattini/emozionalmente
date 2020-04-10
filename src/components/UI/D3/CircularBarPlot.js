@@ -39,13 +39,13 @@ class CircularBarPlot extends React.Component {
         });
 
         const betterthan = data.filter(e => {
-            return userlistens > e.value;
+            return userlistens >= e.value;
         });
         const percperformance = Math.round((betterthan.length / data.length) * 100);
-        this.props.valuesCallback(userlistens, percperformance);
-
+        
         var mean = d3.mean(data, function(d) { return d.value });
-
+        this.props.valuesCallback(userlistens, percperformance, mean);
+        
         data = data.sort((a,b) => a.value < b.value ? 1 : -1 );
 
         var xScaleOffset = -(Math.PI * 1/data.length); 

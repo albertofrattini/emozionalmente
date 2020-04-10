@@ -122,10 +122,11 @@ class User extends Component {
         });
     }
 
-    setValues = (total, percentage) => {
+    setValues = (total, percentage, mean=-1) => {
         this.setState({
             graphTotal: total,
-            graphPercentage: percentage
+            graphPercentage: percentage,
+            graphMean: mean
         });
     }
 
@@ -137,11 +138,23 @@ class User extends Component {
         let errorNotFound = null;
         let total = this.state.graphTotal;
         let performance = this.state.graphPercentage;
+        let mean = this.state.graphMean;
+
+        let part1 = this.state.content['graph-' + this.state.graphId + '-1'];
+        let part2 = this.state.content['graph-' + this.state.graphId + '-2'];
+        let part3 = this.state.content['graph-' + this.state.graphId + '-3'];
 
         if (!this.state.isDownloading && this.state.user) {
 
                 switch(this.state.graphId) {
                     case 'circular':
+                        if (performance < 30) {
+                            part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
+                            part3 = this.state.content['graph-' + this.state.graphId + '-3-alt'];
+                            performance = 100 - performance;
+                        } else if (total > mean) {
+                            part3 += this.state.content['graph-' + this.state.graphId + '-4-alt']
+                        }
                         filteredGraph = (
                             <CircularBarPlot 
                                 data={this.state.data}
@@ -154,6 +167,12 @@ class User extends Component {
                         );
                         break;
                     case 'radar':
+                        if (total === 0) {
+                            part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
+                            part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
+                            part3 = this.state.content['graph-' + this.state.graphId + '-3-alt'];
+                            total = '';
+                        }
                         filteredGraph = (
                             <RadarChart
                                 data={this.state.data}
@@ -166,9 +185,15 @@ class User extends Component {
                         );
                         break;
                     case 'listenpie':
+                        total = this.state.textDict[this.state.selectedEmotion];
                         if (!performance) {
-                            total = this.state.textDict[this.state.selectedEmotion];
                             performance = 0;
+                        } 
+                        if (this.state.graphTotal === 0) {
+                            part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
+                            part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
+                            part3 = '';
+                            performance = '';
                         }
                         emotionSelect = (
                             <div className={classes.EmotionsTab}>
@@ -207,6 +232,13 @@ class User extends Component {
                         );
                         break;
                     case 'radial':
+                        if (performance < 30) {
+                            part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
+                            part3 = this.state.content['graph-' + this.state.graphId + '-3-alt'];
+                            performance = 100 - performance;
+                        } else if (total > mean) {
+                            part3 += this.state.content['graph-' + this.state.graphId + '-4-alt']
+                        }
                         filteredGraph = (
                             <RadialStackedBarChart
                                 data={this.state.data}
@@ -222,6 +254,13 @@ class User extends Component {
                         );
                         break;
                     case 'loadbar':
+                        if (performance === 0) {
+                            part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
+                            part2 = '';
+                            part3 = '';
+                            total = '';
+                        }
+                        performance = '';
                         filteredGraph = (
                             <LoadingBar
                                 data={this.state.data}
@@ -229,9 +268,15 @@ class User extends Component {
                         );
                         break;
                     case 'speakpie':
+                        total = this.state.textDict[this.state.selectedEmotion];
                         if (!performance) {
-                            total = this.state.textDict[this.state.selectedEmotion];
                             performance = 0;
+                        }
+                        if (this.state.graphTotal === 0) {
+                            part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
+                            part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
+                            part3 = '';
+                            performance = '';
                         }
                         emotionSelect = (
                             <div className={classes.EmotionsTab}>
@@ -277,11 +322,11 @@ class User extends Component {
             graphDescription = (
                 <React.Fragment>
                     <h3>
-                        {this.state.content['graph-' + this.state.graphId + '-1']} 
+                        {part1} 
                         {total} 
-                        {this.state.content['graph-' + this.state.graphId + '-2']}
+                        {part2}
                         {performance}
-                        {this.state.content['graph-' + this.state.graphId + '-3']}
+                        {part3}
                     </h3>
                     <p>
                         {this.state.content['graph-' + this.state.graphId + '-sub']}
@@ -310,7 +355,7 @@ class User extends Component {
                                 <p>{this.state.content['user-email']} {this.state.user.email}</p>
                                 <p>{this.state.content['user-sex']} {this.state.user.sex}</p>
                                 <p>{this.state.content['user-nationality']} {this.state.user.nationality}</p>
-                                <p>Età: {this.state.user.age}</p>
+                                <p>{this.state.content['user-age']} {this.state.user.age}</p>
                             </React.Fragment>
                             :
                             null

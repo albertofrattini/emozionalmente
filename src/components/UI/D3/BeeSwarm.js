@@ -12,24 +12,26 @@ class BeeSwarm extends React.Component {
 
         const data = this.props.data;
         const nationalities_dict = this.props.nationalities;
-        const keys = Object.keys(nationalities_dict).length;
+        let keys = Object.keys(nationalities_dict).length;
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
             height = 230 * keys - margin.top - margin.bottom,
             padding = window.innerWidth * 0.08;
-
-        if (width > 670) {
-            padding = window.innerWidth * 0.06;
-        }
-
+            
+            if (width > 670) {
+                padding = window.innerWidth * 0.06;
+            }
+            
         let svg = d3.select('#killingbees').append('svg')
-                        .attr('width', width)
-                        .attr('height', height);
+            .attr('width', width)
+            .attr('height', height);
+            
+        
 
         let colors = d3.scaleOrdinal()
-                        .domain(['male', 'female'])
-                        .range(['#1c77c3', '#f285a5']);
+                    .domain(['male', 'female'])
+                    .range(['#1c77c3', '#f285a5']);
 
         let x = d3.scaleLinear()
                     .range([0 + padding * 0.1, width - padding * 2]);
@@ -108,7 +110,6 @@ class BeeSwarm extends React.Component {
             .call(ageAxis)
             .classed(classes.xAxis, true);
 
-
         svg.append("g")
             .attr("transform","translate(" + ( width - padding * 1.5 ) + ",0)")
             .classed(classes.yAxis, true)
@@ -127,18 +128,14 @@ class BeeSwarm extends React.Component {
         let simulation = d3.forceSimulation(data)
                             .force('x', d3.forceX( function(d){
                                 return x(d[data_setX])
-                            }).strength(0.99))
-                            .force('y', d3.forceY( height/2 ).strength(0.99))
+                            }).strength(0.8))
+                            .force('y', d3.forceY( height/2 ).strength(0.8))
                             .force('collide', d3.forceCollide(function(d) {
                                 return size(d.number) + 1
                             }).iterations(32))
                             .alphaDecay(0)
                             .alpha(0.1)
                             .on('tick', tick);
-
-        simulation.force('collide', d3.forceCollide(function(d) {
-            return size(d.number) + 1
-        }).iterations(32));
 
         d3.selectAll('.circ').on("mouseenter", function(d){
 
@@ -189,15 +186,40 @@ class BeeSwarm extends React.Component {
                                     }
                                 })
                                     
+            } else if (data_set === "none") {
+
+                let axisSelection = d3.select("#ya")
+                                        .selectAll('*').remove()
+                                        .classed(classes.yAxis, true)
+
+                d3.selectAll('circle').remove()
+
+                svg.selectAll('.circ').data(data).enter()
+                    .append('circle').classed('circ', true)
+                    .attr('r', function(d) { return size(d.number) })
+                    .attr('cx', function(d){ return x(d.age); })
+                    .attr('cy', function(d){ return height/2; })
+                    .attr("fill", function(d) { return colors(d.sex); })
+                    .on("mouseover", mover) 
+                    .on("mousemove", mmove)
+                    .on("mouseout", mleave)
+
+                simulation
+                    .force('x', d3.forceX( function(d){
+                        return x(d[data_setX])
+                    }).strength(0.8))
+
             }
 
 
             simulation.force('y', d3.forceY(function(d){
 
                 if (data_set === "nationality"){
-                  return y1(d[data_set])
-                }else if(data_set === "sex"){
-                  return y2(d[data_set])
+                    return y1(d[data_set])
+                } else if(data_set === "sex"){
+                    return y2(d[data_set])
+                } else if (data_set === "none") {
+                    return height / 2;
                 }
 
             }).strength(0.5))
@@ -210,6 +232,104 @@ class BeeSwarm extends React.Component {
               .alphaDecay(0.1)
               .alpha(0.5)
               .restart()
+
+
+        })
+
+
+        d3.selectAll('#sel-min-age').on('change', function () {
+
+            const min = this.value;
+
+            var newData = [...data].filter(d => {
+                return d.age >= min;
+            });
+
+            d3.selectAll('circle').remove()
+
+            svg.selectAll('.circ').data(newData).enter()
+                .append('circle').classed('circ', true)
+                .attr('r', function(d) { return size(d.number) })
+                .attr('cx', function(d){ return x(d.age); })
+                .attr('cy', function(d){ return height/2; })
+                .attr("fill", function(d) { return colors(d.sex); })
+                .on("mouseover", mover) 
+                .on("mousemove", mmove)
+                .on("mouseout", mleave)
+
+            simulation
+                .force('x', d3.forceX( function(d){
+                    return x(d[data_setX])
+                }).strength(0.8))
+                .force('y', d3.forceY(function(d){
+
+                    if (data_set === "nationality"){
+                        return y1(d[data_set])
+                    } else if(data_set === "sex"){
+                        return y2(d[data_set])
+                    } else if (data_set === "none") {
+                        return height / 2;
+                    }
+
+                }).strength(0.8))
+
+            simulation.force('collide', d3.forceCollide(function(d) {
+                return size(d.number) + 1
+            }).iterations(32))
+        
+            simulation
+              .alphaDecay(0.1)
+              .alpha(0.5)
+              .restart()
+        
+        })
+
+
+        d3.selectAll('#sel-max-age').on('change', function () {
+
+            const max = this.value;
+
+            var newData = [...data].filter(d => {
+                return d.age <= max;
+            });
+
+            d3.selectAll('circle').remove()
+
+            svg.selectAll('.circ').data(newData).enter()
+                .append('circle').classed('circ', true)
+                .attr('r', function(d) { return size(d.number) })
+                .attr('cx', function(d){ return x(d.age); })
+                .attr('cy', function(d){ return height/2; })
+                .attr("fill", function(d) { return colors(d.sex); })
+                .on("mouseover", mover) 
+                .on("mousemove", mmove)
+                .on("mouseout", mleave)
+
+            simulation
+                .force('x', d3.forceX( function(d){
+                    return x(d[data_setX])
+                }).strength(0.8))
+                .force('y', d3.forceY(function(d){
+
+                    if (data_set === "nationality"){
+                        return y1(d[data_set])
+                    } else if(data_set === "sex"){
+                        return y2(d[data_set])
+                    } else if (data_set === "none") {
+                        return height / 2;
+                    }
+
+                }).strength(0.8))
+
+            simulation.force('collide', d3.forceCollide(function(d) {
+                return size(d.number) + 1
+            }).iterations(32))
+        
+            simulation
+              .alphaDecay(0.1)
+              .alpha(0.5)
+              .restart()
+
 
 
         })

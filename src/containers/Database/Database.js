@@ -22,7 +22,9 @@ class Database extends Component {
         genderDict: null,
         content: {},
         languages: [],
-        currentLanguage: 'it'
+        currentLanguage: 'it',
+        overallLanguage: 'it',
+        otherGraph: false
     }
 
     async componentDidMount () {
@@ -51,7 +53,7 @@ class Database extends Component {
             names[emotionNames[i]] = emotionText[i];
         }
         const users = await axios.get('/api/data/database/users' + '?min=' + this.state.minAge 
-                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
+                                        + '&max=' + this.state.maxAge + '&l=' + currlang);
         const data = users.data;
         const nationalitiesDict = {};
         const genderDict = {
@@ -65,9 +67,9 @@ class Database extends Component {
             nationalitiesDict[e.nationality] += 1;
         });
         const samples = await axios.get('/api/data/database/samples' + '?min=' + this.state.minAge 
-                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
+                                        + '&max=' + this.state.maxAge + '&l=' + currlang);
         const evaluations = await axios.get('/api/data/database/evaluations' + '?min=' + this.state.minAge 
-                                        + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage);
+                                        + '&max=' + this.state.maxAge + '&l=' + currlang);
         let maxDaySamples = 0;
         samples.data.forEach(e => {
             let t = 0;
@@ -81,14 +83,18 @@ class Database extends Component {
             if (e.value > maxDayEvaluations) maxDayEvaluations = e.value;
         });
 
-        const db = samples.data[0].date.substring(7,9) + " " 
-                    + samples.data[0].date.substring(3,6) + " " 
-                    + samples.data[0].date.substring(0,2) + " 00:00:00 GMT";
-        const allDays = getDates(new Date(Date.parse(db)), new Date(Date.now()));
+        let allDays = [];
+        if (samples.data.length > 0) {
+            const db = samples.data[0].date.substring(7,9) + " " 
+                        + samples.data[0].date.substring(3,6) + " " 
+                        + samples.data[0].date.substring(0,2) + " 00:00:00 GMT";
+            allDays = getDates(new Date(Date.parse(db)), new Date(Date.now()));
+        }
 
         this.setState({
             languages: languages,
             currentLanguage: currlang,
+            overallLanguage: currlang,
             content: content,
             emotionText: emotionText,
             emotionNames: emotionNames,
@@ -117,9 +123,57 @@ class Database extends Component {
             
     }
 
+    fetchBase = async () => {
+
+        const users = await axios.get('/api/data/database/users' + '?min=' + 0 
+                                        + '&max=' + 100 + '&l=' + this.state.currentLanguage);
+        const nationalitiesDict = {};
+        users.data.forEach(e => {
+            if (!nationalitiesDict[e.nationality]) {
+                nationalitiesDict[e.nationality] = 0;
+            }
+            nationalitiesDict[e.nationality] += 1;
+        });
+        const samples = await axios.get('/api/data/database/samples' + '?min=' + 0 
+                                        + '&max=' + 100 + '&l=' + this.state.currentLanguage);
+        const evaluations = await axios.get('/api/data/database/evaluations' + '?min=' + 0 
+                                        + '&max=' + 100 + '&l=' + this.state.currentLanguage);
+        let maxDaySamples = 0;
+        samples.data.forEach(e => {
+            let t = 0;
+            this.state.emotionNames.forEach(n => {
+                t += e[n];
+            });
+            if (t > maxDaySamples) maxDaySamples = t;
+        });
+        let maxDayEvaluations = 0;
+        evaluations.data.scatter.forEach(e => {
+            if (e.value > maxDayEvaluations) maxDayEvaluations = e.value;
+        });
+
+        let allDays = [];
+        if (samples.data.length > 0) {
+            const db = samples.data[0].date.substring(7,9) + " " 
+                        + samples.data[0].date.substring(3,6) + " " 
+                        + samples.data[0].date.substring(0,2) + " 00:00:00 GMT";
+            allDays = getDates(new Date(Date.parse(db)), new Date(Date.now()));
+        }
+
+        this.setState({
+            allDays: allDays,
+            maxDaySamples: maxDaySamples,
+            maxDayEvaluations: maxDayEvaluations,
+            nationalitiesDict: nationalitiesDict
+        });
+    }
+
     downloadData = async () => {
 
         let data = [];
+
+        if (this.state.allDays) {
+            if (!(this.state.allDays.length > 0)) this.fetchBase();
+        }
 
         let filter = '?min=' + this.state.minAge + '&max=' + this.state.maxAge + '&l=' + this.state.currentLanguage;
         if (this.state.sexFilter !== '') {
@@ -128,6 +182,7 @@ class Database extends Component {
         if (this.state.nationalityFilter !== '') {
             filter = filter + '&n=' + this.state.nationalityFilter;
         }
+        let otherGraph = this.state.otherGraph;
 
         switch(this.state.graphId) {
             case 'bee':
@@ -135,26 +190,32 @@ class Database extends Component {
                 data = users.data;
                 break;
             case 'stacked':
+                otherGraph = true;
                 const samples = await axios.get('/api/data/database/samples' + filter);
                 data = samples.data;
                 break;
             case 'scatter':
+                otherGraph = true;
                 const evaluations = await axios.get('/api/data/database/evaluations' + filter);
                 data = evaluations.data.scatter;
                 break;
             case 'packing':
+                otherGraph = true;
                 const evaluationsp = await axios.get('/api/data/database/evaluations' + filter);
                 data = evaluationsp.data.quantity;
                 break;
             case 'comppie':
+                otherGraph = true;
                 const comparison = await axios.get('/api/data/database/comparison' + filter + '&e=' + this.state.selectedEmotion);
                 data = comparison.data;
                 break;
             case 'scatterplot':
+                otherGraph = true;
                 const accuracy = await axios.get('/api/data/database/accuracy' + filter);
                 data = accuracy.data;
                 break;
             case 'treemap':
+                otherGraph = true;
                 const totSamples = await axios.get('/api/data/database/samples' + filter);
                 data = totSamples.data;
             default:
@@ -163,7 +224,8 @@ class Database extends Component {
 
         this.setState({
             isDownloading: false,
-            data: data
+            data: data,
+            otherGraph: otherGraph
         });
 
     }
@@ -175,17 +237,14 @@ class Database extends Component {
         });
     }
 
-    applyFilters = () => {
-        this.setState({ isDownloading: true });
-    }
-
     resetFilters = () => {
         if (document.getElementById('nationalities-select')) {
             document.getElementById('nationalities-select').selectedIndex = 0;
             document.getElementById('gender-select').selectedIndex = 0;
+            document.getElementById('min-age').value = 0;
+            document.getElementById('max-age').value = 100;
         }
-        document.getElementById('min-age').value = 0;
-        document.getElementById('max-age').value = 100;
+
         this.setState({
             sexFilter: '',
             nationalityFilter: '',
@@ -207,12 +266,18 @@ class Database extends Component {
             filters = (
                 <div className={classes.FilterRow}>
                     <p>{this.state.content['db-filters']}</p>
-                    <input id="min-age" defaultValue={this.state.minAge} type="number" 
-                        onChange={e => this.setState({ minAge: e.target.value })}></input>
-                    <input id="max-age" defaultValue={this.state.maxAge} type="number"
-                        onChange={e => this.setState({ maxAge: e.target.value })}></input>
+                    <div className={classes.Column}>
+                        <input id="min-age" value={this.state.minAge} type="number" 
+                            onChange={e => { if (e.target.value) this.setState({ minAge: e.target.value, isDownloading: true }) }}></input>
+                        <p style={{ position: 'absolute', top: '-30px', color: 'var(--text-dark)' }}>Età minima</p> 
+                    </div>
+                    <div className={classes.Column}>
+                        <input id="max-age" value={this.state.maxAge} type="number"
+                            onChange={e => { if (e.target.value) this.setState({ maxAge: e.target.value, isDownloading: true }) }}></input>
+                        <p style={{ position: 'absolute', top: '-30px', color: 'var(--text-dark)' }}>Età massima</p> 
+                    </div>
                     <select id="gender-select" value={this.state.sexFilter}
-                        onChange={event => this.setState({ sexFilter: event.target.value })}>
+                        onChange={event => this.setState({ sexFilter: event.target.value, isDownloading: true })}>
                         <option value="">{this.state.content['db-gender']}</option>
                         {
                             [...Object.keys(this.state.genderDict)].map((e,i) => {
@@ -221,7 +286,7 @@ class Database extends Component {
                         }
                     </select>
                     <select id="nationalities-select" value={this.state.nationalityFilter}
-                        onChange={event => this.setState({ nationalityFilter: event.target.value })}>
+                        onChange={event => this.setState({ nationalityFilter: event.target.value, isDownloading: true })}>
                         <option value="">{this.state.content['db-nationality']}</option>
                         {
                             [...Object.keys(this.state.nationalitiesDict)].map((e,i) => {
@@ -230,7 +295,6 @@ class Database extends Component {
                         }
                     </select>
                     <button onClick={this.resetFilters}>{this.state.content['db-clear']}</button>
-                    <button onClick={this.applyFilters}>{this.state.content['db-apply']}</button>
                 </div>
             );
 
@@ -240,46 +304,78 @@ class Database extends Component {
                     case 'bee':
                         total = 0;
                         this.state.data.forEach(e => {
-                            total += parseInt(e.number);
+                            if (this.state.minAge <= e.age && e.age <= this.state.maxAge) total += parseInt(e.number);
                         });
                         filters = (
                             <div className={classes.FilterRow}>
                                 <p>{this.state.content['db-filters']}</p>
-                                <input id="min-age" defaultValue={this.state.minAge} type="number" 
-                                    onChange={e => this.setState({ minAge: e.target.value })}></input>
-                                <input id="max-age" defaultValue={this.state.maxAge} type="number"
-                                    onChange={e => this.setState({ maxAge: e.target.value })}></input>
+                                <div className={classes.Column}>
+                                    <input id="sel-min-age" value={this.state.minAge} type="number" 
+                                        onChange={e => this.setState({ minAge: e.target.value })}></input>
+                                    <p style={{ position: 'absolute', top: '-30px', color: 'var(--text-dark)' }}>Età minima</p>    
+                                </div>
+                                <div className={classes.Column}>
+                                    <input id="sel-max-age" value={this.state.maxAge} type="number"
+                                        onChange={e => this.setState({ maxAge: e.target.value })}></input>
+                                    <p style={{ position: 'absolute', top: '-30px', color: 'var(--text-dark)' }}>Età massima</p>    
+                                </div>
                                 <button id="btn_sel" value="sex">{this.state.content['db-gender']}</button>
                                 <button id="btn_sel" value="nationality">{this.state.content['db-nationality']}</button>
-                                <button onClick={this.resetFilters}>{this.state.content['db-clear']}</button>
-                                <button onClick={this.applyFilters}>{this.state.content['db-apply']}</button>
+                                <button id="btn_sel" value="none" onClick={() => {
+                                    console.log(this.state.otherGraph)
+                                    if (this.state.otherGraph) {
+                                        this.setState({
+                                            minAge: 0,
+                                            maxAge: 100,
+                                            isDownloading: true
+                                        });    
+                                    } else {
+                                        this.setState({
+                                            minAge: 0,
+                                            maxAge: 100
+                                        });
+                                    }
+
+                                }}>{this.state.content['db-clear']}</button>
                             </div>
                         );
-                        filteredGraph = (
-                            <BeeSwarm 
-                                data={this.state.data}
-                                nationalities={this.state.nationalitiesDict}
-                                genders={this.state.genderDict}/>
-                        );
+                        if (Object.keys(this.state.nationalitiesDict).length > 0) {
+                            filteredGraph = (
+                                <BeeSwarm 
+                                    data={this.state.data}
+                                    nationalities={this.state.nationalitiesDict}
+                                    genders={this.state.genderDict}/>
+                            );
+                        } else {
+                            filteredGraph = null;
+                        }
                         break;
                     case 'stacked':
-                        filteredGraph = (
-                            <StackedAreaChart
-                                    data={this.state.data}
-                                    emotionText={this.state.emotionText}
-                                    emotionNames={this.state.emotionNames}
-                                    emotionColors={this.state.emotionColors}
-                                    allDays={this.state.allDays}
-                                    maxValue={this.state.maxDaySamples}/>
-                        );
+                        if (this.state.allDays.length > 0) {
+                            filteredGraph = (
+                                <StackedAreaChart
+                                        data={this.state.data}
+                                        emotionText={this.state.emotionText}
+                                        emotionNames={this.state.emotionNames}
+                                        emotionColors={this.state.emotionColors}
+                                        allDays={this.state.allDays}
+                                        maxValue={this.state.maxDaySamples}/>
+                            );
+                        } else {
+                            filteredGraph = null;
+                        }
                         break;
                     case 'scatter':
-                        filteredGraph = (
-                            <ConnectedScatter
-                                    data={this.state.data}
-                                    allDays={this.state.allDays}
-                                    maxValue={this.state.maxDayEvaluations}/>
-                        );
+                        if (this.state.allDays.length > 0) {
+                            filteredGraph = (
+                                <ConnectedScatter
+                                        data={this.state.data}
+                                        allDays={this.state.allDays}
+                                        maxValue={this.state.maxDayEvaluations}/>
+                            );
+                        } else {
+                            filteredGraph = null;
+                        } 
                         break;
                     case 'packing':
                         total = 0;
@@ -380,7 +476,7 @@ class Database extends Component {
             languages.map((el, i) => {
                 return (
                     <option key={i} value={el}>
-                        {this.state.languages[this.state.currentLanguage][el]}
+                        {this.state.languages[this.state.overallLanguage][el]}
                     </option>
                 );    
             })
@@ -407,7 +503,7 @@ class Database extends Component {
             null;
 
         let langSelect = (
-            <div className={classes.FilterRow}>
+            <div className={classes.FilterRow} style={{ marginBottom: '8px' }}>
                 <h4>{this.state.content['db-lang-select']}</h4>
                 {languageSelector}
             </div>

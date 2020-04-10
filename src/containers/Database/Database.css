@@ -51,8 +51,8 @@
 }
 
 .FilterRow p {
-    width: auto;
-    margin-right: 16px;
+    width: 100%;
+    margin-bottom: 32px;
 }
 
 .FilterRow  select {
@@ -88,13 +88,19 @@
     max-width: 92px;
     height: 40px;
     padding: 0px 12px;
-    margin: 8px 8px 8px 0px;
     box-sizing: border-box;
     background-color: transparent;
     color: var(--logo-red);
     border: 1px solid var(--logo-red);
     border-radius: 4px;
     font-size: 14px;
+}
+
+.Column {
+    width: auto;
+    max-width: 92px;
+    position: relative;
+    margin: 8px 8px 8px 0px;
 }
 
 .EmotionSelect {

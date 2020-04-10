@@ -651,8 +651,26 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-circular-2-alt",
+        "content": " registrazioni in totale. Ascolta di più per migliorare la tua posizione, il "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-circular-3",
-        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+        "content": "% degli utenti."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-3-alt",
+        "content": "% degli utenti ha fatto meglio di te..."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-4-alt",
+        "content": " Wow! Sei sopra la media, continua così!"
     },
     {
         "language": "it",
@@ -699,14 +717,32 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-radar-1-alt",
+        "content": "Non hai ancora ascoltato alcuna registrazione, ascoltane almeno una per ottenere la tua media!"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-radar-2",
         "content": "%, mentre quella di tutti gli altri utenti è del "
     },
     {
         "language": "it",
         "page": "user",
+        "position": "graph-radar-2-alt",
+        "content": " L'accuratezza media degli altri utenti è "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-radar-3",
         "content": "%."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radar-3-alt",
+        "content": "%. Ascolta e valuta anche tu, puoi batterli!"
     },
     {
         "language": "it",
@@ -741,8 +777,20 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-listenpie-1-alt",
+        "content": "Non hai ancora ascoltato nessuna registrazione che esprimesse "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-listenpie-2",
         "content": " è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-listenpie-2-alt",
+        "content": "..."
     },
     {
         "language": "it",
@@ -777,8 +825,26 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-radial-2-alt",
+        "content": " registrazioni in totale. Registra di più per migliorare la tua posizione, il "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-radial-3",
-        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+        "content": "% degli utenti."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-3-alt",
+        "content": "% degli utenti ha fatto meglio di te..."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-4-alt",
+        "content": " Wow! Sei sopra la media, ottimo lavoro!"
     },
     {
         "language": "it",
@@ -825,6 +891,12 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-loadbar-1-alt",
+        "content": "Non hai ancora effettuato nessuna registrazione! Inizia a registrare per vedere come gli altri riconoscono ciò che hai espresso!"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-loadbar-2",
         "content": "%, secondo gli altri utenti della piattaforma. "
     },
@@ -855,8 +927,20 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-speakpie-1-alt",
+        "content": "Nessuna delle tue registrazioni contenenti "
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-speakpie-2",
         "content": " è del "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-speakpie-2-alt",
+        "content": " è stata valutata... Non hai ancora registrato? Fallo e vedrai che qualcuno la valuterà!"
     },
     {
         "language": "it",
@@ -888,19 +972,19 @@
         "language": "en",
         "page": "user",
         "position": "user-title",
-        "content": "Ciao "
+        "content": "Hello "
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-subtitle",
-        "content": "Benvenuto sulla tua pagina utente. In questa pagina potrai esplorare i tuoi risultati, compararli con gli altri e molto altro."
+        "content": "Welcome to your personal page. Here you can explore your results, compare them with others' and much more."
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-sex",
-        "content": "Sesso: "
+        "content": "Gender: "
     },
     {
         "language": "en",
@@ -912,103 +996,133 @@
         "language": "en",
         "page": "user",
         "position": "user-nationality",
-        "content": "Nazionalità: "
+        "content": "Nationality: "
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-age",
-        "content": "Età: "
+        "content": "Age: "
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-listen",
-        "content": "Ascolti"
+        "content": "Evaluations"
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-speak",
-        "content": "Registrazioni"
+        "content": "Recordings"
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-mean",
-        "content": "Scegli Grafico"
+        "content": "Mean: "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-name",
-        "content": "Ascolti effettuati"
+        "content": "Evaluations performed"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-1",
-        "content": "Hai ascoltato "
+        "content": "You have listened to "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-2",
-        "content": " registrazioni in totale, di più del "
+        "content": " recordings in total, more than "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-2-alt",
+        "content": " recordings in total. Keep up to improve your position, "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-3",
-        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+        "content": "% of the users."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-3-alt",
+        "content": "% of the users did better than you..."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-4-alt",
+        "content": " Wow! You are above average, keep on doing this amazing job!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-tooltip-1",
-        "content": " ha ascoltato "
+        "content": " has listened to "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-tooltip-2",
-        "content": " registrazioni!"
+        "content": " recordings!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-tooltip-personal-1",
-        "content": "Hai ascoltato "
+        "content": "You have listened to "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-tooltip-personal-2",
-        "content": " registrazioni!"
+        "content": " recordings!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-circular-sub",
-        "content": "Il grafico riporta la quantità di ascolti effettuati da tutti gli utenti. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale degli ascolti."
+        "content": "The graph displays the amount of evaluations performed by each one of the users. Yours is highlighted and the dashed line represents the mean."
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radar-name",
-        "content": "Sei un bravo ascoltatore?"
+        "content": "Can you catch emotions?"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radar-1",
-        "content": "La tua percentuale di accuratezza nel riconoscere le emozioni è del "
+        "content": "Your accuracy in recognizing emotions is "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-1-alt",
+        "content": "You still didn't listen to any recording, listen to one to obtain your average!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radar-2",
-        "content": "%, mentre quella di tutti gli altri utenti è del "
+        "content": "%, while others' is "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radar-2-alt",
+        "content": " The average accuracy of other users is "
     },
     {
         "language": "en",
@@ -1019,38 +1133,56 @@
     {
         "language": "en",
         "page": "user",
+        "position": "graph-radar-3-alt",
+        "content": "%. Listen and evaluate too, you can beat them!"
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "graph-radar-tooltip-1",
-        "content": "Gli altri utenti hanno, in media, un'accuratezza del "
+        "content": "Other users recognize emotions with an accuracy of "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radar-tooltip-personal-1",
-        "content": "Hai un'accuratezza media del "
+        "content": "You have an average accuracy of "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radar-sub",
-        "content": "In rosso puoi vedere come se la cavano tutti gli altri utenti, mentre l'area verde evidenzia le tua capacità di riconoscimento."
+        "content": "The green part represents you, while the red one the average of all other users."
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-listenpie-name",
-        "content": "Emozioni riconosciute"
+        "content": "Recognized emotions"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-listenpie-1",
-        "content": "La tua percentuale di accuratezza nel riconoscere "
+        "content": "Your accuracy in recognizing "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-1-alt",
+        "content": "You still didn't listen to any recording expressing "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-listenpie-2",
-        "content": " è del "
+        "content": " is around "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-listenpie-2-alt",
+        "content": "..."
     },
     {
         "language": "en",
@@ -1062,109 +1194,145 @@
         "language": "en",
         "page": "user",
         "position": "graph-listenpie-sub",
-        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale hai riconosciuto l'emozione di riferimento: "
+        "content": "Each slice of the pie represents an emotion that you recognized."
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-name",
-        "content": "Registrazioni effettuate"
+        "content": "Recordings performed"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-1",
-        "content": "Hai effettuato "
+        "content": "You have recorded "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-2",
-        "content": " registrazioni in totale, di più del "
+        "content": " samples in total, more than "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-2-alt",
+        "content": " recordings in total. Record more to improve your position, "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-3",
-        "content": "% degli utenti. Continua ad ascoltare per migliorare ancora di più!"
+        "content": "% of the users."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-3-alt",
+        "content": "% of the users did better than you..."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-4-alt",
+        "content": " Wow! You are above average, keep up with this amazing job!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-tooltip-1",
-        "content": " ha effettuato "
+        "content": " has recorded "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-tooltip-2",
-        "content": " registrazioni!"
+        "content": " samples!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-tooltip-personal-1",
-        "content": "Hai effettuato "
+        "content": "You have recorded "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-tooltip-personal-2",
-        "content": " registrazioni!"
+        "content": " samples!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-radial-sub",
-        "content": "Il grafico riporta la quantità di registrazioni effettuate da tutti gli utenti, divise per emozione. La tua è più accentuata, mentre la linea tratteggiata rappresenta la media totale delle registrazioni."
+        "content": "The graph displays the amount of recordings performed for each emotion. Yours is highlighted and the dashed line represents the mean."
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-loadbar-name",
-        "content": "Sei un bravo attore?"
+        "content": "Are you a good actor?"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-loadbar-1",
-        "content": "La tua percentuale di accuratezza nell'esprimere le emozioni è del "
+        "content": "Your accuracy in expressing emotions is "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-loadbar-1-alt",
+        "content": "You still didn't record any sample! Start recording to find out how people recognize the emotions you express!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-loadbar-2",
-        "content": "%, secondo gli altri utenti della piattaforma. "
+        "content": "%, based on other users' opinion. "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-loadbar-3",
-        "content": "Prova a recitare meglio per migliorarti!"
+        "content": "Try to act better to improve others' accuracy!"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-loadbar-sub",
-        "content": "La percentuale rappresenta la percentuale di riconoscimento delle tue registrazioni."
+        "content": "The percentage represents the accuracy of other people in recognizing your samples."
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-speakpie-name",
-        "content": "Come hai recitato"
+        "content": "How did you act?"
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-speakpie-1",
-        "content": "La tua percentuale di accuratezza nell'esprimere "
+        "content": "Your accuracy in expressing "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-1-alt",
+        "content": "None of "
     },
     {
         "language": "en",
         "page": "user",
         "position": "graph-speakpie-2",
-        "content": " è del "
+        "content": " is around "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-speakpie-2-alt",
+        "content": " recordings has been still evaluated... You didn't record one yet? Record and you will see that someone will evaluate it!"
     },
     {
         "language": "en",
@@ -1176,13 +1344,13 @@
         "language": "en",
         "page": "user",
         "position": "graph-speakpie-sub",
-        "content": "Ogni spicchio della torta rappresenta un'emozione con la quale è stata riconosciuta l'emozione di che hai voluto esprimere: "
+        "content": "Every slice of the cake represents an emotion that has been recognized when listening to a sample of yours expressing the reference emotion."
     },
     {
         "language": "en",
         "page": "user",
         "position": "user-error",
-        "content": "Mi dispiace, ma non abbiamo trovato nessuna informazione"
+        "content": "We are sorry but we didn't find any information to display..."
     },
 
 
@@ -1211,7 +1379,7 @@
         "language": "it",
         "page": "database",
         "position": "db-filters",
-        "content": "Clicca qui sotto per creare un filtro personalizzato selezionando età minima e massima, il sesso e la nazionalità, dopodiché clicca Applica. Clicca su Azzera per eliminare i filtri applicati."
+        "content": "Crea dei filtri personalizzati qui sotto ed esplora questo database pieno di emozioni!"
     },
     {
         "language": "it",
@@ -1236,6 +1404,18 @@
         "page": "database",
         "position": "db-gender",
         "content": "Sesso"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-minage",
+        "content": "Età minima"
+    },
+    {
+        "language": "it",
+        "page": "database",
+        "position": "db-maxage",
+        "content": "Età massima"
     },
     {
         "language": "it",
@@ -1433,223 +1613,229 @@
         "language": "en",
         "page": "database",
         "position": "db-title",
-        "content": "Il Database di Emozioni"
+        "content": "The emotional Database"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-lang-select",
-        "content": "Verranno visualizzati i dati del Database"
+        "content": "Data displayed belongs to Database in "
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-filters",
-        "content": "Clicca qui sotto per creare un filtro personalizzato selezionando età minima e massima, il sesso e la nazionalità, dopodiché clicca Applica. Clicca su Azzera per eliminare i filtri applicati."
-    },
-    {
-        "language": "en",
-        "page": "database",
-        "position": "db-select",
-        "content": "Scegli Grafico"
+        "content": "Create personalized filters below here and explore this database full of emotions!"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-apply",
-        "content": "Applica"
+        "content": "Apply"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-clear",
-        "content": "Azzera"
+        "content": "Clear"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-minage",
+        "content": "Min age"
+    },
+    {
+        "language": "en",
+        "page": "database",
+        "position": "db-maxage",
+        "content": "Max age"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-gender",
-        "content": "Sesso"
+        "content": "Gender"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-male",
-        "content": "Uomini"
+        "content": "Men"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-female",
-        "content": "Donne"
+        "content": "Women"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-nationality",
-        "content": "Nazionalità"
+        "content": "Nationality"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-users",
-        "content": "Utenti"
+        "content": "Users"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-listen",
-        "content": "Ascolti"
+        "content": "Evaluations"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-speak",
-        "content": "Registrazioni"
+        "content": "Recordings"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-bee-name",
-        "content": "I nostri utenti"
+        "content": "Our users"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-bee-1",
-        "content": "Questo grafico mostra gli utenti che hanno contribuito a questo progetto recitando almeno una frase. Attualmente ne contiamo "
+        "content": "This graph shows users that contributed recording at least one sentence. Until now they are "
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-bee-2",
-        "content": "Prova a passare il mouse sopra le palline per scoprire di più."
+        "content": "Try to hover on the balls to discover more."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-stacked-name",
-        "content": "Andamento delle registrazioni"
+        "content": "Recordings timeline"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-stacked-1",
-        "content": "Questo grafico mostra la quantità di sample registrati per giorno e per emozione."
+        "content": "This graph shows the amount of samples recorded every day and divided per emotion."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-stacked-2",
-        "content": "Passa il mouse sul grafico per evidenziare un'emozione."
+        "content": "Move the pointer on a color to highlight it."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatter-name",
-        "content": "Andamento degli ascolti"
+        "content": "Evaluations timeline"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatter-1",
-        "content": "Questo grafico mostra la quantità di valutazioni effettuate ogni giorno."
+        "content": "This graph shows the amount of evaluations performed every day."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatter-2",
-        "content": "Prova a passare il mouse sopra le palline per scoprire quanti sono di preciso."
+        "content": "Try to hover on the balls to know the exact number."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-packing-name",
-        "content": "Quantità di ascolti"
+        "content": "Amount of evaluations"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-packing-1",
-        "content": "Questo grafico mostra la quantità sample che sono stati ascoltati un preciso numero di volte. Il totale di ascolti effettuati sulla piattaforma è "
+        "content": "This graph shows how many times recordings have been listened. The total amount of evaluations is "
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-packing-2",
-        "content": "Passando il mouse sulle palle, il numero descrive la quantità di ascolti. Più la palla è grande, più sample sono stati ascoltati quel preciso numero di volte."
+        "content": "Move on the balls to discover more."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-packing-tooltip-1",
-        "content": " registrazioni sono state ascoltate "
+        "content": " recordings have been listened "
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-packing-tooltip-2",
-        "content": " volte"
+        "content": " times"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-comppie-name",
-        "content": "Riconoscimento emozionale"
+        "content": "Emotion recognition"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-comppie-1",
-        "content": "Scegliendo quale emozione usare come riferimento nella parte sopra, puoi capire come una determinata emozione è stata riconosciuta, in percentuale, da tutti gli utenti."
+        "content": "In this section you can select an emotion and get to know how it has been recognized by everyone on the platform."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-comppie-2",
-        "content": "Passa il mouse sugli spicchi per conoscere la percentuale."
+        "content": "Hover on slices to know the percentage."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatterplot-name",
-        "content": "Percentuale di riconoscimento"
+        "content": "Recognition timeline"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatterplot-1",
-        "content": "Questo grafico mostra l'andamento della percentuale di riconoscimento delle emozioni nel tempo."
+        "content": "This graph shows the recognition percentage divided per emotion in time."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-scatterplot-2",
-        "content": "Passa il mouse sopra ai pallini per scoprire i valore, oppure sulle linee per evidenziare una particolare emozione."
+        "content": "Move on the balls to discover the percentage or on the lines to highlight them."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-treemap-name",
-        "content": "Quantità di registrazioni"
+        "content": "Recordings quantity"
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-treemap-1",
-        "content": "Questo grafico mostra la quantità di registrazioni effettuate divise per emozione. La quantità totale di registrazioni effettuate sulla piattaforma è "
+        "content": "This graph shows the amount of recordings per emotion. The total amount of recordings is "
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-treemap-2",
-        "content": "Passa il mouse sui rettangoli per scoprire la quantità di registrazioni per emozione."
+        "content": "Move on the shapes to know the exact number."
     },
     {
         "language": "en",
         "page": "database",
         "position": "db-error",
-        "content": "La ricerca effettuata con questi filtri non ha prodotto risultati. Prova a cambiare i filtri applicati, azzerali oppure cambia lingua del database."
+        "content": "We didn't find any information with these filters applied. Try to change or eventually clear them."
     },
 
 

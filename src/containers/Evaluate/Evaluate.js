@@ -209,8 +209,7 @@ class Evaluate extends Component {
         let modal = null;
         let wantedEmotion = null;
 
-        // if (this.state.progress.length === 5) {
-        if (this.state.samples.length === 0 && !this.state.isLoading) {
+        if ((this.state.samples.length === 0 || this.state.progress.length === 5) && !this.state.isLoading) {
             setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
         }
 

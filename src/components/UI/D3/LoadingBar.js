@@ -14,7 +14,7 @@ class LoadingBar extends React.Component {
         } else {
             accuracy = Math.round((correct / total) * 100)
         } 
-        this.props.valuesCallback(accuracy, null);
+        this.props.valuesCallback(accuracy, total);
 
         var width = d3.selectAll("#loadingbar").node().getBoundingClientRect().width,
             height = 500;

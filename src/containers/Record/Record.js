@@ -66,11 +66,6 @@ class Record extends Component {
 
     }
 
-
-
-
-
-
     guideExecuted = () => {
         this.setState({ newUser: false, isHelpGuide: false });
     }
@@ -128,7 +123,7 @@ class Record extends Component {
                 } else {
                     this.changeSentence();
                 }
-                if (this.state.progress.length === 5 || this.state.noSentenceAvailable) {
+                if (this.state.progress.length === 5 || this.state.toBeRecordedSamples.length < 1) {
                     setTimeout(() => this.setState({ isTaskCompleted: true }), 2000);
                 }
                 this.setState({ 
