@@ -101,7 +101,7 @@ class PieChart extends React.Component {
             .append('text')
             .text(function(d){ 
                 if (d.data.key === selectEmotion && valuesCallback) {
-                    valuesCallback(d.value, parseInt(Math.round((d.value / total) * 100, 1)));
+                    valuesCallback(total, parseInt(Math.round((d.value / total) * 100, 1)));
                 }
             })
             .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })

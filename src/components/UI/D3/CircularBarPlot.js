@@ -46,7 +46,16 @@ class CircularBarPlot extends React.Component {
         var mean = d3.mean(data, function(d) { return d.value });
         this.props.valuesCallback(userlistens, percperformance, mean);
         
-        data = data.sort((a,b) => a.value < b.value ? 1 : -1 );
+        data = data.sort((a,b) => {
+            if (a.value === b.value) {
+                if (a.id === user) return -1;
+                else if (b.id === user) return 1;
+                else return -1;
+            } else {
+                return a.value >= b.value ? -1 : 1;
+            }
+        
+        });
 
         var xScaleOffset = -(Math.PI * 1/data.length); 
         var x = d3.scaleBand()

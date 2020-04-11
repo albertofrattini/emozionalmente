@@ -19,11 +19,17 @@ class User extends Component {
         isDownloading: true,
         graphId: 'circular',
         nationalitiesDict: null,
-        genderDict: null
+        genderDict: null,
+        languages: [],
+        currentLanguage: 'it',
+        overallLanguage: 'it'
     }
 
     async componentDidMount () {
 
+        const lang = await axios.get('/api/availablelanguages');
+        const languages = lang.data.available;
+        const currlang = lang.data.curr;
         const descriptions = await axios.get('/api/descriptions/user');
         const content = {};
         descriptions.data.map(el => {
@@ -45,10 +51,13 @@ class User extends Component {
             colors[emotionNames[i]] = emotionColors[i];
             names[emotionNames[i]] = emotionText[i];
         }
-        const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + user.data.user.username);
+        const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + user.data.user.username + '&l=' + currlang);
         const data = totallisten.data;
 
         this.setState({
+            languages: languages,
+            currentLanguage: currlang,
+            overallLanguage: currlang,
             user: user.data.user,
             content: content,
             emotionText: emotionText,
@@ -79,27 +88,27 @@ class User extends Component {
 
         switch(this.state.graphId) {
             case 'circular':
-                const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + this.state.user.username);
+                const totallisten = await axios.get('/api/data/database/user/listencomparison?u=' + this.state.user.username + '&l=' + this.state.currentLanguage);
                 data = totallisten.data;
                 break;
             case 'radar':
-                const accuracycomparison = await axios.get('/api/data/database/user/accuracy?u=' + this.state.user.username);
+                const accuracycomparison = await axios.get('/api/data/database/user/accuracy?u=' + this.state.user.username + '&l=' + this.state.currentLanguage);
                 data = accuracycomparison.data;
                 break;
             case 'listenpie':
-                const emotioncomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion);
+                const emotioncomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion + '&l=' + this.state.currentLanguage);
                 data = emotioncomparison.data;
                 break;
             case 'radial':
-                const totalspeak = await axios.get('/api/data/database/user/speakcomparison?u=' + this.state.user.username);
+                const totalspeak = await axios.get('/api/data/database/user/speakcomparison?u=' + this.state.user.username + '&l=' + this.state.currentLanguage);
                 data = totalspeak.data;
                 break;
             case 'loadbar':
-                const speakaccuracy = await axios.get('/api/data/database/user/actor?u=' + this.state.user.username);
+                const speakaccuracy = await axios.get('/api/data/database/user/actor?u=' + this.state.user.username + '&l=' + this.state.currentLanguage);
                 data = speakaccuracy.data;
                 break;
             case 'speakpie':
-                const speakcomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion+ '&v=others');
+                const speakcomparison = await axios.get('/api/data/database/comparison?u=' + this.state.user.username + '&e=' + this.state.selectedEmotion+ '&v=others' + '&l=' + this.state.currentLanguage);
                 data = speakcomparison.data;
                 break;
             default:
@@ -155,16 +164,29 @@ class User extends Component {
                         } else if (total > mean) {
                             part3 += this.state.content['graph-' + this.state.graphId + '-4-alt']
                         }
-                        filteredGraph = (
-                            <CircularBarPlot 
-                                data={this.state.data}
-                                valuesCallback={this.setValues}
-                                personal_tooltip_1={this.state.content['graph-circular-tooltip-personal-1']}
-                                personal_tooltip_2={this.state.content['graph-circular-tooltip-personal-2']}
-                                tooltip_1={this.state.content['graph-circular-tooltip-1']}
-                                tooltip_2={this.state.content['graph-circular-tooltip-2']}
-                                mean={this.state.content['user-mean']}/>
-                        );
+
+                        if (this.state.data.values.length > 5) {
+                            filteredGraph = (
+                                <CircularBarPlot 
+                                    data={this.state.data}
+                                    valuesCallback={this.setValues}
+                                    personal_tooltip_1={this.state.content['graph-circular-tooltip-personal-1']}
+                                    personal_tooltip_2={this.state.content['graph-circular-tooltip-personal-2']}
+                                    tooltip_1={this.state.content['graph-circular-tooltip-1']}
+                                    tooltip_2={this.state.content['graph-circular-tooltip-2']}
+                                    mean={this.state.content['user-mean']}/>
+                            );
+                        } else {
+                            total = 0;
+                            this.state.data.values.forEach(e => {
+                                if (e.id === this.state.data.uid) return total = parseInt(e.value);
+                            });
+                            part2 = this.state.content['graph-' + this.state.graphId + '-5-alt'];
+                            part3 = '';
+                            performance = '';
+                            filteredGraph = null;
+                            errorNotFound = (<h2>{this.state.content['graph-' + this.state.graphId + '-6-alt']}</h2>);
+                        }
                         break;
                     case 'radar':
                         if (total === 0) {
@@ -189,7 +211,7 @@ class User extends Component {
                         if (!performance) {
                             performance = 0;
                         } 
-                        if (this.state.graphTotal === 0) {
+                        if (this.state.data.length === 0) {
                             part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
                             part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
                             part3 = '';
@@ -239,19 +261,33 @@ class User extends Component {
                         } else if (total > mean) {
                             part3 += this.state.content['graph-' + this.state.graphId + '-4-alt']
                         }
-                        filteredGraph = (
-                            <RadialStackedBarChart
-                                data={this.state.data}
-                                emotionText={this.state.emotionText}
-                                emotionNames={this.state.emotionNames}
-                                emotionColors={this.state.emotionColors}
-                                valuesCallback={this.setValues}
-                                personal_tooltip_1={this.state.content['graph-radial-tooltip-personal-1']}
-                                personal_tooltip_2={this.state.content['graph-radial-tooltip-personal-2']}
-                                tooltip_1={this.state.content['graph-radial-tooltip-1']}
-                                tooltip_2={this.state.content['graph-radial-tooltip-2']}
-                                mean={this.state.content['user-mean']}/>
-                        );
+                        if (this.state.data.values.length > 5) {
+                            filteredGraph = (
+                                <RadialStackedBarChart
+                                    data={this.state.data}
+                                    emotionText={this.state.emotionText}
+                                    emotionNames={this.state.emotionNames}
+                                    emotionColors={this.state.emotionColors}
+                                    valuesCallback={this.setValues}
+                                    personal_tooltip_1={this.state.content['graph-radial-tooltip-personal-1']}
+                                    personal_tooltip_2={this.state.content['graph-radial-tooltip-personal-2']}
+                                    tooltip_1={this.state.content['graph-radial-tooltip-1']}
+                                    tooltip_2={this.state.content['graph-radial-tooltip-2']}
+                                    mean={this.state.content['user-mean']}/>
+                            );
+                        } else {
+                            total = 0;
+                            this.state.data.values.forEach(e => {
+                                if (e.id === this.state.data.uid) {
+                                    total += parseInt(e.value);
+                                }
+                            });
+                            part2 = this.state.content['graph-' + this.state.graphId + '-5-alt'];
+                            part3 = '';
+                            performance = '';
+                            filteredGraph = null;
+                            errorNotFound = (<h2>{this.state.content['graph-' + this.state.graphId + '-6-alt']}</h2>);
+                        }
                         break;
                     case 'loadbar':
                         if (performance === 0) {
@@ -272,7 +308,7 @@ class User extends Component {
                         if (!performance) {
                             performance = 0;
                         }
-                        if (this.state.graphTotal === 0) {
+                        if (this.state.data.length === 0) {
                             part1 = this.state.content['graph-' + this.state.graphId + '-1-alt'];
                             part2 = this.state.content['graph-' + this.state.graphId + '-2-alt'];
                             part3 = '';
@@ -338,11 +374,51 @@ class User extends Component {
                 errorNotFound = (
                     <h2>{this.state.content['user-error']}</h2>
                 );
+                filteredGraph = null;
             }
 
 
 
         }
+
+        let languages = [...Object.keys(this.state.languages)];
+        let languageOptions = languages.length > 0 ?
+            languages.map((el, i) => {
+                return (
+                    <option key={i} value={el}>
+                        {this.state.content['user-lang-only']}{this.state.languages[this.state.overallLanguage][el]}
+                    </option>
+                );    
+            })
+            :
+            null;
+
+        let languageSelector = languages.length > 0 ?
+            <select defaultValue={this.state.currentLanguage} 
+                style={{ 
+                    color: 'var(--text-dark)', 
+                    border: '1px solid var(--text-dark)',
+                    minWidth: 'auto',
+                    fontSize: '12px',
+                    minWidth: '92px',
+                    height: '32px'
+                }}
+                onChange={event => this.setState({ 
+                    currentLanguage: event.target.value,
+                    isDownloading: true 
+                    })}>
+                <option value="">{this.state.content['user-lang-tot']}</option>
+                {languageOptions}
+            </select>
+            :
+            null;
+
+        let langSelect = (
+            <div className={classes.FilterRow} style={{ marginBottom: '8px' }}>
+                <h4>{this.state.content['user-lang']}</h4>
+                {languageSelector}
+            </div>
+        );
 
         return (
             <div className={classes.Content}>
@@ -352,14 +428,15 @@ class User extends Component {
                             <React.Fragment>
                                 <h1>{this.state.content['user-title']} {this.state.user.username},</h1>
                                 <h3>{this.state.content['user-subtitle']}</h3>
-                                <p>{this.state.content['user-email']} {this.state.user.email}</p>
-                                <p>{this.state.content['user-sex']} {this.state.user.sex}</p>
-                                <p>{this.state.content['user-nationality']} {this.state.user.nationality}</p>
-                                <p>{this.state.content['user-age']} {this.state.user.age}</p>
+                                <p style={{ margin: '8px 0px 0px 0px' }}>{this.state.content['user-email']} {this.state.user.email}</p>
+                                <p style={{ margin: '8px 0px 0px 0px' }}>{this.state.content['user-sex']} {this.state.user.sex}</p>
+                                <p style={{ margin: '8px 0px 0px 0px' }}>{this.state.content['user-nationality']} {this.state.user.nationality}</p>
+                                <p style={{ margin: '8px 0px 0px 0px' }}>{this.state.content['user-age']} {this.state.user.age}</p>
                             </React.Fragment>
                             :
                             null
                     }
+                    {langSelect}
                     <div className={classes.SectionFilter}>
                         <div className={classes.Drawer}>
                             <div className={classes.SectionElement}>

@@ -31,7 +31,8 @@ class Evaluate extends Component {
         evaluationModal: false,
         evaluationResult: null,
         wantedEmotion: '',
-        isTaskCompleted: false
+        isTaskCompleted: false,
+        nothingToEvaluate: false
     }
 
     async componentDidMount () {
@@ -46,6 +47,7 @@ class Evaluate extends Component {
         });
         this.setState({
             samples: samples.data,
+            nothingToEvaluate: samples.data.length === 0,
             newUser: hasevaluations.data.newUser,
             showGuide: hasevaluations.data.newUser,
             emotions: emotions.data,
@@ -104,7 +106,8 @@ class Evaluate extends Component {
         this.setState({ 
             evaluationModal: true,
             evaluationResult: correct,
-            wantedEmotion: sample.emotion
+            wantedEmotion: sample.emotion,
+            isPlaying: false
         });
         const quality = this.state.selectedReview.toLowerCase();
         const sampleid = sample.id;
@@ -209,8 +212,8 @@ class Evaluate extends Component {
         let modal = null;
         let wantedEmotion = null;
 
-        if ((this.state.samples.length === 0 || this.state.progress.length === 5) && !this.state.isLoading) {
-            setTimeout(() => this.setState({ isTaskCompleted: true}), 2000);
+        if ((this.state.nothingToEvaluate || this.state.progress.length === 5) && !this.state.isLoading) {
+            setTimeout(() => this.setState({ isTaskCompleted: true }), 2000);
         }
 
         if (this.state.evaluationModal) {

@@ -591,6 +591,24 @@
     {
         "language": "it",
         "page": "user",
+        "position": "user-lang",
+        "content": "Quali dati vuoi visualizzare?"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-lang-only",
+        "content": "Solo "
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "user-lang-tot",
+        "content": "Tutti"
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "user-sex",
         "content": "Sesso: "
     },
@@ -671,6 +689,18 @@
         "page": "user",
         "position": "graph-circular-4-alt",
         "content": " Wow! Sei sopra la media, continua così!"
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-5-alt",
+        "content": " registrazioni."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-circular-6-alt",
+        "content": "Non abbiamo ancora abbastanza informazioni per mostrare questo grafico..."
     },
     {
         "language": "it",
@@ -849,6 +879,18 @@
     {
         "language": "it",
         "page": "user",
+        "position": "graph-radial-5-alt",
+        "content": " registrazioni."
+    },
+    {
+        "language": "it",
+        "page": "user",
+        "position": "graph-radial-6-alt",
+        "content": "Non abbiamo ancora abbastanza informazioni per mostrare questo grafico..."
+    },
+    {
+        "language": "it",
+        "page": "user",
         "position": "graph-radial-tooltip-1",
         "content": " ha effettuato "
     },
@@ -983,6 +1025,24 @@
     {
         "language": "en",
         "page": "user",
+        "position": "user-lang",
+        "content": "Which data do you want to visualize?"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-lang-only",
+        "content": "Only "
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "user-lang-tot",
+        "content": "Total"
+    },
+    {
+        "language": "en",
+        "page": "user",
         "position": "user-sex",
         "content": "Gender: "
     },
@@ -1063,6 +1123,18 @@
         "page": "user",
         "position": "graph-circular-4-alt",
         "content": " Wow! You are above average, keep on doing this amazing job!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-5-alt",
+        "content": " recordings in total."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-circular-6-alt",
+        "content": "We still don't have enough data to show this graph..."
     },
     {
         "language": "en",
@@ -1237,6 +1309,18 @@
         "page": "user",
         "position": "graph-radial-4-alt",
         "content": " Wow! You are above average, keep up with this amazing job!"
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-5-alt",
+        "content": " recordings in total."
+    },
+    {
+        "language": "en",
+        "page": "user",
+        "position": "graph-radial-6-alt",
+        "content": "We still don't have enough data to show this graph..."
     },
     {
         "language": "en",

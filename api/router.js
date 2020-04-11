@@ -348,13 +348,12 @@ module.exports = function (app) {
         const v = req.query.v;
         let minAge = 0;
         let maxAge = 100;
-        let lang = 'it';
+        let lang = req.query.l;
         let sex = '';
         let nationality = '';
         if (!user) {
             minAge = parseInt(req.query.min);
             maxAge = parseInt(req.query.max);
-            lang = req.query.l;
             sex = req.query.s ? req.query.s : '';
             nationality = req.query.n ? req.query.n : '';
         }
@@ -417,8 +416,9 @@ module.exports = function (app) {
     app.get('/api/data/database/user/accuracy', function (req, res) {
 
         const user = req.query.u;
+        const lang = req.query.l;
 
-        datadb.getUserComparisonWithAll(user, emotions[req.session.lang])
+        datadb.getUserComparisonWithAll(user, emotions[req.session.lang], lang)
             .then(result => {
                 res.send(result);
             })
@@ -431,8 +431,9 @@ module.exports = function (app) {
     app.get('/api/data/database/user/listencomparison', function (req, res) {
 
         const user = req.query.u;
+        const lang = req.query.l;
 
-        datadb.getUserListenComparisonWithOthers(user)
+        datadb.getUserListenComparisonWithOthers(lang)
             .then(result => {
                 res.send({
                     uid: user,
@@ -448,8 +449,9 @@ module.exports = function (app) {
     app.get('/api/data/database/user/speakcomparison', function (req, res) {
 
         const user = req.query.u;
+        const lang = req.query.l;
 
-        datadb.getUserSpeakComparisonWithOthers(user)
+        datadb.getUserSpeakComparisonWithOthers(lang)
             .then(result => {
                 res.send({
                     uid: user,
@@ -465,8 +467,9 @@ module.exports = function (app) {
     app.get('/api/data/database/user/actor', function (req, res) {
 
         const user = req.query.u;
+        const lang = req.query.l;
 
-        datadb.getUserSampleAccuracy(user)
+        datadb.getUserSampleAccuracy(user, lang)
             .then(result => {
                 res.send(result);
             })

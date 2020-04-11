@@ -13,6 +13,7 @@ class BeeSwarm extends React.Component {
         const data = this.props.data;
         const nationalities_dict = this.props.nationalities;
         let keys = Object.keys(nationalities_dict).length;
+        if (keys < 2) keys = 2;
 
         var margin = {top: 64, right: 32, bottom: 64, left: 32},
             width = d3.selectAll("#killingbees").node().getBoundingClientRect().width,
