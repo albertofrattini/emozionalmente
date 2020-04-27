@@ -35,7 +35,7 @@ var itDefault = function (req, res, next) {
 app.use(express.static(__dirname + "/../build"));
 
 app.use(session({
-	secret: 'segreto_da_sostituire_prima_del_deployment',
+	secret: process.env.SESSION_KEY,
 	resave: false,
 	saveUninitialized: true
 }));
