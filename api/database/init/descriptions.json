@@ -65,13 +65,13 @@
         "language": "it",
         "page": "home",
         "position": "landing-subtitle",
-        "content": "Parla, ascolta e gioca con noi per insegnare ai computer come riconoscere le emozioni"
+        "content": "Registra la tua voce, ascolta e gioca con noi per insegnare ai computer come riconoscere le emozioni"
     },
     {
         "language": "it",
         "page": "home",
         "position": "landing-btn-sx",
-        "content": "Parla"
+        "content": "Registra la tua voce"
     },
     {
         "language": "it",
@@ -83,7 +83,7 @@
         "language": "it",
         "page": "home",
         "position": "landing-btn-dx",
-        "content": "Ascolta"
+        "content": "Ascolta e valuta"
     },
     {
         "language": "it",
@@ -113,7 +113,7 @@
         "language": "it",
         "page": "home",
         "position": "cards-center-subtitle",
-        "content": "Vogliamo verificare la bontà delle registrazioni raccolte e selezionare i sample migliori. Per questo chiediamo alle stesse persone che hanno messo a disposizione la propria voce di validare il lavoro degli altri"
+        "content": "Vogliamo verificare la bontà delle registrazioni raccolte e selezionare i sample migliori. Per questo chiediamo alle stesse persone che hanno messo a disposizione la propria voce di valutare le registrazioni degli altri"
     },
     {
         "language": "it",
@@ -125,7 +125,7 @@
         "language": "it",
         "page": "home",
         "position": "cards-dx-subtitle",
-        "content": "Il nostro è un progetto di ricerca universitaria ed il nostro fine è quello di utilizzare le voci raccolte per studiare intelligenze artificiali affinché possano riconoscere ed esprimere emozioni"
+        "content": "Il nostro è un progetto di ricerca universitaria ed il nostro fine è quello di utilizzare le voci raccolte per studiare come riconoscere ed esprimere emozioni in maniera automatica attraverso l’intelligenza artificiale"
     },
     {
         "language": "it",
@@ -2317,6 +2317,18 @@
     {
         "language": "it",
         "page": "loginsignup",
+        "position": "signup-checkbox-1",
+        "content": "Accetto "
+    },
+    {
+        "language": "it",
+        "page": "loginsignup",
+        "position": "signup-checkbox-2",
+        "content": " e "
+    },
+    {
+        "language": "it",
+        "page": "loginsignup",
         "position": "signup-btn",
         "content": "REGISTRATI"
     },
@@ -2420,7 +2432,19 @@
         "content": "Sex"
     },
     {
-        "language": "it",
+        "language": "en",
+        "page": "loginsignup",
+        "position": "signup-checkbox-1",
+        "content": "I accept "
+    },
+    {
+        "language": "en",
+        "page": "loginsignup",
+        "position": "signup-checkbox-2",
+        "content": " and "
+    },
+    {
+        "language": "en",
         "page": "loginsignup",
         "position": "signup-btn",
         "content": "SIGN UP"

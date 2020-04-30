@@ -22,11 +22,13 @@ class TreeMap extends React.Component {
             retrievedData.forEach(d => {
                 total += d[n];
             });
-            data.push({
-                name: texts[i],
-                parent: "Origin",
-                value: total
-            });
+            if (total > 0) {
+                data.push({
+                    name: texts[i],
+                    parent: "Origin",
+                    value: total
+                });
+            }
         }); 
 
 
@@ -35,33 +37,6 @@ class TreeMap extends React.Component {
             height = 500 - margin.top - margin.bottom;
 
         var color = d3.scaleOrdinal().domain(texts).range(colors);
-
-        // var Tooltip = d3.select("#treemap")
-        //                     .append("div")
-        //                     .style("position", "absolute")
-        //                     .style("visibility", "hidden")
-        //                     .style("background-color", "white")
-        //                     .style("border", "solid")
-        //                     .style("border-width", "1px")
-        //                     .style("border-radius", "4px")
-        //                     .style("padding", "5px")
-
-        // var mouseover = function(d) {
-        //     Tooltip
-        //         .style("visibility", "visible");
-        // }
-        
-        // var mousemove = function(d) {
-        //     Tooltip
-        //         .html(d.value)
-        //         .style("left", (d3.mouse(this)[0]+630) + "px")
-        //         .style("top", (d3.mouse(this)[1]+50) + "px")
-        // }
-
-        // var mouseleave = function(d) {
-        //     Tooltip
-        //         .style("visibility", "hidden")
-        // }
 
         var Tooltip = d3.select("body").append("div")
                 .attr("class", guide.Tooltip)

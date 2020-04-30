@@ -2,6 +2,12 @@ import React from 'react';
 import * as d3 from 'd3';
 import guide from './Guide.css';
 
+Date.prototype.subDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() - days);
+    return date;
+}
+
 class ConnectedScatterPlot extends React.Component {
 
     componentDidMount() {
@@ -10,18 +16,14 @@ class ConnectedScatterPlot extends React.Component {
         const names = this.props.emotionNames;
         const colors = this.props.emotionColors;   
   
-        // if (data[0].date !== '20-Mar-04') {
-        //     const begin = {
-        //         date: '20-Mar-05'
-        //     }
-        //     names.map(e => {
-        //         return begin[e] = 0
-        //     });
-        //     data.unshift(begin);
-        // }
         if (data.length === 1) {
+            const db = data[0].date.substring(7,9) + " " 
+                        + data[0].date.substring(3,6) + " " 
+                        + data[0].date.substring(0,2) + " 00:00:00 GMT";
+            const date = Date.parse(db)
+            const day = new Date(date).subDays(1).toString()
             const begin = {
-                date: '20-Mar-04'
+                date: day.substring(13,15) + '-' + day.substring(4,7) + '-' + day.substring(8,10)
             }
             names.map(e => {
                 return begin[e] = 0
@@ -105,33 +107,6 @@ class ConnectedScatterPlot extends React.Component {
         if (lowestValue < 5) {
             lowestValue += 5;
         }
-
-        // var Tooltip = d3.select("#chartscatterplot")
-        //                     .append("div")
-        //                     .style("position", "absolute")
-        //                     .style("visibility", "hidden")
-        //                     .style("background-color", "white")
-        //                     .style("border", "solid")
-        //                     .style("border-width", "1px")
-        //                     .style("border-radius", "4px")
-        //                     .style("padding", "5px")
-
-        // var mouseover = function(d) {
-        //     Tooltip
-        //         .style("visibility", "visible");
-        // }
-        
-        // var mousemove = function(d) {
-        //     Tooltip
-        //         .html((Math.round(d.value * 100)/100).toFixed(1) + "%")
-        //         .style("left", (d3.mouse(this)[0]+630) + "px")
-        //         .style("top", (d3.mouse(this)[1]+50) + "px")
-        // }
-
-        // var mouseleave = function(d) {
-        //     Tooltip
-        //         .style("visibility", "hidden")
-        // }
 
         var Tooltip = d3.select("body").append("div")
                 .attr("class", guide.Tooltip)

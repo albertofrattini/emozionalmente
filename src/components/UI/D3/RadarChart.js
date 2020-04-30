@@ -12,6 +12,7 @@ class RadarChart extends React.Component {
         const texts = this.props.emotionText;
         const colors = this.props.emotionColors;
 
+        console.log(data)
         let obj = {};
         data.forEach((e,i)  => {
             obj[i] = 0;
@@ -21,6 +22,7 @@ class RadarChart extends React.Component {
             obj[i] = Math.round((obj[i] / texts.length) * 100);
         });
 
+        console.log(obj[1], obj[0])
         this.props.valuesCallback(obj[1], obj[0]);
 
         const id = "#radarchart";

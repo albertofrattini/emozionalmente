@@ -1,0 +1,21 @@
+.Confirm {
+    margin-top: 128px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--text-dark);
+}
+
+.Confirm img {
+    width: 100%;
+    max-width: 256px;
+}
+
+.Confirm h1 {
+    margin-top: 48px;
+}
+
+.Confirm h4 {
+    margin-top: 32px;
+}

@@ -455,7 +455,7 @@ class Database extends Component {
                 }
 
                 if (this.state.data.length === 0) {
-                    emotionSelect = null;
+                    // emotionSelect = null;
                     filteredGraph = (
                         <h2>{this.state.content['db-error']}</h2>
                     );

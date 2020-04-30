@@ -3,6 +3,7 @@ import classes from './LoginSignup.css';
 import Logo from '../../components/Logo/Logo';
 import allCountriesSelect from '../../components/UI/AllCountriesSelect/AllCountriesSelect';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const initialState = {
     passwordType: 'password',
@@ -13,7 +14,8 @@ const initialState = {
     loginPassword: '',
     signupUsername: '',
     signupEmail: '',
-    signupPassword: ''
+    signupPassword: '',
+    privacyAccepted: false
 }
 
 class LoginSignup extends Component {
@@ -53,7 +55,6 @@ class LoginSignup extends Component {
         });
 
     }
-
     resetState () {
         this.setState({...initialState, loginPage: false });
         document.getElementById('sexselect').selectedIndex = 0;
@@ -94,7 +95,7 @@ class LoginSignup extends Component {
     signup = () => {
         if (this.state.age === '' || this.state.signupEmail === '' || 
             this.state.signupUsername === '' || this.state.signupPassword === '' ||
-            this.state.nationality === '' || this.state.sex === '') return;
+            this.state.nationality === '' || this.state.sex === '' || !this.state.privacyAccepted) return;
         this.props.signup(
             this.state.signupUsername, this.state.signupEmail, 
             this.state.signupPassword, this.state.nationality,
@@ -104,7 +105,6 @@ class LoginSignup extends Component {
     
 
     render () {
-
         return (
             <div className={classes.Container}>
                 <div className={classes.Card}>
@@ -182,9 +182,19 @@ class LoginSignup extends Component {
                                             <option value=""></option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
-                                            <option value="notspecified">I prefer not to say it</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div style={{ marginBottom: '32px' }}>
+                                    <input type="checkbox" style={{ width: 'auto', height: 'auto', margin: '0px 8px' }}
+                                            onChange={() => this.setState({privacyAccepted: !this.state.privacyAccepted})} 
+                                            name="privacy"
+                                            id="privacy"/>
+                                    <span>
+                                        {this.state.content['signup-checkbox-1']}
+                                        <Link to="/privacy">Privacy</Link>
+                                        {this.state.content['signup-checkbox-2']}
+                                        <Link to="/terms">Terms</Link></span>
                                 </div>
                                 <div style={{ width: '256px', margin: 'auto', textAlign: 'center'}}>
                                     <button onClick={this.signup}>
