@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import classes from './User.css';
 import axios from 'axios';
 import RadarChart from '../../components/UI/D3/RadarChart';
-import PieChart from '../../components/UI/D3/PieChart';
-import CircularBarPlot from '../../components/UI/D3/CircularBarPlot';
-import RadialStackedBarChart from '../../components/UI/D3/RadialStackedBarChart';
+import BasicBarPlot from '../../components/UI/D3/BasicBarPlot';
 import LoadingBar from '../../components/UI/D3/LoadingBar';
 
 class User extends Component {
@@ -167,13 +165,9 @@ class User extends Component {
 
                         if (this.state.data.values.length > 5) {
                             filteredGraph = (
-                                <CircularBarPlot 
+                                <BasicBarPlot
                                     data={this.state.data}
                                     valuesCallback={this.setValues}
-                                    personal_tooltip_1={this.state.content['graph-circular-tooltip-personal-1']}
-                                    personal_tooltip_2={this.state.content['graph-circular-tooltip-personal-2']}
-                                    tooltip_1={this.state.content['graph-circular-tooltip-1']}
-                                    tooltip_2={this.state.content['graph-circular-tooltip-2']}
                                     mean={this.state.content['user-mean']}/>
                             );
                         } else {
@@ -242,7 +236,7 @@ class User extends Component {
                             </div>
                         );
                         filteredGraph = (
-                            <PieChart
+                            <BasicBarPlot
                                 data={this.state.data}
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}
@@ -263,16 +257,13 @@ class User extends Component {
                         }
                         if (this.state.data.values.length > 5) {
                             filteredGraph = (
-                                <RadialStackedBarChart
+                                <BasicBarPlot
+                                    stacked
                                     data={this.state.data}
                                     emotionText={this.state.emotionText}
                                     emotionNames={this.state.emotionNames}
-                                    emotionColors={this.state.emotionColors}
+                                    colorDict={this.state.colorDict}
                                     valuesCallback={this.setValues}
-                                    personal_tooltip_1={this.state.content['graph-radial-tooltip-personal-1']}
-                                    personal_tooltip_2={this.state.content['graph-radial-tooltip-personal-2']}
-                                    tooltip_1={this.state.content['graph-radial-tooltip-1']}
-                                    tooltip_2={this.state.content['graph-radial-tooltip-2']}
                                     mean={this.state.content['user-mean']}/>
                             );
                         } else {
@@ -339,7 +330,7 @@ class User extends Component {
                             </div>
                         );
                         filteredGraph = (
-                            <PieChart
+                            <BasicBarPlot
                                 data={this.state.data}
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}

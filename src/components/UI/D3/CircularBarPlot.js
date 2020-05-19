@@ -105,6 +105,7 @@ class CircularBarPlot extends React.Component {
                 .style("opacity", 0);
         }
             
+        console.log(data)
             
         svg.append("g")
             .selectAll("path")

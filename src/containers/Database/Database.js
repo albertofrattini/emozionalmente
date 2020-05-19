@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from './Database.css';
 import axios from 'axios';
 import CircularPacking from '../../components/UI/D3/CircularPacking';
-import PieChart from '../../components/UI/D3/PieChart';
+import BasicBarPlot from '../../components/UI/D3/BasicBarPlot';
 import ConnectedScatterPlot from '../../components/UI/D3/ConnectedScatterPlot';
 import ConnectedScatter from '../../components/UI/D3/ConnectedScatter';
 import StackedAreaChart from '../../components/UI/D3/StackedAreaChart';
@@ -415,7 +415,7 @@ class Database extends Component {
                             </div>
                         );
                         filteredGraph = (
-                            <PieChart 
+                            <BasicBarPlot 
                                 data={this.state.data}
                                 emotionText={this.state.emotionText}
                                 emotionNames={this.state.emotionNames}

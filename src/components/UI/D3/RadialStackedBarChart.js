@@ -7,10 +7,10 @@ class RadialStackedBarChart extends React.Component {
     componentDidMount() {
 
         const user = this.props.data.uid;
-        const ptt1 = this.props.personal_tooltip_1;
-        const ptt2 = this.props.personal_tooltip_2;
-        const tt1 = this.props.tooltip_1;
-        const tt2 = this.props.tooltip_2;
+        // const ptt1 = this.props.personal_tooltip_1;
+        // const ptt2 = this.props.personal_tooltip_2;
+        // const tt1 = this.props.tooltip_1;
+        // const tt2 = this.props.tooltip_2;
         const tmean = this.props.mean;
         const emotions = this.props.emotionNames;
         const texts = this.props.emotionText;
@@ -72,6 +72,7 @@ class RadialStackedBarChart extends React.Component {
                 return suma >= sumb ? -1 : 1;
             }
         });
+        console.log(data)
 
         
         
@@ -214,39 +215,6 @@ class RadialStackedBarChart extends React.Component {
                     .duration(500)
                     .style("opacity", 0);
             })
-
-        // var yTick = yAxis
-        //     .selectAll("g")
-        //     .data(yTicksValues)
-        //     .enter().append("g");
-
-        // yTick.append("circle")
-        //     .attr("fill", "none")
-        //     .attr("stroke", "rgba(0, 0, 0, 0.08)")
-        //     .attr("r", y);
-
-        // yTick.append("text")
-        //     .attr("y", function(d) { return -y(d); })
-        //     .attr("dy", "0.35em")
-        //     .attr("fill", "none")
-        //     .style("fill", "rgba(0, 0, 0, 0.6)")
-
-        // Legend
-        // var legend = svg.append("g")
-        //     .selectAll("g")
-        //     .data(zClasses)
-        //     .enter().append("g")
-        //     .attr("transform", function(d, i) { return "translate(-35," + (i - (zClasses.length - 1) / 2) * 15+ ")"; });
-
-        // legend.append("circle")
-        //     .attr("r", 3)
-        //     .attr("fill", z);
-
-        // legend.append("text")
-        //     .attr("x", 8)
-        //     .attr("y", 0)
-        //     .attr("dy", "0.35em")
-        //     .text(function(d) { return d; });
 
     }
 
